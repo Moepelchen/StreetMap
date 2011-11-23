@@ -39,9 +39,9 @@ public class Map extends JFrame implements IPrintable, ISimulateable {
 	private Graphics2D fGraphics;
 
 	public Map(Globals globals) {
-		fHeight = globals.getfConfig().getHeight();
-		fWidth = globals.getfConfig().getWidth();
-		fTileSize = globals.getfConfig().getTileSize();
+		fHeight = globals.getConfig().getHeight();
+		fWidth = globals.getConfig().getWidth();
+		fTileSize = globals.getConfig().getTileSize();
 		fGlobals = globals;
 
 		fImage= new BufferedImage(fWidth.intValue()+5,fHeight.intValue()+5, BufferedImage.TYPE_INT_ARGB);

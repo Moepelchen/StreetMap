@@ -8,8 +8,8 @@ public class HorizontalSide extends Side {
 	}
 
 	public void setAnchors() {
-		fAnchorOne = new Anchor(new Point2D.Double(getfPosition().getX()+getfGlobals().getfConfig().getTileSize()/4,getfPosition().getY()));
-		fAnchorTwo = new Anchor(new Point2D.Double(getfPosition().getX()-getfGlobals().getfConfig().getTileSize()/4,getfPosition().getY()));
+		fAnchorOne = new Anchor(new Point2D.Double(getPosition().getX()+ getGlobals().getConfig().getTileSize()/4, getPosition().getY()));
+		fAnchorTwo = new Anchor(new Point2D.Double(getPosition().getX()- getGlobals().getConfig().getTileSize()/4, getPosition().getY()));
 
   }
 

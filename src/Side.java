@@ -9,24 +9,25 @@ public class Side implements IPrintable{
 
 	private Point2D fPosition;
 
+
+	private Globals fGlobals;
+
 	public Anchor getfAnchorOne() {
 		return fAnchorOne;
 	}
 
 
-	public Anchor getfAnchorTwo() {
+	public Anchor getAnchorTwo() {
 		return fAnchorTwo;
 	}
 
-	public Point2D getfPosition() {
+	public Point2D getPosition() {
 		return fPosition;
 	}
 
-	public Globals getfGlobals() {
+	public Globals getGlobals() {
 		return fGlobals;
 	}
-
-	private Globals fGlobals;
 
 	public Side(Globals globals, Point2D position) {
 		fPosition = position;
@@ -40,11 +41,11 @@ public class Side implements IPrintable{
 
 	public void print(Graphics2D g) {
 
-		if(fGlobals.getfConfig().isDrawSides()){
+		if(fGlobals.getConfig().isDrawSides()){
 			g.setColor(Color.red);
 			g.drawRect((int)(fPosition.getX())-2,(int)fPosition.getY()-2,5,5);
 		}
-		if(fGlobals.getfConfig().isDrawAnchors()){
+		if(fGlobals.getConfig().isDrawAnchors()){
 			fAnchorOne.print(g);
 			fAnchorTwo.print(g);
 		}

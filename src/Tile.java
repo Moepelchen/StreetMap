@@ -158,7 +158,7 @@ public class Tile implements IPrintable, ISimulateable {
 		fSidesGenerated = false;
 		fGlobals = globals;
 		fMap = map;
-		fWidth = fGlobals.getfConfig().getTileSize();
+		fWidth = fGlobals.getConfig().getTileSize();
 		fNorthNeighbor = map.getTile(arrayPosition.getX(), arrayPosition.getY() - 1);
 		fSouthNeighbor = map.getTile(arrayPosition.getX(), arrayPosition.getY() + 1);
 		fWestNeighbor = map.getTile(arrayPosition.getX() - 1, arrayPosition.getY());
@@ -197,13 +197,13 @@ public class Tile implements IPrintable, ISimulateable {
 	}
 
 	public void print(Graphics2D g) {
-		if (fGlobals.getfConfig().isDrawTiles()) {
+		if (fGlobals.getConfig().isDrawTiles()) {
 			g.setColor(Color.black);
 
 			g.drawRect((int) fPosition.getX(), (int) fPosition.getY(), (int) fWidth, (int) fWidth);
 		}
 
-		if (fGlobals.getfConfig().isDrawSides()) {
+		if (fGlobals.getConfig().isDrawSides()) {
 			if (fNorthSide != null)
 				fNorthSide.print(g);
 			if (fSouthSide != null)

@@ -10,15 +10,24 @@
 public class Globals {
 	private Configuration fConfig;
 
+	private StreetFactory fStreetFactory;
+
+
 	public Globals(){
 		fConfig = new Configuration();
+
+		fStreetFactory = new StreetFactory();
+
 	}
 
-	public Configuration getfConfig() {
+	public Configuration getConfig() {
 		return fConfig;
 	}
 
-	public void setfConfig(Configuration fConfig) {
-		this.fConfig = fConfig;
+
+	public StreetFactory getStreetFactory() {
+		return fStreetFactory;
 	}
+
+
 }

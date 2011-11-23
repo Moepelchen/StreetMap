@@ -8,8 +8,8 @@ public class VerticalSide extends Side {
 	}
 
 	public void setAnchors() {
-		fAnchorOne = new Anchor(new Point2D.Double(getfPosition().getX(),getfPosition().getY()+getfGlobals().getfConfig().getTileSize()/4));
-		fAnchorTwo = new Anchor(new Point2D.Double(getfPosition().getX(),getfPosition().getY()-getfGlobals().getfConfig().getTileSize()/4));
+		fAnchorOne = new Anchor(new Point2D.Double(getPosition().getX(), getPosition().getY()+ getGlobals().getConfig().getTileSize()/4));
+		fAnchorTwo = new Anchor(new Point2D.Double(getPosition().getX(), getPosition().getY()- getGlobals().getConfig().getTileSize()/4));
 	}
 
 }
