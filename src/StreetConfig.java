@@ -8,12 +8,12 @@ import java.io.FileNotFoundException;
  * Time: 9:24 PM
  * To change this template use File | Settings | File Templates.
  */
-public class StreetConfiguration {
+public class StreetConfig {
     
     private Globals fGlobals;
     private static final String STREET_CONFIG_NAME = "streets.xml";
 
-    public StreetConfiguration(Globals glob) throws FileNotFoundException {
+    public StreetConfig(Globals glob) throws FileNotFoundException {
         fGlobals = glob;
         parse(glob.getfConfig().getStreetPath());
     }

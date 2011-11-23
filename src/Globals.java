@@ -12,18 +12,18 @@ import java.io.FileNotFoundException;
 public class Globals {
     private IConfig fConfig;
 
-    private StreetConfiguration fStreetConfig;
+    private StreetConfig fStreetConfig;
 
     public Globals() throws FileNotFoundException {
-        fConfig = new Configuration();
-        fStreetConfig = new StreetConfiguration(this);
+        fConfig = new Config(this);
+        fStreetConfig = new StreetConfig(this);
     }
 
     public IConfig getfConfig() {
         return fConfig;
     }
 
-   public StreetConfiguration getfStreetConfig(){
+   public StreetConfig getfStreetConfig(){
        return fStreetConfig;
    }
 }
