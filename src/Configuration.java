@@ -5,50 +5,52 @@
  * Time: 11:25 AM
  * To change this template use File | Settings | File Templates.
  */
-public class Configuration{
-	private boolean fDrawTiles;
-	private Double fHeight;
-	private Double fWidth;
-		private Double fTileSize;
+public class Configuration implements IConfig {
+    private boolean fDrawTiles;
+    private Double fHeight;
+    private Double fWidth;
+    private Double fTileSize;
+    private boolean fDrawAnchors;
 
-	public boolean isDrawTiles() {
+    public boolean isDrawTiles() {
 
-		return true;
-	}
+        return true;
+    }
 
-	public void setDrawTiles(boolean fDrawTiles) {
-		this.fDrawTiles = fDrawTiles;
-	}
+    public void setDrawTiles(boolean fDrawTiles) {
+        this.fDrawTiles = fDrawTiles;
+    }
 
-	public boolean isDrawAnchors() {
-		return true;
-	}
+    public boolean isDrawAnchors() {
+        return true;
+    }
 
-	public void setDrawAnchors(boolean fDrawAnchors) {
-		this.fDrawAnchors = fDrawAnchors;
-	}
+    public void setDrawAnchors(boolean fDrawAnchors) {
+        this.fDrawAnchors = fDrawAnchors;
+    }
 
-	public Double getTileSize() {
-		return 50.0;
-	}
+    public Double getTileSize() {
+        return 50.0;
+    }
 
-	public void setTileSize(Double fTileSize) {
-		this.fTileSize = fTileSize;
-	}
-
-	private boolean fDrawAnchors;
-
+    public void setTileSize(Double fTileSize) {
+        this.fTileSize = fTileSize;
+    }
 
 
-	public Double getHeight() {
-		return 300.0;
-	}
+    public Double getHeight() {
+        return 300.0;
+    }
 
-	public Double getWidth() {
-		return 300.0;
-	}
+    public Double getWidth() {
+        return 800.0;
+    }
 
-	public boolean isDrawSides() {
-		return true;
-	}
+    public boolean isDrawSides() {
+        return true;
+    }
+
+    public String getStreetPath() {
+        return "/home/shifter/workspace/StreetMap/config/Streets/";
+    }
 }

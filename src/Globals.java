@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+
 /**
  * Created by IntelliJ IDEA.
  * User: ulrich.tewes
@@ -8,17 +10,20 @@
 
 
 public class Globals {
-	private Configuration fConfig;
+    private IConfig fConfig;
 
-	public Globals(){
-		fConfig = new Configuration();
-	}
+    private StreetConfiguration fStreetConfig;
 
-	public Configuration getfConfig() {
-		return fConfig;
-	}
+    public Globals() throws FileNotFoundException {
+        fConfig = new Configuration();
+        fStreetConfig = new StreetConfiguration(this);
+    }
 
-	public void setfConfig(Configuration fConfig) {
-		this.fConfig = fConfig;
-	}
+    public IConfig getfConfig() {
+        return fConfig;
+    }
+
+   public StreetConfiguration getfStreetConfig(){
+       return fStreetConfig;
+   }
 }

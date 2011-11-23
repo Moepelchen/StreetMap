@@ -6,6 +6,6 @@
  * To change this template use File | Settings | File Templates.
  */
 public interface ISimulateable {
-	
-	public void simulate();
+
+    public void simulate();
 }
