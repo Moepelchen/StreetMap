@@ -17,6 +17,4 @@ public interface IConfig {
     Double getWidth();
 
     boolean isDrawSides();
-
-    String getStreetPath();
 }

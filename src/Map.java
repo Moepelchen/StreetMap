@@ -127,11 +127,11 @@ public class Map extends JFrame implements IPrintable, ISimulateable {
 
     public static void main(String[] args) {
         Globals globals = null;
-        try {
-            globals = new Globals();
-        } catch (FileNotFoundException e) {
-            System.out.println("Eine Konfigurationsdatei konnte nicht gefunden werden!");
-        }
-        Map map = new Map(globals);
+	    try {
+		    globals = new Globals();
+	    } catch (FileNotFoundException e) {
+		    e.printStackTrace();
+	    }
+	    Map map = new Map(globals);
     }
 }

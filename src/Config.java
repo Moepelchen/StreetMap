@@ -1,10 +1,7 @@
 import org.xml.sax.SAXException;
 
-import javax.swing.text.Document;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -25,26 +22,21 @@ public class Config implements IConfig {
     private Double fHeight;
 
 
-    public Config(Globals glob) {
+    public Config(Globals glob) throws FileNotFoundException {
         try {
             parseConfig(glob);
         } catch (ParserConfigurationException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+              throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
         } catch (SAXException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+              throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
         }
 
     }
 
     private void parseConfig(Globals glob) throws ParserConfigurationException, IOException, SAXException {
-        File file = new File("config/config.xml");
-        System.out.println(file.getAbsoluteFile());
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        DocumentBuilder db = dbf.newDocumentBuilder();
-        org.w3c.dom.Document doc = db.parse(file);
-        doc.getDocumentElement().normalize();
+
     }
 
     public boolean isDrawSides() {
