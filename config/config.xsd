@@ -1,15 +1,19 @@
-<?xml version="1.0"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xs:element name="Config">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="DrawSides" type="xs:boolean" minOccurs="0"/>
-                <xs:element name="DrawTiles" type="xs:boolean" minOccurs="0"/>
-                <xs:element name="DrawAnchors" type="xs:boolean" minOccurs="0"/>
-                <xs:element name="TileSize" type="xs:double" minOccurs="0"/>
-                <xs:element name="Width" type="xs:double" minOccurs="0"/>
-                <xs:element name="Height" type="xs:double" minOccurs="0"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-</xs:schema>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="JAXBConfig" type="JAXBConfigType"/>
+    <xsd:complexType name="JAXBConfigType">
+        <xsd:sequence>
+            <xsd:element name="drawsides" type="xsd:boolean" minOccurs="0"/>
+            <xsd:element name="drawtiles" type="xsd:boolean" minOccurs="0"/>
+            <xsd:element name="drawanchors" type="xsd:boolean" minOccurs="0"/>
+            <xsd:element name="tilesize" type="xsd:double" minOccurs="0"/>
+            <xsd:element name="width" type="xsd:double" minOccurs="0"/>
+            <xsd:element name="height" type="xsd:double" minOccurs="0"/>
+        </xsd:sequence>
+
+    </xsd:complexType>
+
+
+</xsd:schema>
+
+
+

@@ -47,9 +47,9 @@ public class Map extends JFrame implements IPrintable, ISimulateable {
 
         fImage = new BufferedImage(fWidth.intValue() + 5, fHeight.intValue() + 5, BufferedImage.TYPE_INT_ARGB);
         fGraphics = (Graphics2D) fImage.getGraphics();
-        Double numberOfTilesX = fWidth / fTileSize;
-        Double numberOfTilesY = fHeight / fTileSize;
-        fTiles = new Tile[numberOfTilesX.intValue()][numberOfTilesY.intValue()];
+        int numberOfTilesX = (int) (fWidth / fTileSize);
+        int numberOfTilesY = (int) (fHeight / fTileSize);
+        fTiles = new Tile[numberOfTilesX][numberOfTilesY];
 
         generateTiles();
 
@@ -63,8 +63,8 @@ public class Map extends JFrame implements IPrintable, ISimulateable {
      * This method generates all Tiles, determined by the width, height and tile size
      */
     private void generateTiles() {
-        double numberOfTilesX = fWidth / fTileSize;
-        double numberOfTilesY = fHeight / fTileSize;
+        int numberOfTilesX = (int) (fWidth / fTileSize);
+        int numberOfTilesY = (int) (fHeight / fTileSize);
         for (double x = 0; x < numberOfTilesX; x++) {
             for (double y = 0; y < numberOfTilesY; y++) {
                 fTiles[(int) x][(int) y] = new Tile(fGlobals, this, new Point2D.Double(x, y));

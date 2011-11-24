@@ -1,6 +1,12 @@
 import org.xml.sax.SAXException;
+import xml.jaxb.JAXBConfigType;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -12,58 +18,62 @@ import java.io.IOException;
  * To change this template use File | Settings | File Templates.
  */
 public class Config implements IConfig {
-
-    private boolean fDrawSides;
-    private boolean fDrawAnchors;
-    private boolean fDrawTiles;
-    private Double fTileSize;
-    private String fStreetConfigPath;
-    private Double fWidth;
-    private Double fHeight;
+	JAXBConfigType configType;
 
 
-    public Config(Globals glob) throws FileNotFoundException {
-        try {
-            parseConfig(glob);
-        } catch (ParserConfigurationException e) {
-            throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
-        } catch (IOException e) {
-              throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
-        } catch (SAXException e) {
-              throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
-        }
+	public Config(Globals glob) throws FileNotFoundException {
+		try {
+			parseConfig(glob);
+		} catch (ParserConfigurationException e) {
+			throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
+		} catch (IOException e) {
+			throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
+		} catch (SAXException e) {
+			throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
+		} catch (JAXBException e) {
+			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+		}
 
-    }
+	}
 
-    private void parseConfig(Globals glob) throws ParserConfigurationException, IOException, SAXException {
+	private void parseConfig(Globals glob) throws ParserConfigurationException, IOException, SAXException, JAXBException {
+		JAXBContext jc = JAXBContext.newInstance("xml.jaxb");
 
-    }
+		// create an Unmarshaller
+		Unmarshaller u = jc.createUnmarshaller();
 
-    public boolean isDrawSides() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+		// unmarshal a po instance document into a tree of Java content
+		// objects composed of classes from the primer.po package.
+		configType = (JAXBConfigType) u.unmarshal(new FileInputStream(new File("config/JAXBConfig.xml")));
 
-    public boolean isDrawTiles() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
-    }
 
-    public boolean isDrawAnchors() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+	}
 
-    public Double getTileSize() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+	public boolean isDrawSides() {
+		return configType.isDrawsides();
+	}
 
-    public Double getHeight() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+	public boolean isDrawTiles() {
+		return configType.isDrawtiles();
+	}
 
-    public Double getWidth() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+	public boolean isDrawAnchors() {
+		return configType.isDrawanchors();
+	}
 
-    public String getStreetPath() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+	public Double getTileSize() {
+		return configType.getTilesize();
+	}
+
+	public Double getHeight() {
+		return configType.getHeight();
+	}
+
+	public Double getWidth() {
+		return configType.getWidth();
+	}
+
+	public String getStreetPath() {
+		return null;
+	}
 }
