@@ -1,3 +1,8 @@
+package streetmap;
+
+import streetmap.interfaces.*;
+
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -33,16 +38,16 @@ public class Map extends JFrame implements IPrintable, ISimulateable {
     private Double fTileSize;
 
 
-    private Globals fGlobals;
+    private SSGlobals fGlobals;
 
     private BufferedImage fImage;
 
     private Graphics2D fGraphics;
 
-    public Map(Globals globals) {
-        fHeight = globals.getfConfig().getHeight();
-        fWidth = globals.getfConfig().getWidth();
-        fTileSize = globals.getfConfig().getTileSize();
+    public Map(SSGlobals globals) {
+        fHeight = globals.getConfig().getHeight();
+        fWidth = globals.getConfig().getWidth();
+        fTileSize = globals.getConfig().getTileSize();
         fGlobals = globals;
 
         fImage = new BufferedImage(fWidth.intValue() + 5, fHeight.intValue() + 5, BufferedImage.TYPE_INT_ARGB);
@@ -126,9 +131,9 @@ public class Map extends JFrame implements IPrintable, ISimulateable {
     }
 
     public static void main(String[] args) {
-        Globals globals = null;
+        SSGlobals globals = null;
 	    try {
-		    globals = new Globals();
+		    globals = new SSGlobals();
 	    } catch (FileNotFoundException e) {
 		    e.printStackTrace();
 	    }

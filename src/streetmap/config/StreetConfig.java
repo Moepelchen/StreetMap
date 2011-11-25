@@ -1,4 +1,7 @@
+package streetmap.config;
+
 import org.xml.sax.SAXException;
+import streetmap.SSGlobals;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,10 +19,10 @@ import java.io.IOException;
  */
 public class StreetConfig {
     
-    private Globals fGlobals;
+    private SSGlobals fGlobals;
     private static final String STREET_CONFIG_NAME = "config/Streets/streets.xml";
 
-    public StreetConfig(Globals glob) throws FileNotFoundException {
+    public StreetConfig(SSGlobals glob) throws FileNotFoundException {
         fGlobals = glob;
 	    try {
 		    parse();
@@ -32,7 +35,8 @@ public class StreetConfig {
         }
     }
 
-    private void parse() throws IOException, ParserConfigurationException, SAXException {
+
+	private void parse() throws IOException, ParserConfigurationException, SAXException {
         File file = new File(STREET_CONFIG_NAME);
         System.out.println(file.getAbsoluteFile());
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();

@@ -1,3 +1,5 @@
+package streetmap.interfaces;
+
 /**
 * Created by IntelliJ IDEA.
 * User: shifter

@@ -1,5 +1,9 @@
+package streetmap.config;
+
 import org.xml.sax.SAXException;
-import xml.jaxb.JAXBConfigType;
+import streetmap.SSGlobals;
+import streetmap.interfaces.*;
+import streetmap.xml.jaxb.JAXBConfigType;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -21,7 +25,7 @@ public class Config implements IConfig {
 	JAXBConfigType configType;
 
 
-	public Config(Globals glob) throws FileNotFoundException {
+	public Config(SSGlobals glob) throws FileNotFoundException {
 		try {
 			parseConfig(glob);
 		} catch (ParserConfigurationException e) {
@@ -36,8 +40,8 @@ public class Config implements IConfig {
 
 	}
 
-	private void parseConfig(Globals glob) throws ParserConfigurationException, IOException, SAXException, JAXBException {
-		JAXBContext jc = JAXBContext.newInstance("xml.jaxb");
+	private void parseConfig(SSGlobals glob) throws ParserConfigurationException, IOException, SAXException, JAXBException {
+		JAXBContext jc = JAXBContext.newInstance("streetmap.xml.jaxb");
 
 		// create an Unmarshaller
 		Unmarshaller u = jc.createUnmarshaller();
