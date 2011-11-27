@@ -1,6 +1,6 @@
 package streetmap.config;
 
-import streetmap.interfaces.*;
+import streetmap.Interfaces.*;
 /**
  * Created by IntelliJ IDEA.
  * User: ulrich.tewes

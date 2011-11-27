@@ -27,11 +27,11 @@ public class StreetConfig {
 	    try {
 		    parse();
 	  } catch (ParserConfigurationException e) {
-            throw new FileNotFoundException("Die Straﬂen-Konfigurationsdatei konnte nicht gefunden werden");
+            throw new FileNotFoundException("Die Strassen-Konfigurationsdatei konnte nicht gefunden werden");
         } catch (IOException e) {
-              throw new FileNotFoundException("Die Straﬂen-Konfigurationsdatei konnte nicht gefunden werden");
+              throw new FileNotFoundException("Die Strassen-Konfigurationsdatei konnte nicht gefunden werden");
         } catch (SAXException e) {
-              throw new FileNotFoundException("Die Straﬂen-Konfigurationsdatei konnte nicht gefunden werden");
+              throw new FileNotFoundException("Die Strassen-Konfigurationsdatei konnte nicht gefunden werden");
         }
     }
 

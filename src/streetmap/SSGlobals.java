@@ -1,7 +1,8 @@
 package streetmap;
 
-import streetmap.interfaces.*;
-import streetmap.config.*;
+import streetmap.config.Config;
+import streetmap.config.StreetConfig;
+import streetmap.Interfaces.*;
 
 import java.io.FileNotFoundException;
 

@@ -1,6 +1,6 @@
 package streetmap;
 
-import streetmap.interfaces.*;
+import streetmap.Interfaces.*;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

@@ -2,7 +2,7 @@ package streetmap.config;
 
 import org.xml.sax.SAXException;
 import streetmap.SSGlobals;
-import streetmap.interfaces.*;
+import streetmap.Interfaces.*;
 import streetmap.xml.jaxb.JAXBConfigType;
 
 import javax.xml.bind.JAXBContext;

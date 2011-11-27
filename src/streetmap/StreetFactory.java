@@ -1,7 +1,6 @@
 package streetmap;
 
-import streetmap.interfaces.*;
-
+import streetmap.Interfaces.*;
 public class StreetFactory {
 
     public Street createStreet(Tile tile) {

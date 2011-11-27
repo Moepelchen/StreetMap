@@ -1,6 +1,6 @@
 package streetmap;
 
-import streetmap.interfaces.*;
+import streetmap.Interfaces.*;
 
 
 import javax.swing.*;

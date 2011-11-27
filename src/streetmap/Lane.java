@@ -1,7 +1,7 @@
 package streetmap;
 
-import streetmap.interfaces.*;
-
+import streetmap.Interfaces.IPrintable;
+import streetmap.Interfaces.ISimulateable;
 
 import java.awt.*;
 import java.util.Vector;
