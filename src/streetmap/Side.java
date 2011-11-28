@@ -1,17 +1,19 @@
 package streetmap;
 
-import streetmap.Interfaces.*;
+import streetmap.Interfaces.IPrintable;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-public class Side implements IPrintable {
+public abstract class Side implements IPrintable {
 
     protected Anchor fAnchorOne;
 
     protected Anchor fAnchorTwo;
 
-    private Point2D fPosition;
+    protected Point2D fPosition;
+
+    protected String fCompassPoint;
 
     public Anchor getAnchorOne() {
         return fAnchorOne;
@@ -32,9 +34,10 @@ public class Side implements IPrintable {
 
     private SSGlobals fGlobals;
 
-    public Side(SSGlobals globals, Point2D position) {
+    public Side(SSGlobals globals, Point2D position, String compassPoint) {
         fPosition = position;
         fGlobals = globals;
+        fCompassPoint = compassPoint;
         setAnchors();
     }
 
@@ -49,10 +52,22 @@ public class Side implements IPrintable {
             g.drawRect((int) (fPosition.getX()) - 2, (int) fPosition.getY() - 2, 5, 5);
         }
         if (fGlobals.getConfig().isDrawAnchors()) {
+              g.setColor(Color.green);
             fAnchorOne.print(g);
+              g.setColor(Color.MAGENTA);
             fAnchorTwo.print(g);
         }
 
+
+    }
+
+    public boolean isHorizontal() {
+        return this instanceof HorizontalSide;
+
+    }
+
+    public boolean isVertical() {
+        return this instanceof VerticalSide;
 
     }
 }

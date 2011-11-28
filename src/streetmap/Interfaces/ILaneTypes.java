@@ -7,5 +7,11 @@ package streetmap.Interfaces;
  * Time: 11:00 AM
  * To change this template use File | Settings | File Templates.
  */
-public interface IStreetTypes {
+public interface ILaneTypes {
+
+    public static final int STRAIGHT = 0;
+
+    public static final int BEND = 1;
+
+    public static final int BRIDGE = 2;
 }

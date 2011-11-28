@@ -1,0 +1,35 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="StreetTemplates" type="StreetTemplates"/>
+    <xsd:complexType name="StreetTemplates">
+        <xsd:sequence>
+            <xsd:element name="StreetTemplate" type="StreetTemplate" minOccurs="1" maxOccurs="unbounded"/>
+
+
+        </xsd:sequence>
+
+    </xsd:complexType>
+
+    <xsd:complexType name="StreetTemplate">
+        <xsd:sequence>
+            <xsd:element name="name" type="xsd:string"/>
+            <xsd:element name="LaneTemplates" type="LaneTemplates" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="LaneTemplates">
+        <xsd:sequence>
+
+            <xsd:element name="LaneTemplate" type="LaneTemplate" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="LaneTemplate">
+        <xsd:sequence>
+            <xsd:element name="from" type="xsd:string"/>
+            <xsd:element name="to" type="xsd:string"/>
+        </xsd:sequence>
+
+    </xsd:complexType>
+
+</xsd:schema>

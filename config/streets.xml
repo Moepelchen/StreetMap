@@ -1,0 +1,111 @@
+<StreetTemplates>
+    <StreetTemplate>
+        <name>SouthNorth</name>
+        <LaneTemplates>
+            <LaneTemplate>
+                <from>N</from>
+                <to>S</to>
+            </LaneTemplate>
+            <LaneTemplate>
+                <from>S</from>
+                <to>N</to>
+            </LaneTemplate>
+        </LaneTemplates>
+
+    </StreetTemplate>
+    <StreetTemplate>
+        <name>WestEast</name>
+        <LaneTemplates>
+            <LaneTemplate>
+                <from>W</from>
+                <to>E</to>
+            </LaneTemplate>
+            <LaneTemplate>
+                <from>E</from>
+                <to>W</to>
+            </LaneTemplate>
+        </LaneTemplates>
+    </StreetTemplate>
+
+    <StreetTemplate>
+        <name>Intersection</name>
+        <LaneTemplates>
+            <LaneTemplate>
+                <from>W</from>
+                <to>E</to>
+            </LaneTemplate>
+            <LaneTemplate>
+                <from>E</from>
+                <to>W</to>
+            </LaneTemplate>
+            <LaneTemplate>
+                <from>N</from>
+                <to>S</to>
+            </LaneTemplate>
+            <LaneTemplate>
+                <from>S</from>
+                <to>N</to>
+            </LaneTemplate>
+        </LaneTemplates>
+    </StreetTemplate>
+
+    <StreetTemplate>
+        <name>TestSN</name>
+        <LaneTemplates>
+
+
+            <LaneTemplate>
+                <from>E</from>
+                <to>S</to>
+            </LaneTemplate>
+            <LaneTemplate>
+                <from>E</from>
+                <to>N</to>
+
+            </LaneTemplate>
+            <LaneTemplate>
+                <from>E</from>
+                <to>W</to>
+            </LaneTemplate>
+            <LaneTemplate>
+                <from>S</from>
+                <to>E</to>
+            </LaneTemplate>
+            <LaneTemplate>
+                <from>S</from>
+                <to>W</to>
+            </LaneTemplate>
+            <LaneTemplate>
+                <from>S</from>
+                <to>N</to>
+            </LaneTemplate>
+            <LaneTemplate>
+                <from>W</from>
+                <to>S</to>
+            </LaneTemplate>
+            <LaneTemplate>
+                <from>W</from>
+                <to>N</to>
+            </LaneTemplate>
+            <LaneTemplate>
+                <from>W</from>
+                <to>E</to>
+            </LaneTemplate>
+            <LaneTemplate>
+                <from>N</from>
+                <to>E</to>
+            </LaneTemplate>
+
+            <LaneTemplate>
+                <from>N</from>
+                <to>W</to>
+            </LaneTemplate>
+            <LaneTemplate>
+                <from>N</from>
+                <to>S</to>
+            </LaneTemplate>
+
+
+        </LaneTemplates>
+    </StreetTemplate>
+</StreetTemplates>

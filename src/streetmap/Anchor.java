@@ -1,18 +1,24 @@
 package streetmap;
 
-import streetmap.interfaces.*;
+import streetmap.Interfaces.IPrintable;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.HashMap;
 
 public class Anchor implements IPrintable {
 
     private Point2D fPosition;
 
-    private boolean fBlocked;
+    private HashMap<String, Lane> fLanes;
 
-    public Anchor(Point2D position) {
+    private boolean fBlocked;
+    private String fCompassPoint;
+
+    public Anchor(Point2D position,String compassPoint) {
         fPosition = position;
+        fLanes = new HashMap<String, Lane>();
+        fCompassPoint = compassPoint;
 
     }
 
@@ -37,7 +43,13 @@ public class Anchor implements IPrintable {
     }
 
     public void print(Graphics2D g) {
-        g.setColor(Color.green);
+
         g.drawRect((int) getPosition().getX() - 1, (int) getPosition().getY() - 1, 2, 2);
+    }
+
+
+    public void addLane(String to, Lane lane) {
+
+        fLanes.put(to,lane);
     }
 }

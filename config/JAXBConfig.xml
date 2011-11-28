@@ -1,9 +1,0 @@
-<?xml version="1.0" standalone="yes"?>
-<JAXBConfigType>
-    <drawtiles>true</drawtiles>
-    <drawanchors>true</drawanchors>
-    <drawsides>true</drawsides>
-    <width>600</width>
-    <height>400</height>
-    <tilesize>20</tilesize>
-</JAXBConfigType>

@@ -1,8 +1,8 @@
 package streetmap;
 
+import streetmap.Interfaces.IConfig;
 import streetmap.config.Config;
 import streetmap.config.StreetConfig;
-import streetmap.Interfaces.*;
 
 import java.io.FileNotFoundException;
 
@@ -20,16 +20,23 @@ public class SSGlobals {
 
     private StreetConfig fStreetConfig;
 
+    private StreetFactory fStreetFactory;
+
     public SSGlobals() throws FileNotFoundException {
         fConfig = new Config(this);
         fStreetConfig = new StreetConfig(this);
+        fStreetFactory = new StreetFactory(this);
     }
 
     public IConfig getConfig() {
         return fConfig;
     }
 
-   public StreetConfig getStreetConfig(){
-       return fStreetConfig;
-   }
+    public StreetConfig getStreetConfig() {
+        return fStreetConfig;
+    }
+
+    public StreetFactory getStreetFactory() {
+        return fStreetFactory;
+    }
 }

@@ -1,7 +1,7 @@
 package streetmap;
 
-import streetmap.Interfaces.*;
-
+import streetmap.Interfaces.IPrintable;
+import streetmap.Interfaces.ISimulateable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,13 +38,28 @@ public class Map extends JFrame implements IPrintable, ISimulateable {
     private Double fTileSize;
 
 
+    /**
+     * Globals containing the different configurations
+     */
     private SSGlobals fGlobals;
 
+    /**
+     * Image usd for double buffering
+     */
     private BufferedImage fImage;
 
+    /**
+     * graphics to draw
+     */
     private Graphics2D fGraphics;
 
+    /**
+     * Contructor setting everthing up
+     *
+     * @param globals Global settings and parameters
+     */
     public Map(SSGlobals globals) {
+        //setting up display configuration
         fHeight = globals.getConfig().getHeight();
         fWidth = globals.getConfig().getWidth();
         fTileSize = globals.getConfig().getTileSize();
@@ -132,11 +147,11 @@ public class Map extends JFrame implements IPrintable, ISimulateable {
 
     public static void main(String[] args) {
         SSGlobals globals = null;
-	    try {
-		    globals = new SSGlobals();
-	    } catch (FileNotFoundException e) {
-		    e.printStackTrace();
-	    }
-	    Map map = new Map(globals);
+        try {
+            globals = new SSGlobals();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Map map = new Map(globals);
     }
 }

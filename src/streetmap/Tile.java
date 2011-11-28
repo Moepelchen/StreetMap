@@ -1,12 +1,17 @@
 package streetmap;
 
-import streetmap.interfaces.*;
-
+import streetmap.Interfaces.IPrintable;
+import streetmap.Interfaces.ISimulateable;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.HashMap;
 
 public class Tile implements IPrintable, ISimulateable {
+    public static final String COMPASS_POINT_N = "N";
+    public static final String COMPASS_POINT_S = "S";
+    public static final String COMPASS_POINT_W = "W";
+    public static final String COMPASS_POINT_E = "E";
 
 
     /**
@@ -22,25 +27,15 @@ public class Tile implements IPrintable, ISimulateable {
      * |                        |
      * ___________+ ___________
      * <p/>
-     * + = Side refernece
+     * + = Side reference
      */
 
+    /**
+     * HashMap of the four sides
+     */
+    private HashMap<String, Side> fSides;
 
-    private HorizontalSide fNorthSide;
-
-    private HorizontalSide fSouthSide;
-
-    private VerticalSide fWestSide;
-
-    private VerticalSide fEastSide;
-
-    private Tile fNorthNeighbor;
-
-    private Tile fEastNeighbor;
-
-    private Tile fSouthNeighbor;
-
-    private Tile fWestNeighbor;
+    private HashMap<String, Tile> fNeighbors;
 
     private Point2D fArrayPosition;
 
@@ -48,107 +43,83 @@ public class Tile implements IPrintable, ISimulateable {
     public Street fStreet;
     private Point2D fPosition;
 
-    public HorizontalSide getfNorthSide() {
-        return fNorthSide;
+    public HorizontalSide getNorthSide() {
+        return (HorizontalSide) getSide(COMPASS_POINT_N);
     }
 
-    public void setfNorthSide(HorizontalSide fNorthSide) {
-        this.fNorthSide = fNorthSide;
+
+    public HorizontalSide getSouthSide() {
+        return (HorizontalSide) getSide(COMPASS_POINT_S);
     }
 
-    public HorizontalSide getfSouthSide() {
-        return fSouthSide;
+
+    public VerticalSide getWestSide() {
+        return (VerticalSide) getSide(COMPASS_POINT_W);
     }
 
-    public void setfSouthSide(HorizontalSide fSouthSide) {
-        this.fSouthSide = fSouthSide;
+
+    public VerticalSide getEastSide() {
+        return (VerticalSide) getSide(COMPASS_POINT_E);
     }
 
-    public VerticalSide getfWestSide() {
-        return fWestSide;
+
+    public Tile getNorthNeighbor() {
+        return fNeighbors.get(COMPASS_POINT_N);
     }
 
-    public void setfWestSide(VerticalSide fWestSide) {
-        this.fWestSide = fWestSide;
+
+    public Tile getEastNeighbor() {
+        return fNeighbors.get(COMPASS_POINT_E);
     }
 
-    public VerticalSide getfEastSide() {
-        return fEastSide;
+
+    public Tile getSouthNeighbor() {
+        return fNeighbors.get(COMPASS_POINT_S);
     }
 
-    public void setfEastSide(VerticalSide fEastSide) {
-        this.fEastSide = fEastSide;
+
+    public Tile getWestNeighbor() {
+        return fNeighbors.get(COMPASS_POINT_W);
     }
 
-    public Tile getfNorthNeighbor() {
-        return fNorthNeighbor;
-    }
 
-    public void setfNorthNeighbor(Tile fNorthNeighbor) {
-        this.fNorthNeighbor = fNorthNeighbor;
-    }
-
-    public Tile getfEastNeighbor() {
-        return fEastNeighbor;
-    }
-
-    public void setfEastNeighbor(Tile fEastNeighbor) {
-        this.fEastNeighbor = fEastNeighbor;
-    }
-
-    public Tile getfSouthNeighbor() {
-        return fSouthNeighbor;
-    }
-
-    public void setfSouthNeighbor(Tile fSouthNeighbor) {
-        this.fSouthNeighbor = fSouthNeighbor;
-    }
-
-    public Tile getfWestNeighbor() {
-        return fWestNeighbor;
-    }
-
-    public void setfWestNeighbor(Tile fWestNeighbor) {
-        this.fWestNeighbor = fWestNeighbor;
-    }
-
-    public Point2D getfArrayPosition() {
+    public Point2D getArrayPosition() {
         return fArrayPosition;
     }
 
-    public void setfArrayPosition(Point2D fArrayPosition) {
+    public void setArrayPosition(Point2D fArrayPosition) {
         this.fArrayPosition = fArrayPosition;
     }
 
-    public Street getfStreet() {
+    public Street getStreet() {
         return fStreet;
     }
 
-    public void setfStreet(Street fStreet) {
+    public void setStreet(Street fStreet) {
         this.fStreet = fStreet;
     }
 
-    public SSGlobals getfGlobals() {
+    public SSGlobals getGlobals() {
         return fGlobals;
     }
 
-    public void setfGlobals(SSGlobals fGlobals) {
+    public void setGlobals(SSGlobals fGlobals) {
         this.fGlobals = fGlobals;
     }
 
-    public Map getfMap() {
+    public Map getMap() {
         return fMap;
     }
 
-    public void setfMap(Map fMap) {
+    public void setMap(Map fMap) {
         this.fMap = fMap;
     }
 
-    public double getfWidth() {
+    public double getWidth() {
         return fWidth;
     }
 
-    public void setfWidth(double fWidth) {
+    public void setWidth(double fWidth) {
         this.fWidth = fWidth;
     }
 
@@ -158,48 +129,51 @@ public class Tile implements IPrintable, ISimulateable {
 
     private double fWidth;
 
+
     public Tile(SSGlobals globals, Map map, Point2D arrayPosition) {
         fArrayPosition = arrayPosition;
+        fSides = new HashMap<String, Side>(4);
+        fNeighbors = new HashMap<String, Tile>(4);
         fSidesGenerated = false;
         fGlobals = globals;
         fMap = map;
         fWidth = fGlobals.getConfig().getTileSize();
         if (map != null) {
-            fNorthNeighbor = map.getTile(arrayPosition.getX(), arrayPosition.getY() - 1);
-            fSouthNeighbor = map.getTile(arrayPosition.getX(), arrayPosition.getY() + 1);
-            fWestNeighbor = map.getTile(arrayPosition.getX() - 1, arrayPosition.getY());
-            fEastNeighbor = map.getTile(arrayPosition.getX() + 1, arrayPosition.getY());
+            fNeighbors.put(COMPASS_POINT_N, map.getTile(arrayPosition.getX(), arrayPosition.getY() - 1));
+            fNeighbors.put(COMPASS_POINT_S, map.getTile(arrayPosition.getX(), arrayPosition.getY() + 1));
+            fNeighbors.put(COMPASS_POINT_W, map.getTile(arrayPosition.getX() - 1, arrayPosition.getY()));
+            fNeighbors.put(COMPASS_POINT_E, map.getTile(arrayPosition.getX() + 1, arrayPosition.getY()));
         }
         fPosition = new Point2D.Double(fArrayPosition.getX() * fWidth, fArrayPosition.getY() * fWidth);
         generateSides();
-
+        fStreet = globals.getStreetFactory().createStreet(this, "TestSN");
     }
 
     public void generateSides() {
 
         //North
-        if (getfNorthNeighbor() != null && getfNorthNeighbor().getfSouthSide() != null) {
-            setfNorthSide(getfNorthNeighbor().getfSouthSide());
+        if (getNorthNeighbor() != null && getNorthNeighbor().getSouthSide() != null) {
+            fSides.put(COMPASS_POINT_N, getNorthNeighbor().getSouthSide());
         } else
-            fNorthSide = new HorizontalSide(fGlobals, new Point2D.Double(fPosition.getX() + fWidth / 2, fPosition.getY()));
+            fSides.put(COMPASS_POINT_N, new HorizontalSide(fGlobals, new Point2D.Double(fPosition.getX() + fWidth / 2, fPosition.getY()), COMPASS_POINT_N));
 
         // South
-        if (getfSouthNeighbor() != null && getfSouthNeighbor().getfNorthSide() != null) {
-            setfSouthSide(getfSouthNeighbor().getfNorthSide());
+        if (getSouthNeighbor() != null && getSouthNeighbor().getNorthSide() != null) {
+            fSides.put(COMPASS_POINT_S, getSouthNeighbor().getNorthSide());
         } else
-            fSouthSide = new HorizontalSide(fGlobals, new Point2D.Double(fPosition.getX() + fWidth / 2, fPosition.getY() + fWidth));
+            fSides.put(COMPASS_POINT_S, new HorizontalSide(fGlobals, new Point2D.Double(fPosition.getX() + fWidth / 2, fPosition.getY() + fWidth), COMPASS_POINT_S));
 
         // West
-        if (getfWestNeighbor() != null && getfWestNeighbor().getfEastSide() != null) {
-            setfWestSide(getfWestNeighbor().getfEastSide());
+        if (getWestNeighbor() != null && getWestNeighbor().getEastSide() != null) {
+            fSides.put(COMPASS_POINT_W, getWestNeighbor().getEastSide());
         } else
-            fWestSide = new VerticalSide(fGlobals, new Point2D.Double(fPosition.getX(), fPosition.getY() + fWidth / 2));
+            fSides.put(COMPASS_POINT_W, new VerticalSide(fGlobals, new Point2D.Double(fPosition.getX(), fPosition.getY() + fWidth / 2), COMPASS_POINT_W));
 
         // East
-        if (getfEastNeighbor() != null && getfEastNeighbor().getfWestSide() != null) {
-            setfEastSide(getfEastNeighbor().getfWestSide());
+        if (getEastNeighbor() != null && getEastNeighbor().getWestSide() != null) {
+            fSides.put(COMPASS_POINT_E, getEastNeighbor().getWestSide());
         } else
-            fEastSide = new VerticalSide(fGlobals, new Point2D.Double(fPosition.getX() + fWidth, fPosition.getY() + fWidth / 2));
+            fSides.put(COMPASS_POINT_E, new VerticalSide(fGlobals, new Point2D.Double(fPosition.getX() + fWidth, fPosition.getY() + fWidth / 2), COMPASS_POINT_E));
 
     }
 
@@ -209,20 +183,23 @@ public class Tile implements IPrintable, ISimulateable {
 
             g.drawRect((int) fPosition.getX(), (int) fPosition.getY(), (int) fWidth, (int) fWidth);
         }
+        if (fStreet != null) {
+            fStreet.print(g);
+        }
 
         if (fGlobals.getConfig().isDrawSides()) {
-            if (fNorthSide != null)
-                fNorthSide.print(g);
-            if (fSouthSide != null)
-                fSouthSide.print(g);
-            if (fWestSide != null)
-                fWestSide.print(g);
-            if (fEastSide != null)
-                fEastSide.print(g);
+            for (String s : fSides.keySet()) {
+                fSides.get(s).print(g);
+            }
         }
     }
 
     public void simulate() {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public Side getSide(String direction) {
+        return fSides.get(direction);
+
     }
 }

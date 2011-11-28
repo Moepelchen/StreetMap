@@ -2,13 +2,19 @@ package streetmap.config;
 
 import org.xml.sax.SAXException;
 import streetmap.SSGlobals;
+import streetmap.xml.jaxb.StreetTemplate;
+import streetmap.xml.jaxb.StreetTemplates;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,30 +24,55 @@ import java.io.IOException;
  * To change this template use File | Settings | File Templates.
  */
 public class StreetConfig {
-    
+
     private SSGlobals fGlobals;
     private static final String STREET_CONFIG_NAME = "config/Streets/streets.xml";
+    private StreetTemplates streetTypes;
+
+    private HashMap<String, StreetTemplate> fStreets;
 
     public StreetConfig(SSGlobals glob) throws FileNotFoundException {
         fGlobals = glob;
-	    try {
-		    parse();
-	  } catch (ParserConfigurationException e) {
+        fStreets = new HashMap<String, StreetTemplate>();
+        try {
+            parse();
+        } catch (ParserConfigurationException e) {
             throw new FileNotFoundException("Die Strassen-Konfigurationsdatei konnte nicht gefunden werden");
         } catch (IOException e) {
-              throw new FileNotFoundException("Die Strassen-Konfigurationsdatei konnte nicht gefunden werden");
+            throw new FileNotFoundException("Die Strassen-Konfigurationsdatei konnte nicht gefunden werden");
         } catch (SAXException e) {
-              throw new FileNotFoundException("Die Strassen-Konfigurationsdatei konnte nicht gefunden werden");
+            throw new FileNotFoundException("Die Strassen-Konfigurationsdatei konnte nicht gefunden werden");
+        } catch (JAXBException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
 
 
-	private void parse() throws IOException, ParserConfigurationException, SAXException {
-        File file = new File(STREET_CONFIG_NAME);
-        System.out.println(file.getAbsoluteFile());
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        DocumentBuilder db = dbf.newDocumentBuilder();
-        org.w3c.dom.Document doc = db.parse(file);
-        doc.getDocumentElement().normalize();
+    private void parse() throws IOException, ParserConfigurationException, SAXException, JAXBException {
+        JAXBContext jc = JAXBContext.newInstance("streetmap.xml.jaxb");
+
+        // create an Unmarshaller
+        Unmarshaller u = jc.createUnmarshaller();
+
+        // unmarshal a po instance document into a tree of Java content
+        // objects composed of classes from the primer.po package.
+        JAXBElement<?> poElement = (JAXBElement<?>) u.unmarshal(new FileInputStream("config/streets.xml"));
+
+        streetTypes = (StreetTemplates) poElement.getValue();
+        List<StreetTemplate> streets = streetTypes.getStreetTemplate();
+        for (StreetTemplate street : streets) {
+            fStreets.put(street.getName(), street);
+        }
+
+    }
+
+    /**
+     * Get the StreetTemplate for a specific name
+     *
+     * @param streetName Name of the Template
+     * @return StreetTemplate with the desired name
+     */
+    public StreetTemplate getTemplate(String streetName) {
+        return fStreets.get(streetName);
     }
 }

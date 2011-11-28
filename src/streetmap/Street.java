@@ -1,20 +1,44 @@
 package streetmap;
 
-import streetmap.Interfaces.*;
-
+import streetmap.Interfaces.IPrintable;
+import streetmap.Interfaces.ISimulateable;
 
 import java.awt.*;
 import java.util.Vector;
 
+/**
+ * This is the implementation of a Street in the simulation. A Street Consists of a Number of lanes
+ */
 public class Street implements IPrintable, ISimulateable {
+
 
     public Vector<Lane> fLanes;
 
+    public Street() {
+        fLanes = new Vector<Lane>();
+    }
+
+
+    public Vector<Lane> getLanes() {
+        return fLanes;
+    }
+
+    public void setLanes(Vector<Lane> fLanes) {
+        this.fLanes = fLanes;
+    }
+
     public void print(Graphics2D g) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        for (Lane lane : fLanes) {
+            lane.print(g);
+
+        }
     }
 
     public void simulate() {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public void addLane(Lane lane) {
+        fLanes.add(lane);
     }
 }

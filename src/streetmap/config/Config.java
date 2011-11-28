@@ -1,11 +1,12 @@
 package streetmap.config;
 
 import org.xml.sax.SAXException;
+import streetmap.Interfaces.IConfig;
 import streetmap.SSGlobals;
-import streetmap.Interfaces.*;
-import streetmap.xml.jaxb.JAXBConfigType;
+import streetmap.xml.jaxb.JAXBConfig;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.ParserConfigurationException;
@@ -22,62 +23,62 @@ import java.io.IOException;
  * To change this template use File | Settings | File Templates.
  */
 public class Config implements IConfig {
-	JAXBConfigType configType;
+    JAXBConfig fConfig;
 
 
-	public Config(SSGlobals glob) throws FileNotFoundException {
-		try {
-			parseConfig(glob);
-		} catch (ParserConfigurationException e) {
-			throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
-		} catch (IOException e) {
-			throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
-		} catch (SAXException e) {
-			throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
-		} catch (JAXBException e) {
-			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-		}
+    public Config(SSGlobals glob) throws FileNotFoundException {
+        try {
+            parseConfig(glob);
+        } catch (ParserConfigurationException e) {
+            throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
+        } catch (IOException e) {
+            throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
+        } catch (SAXException e) {
+            throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
+        } catch (JAXBException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 
-	}
+    }
 
-	private void parseConfig(SSGlobals glob) throws ParserConfigurationException, IOException, SAXException, JAXBException {
-		JAXBContext jc = JAXBContext.newInstance("streetmap.xml.jaxb");
+    private void parseConfig(SSGlobals glob) throws ParserConfigurationException, IOException, SAXException, JAXBException {
+        JAXBContext jc = JAXBContext.newInstance("streetmap.xml.jaxb");
 
-		// create an Unmarshaller
-		Unmarshaller u = jc.createUnmarshaller();
+        // create an Unmarshaller
+        Unmarshaller u = jc.createUnmarshaller();
 
-		// unmarshal a po instance document into a tree of Java content
-		// objects composed of classes from the primer.po package.
-		configType = (JAXBConfigType) u.unmarshal(new FileInputStream(new File("config/JAXBConfig.xml")));
+        // unmarshal a po instance document into a tree of Java content
+        // objects composed of classes from the primer.po package.
+        JAXBElement<?> poElement = (JAXBElement<?>) u.unmarshal(new FileInputStream(new File("config/config.xml")));
+        fConfig = (JAXBConfig) poElement.getValue();
 
+    }
 
-	}
+    public boolean isDrawSides() {
+        return fConfig.isDrawsides();
+    }
 
-	public boolean isDrawSides() {
-		return configType.isDrawsides();
-	}
+    public boolean isDrawTiles() {
+        return fConfig.isDrawtiles();
+    }
 
-	public boolean isDrawTiles() {
-		return configType.isDrawtiles();
-	}
+    public boolean isDrawAnchors() {
+        return fConfig.isDrawanchors();
+    }
 
-	public boolean isDrawAnchors() {
-		return configType.isDrawanchors();
-	}
+    public Double getTileSize() {
+        return fConfig.getTilesize();
+    }
 
-	public Double getTileSize() {
-		return configType.getTilesize();
-	}
+    public Double getHeight() {
+        return fConfig.getHeight();
+    }
 
-	public Double getHeight() {
-		return configType.getHeight();
-	}
+    public Double getWidth() {
+        return fConfig.getWidth();
+    }
 
-	public Double getWidth() {
-		return configType.getWidth();
-	}
-
-	public String getStreetPath() {
-		return null;
-	}
+    public String getStreetPath() {
+        return null;
+    }
 }
