@@ -108,4 +108,64 @@
 
         </LaneTemplates>
     </StreetTemplate>
+
+    <StreetTemplate>
+      <name>BendSW</name>
+        <LaneTemplates>
+            <LaneTemplate>
+                <from>W</from>
+                <to>S</to>
+            </LaneTemplate>
+             <LaneTemplate>
+                <from>S</from>
+                <to>W</to>
+            </LaneTemplate>
+
+        </LaneTemplates>
+    </StreetTemplate>
+
+     <StreetTemplate>
+      <name>BendWN</name>
+        <LaneTemplates>
+            <LaneTemplate>
+                <from>W</from>
+                <to>N</to>
+            </LaneTemplate>
+             <LaneTemplate>
+                <from>N</from>
+                <to>W</to>
+            </LaneTemplate>
+
+        </LaneTemplates>
+    </StreetTemplate>
+
+     <StreetTemplate>
+      <name>BendEN</name>
+        <LaneTemplates>
+            <LaneTemplate>
+                <from>E</from>
+                <to>S</to>
+            </LaneTemplate>
+             <LaneTemplate>
+                <from>S</from>
+                <to>E</to>
+            </LaneTemplate>
+
+        </LaneTemplates>
+    </StreetTemplate>
+
+     <StreetTemplate>
+      <name>BendES</name>
+        <LaneTemplates>
+            <LaneTemplate>
+                <from>E</from>
+                <to>N</to>
+            </LaneTemplate>
+             <LaneTemplate>
+                <from>N</from>
+                <to>E</to>
+            </LaneTemplate>
+
+        </LaneTemplates>
+    </StreetTemplate>
 </StreetTemplates>

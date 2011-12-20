@@ -13,6 +13,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -75,4 +76,9 @@ public class StreetConfig {
     public StreetTemplate getTemplate(String streetName) {
         return fStreets.get(streetName);
     }
+
+	public Collection<StreetTemplate> getTemplates()
+	{
+		return fStreets.values();
+	}
 }

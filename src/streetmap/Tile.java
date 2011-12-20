@@ -146,7 +146,6 @@ public class Tile implements IPrintable, ISimulateable {
         }
         fPosition = new Point2D.Double(fArrayPosition.getX() * fWidth, fArrayPosition.getY() * fWidth);
         generateSides();
-        fStreet = globals.getStreetFactory().createStreet(this, "TestSN");
     }
 
     public void generateSides() {

@@ -8,13 +8,12 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-import java.io.FileNotFoundException;
 
 /**
  * This represents the the whole Street-Map. The map consist of an Array of Tiles.
  * The number of Tiles is determined by fTileSize, fHeight and fWidth
  */
-public class Map extends JFrame implements IPrintable, ISimulateable {
+public class Map extends JPanel implements IPrintable, ISimulateable {
     /* {author=Ulrich Tewes, version=1.0}*/
 
     /**
@@ -74,7 +73,8 @@ public class Map extends JFrame implements IPrintable, ISimulateable {
         generateTiles();
 
         // debug stuff
-        this.setBounds(300, 200, fWidth.intValue() + 100, fHeight.intValue() + 100);
+        this.setBounds(0, 0, fWidth.intValue(), fHeight.intValue());
+	    this.setPreferredSize(new Dimension(fWidth.intValue(),fHeight.intValue()));
         this.setVisible(true);
 
     }
@@ -145,7 +145,7 @@ public class Map extends JFrame implements IPrintable, ISimulateable {
 
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         SSGlobals globals = null;
         try {
             globals = new SSGlobals();
@@ -153,5 +153,5 @@ public class Map extends JFrame implements IPrintable, ISimulateable {
             e.printStackTrace();
         }
         Map map = new Map(globals);
-    }
+    }*/
 }
