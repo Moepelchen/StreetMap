@@ -11,13 +11,14 @@ import java.awt.*;
  * Time: 7:48 AM
  * To change this template use File | Settings | File Templates.
  */
-public class StreetSelectHandler implements IPrintable
+public class StreetSelectClickHandler implements IPrintable
 {
 	private Tile fTile;
 
 	private SSGlobals fGlobals;
 
-	public StreetSelectHandler(SSGlobals globals,Tile tile){
+	public StreetSelectClickHandler(SSGlobals globals, Tile tile)
+	{
 		fTile = tile;
 		fGlobals = globals;
 	}

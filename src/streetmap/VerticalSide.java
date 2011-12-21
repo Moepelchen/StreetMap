@@ -2,21 +2,25 @@ package streetmap;
 
 import java.awt.geom.Point2D;
 
-public class VerticalSide extends Side {
+public class VerticalSide extends Side
+{
 
 
-    /**
-     * This class describes a side with vertical orientation, meaning east or west
-     * @param glob globals
-     * @param position center of this side
-     */
-    public VerticalSide(SSGlobals glob, Point2D position, String compassPoint) {
-        super(glob, position,compassPoint);
-    }
+	/**
+	 * This class describes a side with vertical orientation, meaning east or west
+	 *
+	 * @param glob     globals
+	 * @param position center of this side
+	 */
+	public VerticalSide(SSGlobals glob,Tile tile, Point2D position, String compassPoint)
+	{
+		super(glob,tile, position, compassPoint);
+	}
 
-    public void setAnchors() {
-        fAnchorOne = new Anchor(new Point2D.Double(getPosition().getX(), getPosition().getY() + getGlobals().getConfig().getTileSize() / 8),fCompassPoint);
-        fAnchorTwo = new Anchor(new Point2D.Double(getPosition().getX(), getPosition().getY() - getGlobals().getConfig().getTileSize() / 8),fCompassPoint);
-    }
+	public void setAnchors()
+	{
+		fAnchorOne = new Anchor(new Point2D.Double(getPosition().getX(), getPosition().getY() + fTile.getWidth() / 8), fCompassPoint);
+		fAnchorTwo = new Anchor(new Point2D.Double(getPosition().getX(), getPosition().getY() - fTile.getWidth() / 8), fCompassPoint);
+	}
 
 }

@@ -24,58 +24,68 @@ import java.util.List;
  * Time: 9:24 PM
  * To change this template use File | Settings | File Templates.
  */
-public class StreetConfig {
+public class StreetConfig
+{
 
-    private SSGlobals fGlobals;
-    private static final String STREET_CONFIG_NAME = "config/Streets/streets.xml";
-    private StreetTemplates streetTypes;
+	private SSGlobals fGlobals;
+	private static final String STREET_CONFIG_NAME = "config/Streets/streets.xml";
+	private StreetTemplates streetTypes;
 
-    private HashMap<String, StreetTemplate> fStreets;
+	private HashMap<String, StreetTemplate> fStreets;
 
-    public StreetConfig(SSGlobals glob) throws FileNotFoundException {
-        fGlobals = glob;
-        fStreets = new HashMap<String, StreetTemplate>();
-        try {
-            parse();
-        } catch (ParserConfigurationException e) {
-            throw new FileNotFoundException("Die Strassen-Konfigurationsdatei konnte nicht gefunden werden");
-        } catch (IOException e) {
-            throw new FileNotFoundException("Die Strassen-Konfigurationsdatei konnte nicht gefunden werden");
-        } catch (SAXException e) {
-            throw new FileNotFoundException("Die Strassen-Konfigurationsdatei konnte nicht gefunden werden");
-        } catch (JAXBException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-    }
+	public StreetConfig(SSGlobals glob) throws FileNotFoundException
+	{
+		fGlobals = glob;
+		fStreets = new HashMap<String, StreetTemplate>();
+		try
+		{
+			parse();
+		} catch (ParserConfigurationException e)
+		{
+			throw new FileNotFoundException("Die Strassen-Konfigurationsdatei konnte nicht gefunden werden");
+		} catch (IOException e)
+		{
+			throw new FileNotFoundException("Die Strassen-Konfigurationsdatei konnte nicht gefunden werden");
+		} catch (SAXException e)
+		{
+			throw new FileNotFoundException("Die Strassen-Konfigurationsdatei konnte nicht gefunden werden");
+		} catch (JAXBException e)
+		{
+			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+		}
+	}
 
 
-    private void parse() throws IOException, ParserConfigurationException, SAXException, JAXBException {
-        JAXBContext jc = JAXBContext.newInstance("streetmap.xml.jaxb");
+	private void parse() throws IOException, ParserConfigurationException, SAXException, JAXBException
+	{
+		JAXBContext jc = JAXBContext.newInstance("streetmap.xml.jaxb");
 
-        // create an Unmarshaller
-        Unmarshaller u = jc.createUnmarshaller();
+		// create an Unmarshaller
+		Unmarshaller u = jc.createUnmarshaller();
 
-        // unmarshal a po instance document into a tree of Java content
-        // objects composed of classes from the primer.po package.
-        JAXBElement<?> poElement = (JAXBElement<?>) u.unmarshal(new FileInputStream("config/streets.xml"));
+		// unmarshal a po instance document into a tree of Java content
+		// objects composed of classes from the primer.po package.
+		JAXBElement<?> poElement = (JAXBElement<?>) u.unmarshal(new FileInputStream("config/streets.xml"));
 
-        streetTypes = (StreetTemplates) poElement.getValue();
-        List<StreetTemplate> streets = streetTypes.getStreetTemplate();
-        for (StreetTemplate street : streets) {
-            fStreets.put(street.getName(), street);
-        }
+		streetTypes = (StreetTemplates) poElement.getValue();
+		List<StreetTemplate> streets = streetTypes.getStreetTemplate();
+		for (StreetTemplate street : streets)
+		{
+			fStreets.put(street.getName(), street);
+		}
 
-    }
+	}
 
-    /**
-     * Get the StreetTemplate for a specific name
-     *
-     * @param streetName Name of the Template
-     * @return StreetTemplate with the desired name
-     */
-    public StreetTemplate getTemplate(String streetName) {
-        return fStreets.get(streetName);
-    }
+	/**
+	 * Get the StreetTemplate for a specific name
+	 *
+	 * @param streetName Name of the Template
+	 * @return StreetTemplate with the desired name
+	 */
+	public StreetTemplate getTemplate(String streetName)
+	{
+		return fStreets.get(streetName);
+	}
 
 	public Collection<StreetTemplate> getTemplates()
 	{

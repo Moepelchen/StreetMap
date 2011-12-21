@@ -9,32 +9,39 @@ import streetmap.Interfaces.IConfig;
  * Time: 11:25 AM
  * To change this template use File | Settings | File Templates.
  */
-public class DummyConfig implements IConfig {
+public class DummyConfig implements IConfig
+{
 
 
-    public boolean isDrawTiles() {
-        return true;
-    }
+	public boolean isDrawTiles()
+	{
+		return true;
+	}
 
-    public boolean isDrawAnchors() {
-        return true;
-    }
+	public boolean isDrawAnchors()
+	{
+		return true;
+	}
 
-    public Double getTileSize() {
-        return 50.0;
-    }
+	public Double getTileSize()
+	{
+		return 50.0;
+	}
 
-    public Double getHeight() {
-        return 300.0;
-    }
+	public Double getHeight()
+	{
+		return 300.0;
+	}
 
-    public Double getWidth() {
-        return 800.0;
-    }
+	public Double getWidth()
+	{
+		return 800.0;
+	}
 
-    public boolean isDrawSides() {
-        return true;
-    }
+	public boolean isDrawSides()
+	{
+		return true;
+	}
 
 	@Override
 	public boolean isDrawLanes()
@@ -42,7 +49,8 @@ public class DummyConfig implements IConfig {
 		return true;
 	}
 
-	public String getStreetPath() {
-        return "/home/shifter/workspace/StreetMap/config/Streets/";
-    }
+	public String getStreetPath()
+	{
+		return "/home/shifter/workspace/StreetMap/config/Streets/";
+	}
 }

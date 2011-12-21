@@ -18,17 +18,18 @@ import java.util.Collection;
  */
 public class StreetPanel extends JPanel implements MouseListener
 {
+	private static final int GUI_TILE_WIDTH = 50;
 	private SSGlobals fGlobals;
 
-	private StreetSelectHandler[] fHandlers;
+	private StreetSelectClickHandler[] fHandlers;
 
 	public StreetPanel(SSGlobals globals)
 	{
 
 		fGlobals = globals;
-		fHandlers = new StreetSelectHandler[fGlobals.getStreetConfig().getTemplates().size() * 2];
+		fHandlers = new StreetSelectClickHandler[fGlobals.getStreetConfig().getTemplates().size()];
 		this.setBounds(0, 0, 500, 200);
-		this.setPreferredSize(new Dimension(200, 200));
+		this.setPreferredSize(new Dimension((int) (GUI_TILE_WIDTH * fHandlers.length), 200));
 		this.setVisible(true);
 		createHandlers();
 		this.addMouseListener(this);
@@ -43,10 +44,9 @@ public class StreetPanel extends JPanel implements MouseListener
 		for (StreetTemplate streetTemplate : streetTemplates)
 		{
 
-			Tile tile = new Tile(fGlobals, null, new Point2D.Double(count, 0));
+			Tile tile = new Tile(fGlobals, null, new Point2D.Double(count, 0), GUI_TILE_WIDTH);
 			tile.setStreet(fGlobals.getStreetFactory().createStreet(tile, streetTemplate.getName()));
-			fHandlers[count] = new StreetSelectHandler(fGlobals, tile);
-			count++;
+			fHandlers[count] = new StreetSelectClickHandler(fGlobals, tile);
 			count++;
 		}
 	}
@@ -54,7 +54,7 @@ public class StreetPanel extends JPanel implements MouseListener
 	public void paint(Graphics g)
 	{
 
-		for (StreetSelectHandler fHandler : fHandlers)
+		for (StreetSelectClickHandler fHandler : fHandlers)
 		{
 			if (fHandler != null)
 				fHandler.print((Graphics2D) g);
@@ -68,10 +68,10 @@ public class StreetPanel extends JPanel implements MouseListener
 		int x = e.getX();
 		int y = e.getY();
 
-		int arryPos = (int) (x / fGlobals.getConfig().getTileSize());
-		if (y < fGlobals.getConfig().getTileSize())
+		int arryPos = (int) (x / GUI_TILE_WIDTH);
+		if (y < GUI_TILE_WIDTH)
 		{
-			StreetSelectHandler handler = fHandlers[arryPos];
+			StreetSelectClickHandler handler = fHandlers[arryPos];
 			if (handler != null)
 				handler.handleClick();
 		}

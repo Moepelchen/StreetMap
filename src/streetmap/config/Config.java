@@ -22,41 +22,50 @@ import java.io.IOException;
  * Time: 7:49 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Config implements IConfig {
-    JAXBConfig fConfig;
+public class Config implements IConfig
+{
+	JAXBConfig fConfig;
 
 
-    public Config(SSGlobals glob) throws FileNotFoundException {
-        try {
-            parseConfig(glob);
-        } catch (ParserConfigurationException e) {
-            throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
-        } catch (IOException e) {
-            throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
-        } catch (SAXException e) {
-            throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
-        } catch (JAXBException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+	public Config(SSGlobals glob) throws FileNotFoundException
+	{
+		try
+		{
+			parseConfig(glob);
+		} catch (ParserConfigurationException e)
+		{
+			throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
+		} catch (IOException e)
+		{
+			throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
+		} catch (SAXException e)
+		{
+			throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
+		} catch (JAXBException e)
+		{
+			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+		}
 
-    }
+	}
 
-    private void parseConfig(SSGlobals glob) throws ParserConfigurationException, IOException, SAXException, JAXBException {
-        JAXBContext jc = JAXBContext.newInstance("streetmap.xml.jaxb");
+	private void parseConfig(SSGlobals glob) throws ParserConfigurationException, IOException, SAXException, JAXBException
+	{
+		JAXBContext jc = JAXBContext.newInstance("streetmap.xml.jaxb");
 
-        // create an Unmarshaller
-        Unmarshaller u = jc.createUnmarshaller();
+		// create an Unmarshaller
+		Unmarshaller u = jc.createUnmarshaller();
 
-        // unmarshal a po instance document into a tree of Java content
-        // objects composed of classes from the primer.po package.
-        JAXBElement<?> poElement = (JAXBElement<?>) u.unmarshal(new FileInputStream(new File("config/config.xml")));
-        fConfig = (JAXBConfig) poElement.getValue();
+		// unmarshal a po instance document into a tree of Java content
+		// objects composed of classes from the primer.po package.
+		JAXBElement<?> poElement = (JAXBElement<?>) u.unmarshal(new FileInputStream(new File("config/config.xml")));
+		fConfig = (JAXBConfig) poElement.getValue();
 
-    }
+	}
 
-    public boolean isDrawSides() {
-        return fConfig.isDrawsides();
-    }
+	public boolean isDrawSides()
+	{
+		return fConfig.isDrawsides();
+	}
 
 	@Override
 	public boolean isDrawLanes()
@@ -64,27 +73,33 @@ public class Config implements IConfig {
 		return fConfig.isDrawlanes();
 	}
 
-	public boolean isDrawTiles() {
-        return fConfig.isDrawtiles();
-    }
+	public boolean isDrawTiles()
+	{
+		return fConfig.isDrawtiles();
+	}
 
-    public boolean isDrawAnchors() {
-        return fConfig.isDrawanchors();
-    }
+	public boolean isDrawAnchors()
+	{
+		return fConfig.isDrawanchors();
+	}
 
-    public Double getTileSize() {
-        return fConfig.getTilesize();
-    }
+	public Double getTileSize()
+	{
+		return fConfig.getTilesize();
+	}
 
-    public Double getHeight() {
-        return fConfig.getHeight();
-    }
+	public Double getHeight()
+	{
+		return fConfig.getHeight();
+	}
 
-    public Double getWidth() {
-        return fConfig.getWidth();
-    }
+	public Double getWidth()
+	{
+		return fConfig.getWidth();
+	}
 
-    public String getStreetPath() {
-        return null;
-    }
+	public String getStreetPath()
+	{
+		return null;
+	}
 }

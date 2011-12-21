@@ -15,12 +15,13 @@ import java.io.FileNotFoundException;
  */
 public class MainPanel extends JFrame implements MouseListener
 {
-	public MainPanel(SSGlobals globals){
+	public MainPanel(SSGlobals globals)
+	{
 		this.setLayout(new BorderLayout(5, 5));
 		this.getContentPane().add(new Map(globals));
 
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.getContentPane().add(new StreetPanel(globals),BorderLayout.PAGE_END);
+		this.getContentPane().add(new StreetPanel(globals), BorderLayout.PAGE_END);
 		this.pack();
 		this.addMouseListener(this);
 		this.setVisible(true);
@@ -28,15 +29,18 @@ public class MainPanel extends JFrame implements MouseListener
 	}
 
 
-	public static void main(String[] args) {
-        SSGlobals globals = null;
-        try {
-            globals = new SSGlobals();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-      MainPanel main = new MainPanel(globals);
-    }
+	public static void main(String[] args)
+	{
+		SSGlobals globals = null;
+		try
+		{
+			globals = new SSGlobals();
+		} catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		MainPanel main = new MainPanel(globals);
+	}
 
 
 	@Override

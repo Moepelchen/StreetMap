@@ -46,7 +46,7 @@ public class Street implements IPrintable, ISimulateable
 		if (imagePath != null)
 		{
 			Image image = new ImageIcon(imagePath).getImage();
-			Double tileSize = fGlobals.getConfig().getTileSize();
+			Double tileSize = fTile.getWidth();
 			g.drawImage(image, (int) (fTile.getArrayPosition().getX() * tileSize), (int) (fTile.getArrayPosition().getY() * tileSize), tileSize.intValue(), tileSize.intValue(), null);
 		}
 

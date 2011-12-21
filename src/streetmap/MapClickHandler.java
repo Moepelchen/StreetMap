@@ -16,18 +16,21 @@ public class MapClickHandler implements MouseListener
 
 	private SSGlobals fGlobals;
 
-	public MapClickHandler(SSGlobals glob, Map map){
+	public MapClickHandler(SSGlobals glob, Map map)
+	{
 		fMap = map;
 		fGlobals = glob;
 	}
+
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
 		double arrayX = (int) (e.getX() / fGlobals.getConfig().getTileSize());
 		double arrayY = (int) (e.getY() / fGlobals.getConfig().getTileSize());
-		Tile tile = fMap.getTile(arrayX,arrayY);
-		if(tile != null){
-			fGlobals.getStreetFactory().createStreet(tile,fGlobals.getSelectedStreetTemplate());
+		Tile tile = fMap.getTile(arrayX, arrayY);
+		if (tile != null)
+		{
+			fGlobals.getStreetFactory().createStreet(tile, fGlobals.getSelectedStreetTemplate());
 
 		}
 

@@ -9,7 +9,8 @@ import java.awt.*;
  * Time: 11:04 AM
  * To change this template use File | Settings | File Templates.
  */
-public interface IPrintable {
+public interface IPrintable
+{
 
-    public void print(Graphics2D g);
+	public void print(Graphics2D g);
 }

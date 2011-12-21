@@ -7,18 +7,19 @@ package streetmap.Interfaces;
  * Time: 7:28 AM
  * To change this template use File | Settings | File Templates.
  */
-public interface IConfig {
-    boolean isDrawTiles();
+public interface IConfig
+{
+	boolean isDrawTiles();
 
-    boolean isDrawAnchors();
+	boolean isDrawAnchors();
 
-    Double getTileSize();
+	Double getTileSize();
 
-    Double getHeight();
+	Double getHeight();
 
-    Double getWidth();
+	Double getWidth();
 
-    boolean isDrawSides();
+	boolean isDrawSides();
 
 	boolean isDrawLanes();
 }

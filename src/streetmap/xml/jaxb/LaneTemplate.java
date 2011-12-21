@@ -16,9 +16,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for LaneTemplate complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="LaneTemplate">
  *   &lt;complexContent>
@@ -31,67 +31,62 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LaneTemplate", propOrder = {
-    "from",
-    "to"
+		"from",
+		"to"
 })
-public class LaneTemplate {
+public class LaneTemplate
+{
 
-    @XmlElement(required = true)
-    protected String from;
-    @XmlElement(required = true)
-    protected String to;
+	@XmlElement(required = true)
+	protected String from;
+	@XmlElement(required = true)
+	protected String to;
 
-    /**
-     * Gets the value of the from property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getFrom() {
-        return from;
-    }
+	/**
+	 * Gets the value of the from property.
+	 *
+	 * @return possible object is
+	 *         {@link String }
+	 */
+	public String getFrom()
+	{
+		return from;
+	}
 
-    /**
-     * Sets the value of the from property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setFrom(String value) {
-        this.from = value;
-    }
+	/**
+	 * Sets the value of the from property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setFrom(String value)
+	{
+		this.from = value;
+	}
 
-    /**
-     * Gets the value of the to property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getTo() {
-        return to;
-    }
+	/**
+	 * Gets the value of the to property.
+	 *
+	 * @return possible object is
+	 *         {@link String }
+	 */
+	public String getTo()
+	{
+		return to;
+	}
 
-    /**
-     * Sets the value of the to property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setTo(String value) {
-        this.to = value;
-    }
+	/**
+	 * Sets the value of the to property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setTo(String value)
+	{
+		this.to = value;
+	}
 
 }

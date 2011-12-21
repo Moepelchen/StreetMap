@@ -15,32 +15,37 @@ import java.io.FileNotFoundException;
  */
 
 
-public class SSGlobals {
-    private IConfig fConfig;
+public class SSGlobals
+{
+	private IConfig fConfig;
 
-    private StreetConfig fStreetConfig;
+	private StreetConfig fStreetConfig;
 
-    private StreetFactory fStreetFactory;
-	
+	private StreetFactory fStreetFactory;
+
 	private String fSelectedStreetTemplate;
 
-	public SSGlobals() throws FileNotFoundException {
-        fConfig = new Config(this);
-        fStreetConfig = new StreetConfig(this);
-        fStreetFactory = new StreetFactory(this);
-    }
+	public SSGlobals() throws FileNotFoundException
+	{
+		fConfig = new Config(this);
+		fStreetConfig = new StreetConfig(this);
+		fStreetFactory = new StreetFactory(this);
+	}
 
-    public IConfig getConfig() {
-        return fConfig;
-    }
+	public IConfig getConfig()
+	{
+		return fConfig;
+	}
 
-    public StreetConfig getStreetConfig() {
-        return fStreetConfig;
-    }
+	public StreetConfig getStreetConfig()
+	{
+		return fStreetConfig;
+	}
 
-    public StreetFactory getStreetFactory() {
-        return fStreetFactory;
-    }
+	public StreetFactory getStreetFactory()
+	{
+		return fStreetFactory;
+	}
 
 	public void setSelectedStreetTemplate(String s)
 	{

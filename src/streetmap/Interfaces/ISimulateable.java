@@ -7,7 +7,8 @@ package streetmap.Interfaces;
  * Time: 11:08 AM
  * To change this template use File | Settings | File Templates.
  */
-public interface ISimulateable {
+public interface ISimulateable
+{
 
-    public void simulate();
+	public void simulate();
 }

@@ -45,7 +45,7 @@ public class StreetFactory
 		Street street = null;
 		if (template != null)
 		{
-			street = new Street(fGlobals,tile,streetName);
+			street = new Street(fGlobals, tile, streetName);
 			generateLanes(street, template.getLaneTemplates(), tile);
 			tile.setStreet(street);
 		}
