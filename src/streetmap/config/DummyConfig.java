@@ -36,7 +36,13 @@ public class DummyConfig implements IConfig {
         return true;
     }
 
-    public String getStreetPath() {
+	@Override
+	public boolean isDrawLanes()
+	{
+		return true;
+	}
+
+	public String getStreetPath() {
         return "/home/shifter/workspace/StreetMap/config/Streets/";
     }
 }

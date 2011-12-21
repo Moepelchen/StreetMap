@@ -82,7 +82,7 @@ public class StreetPanel extends JPanel implements MouseListener
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
-		// not implemented
+		mouseClicked(e);
 	}
 
 	@Override

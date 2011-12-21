@@ -25,19 +25,18 @@ public class MapClickHandler implements MouseListener
 	{
 		double arrayX = (int) (e.getX() / fGlobals.getConfig().getTileSize());
 		double arrayY = (int) (e.getY() / fGlobals.getConfig().getTileSize());
-
 		Tile tile = fMap.getTile(arrayX,arrayY);
 		if(tile != null){
 			fGlobals.getStreetFactory().createStreet(tile,fGlobals.getSelectedStreetTemplate());
 
 		}
-		fMap.repaint();
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
-		//To change body of implemented methods use File | Settings | File Templates.
+		mouseClicked(e);
 	}
 
 	@Override

@@ -12,6 +12,7 @@
     <xsd:complexType name="StreetTemplate">
         <xsd:sequence>
             <xsd:element name="name" type="xsd:string"/>
+            <xsd:element name="imagePath" type="xsd:string"/>
             <xsd:element name="LaneTemplates" type="LaneTemplates" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>

@@ -19,4 +19,6 @@ public interface IConfig {
     Double getWidth();
 
     boolean isDrawSides();
+
+	boolean isDrawLanes();
 }

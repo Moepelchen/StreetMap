@@ -5,6 +5,7 @@
             <xsd:element name="drawsides" type="xsd:boolean" minOccurs="0"/>
             <xsd:element name="drawtiles" type="xsd:boolean" minOccurs="0"/>
             <xsd:element name="drawanchors" type="xsd:boolean" minOccurs="0"/>
+            <xsd:element name="drawlanes" type="xsd:boolean" minOccurs="0"/>
             <xsd:element name="tilesize" type="xsd:double" minOccurs="0"/>
             <xsd:element name="width" type="xsd:double" minOccurs="0"/>
             <xsd:element name="height" type="xsd:double" minOccurs="0"/>

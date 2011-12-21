@@ -5,6 +5,8 @@ import streetmap.Interfaces.ISimulateable;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
@@ -12,7 +14,7 @@ import java.awt.image.BufferedImage;
  * This represents the the whole Street-Map. The map consist of an Array of Tiles.
  * The number of Tiles is determined by fTileSize, fHeight and fWidth
  */
-public class Map extends JPanel implements IPrintable, ISimulateable {
+public class Map extends JPanel implements IPrintable, ISimulateable, ActionListener {
     /* {author=Ulrich Tewes, version=1.0}*/
 
     /**
@@ -52,7 +54,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable {
     private Graphics2D fGraphics;
 
     /**
-     * Contructor setting everthing up
+     * Constructor setting everything up
      *
      * @param globals Global settings and parameters
      */
@@ -77,8 +79,13 @@ public class Map extends JPanel implements IPrintable, ISimulateable {
         this.setBounds(0, 0, fWidth.intValue()+2*5, fHeight.intValue()+2*5);
 	    this.setPreferredSize(new Dimension(fWidth.intValue()+2*5,fHeight.intValue()+2*5));
         this.setVisible(true);
+	    Timer timer;
+	    timer = new Timer(25, this);
+	    timer.start();
 
     }
+
+
 
     /**
      * This method generates all Tiles, determined by the width, height and tile size
@@ -112,6 +119,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable {
      * @param g current Graphics2D object
      */
     public void print(Graphics2D g) {
+
         for (Tile[] fTile : fTiles) {
             for (Tile tile : fTile) {
                 tile.print(g);
@@ -135,11 +143,13 @@ public class Map extends JPanel implements IPrintable, ISimulateable {
     }
 
     public void paint(Graphics g) {
-
+		super.paint(g);
 	    fGraphics.clearRect(0,0,fWidth.intValue() + 5, fHeight.intValue() + 5);
         this.print(fGraphics);
         g.translate(5, 5);
         g.drawImage(fImage, 0, 0,null);
+	    Toolkit.getDefaultToolkit().sync();
+        g.dispose();
 
     }
 
@@ -152,4 +162,10 @@ public class Map extends JPanel implements IPrintable, ISimulateable {
         }
         Map map = new Map(globals);
     }*/
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		repaint();
+	}
 }

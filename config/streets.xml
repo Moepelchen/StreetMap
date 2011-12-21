@@ -1,6 +1,7 @@
 <StreetTemplates>
     <StreetTemplate>
         <name>SouthNorth</name>
+        <imagePath>./images/streets/NS.png</imagePath>
         <LaneTemplates>
             <LaneTemplate>
                 <from>N</from>
@@ -15,6 +16,7 @@
     </StreetTemplate>
     <StreetTemplate>
         <name>WestEast</name>
+           <imagePath>./images/streets/WE.png</imagePath>
         <LaneTemplates>
             <LaneTemplate>
                 <from>W</from>
@@ -28,7 +30,8 @@
     </StreetTemplate>
 
     <StreetTemplate>
-        <name>Intersection</name>
+        <name>Bridge</name>
+        <imagePath>./images/streets/Bridge.png</imagePath>
         <LaneTemplates>
             <LaneTemplate>
                 <from>W</from>
@@ -50,7 +53,8 @@
     </StreetTemplate>
 
     <StreetTemplate>
-        <name>TestSN</name>
+        <name>Intersection</name>
+        <imagePath>./images/streets/intersection.png</imagePath>
         <LaneTemplates>
 
 
@@ -111,6 +115,7 @@
 
     <StreetTemplate>
       <name>BendSW</name>
+        <imagePath>./images/streets/BendWS.png</imagePath>
         <LaneTemplates>
             <LaneTemplate>
                 <from>W</from>
@@ -126,6 +131,7 @@
 
      <StreetTemplate>
       <name>BendWN</name>
+         <imagePath>./images/streets/BendWN.png</imagePath>
         <LaneTemplates>
             <LaneTemplate>
                 <from>W</from>
@@ -140,7 +146,8 @@
     </StreetTemplate>
 
      <StreetTemplate>
-      <name>BendEN</name>
+      <name>BendES</name>
+         <imagePath>./images/streets/BendSE.png</imagePath>
         <LaneTemplates>
             <LaneTemplate>
                 <from>E</from>
@@ -155,7 +162,8 @@
     </StreetTemplate>
 
      <StreetTemplate>
-      <name>BendES</name>
+      <name>BendEN</name>
+         <imagePath>./images/streets/BendNE.png</imagePath>
         <LaneTemplates>
             <LaneTemplate>
                 <from>E</from>

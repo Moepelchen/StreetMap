@@ -58,7 +58,13 @@ public class Config implements IConfig {
         return fConfig.isDrawsides();
     }
 
-    public boolean isDrawTiles() {
+	@Override
+	public boolean isDrawLanes()
+	{
+		return fConfig.isDrawlanes();
+	}
+
+	public boolean isDrawTiles() {
         return fConfig.isDrawtiles();
     }
 
