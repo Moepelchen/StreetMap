@@ -1,48 +1,37 @@
 package streetmap;
 
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.FileNotFoundException;
 
 /**
  * Created by IntelliJ IDEA.
  * User: ulrich.tewes
- * Date: 12/20/11
- * Time: 2:49 PM
+ * Date: 12/21/11
+ * Time: 8:22 AM
  * To change this template use File | Settings | File Templates.
  */
-public class MainPanel extends JFrame implements MouseListener
+public class MapClickHandler implements MouseListener
 {
-	public MainPanel(SSGlobals globals){
-		this.setLayout(new BorderLayout(5, 5));
-		this.getContentPane().add(new Map(globals));
+	private Map fMap;
 
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.getContentPane().add(new StreetPanel(globals),BorderLayout.PAGE_END);
-		this.pack();
-		this.addMouseListener(this);
-		this.setVisible(true);
+	private SSGlobals fGlobals;
 
+	public MapClickHandler(SSGlobals glob, Map map){
+		fMap = map;
+		fGlobals = glob;
 	}
-
-
-	public static void main(String[] args) {
-        SSGlobals globals = null;
-        try {
-            globals = new SSGlobals();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-      MainPanel main = new MainPanel(globals);
-    }
-
-
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
-		this.repaint();
+		double arrayX = (int) (e.getX() / fGlobals.getConfig().getTileSize());
+		double arrayY = (int) (e.getY() / fGlobals.getConfig().getTileSize());
+
+		Tile tile = fMap.getTile(arrayX,arrayY);
+		if(tile != null){
+			fGlobals.getStreetFactory().createStreet(tile,fGlobals.getSelectedStreetTemplate());
+
+		}
+		fMap.repaint();
 	}
 
 	@Override

@@ -12,9 +12,12 @@ import java.util.Vector;
 public class Street implements IPrintable, ISimulateable {
 
 
-    public Vector<Lane> fLanes;
+    private Vector<Lane> fLanes;
 
-    public Street() {
+	private String fName;
+
+    public Street(String name) {
+	    fName = name;
         fLanes = new Vector<Lane>();
     }
 
@@ -40,5 +43,9 @@ public class Street implements IPrintable, ISimulateable {
 
     public void addLane(Lane lane) {
         fLanes.add(lane);
+    }
+
+	 public String toString() {
+        return fName;
     }
 }

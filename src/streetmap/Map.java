@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 
 /**
  * This represents the the whole Street-Map. The map consist of an Array of Tiles.
@@ -72,9 +71,11 @@ public class Map extends JPanel implements IPrintable, ISimulateable {
 
         generateTiles();
 
+
+	    this.addMouseListener(new MapClickHandler(fGlobals,this));
         // debug stuff
-        this.setBounds(0, 0, fWidth.intValue(), fHeight.intValue());
-	    this.setPreferredSize(new Dimension(fWidth.intValue(),fHeight.intValue()));
+        this.setBounds(0, 0, fWidth.intValue()+2*5, fHeight.intValue()+2*5);
+	    this.setPreferredSize(new Dimension(fWidth.intValue()+2*5,fHeight.intValue()+2*5));
         this.setVisible(true);
 
     }
@@ -135,13 +136,10 @@ public class Map extends JPanel implements IPrintable, ISimulateable {
 
     public void paint(Graphics g) {
 
+	    fGraphics.clearRect(0,0,fWidth.intValue() + 5, fHeight.intValue() + 5);
         this.print(fGraphics);
-        g.translate(50, 50);
-        g.drawImage(fImage, 0, 0, new ImageObserver() {
-            public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
-                return false;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-        });
+        g.translate(5, 5);
+        g.drawImage(fImage, 0, 0,null);
 
     }
 

@@ -21,8 +21,10 @@ public class SSGlobals {
     private StreetConfig fStreetConfig;
 
     private StreetFactory fStreetFactory;
+	
+	private String fSelectedStreetTemplate;
 
-    public SSGlobals() throws FileNotFoundException {
+	public SSGlobals() throws FileNotFoundException {
         fConfig = new Config(this);
         fStreetConfig = new StreetConfig(this);
         fStreetFactory = new StreetFactory(this);
@@ -39,4 +41,14 @@ public class SSGlobals {
     public StreetFactory getStreetFactory() {
         return fStreetFactory;
     }
+
+	public void setSelectedStreetTemplate(String s)
+	{
+		fSelectedStreetTemplate = s;
+	}
+
+	public String getSelectedStreetTemplate()
+	{
+		return fSelectedStreetTemplate;
+	}
 }
