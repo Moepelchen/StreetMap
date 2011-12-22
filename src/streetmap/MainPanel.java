@@ -22,6 +22,7 @@ public class MainPanel extends JFrame implements MouseListener
 
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.getContentPane().add(new StreetPanel(globals), BorderLayout.PAGE_END);
+		this.getContentPane().add(new MenuPanel(globals), BorderLayout.LINE_END);
 		this.pack();
 		this.addMouseListener(this);
 		this.setVisible(true);

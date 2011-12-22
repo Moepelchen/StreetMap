@@ -1,6 +1,6 @@
 package streetmap;
 
-import streetmap.Interfaces.IConfig;
+import streetmap.Interfaces.config.IConfig;
 import streetmap.config.Config;
 import streetmap.config.StreetConfig;
 
@@ -24,6 +24,7 @@ public class SSGlobals
 	private StreetFactory fStreetFactory;
 
 	private String fSelectedStreetTemplate;
+	private Map fMap;
 
 	public SSGlobals() throws FileNotFoundException
 	{
@@ -55,5 +56,15 @@ public class SSGlobals
 	public String getSelectedStreetTemplate()
 	{
 		return fSelectedStreetTemplate;
+	}
+
+	public void setMap(Map map)
+	{
+		this.fMap = map;
+	}
+
+	public Map getMap()
+	{
+		return fMap;
 	}
 }

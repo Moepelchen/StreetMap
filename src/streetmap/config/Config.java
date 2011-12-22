@@ -1,7 +1,7 @@
 package streetmap.config;
 
 import org.xml.sax.SAXException;
-import streetmap.Interfaces.IConfig;
+import streetmap.Interfaces.config.IConfig;
 import streetmap.SSGlobals;
 import streetmap.xml.jaxb.JAXBConfig;
 

@@ -296,4 +296,11 @@
         </LaneTemplates>
     </StreetTemplate>
 
+     <StreetTemplate>
+        <name>DeleteStreet</name>
+        <LaneTemplates>
+        </LaneTemplates>
+    </StreetTemplate>
+
+
 </StreetTemplates>

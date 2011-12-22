@@ -85,6 +85,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 		timer = new Timer(25, this);
 		timer.start();
 
+		fGlobals.setMap(this);
 	}
 
 
