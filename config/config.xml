@@ -3,7 +3,7 @@
     <drawtiles>false</drawtiles>
     <drawanchors>false</drawanchors>
     <drawsides>false</drawsides>
-    <drawlanes>true</drawlanes>
+    <drawlanes>false</drawlanes>
     <width>400</width>
     <height>400</height>
     <tilesize>21</tilesize>

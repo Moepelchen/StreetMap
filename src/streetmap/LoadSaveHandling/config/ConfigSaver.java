@@ -4,6 +4,7 @@ import streetmap.Interfaces.config.IConfig;
 import streetmap.Interfaces.save.ISaveConstants;
 import streetmap.config.Config;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
@@ -20,7 +21,7 @@ public class ConfigSaver
 {
 
 
-	public static void saveConfig(Writer out,IConfig config){
+	public static void saveConfig(BufferedWriter out,IConfig config){
 		for (Method method : config.getClass().getMethods())
 		{
 			if(method.getDeclaringClass().equals(Config.class)){

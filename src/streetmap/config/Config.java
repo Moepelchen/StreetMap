@@ -96,10 +96,5 @@ public class Config implements IConfig
 	public Double getWidth()
 	{
 		return fConfig.getWidth();
-	}
-
-	public String getStreetPath()
-	{
-		return null;
-	}
+    }
 }

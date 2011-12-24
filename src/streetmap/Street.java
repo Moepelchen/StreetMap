@@ -74,4 +74,8 @@ public class Street implements IPrintable, ISimulateable
 	{
 		return fName;
 	}
+
+    public String getName() {
+        return fName;
+    }
 }

@@ -1,5 +1,6 @@
 package streetmap.Handlers.gui;
 
+import streetmap.Interfaces.save.ISaveConstants;
 import streetmap.LoadSaveHandling.config.ConfigSaver;
 import streetmap.LoadSaveHandling.map.MapSaver;
 import streetmap.SSGlobals;
@@ -42,13 +43,16 @@ public class SaveHandler extends ClickHandler implements ActionListener
 				file.createNewFile();
 
 			}
-			Writer output = null;
+			BufferedWriter output = null;
 
 
 			output = new BufferedWriter(new FileWriter(file));
 
 
 			MapSaver.saveMap(output, fGlobals.getMap());
+            output.newLine();
+            output.write(ISaveConstants.BLOCK_SEPERATOR);
+            output.newLine();
 			ConfigSaver.saveConfig(output, fGlobals.getConfig());
 
 

@@ -1,6 +1,7 @@
 package streetmap;
 
 import streetmap.Interfaces.config.IConfig;
+import streetmap.config.ChangeableConfig;
 import streetmap.config.Config;
 import streetmap.config.StreetConfig;
 
@@ -17,18 +18,35 @@ import java.io.FileNotFoundException;
 
 public class SSGlobals
 {
+    /**
+     * the configuration
+     */
 	private IConfig fConfig;
-
+    /**
+     * the streets the user is able to place
+     */
 	private StreetConfig fStreetConfig;
-
+    /**
+     * the factory used to create streets
+     */
 	private StreetFactory fStreetFactory;
-
+    /**
+     * the currently selected street
+     */
 	private String fSelectedStreetTemplate;
+    /**
+     * the map where the magic happens
+     */
 	private Map fMap;
 
+    /**
+     * Constructor
+     *
+     * @throws FileNotFoundException is thrown when either the config or the streetconfig file is not found
+     */
 	public SSGlobals() throws FileNotFoundException
 	{
-		fConfig = new Config(this);
+		fConfig = new ChangeableConfig(this);
 		fStreetConfig = new StreetConfig(this);
 		fStreetFactory = new StreetFactory(this);
 	}

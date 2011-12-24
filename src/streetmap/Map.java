@@ -183,4 +183,8 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 	{
 		repaint();
 	}
+
+    public Tile[][] getTiles() {
+        return fTiles;
+    }
 }
