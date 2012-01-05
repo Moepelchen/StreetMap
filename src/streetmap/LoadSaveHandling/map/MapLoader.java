@@ -6,6 +6,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import streetmap.Interfaces.save.ISaveConstants;
+import streetmap.LoadSaveHandling.Loader;
 import streetmap.SSGlobals;
 import streetmap.Tile;
 
@@ -22,11 +24,13 @@ import java.io.IOException;
  * Time: 10:35 AM
  * To change this template use File | Settings | File Templates.
  */
-public class MapLoader
+public class MapLoader extends Loader
 {
-	public boolean loadMap(File file, SSGlobals glob) throws ParserConfigurationException, IOException, SAXException
+
+	@Override
+	public boolean load(File file, SSGlobals glob) throws ParserConfigurationException, IOException, SAXException
 	{
-		// reset Map
+			// reset Map
 		glob.getMap().reset();
 
 		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -35,23 +39,23 @@ public class MapLoader
 
 		doc.getDocumentElement().normalize();
 
-		NodeList tileList = doc.getElementsByTagName("Tile");
+		NodeList tileList = doc.getElementsByTagName(ISaveConstants.TILE_TAG);
 		int totalPersons = tileList.getLength();
 		for(int i = 0; i<tileList.getLength();i++){
 			Node tile = tileList.item(i);
 			if(tile.getNodeType() == Node.ELEMENT_NODE){
 				Element tileElement = (Element) tile;
 
-				String XPos = tileElement.getElementsByTagName("XPos").item(0).getTextContent();
-				String YPos = tileElement.getElementsByTagName("YPos").item(0).getTextContent();
-				String streetName = tileElement.getElementsByTagName("Street").item(0).getTextContent();
-				
+				String XPos = tileElement.getElementsByTagName(ISaveConstants.XPOS_TAG).item(0).getTextContent();
+				String YPos = tileElement.getElementsByTagName(ISaveConstants.YPOS_TAG).item(0).getTextContent();
+				String streetName = tileElement.getElementsByTagName(ISaveConstants.STREET_TAG).item(0).getTextContent();
+
 				Tile mapTile = glob.getMap().getTile(Double.parseDouble(XPos),Double.parseDouble(YPos));
 				glob.getStreetFactory().createStreet(mapTile,streetName);
 			}
 
 		}
 
-		return false;
+		return true;
 	}
 }

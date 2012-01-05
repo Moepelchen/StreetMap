@@ -2,6 +2,7 @@ package streetmap.Handlers.gui;
 
 import org.xml.sax.SAXException;
 import streetmap.Handlers.Filter.TextFileFilter;
+import streetmap.LoadSaveHandling.config.ConfigLoader;
 import streetmap.LoadSaveHandling.map.MapLoader;
 import streetmap.SSGlobals;
 
@@ -11,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -42,9 +44,11 @@ public class LoadHandler extends ClickHandler
             File file = fFileChooser.getSelectedFile();
             if(file != null){
 	            MapLoader mapLoader= new MapLoader();
+	            ConfigLoader configLoader = new ConfigLoader();
 	            try
 	            {
-		            mapLoader.loadMap(file,fGlobals);
+		            configLoader.load(file, fGlobals);
+		            mapLoader.load(file, fGlobals);
 	            } catch (ParserConfigurationException e1)
 	            {
 		            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -52,6 +56,15 @@ public class LoadHandler extends ClickHandler
 	            {
 		            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 	            } catch (SAXException e1)
+	            {
+		            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+	            } catch (NoSuchMethodException e1)
+	            {
+		            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+	            } catch (IllegalAccessException e1)
+	            {
+		            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+	            } catch (InvocationTargetException e1)
 	            {
 		            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 	            }

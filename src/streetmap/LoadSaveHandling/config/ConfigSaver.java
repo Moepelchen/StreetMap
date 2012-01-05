@@ -35,7 +35,7 @@ public class ConfigSaver
 					writeMethodEndTag(method.getName(), out);
 				}
 			}
-			endConfigtag(out);
+			endConfigTag(out);
 		} catch (IllegalAccessException e)
 		{
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -48,7 +48,7 @@ public class ConfigSaver
 		}
 	}
 
-	private static void endConfigtag(BufferedWriter out) throws IOException
+	private static void endConfigTag(BufferedWriter out) throws IOException
 	{
 		out.write("</");
 		out.write(ISaveConstants.END_CONFIG_TAG);
