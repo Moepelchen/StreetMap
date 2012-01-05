@@ -61,6 +61,12 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 	 */
 	public Map(SSGlobals globals)
 	{
+		init(globals);
+
+	}
+
+	private void init(SSGlobals globals)
+	{
 		//setting up display configuration
 		fHeight = globals.getConfig().getHeight();
 		fWidth = globals.getConfig().getWidth();
@@ -187,4 +193,8 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
     public Tile[][] getTiles() {
         return fTiles;
     }
+
+	public void reset(){
+		init(fGlobals);
+	}
 }

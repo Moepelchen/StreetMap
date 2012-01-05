@@ -6,12 +6,10 @@ import streetmap.LoadSaveHandling.map.MapSaver;
 import streetmap.SSGlobals;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,7 +18,7 @@ import java.io.Writer;
  * Time: 10:28 AM
  * To change this template use File | Settings | File Templates.
  */
-public class SaveHandler extends ClickHandler implements ActionListener
+public class SaveHandler extends ClickHandler
 {
 
 
@@ -36,7 +34,7 @@ public class SaveHandler extends ClickHandler implements ActionListener
 	{
 		try
 		{
-			File file = new File("./save/" + getSaveFileName()+".txt");
+			File file = new File("./save/" + getSaveFileName()+".xml");
 			if (!file.exists())
 			{
 
@@ -48,13 +46,11 @@ public class SaveHandler extends ClickHandler implements ActionListener
 
 			output = new BufferedWriter(new FileWriter(file));
 
-
+			beginMapTag(output);
 			MapSaver.saveMap(output, fGlobals.getMap());
             output.newLine();
-            output.write(ISaveConstants.BLOCK_SEPERATOR);
-            output.newLine();
 			ConfigSaver.saveConfig(output, fGlobals.getConfig());
-
+			endMapTag(output);
 
 			output.close();
 
@@ -63,6 +59,20 @@ public class SaveHandler extends ClickHandler implements ActionListener
 			e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 		}
 	}
+
+	private void beginMapTag(BufferedWriter output) throws IOException
+		{
+			output.write("<");
+			output.write(ISaveConstants.MAP_TAG);
+			output.write(">");
+		}
+
+	private void endMapTag(BufferedWriter output) throws IOException
+		{
+			output.write("</");
+			output.write(ISaveConstants.MAP_TAG);
+			output.write(">");
+		}
 
 	public String getSaveFileName()
 	{

@@ -6,7 +6,6 @@ import streetmap.config.Config;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -21,26 +20,56 @@ public class ConfigSaver
 {
 
 
-	public static void saveConfig(BufferedWriter out,IConfig config){
-		for (Method method : config.getClass().getMethods())
+	public static void saveConfig(BufferedWriter out, IConfig config)
+	{
+		try
 		{
-			if(method.getDeclaringClass().equals(Config.class)){
-				System.out.println("method = " + method.getName() +"  "+method.getDeclaringClass());
-				try
+			beginConfigTag(out);
+
+			for (Method method : config.getClass().getMethods())
+			{
+				if (method.getDeclaringClass().equals(Config.class))
 				{
+					writeMethodStartTag(method.getName(), out);
 					out.write(String.valueOf(method.invoke(config)));
-					out.write(ISaveConstants.CONFIG_SEPERATOR);
-				} catch (IllegalAccessException e)
-				{
-					e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-				} catch (InvocationTargetException e)
-				{
-					e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-				} catch (IOException e)
-				{
-					e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+					writeMethodEndTag(method.getName(), out);
 				}
 			}
+			endConfigtag(out);
+		} catch (IllegalAccessException e)
+		{
+			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+		} catch (InvocationTargetException e)
+		{
+			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+		} catch (IOException e)
+		{
+			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 		}
+	}
+
+	private static void endConfigtag(BufferedWriter out) throws IOException
+	{
+		out.write("</");
+		out.write(ISaveConstants.END_CONFIG_TAG);
+		out.write(">");
+
+	}
+
+	private static void beginConfigTag(BufferedWriter out) throws IOException
+	{
+		out.write("<");
+		out.write(ISaveConstants.CONFIG_TAG);
+		out.write(">");
+	}
+
+	private static void writeMethodEndTag(String name, BufferedWriter out) throws IOException
+	{
+		out.write("</" + name + ">");
+	}
+
+	private static void writeMethodStartTag(String name, BufferedWriter out) throws IOException
+	{
+		out.write("<" + name + ">");
 	}
 }

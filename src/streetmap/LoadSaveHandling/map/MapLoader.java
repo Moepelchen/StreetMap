@@ -1,5 +1,20 @@
 package streetmap.LoadSaveHandling.map;
 
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import streetmap.SSGlobals;
+import streetmap.Tile;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
+
 /**
  * Created by IntelliJ IDEA.
  * User: ulrich.tewes
@@ -9,4 +24,34 @@ package streetmap.LoadSaveHandling.map;
  */
 public class MapLoader
 {
+	public boolean loadMap(File file, SSGlobals glob) throws ParserConfigurationException, IOException, SAXException
+	{
+		// reset Map
+		glob.getMap().reset();
+
+		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+		Document doc = docBuilder.parse(file);
+
+		doc.getDocumentElement().normalize();
+
+		NodeList tileList = doc.getElementsByTagName("Tile");
+		int totalPersons = tileList.getLength();
+		for(int i = 0; i<tileList.getLength();i++){
+			Node tile = tileList.item(i);
+			if(tile.getNodeType() == Node.ELEMENT_NODE){
+				Element tileElement = (Element) tile;
+
+				String XPos = tileElement.getElementsByTagName("XPos").item(0).getTextContent();
+				String YPos = tileElement.getElementsByTagName("YPos").item(0).getTextContent();
+				String streetName = tileElement.getElementsByTagName("Street").item(0).getTextContent();
+				
+				Tile mapTile = glob.getMap().getTile(Double.parseDouble(XPos),Double.parseDouble(YPos));
+				glob.getStreetFactory().createStreet(mapTile,streetName);
+			}
+
+		}
+
+		return false;
+	}
 }

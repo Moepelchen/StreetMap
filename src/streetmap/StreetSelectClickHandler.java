@@ -31,7 +31,6 @@ public class StreetSelectClickHandler implements IPrintable
 
 	public void handleClick()
 	{
-		//System.out.println("fTile.getStreet().toString() = " + fTile.getStreet().toString());
 		fGlobals.setSelectedStreetTemplate(fTile.getStreet().toString());
 	}
 }
