@@ -1,4 +1,8 @@
-package streetmap;
+package streetmap.Handlers.gui;
+
+import streetmap.Map;
+import streetmap.SSGlobals;
+import streetmap.Tile;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

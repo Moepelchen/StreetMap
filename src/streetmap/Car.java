@@ -62,4 +62,9 @@ public class Car implements IPrintable, ISimulateable
 		if (trajectory != null)
 			setPosition(trajectory.calculatePosition(fPosition, getLane().getGlobals().getConfig().getTileSize() / 50));
 	}
+
+
+	public void reset(Lane lane){
+		fLane = lane;
+	}
 }

@@ -24,6 +24,30 @@ public class Lane implements IPrintable, ISimulateable
 
 	private HashMap<Anchor, String> fDirections;
 
+	private boolean isEnd;
+
+	public boolean isEndLane()
+	{
+		return isEnd;
+	}
+
+	public void setIsEndLane(boolean end)
+	{
+		isEnd = end;
+	}
+
+	public boolean isStartLane()
+	{
+		return isStart;
+	}
+
+	public void setIsStartLane(boolean start)
+	{
+		isStart = start;
+	}
+
+	private boolean isStart;
+
 	public Lane(SSGlobals glob)
 	{
 		fGlobals = glob;
@@ -45,7 +69,7 @@ public class Lane implements IPrintable, ISimulateable
 	public void simulate()
 	{
 		Vector<Car> toRemoveCars = new Vector<Car>();
-		if (Math.random() < 0.01)
+		if (Math.random() < 0.10 && this.isStartLane())
 		{
 			Car car = new Car(this, fStartAnchor.getPosition());
 			fCars.add(car);
@@ -57,10 +81,19 @@ public class Lane implements IPrintable, ISimulateable
 			if (!carOnLane(fCar))
 			{
 				toRemoveCars.add(fCar);
-
+				Lane randomOtherLane = fEndAnchor.getRandomOtherLane();
+				if (randomOtherLane != null)
+					randomOtherLane.addCar(fCar);
 			}
 		}
 		fCars.removeAll(toRemoveCars);
+	}
+
+	private void addCar(Car fCar)
+	{
+		fCar.setPosition(fStartAnchor.getPosition());
+		fCar.reset(this);
+		fCars.add(fCar);
 	}
 
 	private boolean carOnLane(Car fCar)

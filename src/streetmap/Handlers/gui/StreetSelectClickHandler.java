@@ -1,6 +1,8 @@
-package streetmap;
+package streetmap.Handlers.gui;
 
 import streetmap.Interfaces.IPrintable;
+import streetmap.SSGlobals;
+import streetmap.Tile;
 
 import java.awt.*;
 

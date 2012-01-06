@@ -1,4 +1,7 @@
-package streetmap;
+package streetmap.GUI;
+
+import streetmap.Map;
+import streetmap.SSGlobals;
 
 import javax.swing.*;
 import java.awt.*;

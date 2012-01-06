@@ -18,12 +18,13 @@ public class Street implements IPrintable, ISimulateable
 	private Tile fTile;
 	private String fName;
 	private SSGlobals fGlobals;
+	private boolean fisStartEnd;
 
-	public Street(SSGlobals glob, Tile tile, String name)
+	public Street(SSGlobals glob, Tile tile, String name, boolean isStartEndPoint)
 	{
 		fName = name;
 		fGlobals = glob;
-
+		fisStartEnd = isStartEndPoint;
 		fTile = tile;
 		fLanes = new Vector<Lane>();
 	}
@@ -80,5 +81,10 @@ public class Street implements IPrintable, ISimulateable
 	public String getName()
 	{
 		return fName;
+	}
+
+	public boolean isStartEnd()
+	{
+		return fisStartEnd;
 	}
 }

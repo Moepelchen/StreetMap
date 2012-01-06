@@ -1,7 +1,8 @@
-package streetmap;
+package streetmap.GUI;
 
 import streetmap.Handlers.gui.LoadHandler;
 import streetmap.Handlers.gui.SaveHandler;
+import streetmap.SSGlobals;
 
 import javax.swing.*;
 import java.awt.*;

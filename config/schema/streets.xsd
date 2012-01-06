@@ -19,7 +19,6 @@
 
     <xsd:complexType name="LaneTemplates">
         <xsd:sequence>
-
             <xsd:element name="LaneTemplate" type="LaneTemplate" minOccurs="1" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>
@@ -27,6 +26,8 @@
 
     <xsd:complexType name="LaneTemplate">
         <xsd:sequence>
+            <xsd:element name="isStartPoint" type="xsd:boolean"/>
+             <xsd:element name="isEndPoint" type="xsd:boolean"/>
             <xsd:element name="from" type="xsd:string"/>
             <xsd:element name="to" type="xsd:string"/>
         </xsd:sequence>

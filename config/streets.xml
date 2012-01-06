@@ -303,7 +303,7 @@
     </StreetTemplate>
 
     <StreetTemplate>
-        <name>TestTraj</name>
+        <name>SNSingle</name>
         <imagePath>./images/streets/NSsingle.png</imagePath>
         <LaneTemplates>
             <LaneTemplate>
@@ -314,7 +314,7 @@
     </StreetTemplate>
 
     <StreetTemplate>
-        <name>TestTraj2</name>
+        <name>NSSingle</name>
         <imagePath>./images/streets/SNsingle.png</imagePath>
         <LaneTemplates>
             <LaneTemplate>
@@ -324,16 +324,40 @@
         </LaneTemplates>
     </StreetTemplate>
 
-    <StreetTemplate>
-        <name>TestTraj3</name>
-        <imagePath>./images/streets/SNsingle.png</imagePath>
+     <StreetTemplate>
+        <name>SouthNorthEntry</name>
+        <imagePath>./images/streets/NSEntry.png</imagePath>
+         <isStartEndPoint>true</isStartEndPoint>
         <LaneTemplates>
             <LaneTemplate>
-                <from>W</from>
+                 <isEndPoint>true</isEndPoint>
+                <from>N</from>
                 <to>S</to>
+            </LaneTemplate>
+            <LaneTemplate>
+                 <isStartPoint>true</isStartPoint>
+                <from>S</from>
+                <to>N</to>
+            </LaneTemplate>
+        </LaneTemplates>
+
+    </StreetTemplate>
+    <StreetTemplate>
+        <name>WestEastEntry</name>
+        <imagePath>./images/streets/WEEntry.png</imagePath>
+        <isStartEndPoint>true</isStartEndPoint>
+        <LaneTemplates>
+            <LaneTemplate>
+                <isEndPoint>true</isEndPoint>
+                <from>W</from>
+                <to>E</to>
+            </LaneTemplate>
+            <LaneTemplate>
+                <isStartPoint>true</isStartPoint>
+                <from>E</from>
+                <to>W</to>
             </LaneTemplate>
         </LaneTemplates>
     </StreetTemplate>
-
 
 </StreetTemplates>

@@ -1,5 +1,6 @@
 package streetmap;
 
+import streetmap.Handlers.gui.MapClickHandler;
 import streetmap.Interfaces.IPrintable;
 import streetmap.Interfaces.ISimulateable;
 
@@ -9,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.util.Vector;
 
 /**
  * This represents the the whole Street-Map. The map consist of an Array of Tiles.
@@ -53,6 +55,8 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 	 * graphics to draw
 	 */
 	private Graphics2D fGraphics;
+	private Vector<Lane> fStartingLanes;
+	private Vector<Lane> fEndLanes;
 
 	/**
 	 * Constructor setting everything up
@@ -78,7 +82,8 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 		int numberOfTilesX = (int) (fWidth / fTileSize);
 		int numberOfTilesY = (int) (fHeight / fTileSize);
 		fTiles = new Tile[numberOfTilesX][numberOfTilesY];
-
+		fStartingLanes = new Vector<Lane>();
+		fEndLanes = new Vector<Lane>();
 		generateTiles();
 
 
@@ -229,5 +234,22 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 	public void reset()
 	{
 		init(fGlobals);
+	}
+
+	public void removeStart(Lane lane)
+	{
+		fStartingLanes.remove(lane);
+	}
+	public void addStart(Lane lane)
+	{
+		fStartingLanes.add(lane);
+	}
+	public void removeEnd(Lane lane)
+	{
+		fEndLanes.remove(lane);
+	}
+	public void addEnd(Lane lane)
+	{
+		fEndLanes.add(lane);
 	}
 }

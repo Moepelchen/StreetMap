@@ -1,5 +1,8 @@
-package streetmap;
+package streetmap.GUI;
 
+import streetmap.Handlers.gui.StreetSelectClickHandler;
+import streetmap.SSGlobals;
+import streetmap.Tile;
 import streetmap.xml.jaxb.StreetTemplate;
 
 import javax.swing.*;

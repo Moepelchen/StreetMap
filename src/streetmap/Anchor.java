@@ -16,6 +16,7 @@ public class Anchor implements IPrintable
 	private boolean fBlocked;
 	private String fCompassPoint;
 
+
 	public Anchor(Point2D position, String compassPoint)
 	{
 		fPosition = position;
@@ -65,5 +66,18 @@ public class Anchor implements IPrintable
 	public String getCompassPoint()
 	{
 		return fCompassPoint;
+	}
+
+	public Lane getRandomOtherLane()
+	{
+		int index = (int) (Math.floor(fLanes.size() * Math.random()));
+
+			Object[] objects = fLanes.keySet().toArray();
+		if(objects.length >0)
+		{
+			String test = (String) objects[index];
+			return fLanes.get(test);
+		}
+		return null;
 	}
 }

@@ -41,11 +41,18 @@ public class StreetFactory
 	public Street createStreet(Tile tile, String streetName)
 	{
 		StreetTemplate template = fStreetConfig.getTemplate(streetName);
+		if (tile.getStreet() != null && tile.getStreet().isStartEnd())
+		{
+			for (Lane lane : tile.getStreet().getLanes())
+			{
+				tile.getMap().removeStart(lane);
+			}
 
+		}
 		Street street = null;
 		if (template != null)
 		{
-			street = new Street(fGlobals, tile, streetName);
+			street = new Street(fGlobals, tile, streetName, false);
 			generateLanes(street, template.getLaneTemplates(), tile);
 			tile.setStreet(street);
 		}
@@ -74,7 +81,8 @@ public class StreetFactory
 			Side dest = tile.getSide(to);
 
 			lane.setType(getLaneType(from, to));
-
+			lane.setIsEndLane(laneTemplate.isIsEndPoint());
+			lane.setIsStartLane(laneTemplate.isIsStartPoint());
 			if (lane.getType() == ILaneTypes.STRAIGHT)
 			{
 				createStraight(lane, start, dest, from, to);
@@ -90,6 +98,17 @@ public class StreetFactory
 			lane.init();
 
 			street.addLane(lane);
+			if (tile.getMap() != null)
+			{
+				if (lane.isStartLane())
+				{
+					tile.getMap().addStart(lane);
+				} else if (lane.isEndLane())
+				{
+
+					tile.getMap().addEnd(lane);
+				}
+			}
 
 		}
 	}
