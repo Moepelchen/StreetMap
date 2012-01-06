@@ -108,7 +108,7 @@ public class Lane implements IPrintable, ISimulateable
 		{
 			return true;
 		}
-		return false;  //To change body of created methods use File | Settings | File Templates.
+		return false;  
 	}
 
 	public void setStart(Anchor start, String compass)
