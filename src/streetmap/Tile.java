@@ -239,7 +239,8 @@ public class Tile implements IPrintable, ISimulateable
 
 	public void simulate()
 	{
-		//To change body of implemented methods use File | Settings | File Templates.
+		if(fStreet != null)
+			fStreet.simulate();
 	}
 
 	public Side getSide(String direction)

@@ -50,19 +50,21 @@ public class Street implements IPrintable, ISimulateable
 			g.drawImage(image, (int) (fTile.getArrayPosition().getX() * tileSize), (int) (fTile.getArrayPosition().getY() * tileSize), tileSize.intValue(), tileSize.intValue(), null);
 		}
 
-		if (fGlobals.getConfig().isDrawLanes())
-		{
+
 			for (Lane lane : fLanes)
 			{
 				lane.print(g);
 
 			}
-		}
+
 	}
 
 	public void simulate()
 	{
-		//To change body of implemented methods use File | Settings | File Templates.
+		for (Lane fLane : fLanes)
+		{
+			fLane.simulate();
+		}
 	}
 
 	public void addLane(Lane lane)

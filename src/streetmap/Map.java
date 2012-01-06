@@ -164,6 +164,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 
 	public void paint(Graphics g)
 	{
+		this.simulate();
 		super.paint(g);
 		fGraphics.clearRect(0, 0, fWidth.intValue() + 5, fHeight.intValue() + 5);
 		this.print(fGraphics);

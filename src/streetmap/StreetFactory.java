@@ -65,7 +65,7 @@ public class StreetFactory
 		Lane lane = null;
 		for (LaneTemplate laneTemplate : laneTemplates.getLaneTemplate())
 		{
-			lane = new Lane();
+			lane = new Lane(fGlobals);
 			String from = laneTemplate.getFrom();
 			String to = laneTemplate.getTo();
 
@@ -86,6 +86,8 @@ public class StreetFactory
 
 			// add this lane as a starting point to the compassPoint "to" from the starting anchor of the lane
 			lane.getStart().addLane(to, lane);
+
+			lane.init();
 
 			street.addLane(lane);
 

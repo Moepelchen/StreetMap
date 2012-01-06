@@ -61,14 +61,12 @@ public class ConfigLoader extends Loader
 					{
 
 						String value = configElement.getElementsByTagName(method.getName()).item(0).getTextContent();
-						System.out.println("method.getName() = " + method.getName()+" = " + value);
 						int beginIndex = 3;
 						if(method.getReturnType().equals(boolean.class)){
 							beginIndex = 2;
 						}
 						String name = "set" + method.getName().substring(beginIndex);
 						Method setMethod = config.getClass().getMethod(name, method.getReturnType());
-						System.out.println("setMethod.getName() = " + setMethod.getName());
 						Object[] args = new Object[1];
 						args[0] = ReflectionUtils.cast(value,method.getReturnType());
 						setMethod.invoke(config,args);
