@@ -16,7 +16,8 @@ public abstract class ClickHandler implements ActionListener
 {
 	protected SSGlobals fGlobals;
 
-	public ClickHandler(SSGlobals globals){
+	public ClickHandler(SSGlobals globals)
+	{
 		this.fGlobals = globals;
 	}
 

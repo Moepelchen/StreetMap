@@ -15,7 +15,9 @@ public class Car implements IPrintable, ISimulateable
 
 	private Lane fLane;
 
-	private Trajectory fTrjectory;
+	private StraightTrajectory fTrjectory;
+	private Color fColor;
+
 
 	public Point2D getPosition()
 	{
@@ -41,11 +43,12 @@ public class Car implements IPrintable, ISimulateable
 	{
 		fLane = lane;
 		fPosition = pos;
+		fColor = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()));
 	}
 
 	public void print(Graphics2D g)
 	{
-		DrawHelper.drawCar(g, this);
+		DrawHelper.drawCar(g, this, fColor);
 	}
 
 	public void simulate()
@@ -55,8 +58,8 @@ public class Car implements IPrintable, ISimulateable
 
 	private void move()
 	{
-		Trajectory trajectory = fLane.getTrajectory();
+		StraightTrajectory trajectory = fLane.getTrajectory();
 		if (trajectory != null)
-			setPosition(trajectory.calculatePosition(fPosition, 0.5));
+			setPosition(trajectory.calculatePosition(fPosition, getLane().getGlobals().getConfig().getTileSize() / 50));
 	}
 }

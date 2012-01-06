@@ -96,5 +96,5 @@ public class Config implements IConfig
 	public Double getWidth()
 	{
 		return fConfig.getWidth();
-    }
+	}
 }

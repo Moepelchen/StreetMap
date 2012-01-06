@@ -17,9 +17,10 @@ public class MenuPanel extends JPanel
 {
 	private SSGlobals fGlobals;
 
-	public MenuPanel(SSGlobals glob){
+	public MenuPanel(SSGlobals glob)
+	{
 		fGlobals = glob;
-		this.setPreferredSize(new Dimension(200,500));
+		this.setPreferredSize(new Dimension(200, 500));
 		JButton save = new JButton("Save");
 		save.addActionListener(new SaveHandler(fGlobals));
 		this.add(save);

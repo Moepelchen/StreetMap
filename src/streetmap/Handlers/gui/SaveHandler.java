@@ -34,7 +34,7 @@ public class SaveHandler extends ClickHandler
 	{
 		try
 		{
-			File file = new File("./save/" + getSaveFileName()+".xml");
+			File file = new File("./save/" + getSaveFileName() + ".xml");
 			if (!file.exists())
 			{
 
@@ -48,7 +48,7 @@ public class SaveHandler extends ClickHandler
 
 			beginMapTag(output);
 			MapSaver.saveMap(output, fGlobals.getMap());
-            output.newLine();
+			output.newLine();
 			ConfigSaver.saveConfig(output, fGlobals.getConfig());
 			endMapTag(output);
 
@@ -61,18 +61,18 @@ public class SaveHandler extends ClickHandler
 	}
 
 	private void beginMapTag(BufferedWriter output) throws IOException
-		{
-			output.write("<");
-			output.write(ISaveConstants.MAP_TAG);
-			output.write(">");
-		}
+	{
+		output.write("<");
+		output.write(ISaveConstants.MAP_TAG);
+		output.write(">");
+	}
 
 	private void endMapTag(BufferedWriter output) throws IOException
-		{
-			output.write("</");
-			output.write(ISaveConstants.MAP_TAG);
-			output.write(">");
-		}
+	{
+		output.write("</");
+		output.write(ISaveConstants.MAP_TAG);
+		output.write(">");
+	}
 
 	public String getSaveFileName()
 	{

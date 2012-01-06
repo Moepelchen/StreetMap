@@ -12,9 +12,9 @@ public class VerticalSide extends Side
 	 * @param glob     globals
 	 * @param position center of this side
 	 */
-	public VerticalSide(SSGlobals glob,Tile tile, Point2D position, String compassPoint)
+	public VerticalSide(SSGlobals glob, Tile tile, Point2D position, String compassPoint)
 	{
-		super(glob,tile, position, compassPoint);
+		super(glob, tile, position, compassPoint);
 	}
 
 	public void setAnchors()

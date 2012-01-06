@@ -6,5 +6,5 @@
     <drawlanes>false</drawlanes>
     <width>400</width>
     <height>400</height>
-    <tilesize>50</tilesize>
+    <tilesize>60</tilesize>
 </JAXBConfig>

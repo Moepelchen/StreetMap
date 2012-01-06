@@ -30,7 +30,7 @@ public class MapLoader extends Loader
 	@Override
 	public boolean load(File file, SSGlobals glob) throws ParserConfigurationException, IOException, SAXException
 	{
-			// reset Map
+		// reset Map
 		glob.getMap().reset();
 
 		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -41,17 +41,19 @@ public class MapLoader extends Loader
 
 		NodeList tileList = doc.getElementsByTagName(ISaveConstants.TILE_TAG);
 		int totalPersons = tileList.getLength();
-		for(int i = 0; i<tileList.getLength();i++){
+		for (int i = 0; i < tileList.getLength(); i++)
+		{
 			Node tile = tileList.item(i);
-			if(tile.getNodeType() == Node.ELEMENT_NODE){
+			if (tile.getNodeType() == Node.ELEMENT_NODE)
+			{
 				Element tileElement = (Element) tile;
 
 				String XPos = tileElement.getElementsByTagName(ISaveConstants.XPOS_TAG).item(0).getTextContent();
 				String YPos = tileElement.getElementsByTagName(ISaveConstants.YPOS_TAG).item(0).getTextContent();
 				String streetName = tileElement.getElementsByTagName(ISaveConstants.STREET_TAG).item(0).getTextContent();
 
-				Tile mapTile = glob.getMap().getTile(Double.parseDouble(XPos),Double.parseDouble(YPos));
-				glob.getStreetFactory().createStreet(mapTile,streetName);
+				Tile mapTile = glob.getMap().getTile(Double.parseDouble(XPos), Double.parseDouble(YPos));
+				glob.getStreetFactory().createStreet(mapTile, streetName);
 			}
 
 		}

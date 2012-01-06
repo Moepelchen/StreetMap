@@ -135,6 +135,36 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 	public void print(Graphics2D g)
 	{
 
+		drawTiles(g);
+		drawCars(g);
+	}
+
+	private void drawCars(Graphics2D g)
+	{
+		for (Tile[] fTile : fTiles)
+		{
+			for (Tile tile : fTile)
+			{
+				for (Tile tile1 : fTile)
+				{
+					Street street = tile.getStreet();
+					if (street != null)
+					{
+						for (Lane lane : street.getLanes())
+						{
+							for (Car car : lane.getCars())
+							{
+								car.print(g);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private void drawTiles(Graphics2D g)
+	{
 		for (Tile[] fTile : fTiles)
 		{
 			for (Tile tile : fTile)
@@ -191,11 +221,13 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 		repaint();
 	}
 
-    public Tile[][] getTiles() {
-        return fTiles;
-    }
+	public Tile[][] getTiles()
+	{
+		return fTiles;
+	}
 
-	public void reset(){
+	public void reset()
+	{
 		init(fGlobals);
 	}
 }

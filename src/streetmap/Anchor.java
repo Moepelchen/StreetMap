@@ -61,4 +61,9 @@ public class Anchor implements IPrintable
 
 		fLanes.put(to, lane);
 	}
+
+	public String getCompassPoint()
+	{
+		return fCompassPoint;
+	}
 }

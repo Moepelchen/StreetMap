@@ -51,11 +51,11 @@ public class Street implements IPrintable, ISimulateable
 		}
 
 
-			for (Lane lane : fLanes)
-			{
-				lane.print(g);
+		for (Lane lane : fLanes)
+		{
+			lane.print(g);
 
-			}
+		}
 
 	}
 
@@ -77,7 +77,8 @@ public class Street implements IPrintable, ISimulateable
 		return fName;
 	}
 
-    public String getName() {
-        return fName;
-    }
+	public String getName()
+	{
+		return fName;
+	}
 }

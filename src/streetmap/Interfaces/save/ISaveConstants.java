@@ -22,8 +22,8 @@ public interface ISaveConstants
 
 	public static final String STREET_TAG = "Street";
 	public static final String END_STREET_TAG = "Street";
-	public static final String TILES_TAG="Tiles";
-	public static final String END_TILES_TAG="Tiles";
+	public static final String TILES_TAG = "Tiles";
+	public static final String END_TILES_TAG = "Tiles";
 
 	public static final String CONFIG_SEPERATOR = "/";
 

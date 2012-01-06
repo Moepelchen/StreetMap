@@ -24,52 +24,53 @@ import java.lang.reflect.InvocationTargetException;
 public class LoadHandler extends ClickHandler
 {
 	//Create a file chooser
-	final JFileChooser fFileChooser = new JFileChooser();
+	final JFileChooser fFileChooser = new JFileChooser("./");
 
 	public LoadHandler(SSGlobals globals)
 	{
 		super(globals);
 		fFileChooser.setAcceptAllFileFilterUsed(false);
 		fFileChooser.addChoosableFileFilter(new TextFileFilter());
-
-
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-	int returnVal = fFileChooser.showOpenDialog((Component) e.getSource());
 
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = fFileChooser.getSelectedFile();
-            if(file != null){
-	            MapLoader mapLoader= new MapLoader();
-	            ConfigLoader configLoader = new ConfigLoader();
-	            try
-	            {
-		            configLoader.load(file, fGlobals);
-		            mapLoader.load(file, fGlobals);
-	            } catch (ParserConfigurationException e1)
-	            {
-		            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-	            } catch (IOException e1)
-	            {
-		            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-	            } catch (SAXException e1)
-	            {
-		            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-	            } catch (NoSuchMethodException e1)
-	            {
-		            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-	            } catch (IllegalAccessException e1)
-	            {
-		            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-	            } catch (InvocationTargetException e1)
-	            {
-		            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-	            }
-            }
-        }
+		int returnVal = fFileChooser.showOpenDialog((Component) e.getSource());
+
+		if (returnVal == JFileChooser.APPROVE_OPTION)
+		{
+			File file = fFileChooser.getSelectedFile();
+			if (file != null)
+			{
+				MapLoader mapLoader = new MapLoader();
+				ConfigLoader configLoader = new ConfigLoader();
+				try
+				{
+					configLoader.load(file, fGlobals);
+					mapLoader.load(file, fGlobals);
+				} catch (ParserConfigurationException e1)
+				{
+					e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+				} catch (IOException e1)
+				{
+					e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+				} catch (SAXException e1)
+				{
+					e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+				} catch (NoSuchMethodException e1)
+				{
+					e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+				} catch (IllegalAccessException e1)
+				{
+					e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+				} catch (InvocationTargetException e1)
+				{
+					e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+				}
+			}
+		}
 
 	}
 }

@@ -98,20 +98,20 @@ public class StreetFactory
 	{
 		if ((from.equals("E") && to.equals("N")) || (from.equals("S") && to.equals("W")))
 		{
-			lane.setStart(start.getAnchorTwo());
-			lane.setEnd(dest.getAnchorTwo());
+			lane.setStart(start.getAnchorTwo(), from);
+			lane.setEnd(dest.getAnchorTwo(), to);
 		} else if ((from.equals("N") && to.equals("E")) || (from.equals("W") && to.equals("S")))
 		{
-			lane.setStart(start.getAnchorOne());
-			lane.setEnd(dest.getAnchorOne());
+			lane.setStart(start.getAnchorOne(), from);
+			lane.setEnd(dest.getAnchorOne(), to);
 		} else if ((from.equals("S") && to.equals("E")) || (from.equals("E") && to.equals("S")))
 		{
-			lane.setStart(start.getAnchorTwo());
-			lane.setEnd(dest.getAnchorOne());
+			lane.setStart(start.getAnchorTwo(), from);
+			lane.setEnd(dest.getAnchorOne(), to);
 		} else if ((from.equals("W") && to.equals("N")) || (from.equals("N") && to.equals("W")))
 		{
-			lane.setStart(start.getAnchorOne());
-			lane.setEnd(dest.getAnchorTwo());
+			lane.setStart(start.getAnchorOne(), from);
+			lane.setEnd(dest.getAnchorTwo(), to);
 		}
 	}
 
@@ -119,12 +119,12 @@ public class StreetFactory
 	{
 		if (from.equals("S") || from.equals("E"))
 		{
-			lane.setStart(start.getAnchorTwo());
-			lane.setEnd(dest.getAnchorTwo());
+			lane.setStart(start.getAnchorTwo(), from);
+			lane.setEnd(dest.getAnchorTwo(), to);
 		} else
 		{
-			lane.setStart(start.getAnchorOne());
-			lane.setEnd(dest.getAnchorOne());
+			lane.setStart(start.getAnchorOne(), from);
+			lane.setEnd(dest.getAnchorOne(), to);
 		}
 	}
 

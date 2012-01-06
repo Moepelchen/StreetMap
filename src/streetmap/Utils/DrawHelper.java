@@ -14,8 +14,12 @@ import java.awt.*;
 public class DrawHelper
 {
 
-	public static void drawCar(Graphics2D g, Car car){
-		g.drawRect((int)car.getPosition().getX() ,(int)car.getPosition().getY(),10,10);
+	public static void drawCar(Graphics2D g, Car car, Color color)
+	{
+		int width;
+		g.setColor(color);
+		width = (int) (car.getLane().getGlobals().getConfig().getTileSize() / 4);
+		g.fillOval((int) car.getPosition().getX() - width / 2, (int) car.getPosition().getY() - width / 2, width, width);
 
 	}
 }
