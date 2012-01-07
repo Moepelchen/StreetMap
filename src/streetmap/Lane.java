@@ -25,8 +25,10 @@ public class Lane implements IPrintable, ISimulateable
 	private HashMap<Anchor, String> fDirections;
 
 	private boolean isEnd;
+    private String fTo;
+    private String fFrom;
 
-	public boolean isEndLane()
+    public boolean isEndLane()
 	{
 		return isEnd;
 	}
@@ -63,13 +65,19 @@ public class Lane implements IPrintable, ISimulateable
 			g.setColor(Color.PINK);
 			g.drawLine((int) fStartAnchor.getPosition().getX(), (int) fStartAnchor.getPosition().getY(), (int) fEndAnchor.getPosition().getX(), (int) fEndAnchor.getPosition().getY());
 		}
-		//drawCars(g);
+		drawCars(g);
 	}
 
-	public void simulate()
+    private void drawCars(Graphics2D g) {
+        for (Car fCar : fCars) {
+            fCar.print(g);
+        }
+    }
+
+    public void simulate()
 	{
 		Vector<Car> toRemoveCars = new Vector<Car>();
-		if (Math.random() < 0.10 && this.isStartLane())
+		if (Math.random() < 0.05 && this.isStartLane())
 		{
 			Car car = new Car(this, fStartAnchor.getPosition());
 			fCars.add(car);
@@ -167,4 +175,24 @@ public class Lane implements IPrintable, ISimulateable
 	{
 		return fDirections.get(anc);
 	}
+    
+    public void setTo(String to){
+        fTo = to;
+    }
+
+    public String getfTo() {
+        return fTo;
+    }
+
+    public void setfTo(String fTo) {
+        this.fTo = fTo;
+    }
+
+    public String getfFrom() {
+        return fFrom;
+    }
+
+    public void setfFrom(String fFrom) {
+        this.fFrom = fFrom;
+    }
 }

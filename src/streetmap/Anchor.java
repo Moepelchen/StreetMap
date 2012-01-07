@@ -80,4 +80,8 @@ public class Anchor implements IPrintable
 		}
 		return null;
 	}
+
+    public void removeLane(String s, Lane lane) {
+        fLanes.remove(s);
+    }
 }

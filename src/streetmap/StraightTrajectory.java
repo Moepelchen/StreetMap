@@ -61,18 +61,22 @@ public class StraightTrajectory implements ITrajectory
 
 	}
 
-	public Point2D calculatePosition(Point2D pos, double speed)
-	{
-		Point2D newPos = new Point2D.Double();
-		double x = pos.getX() + fDirection * speed;
-		if (fA != INT)
-			newPos.setLocation(x, fA * x + fB);
-		else if (fA == INT)
-		{
-			newPos.setLocation(pos.getX(), pos.getY() - fDirection * speed);
-		}
+    public Point2D calculatePosition(Point2D pos, double speed)
+    {
+        Point2D newPos = new Point2D.Double();
+        if (fLane.getType() == ILaneTypes.BEND)
+        {
+            speed = speed / 2;
+        }
+        double x = pos.getX() + fDirection * speed;
+        if (fA != INT)
+            newPos.setLocation(x, fA * x + fB);
+        else if (fA == INT)
+        {
+            newPos.setLocation(pos.getX(), pos.getY() - fDirection * speed);
+        }
 
 
-		return newPos;
-	}
+        return newPos;
+    }
 }

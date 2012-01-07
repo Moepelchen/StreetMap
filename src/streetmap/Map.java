@@ -141,7 +141,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 	{
 
 		drawTiles(g);
-		drawCars(g);
+		//drawCars(g);
 	}
 
 	private void drawCars(Graphics2D g)
@@ -220,7 +220,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 			Map map = new Map(globals);
 		}*/
 
-	@Override
+
 	public void actionPerformed(ActionEvent e)
 	{
 		repaint();
