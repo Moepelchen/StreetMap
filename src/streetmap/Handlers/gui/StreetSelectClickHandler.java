@@ -13,6 +13,10 @@ import java.awt.*;
  * Time: 7:48 AM
  * To change this template use File | Settings | File Templates.
  */
+
+/**
+ * This class handles the street selection
+ */
 public class StreetSelectClickHandler implements IPrintable
 {
 	private Tile fTile;

@@ -14,6 +14,10 @@ import java.awt.*;
  * Time: 10:21 AM
  * To change this template use File | Settings | File Templates.
  */
+
+/**
+ * MenuPanel contains all GUI components for configuration/load/saving
+ */
 public class MenuPanel extends JPanel
 {
 	private SSGlobals fGlobals;

@@ -9,6 +9,11 @@ import streetmap.Interfaces.config.IConfig;
  * Time: 11:25 AM
  * To change this template use File | Settings | File Templates.
  */
+
+/**
+ * This is a dummy for first tests, it could also be used to realize a build without
+ * being able to change the config
+ */
 public class DummyConfig implements IConfig
 {
 

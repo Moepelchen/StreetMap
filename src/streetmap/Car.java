@@ -7,15 +7,25 @@ import streetmap.Utils.DrawHelper;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
+/**
+ * This class represents cars moving on the map
+ */
 public class Car implements IPrintable, ISimulateable
 {
 
-
+    /**
+     * Current position
+     */
 	private Point2D fPosition;
 
+    /**
+     * Current lane the car is driving on
+     */
 	private Lane fLane;
 
-	private StraightTrajectory fTrjectory;
+    /**
+     * Color of this car
+     */
 	private Color fColor;
 
 
@@ -56,6 +66,9 @@ public class Car implements IPrintable, ISimulateable
 		move();
 	}
 
+    /**
+     * This method is the one called by lane for the car to move
+     */
 	private void move()
 	{
 		StraightTrajectory trajectory = fLane.getTrajectory();
@@ -63,7 +76,10 @@ public class Car implements IPrintable, ISimulateable
 			setPosition(trajectory.calculatePosition(fPosition, getLane().getGlobals().getConfig().getTileSize() / 50));
 	}
 
-
+    /**
+     *
+     * @param lane
+     */
 	public void reset(Lane lane){
 		fLane = lane;
 	}

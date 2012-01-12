@@ -22,6 +22,11 @@ import java.io.IOException;
  * Time: 7:49 PM
  * To change this template use File | Settings | File Templates.
  */
+
+/**
+ * Config reads all data from config.xml file and creates a JAXB object
+ * implements IConfig to act as a restriction to the set methods
+ */
 public class Config implements IConfig
 {
 	JAXBConfig fConfig;
@@ -48,6 +53,14 @@ public class Config implements IConfig
 
 	}
 
+    /**
+     * This method does the actual parsing of the config.xml
+     * @param glob
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     * @throws JAXBException
+     */
 	private void parseConfig(SSGlobals glob) throws ParserConfigurationException, IOException, SAXException, JAXBException
 	{
 		JAXBContext jc = JAXBContext.newInstance("streetmap.xml.jaxb");

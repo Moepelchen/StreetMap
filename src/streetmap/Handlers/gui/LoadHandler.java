@@ -1,7 +1,7 @@
 package streetmap.Handlers.gui;
 
 import org.xml.sax.SAXException;
-import streetmap.Handlers.Filter.TextFileFilter;
+import streetmap.Handlers.Filter.XMLFileFilter;
 import streetmap.LoadSaveHandling.config.ConfigLoader;
 import streetmap.LoadSaveHandling.map.MapLoader;
 import streetmap.SSGlobals;
@@ -21,6 +21,10 @@ import java.lang.reflect.InvocationTargetException;
  * Time: 9:03 AM
  * To change this template use File | Settings | File Templates.
  */
+
+/**
+ * ClickHandler which handles all interaction with the save button
+ */
 public class LoadHandler extends ClickHandler
 {
 	//Create a file chooser
@@ -30,7 +34,7 @@ public class LoadHandler extends ClickHandler
 	{
 		super(globals);
 		fFileChooser.setAcceptAllFileFilterUsed(false);
-		fFileChooser.addChoosableFileFilter(new TextFileFilter());
+		fFileChooser.addChoosableFileFilter(new XMLFileFilter());
 	}
 
 	@Override

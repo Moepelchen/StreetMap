@@ -46,7 +46,7 @@ public class StreetFactory
 			for (Lane lane : tile.getStreet().getLanes())
 			{
 				tile.getMap().removeStart(lane);
-                lane.getStart().removeLane(lane.getfTo(),lane);
+                lane.getStart().removeLane(lane.getTo(),lane);
 			}
 
 		}
@@ -85,7 +85,7 @@ public class StreetFactory
 			lane.setIsEndLane(laneTemplate.isIsEndPoint());
 			lane.setIsStartLane(laneTemplate.isIsStartPoint());
             lane.setTo(to);
-            lane.setfFrom(from);
+            lane.setFrom(from);
 			if (lane.getType() == ILaneTypes.STRAIGHT)
 			{
 				createStraight(lane, start, dest, from, to);

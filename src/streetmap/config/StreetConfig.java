@@ -24,6 +24,11 @@ import java.util.List;
  * Time: 9:24 PM
  * To change this template use File | Settings | File Templates.
  */
+
+/**
+ * This class reads the street config file to determine which kind of streets are available
+ *
+ */
 public class StreetConfig
 {
 
@@ -33,6 +38,12 @@ public class StreetConfig
 
 	private HashMap<String, StreetTemplate> fStreets;
 
+    /**
+     * Constructor
+     *
+     * @param glob current globals
+     * @throws FileNotFoundException thrown when the streets.xml is not available
+     */
 	public StreetConfig(SSGlobals glob) throws FileNotFoundException
 	{
 		fGlobals = glob;
@@ -55,7 +66,13 @@ public class StreetConfig
 		}
 	}
 
-
+    /**
+     * Parses the streets.xml into an jaxb object
+     * @throws IOException
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws JAXBException
+     */
 	private void parse() throws IOException, ParserConfigurationException, SAXException, JAXBException
 	{
 		JAXBContext jc = JAXBContext.newInstance("streetmap.xml.jaxb");

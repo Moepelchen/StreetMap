@@ -12,6 +12,10 @@ import java.awt.event.ActionListener;
  * Time: 10:33 AM
  * To change this template use File | Settings | File Templates.
  */
+
+/**
+ * Abstract class for all Buttons and other clickable stuff
+ */
 public abstract class ClickHandler implements ActionListener
 {
 	protected SSGlobals fGlobals;

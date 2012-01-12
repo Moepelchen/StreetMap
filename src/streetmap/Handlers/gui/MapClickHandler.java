@@ -14,6 +14,10 @@ import java.awt.event.MouseListener;
  * Time: 8:22 AM
  * To change this template use File | Settings | File Templates.
  */
+
+/**
+ * This class handles all clicks on the map and its tiles
+ */
 public class MapClickHandler implements MouseListener
 {
 	private Map fMap;

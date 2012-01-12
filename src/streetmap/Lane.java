@@ -104,6 +104,11 @@ public class Lane implements IPrintable, ISimulateable
 		fCars.add(fCar);
 	}
 
+    /**
+     * determines whether the car is still on this lane
+     * @param fCar car to test with
+     * @return
+     */
 	private boolean carOnLane(Car fCar)
 	{
 		double maxX = Math.max(getStart().getPosition().getX(), getEnd().getPosition().getX());
@@ -180,19 +185,15 @@ public class Lane implements IPrintable, ISimulateable
         fTo = to;
     }
 
-    public String getfTo() {
+    public String getTo() {
         return fTo;
     }
 
-    public void setfTo(String fTo) {
-        this.fTo = fTo;
-    }
-
-    public String getfFrom() {
+    public String getFrom() {
         return fFrom;
     }
 
-    public void setfFrom(String fFrom) {
+    public void setFrom(String fFrom) {
         this.fFrom = fFrom;
     }
 }

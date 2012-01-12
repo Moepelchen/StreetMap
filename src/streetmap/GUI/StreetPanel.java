@@ -19,13 +19,31 @@ import java.util.Collection;
  * Time: 3:03 PM
  * To change this template use File | Settings | File Templates.
  */
+
+/**
+ * This class contains all available streets for selection
+ */
 public class StreetPanel extends JPanel implements MouseListener
 {
+    /**
+     * Size of each selectable Tile/Street
+     */
 	private static final int GUI_TILE_WIDTH = 50;
+
+    /**
+     * Current globals
+     */
 	private SSGlobals fGlobals;
 
+    /**
+     * Collection of all ClickHandlers for the Streets
+     */
 	private StreetSelectClickHandler[] fHandlers;
 
+    /**
+     * Constructor
+     * @param globals current globals
+     */
 	public StreetPanel(SSGlobals globals)
 	{
 
@@ -40,6 +58,9 @@ public class StreetPanel extends JPanel implements MouseListener
 
 	}
 
+    /**
+     * This method creates a ClickHandler for each available streets
+     */
 	private void createHandlers()
 	{
 		Collection<StreetTemplate> streetTemplates = fGlobals.getStreetConfig().getTemplates();
