@@ -68,7 +68,7 @@ public class Anchor implements IPrintable
 		return fCompassPoint;
 	}
 
-	public Lane getRandomOtherLane()
+	public Lane getRandomLane()
 	{
 		int index = (int) (Math.floor(fLanes.size() * Math.random()));
 

@@ -141,7 +141,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 	{
 
 		drawTiles(g);
-		//drawCars(g);
+		drawCars(g);
 	}
 
 	private void drawCars(Graphics2D g)
@@ -150,8 +150,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 		{
 			for (Tile tile : fTile)
 			{
-				for (Tile tile1 : fTile)
-				{
+
 					Street street = tile.getStreet();
 					if (street != null)
 					{
@@ -163,7 +162,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 							}
 						}
 					}
-				}
+
 			}
 		}
 	}

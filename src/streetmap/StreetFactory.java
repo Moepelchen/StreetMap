@@ -34,7 +34,7 @@ public class StreetFactory
 	/**
 	 * Creates a Street with the given Name for the given Tile
 	 *
-	 * @param tile
+	 * @param tile tile to generate a street for
 	 * @param streetName Name of the StreetTemplate
 	 * @return
 	 */
@@ -116,6 +116,14 @@ public class StreetFactory
 		}
 	}
 
+    /**
+     * Creates a Bend between the given sides
+     * @param lane the bend
+     * @param start starting side of this bend
+     * @param dest destination side for this bend
+     * @param from compass point to start from
+     * @param to compass point which the lane connects as end
+     */
 	private void createBend(Lane lane, Side start, Side dest, String from, String to)
 	{
 		if ((from.equals("E") && to.equals("N")) || (from.equals("S") && to.equals("W")))
@@ -137,6 +145,14 @@ public class StreetFactory
 		}
 	}
 
+    /**
+     * Creates a straight between the given sides
+     * @param lane
+     * @param start
+     * @param dest
+     * @param from
+     * @param to
+     */
 	private void createStraight(Lane lane, Side start, Side dest, String from, String to)
 	{
 		if (from.equals("S") || from.equals("E"))
@@ -164,7 +180,12 @@ public class StreetFactory
 	{
 	}
 
-
+    /**
+     * determines the lane type depending on the start and end compass point
+     * @param from starting compass point
+     * @param to end compass point
+     * @return
+     */
 	private int getLaneType(String from, String to)
 	{
 		if (sameAxis(from, to))
@@ -174,6 +195,12 @@ public class StreetFactory
 			return ILaneTypes.BEND;
 	}
 
+    /**
+     * Determines wether the given compass points are located on the same axis
+     * @param from starting compass point
+     * @param to destination compass point
+     * @return true for (W,E)and (N,S) else false
+     */
 	private boolean sameAxis(String from, String to)
 	{
 		if (((from.equals("E") || from.equals("W")) && (to.equals("W") || to.equals("E"))) || ((from.equals("S") || from.equals("N")) && (to.equals("S") || to.equals("N"))))

@@ -12,9 +12,17 @@ import java.awt.geom.Point2D;
  * Time: 8:36 AM
  * To change this template use File | Settings | File Templates.
  */
+
+
+/**
+ * This class determines on what trajectory the car moves on a lane between two anchor points
+ * In this case it is a straight line
+ *
+ */
 public class StraightTrajectory implements ITrajectory
 {
 	private static final int INT = 10000000;
+
 	private double fA;
 
 	private double fB;

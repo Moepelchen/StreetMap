@@ -65,7 +65,7 @@ public class Lane implements IPrintable, ISimulateable
 			g.setColor(Color.PINK);
 			g.drawLine((int) fStartAnchor.getPosition().getX(), (int) fStartAnchor.getPosition().getY(), (int) fEndAnchor.getPosition().getX(), (int) fEndAnchor.getPosition().getY());
 		}
-		drawCars(g);
+		//drawCars(g);
 	}
 
     private void drawCars(Graphics2D g) {
@@ -89,7 +89,7 @@ public class Lane implements IPrintable, ISimulateable
 			if (!carOnLane(fCar))
 			{
 				toRemoveCars.add(fCar);
-				Lane randomOtherLane = fEndAnchor.getRandomOtherLane();
+				Lane randomOtherLane = fEndAnchor.getRandomLane();
 				if (randomOtherLane != null)
 					randomOtherLane.addCar(fCar);
 			}
