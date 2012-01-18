@@ -2,7 +2,9 @@ package streetmap.Utils;
 
 import streetmap.Car;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,7 +21,9 @@ public class DrawHelper
 		int width;
 		g.setColor(color);
 		width = (int) (car.getLane().getGlobals().getConfig().getTileSize() / 4);
-		g.fillOval((int) car.getPosition().getX() - width / 2, (int) car.getPosition().getY() - width / 2, width, width);
-
-	}
+        Image image = new ImageIcon("./images/car.png").getImage();
+        g.rotate(car.getLane().getTrajectory().getAngle(),car.getPosition().getX(),car.getPosition().getY());
+        g.drawImage(image,(int) car.getPosition().getX() - width / 2, (int) car.getPosition().getY() - width / 2, width, width,null);
+        g.rotate(-car.getLane().getTrajectory().getAngle(),car.getPosition().getX(),car.getPosition().getY());
+    }
 }

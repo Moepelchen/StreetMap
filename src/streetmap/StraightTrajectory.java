@@ -30,8 +30,9 @@ public class StraightTrajectory implements ITrajectory
 	private double fDirection;
 
 	private Lane fLane;
+    private double fAngle;
 
-	public StraightTrajectory(Lane lane)
+    public StraightTrajectory(Lane lane)
 	{
 		fLane = lane;
 		Point2D p1 = lane.getStart().getPosition();
@@ -49,21 +50,36 @@ public class StraightTrajectory implements ITrajectory
 		{
 			fA = INT;
 		}
+        double angle = Math.abs(Math.atan2(deltaY, deltaX));
+        fAngle = angle;
 		if (lane.getType() == ILaneTypes.BEND)
 		{
-			double angle = Math.abs(Math.atan2(deltaY, deltaX));
+
 			if (angle >= Math.PI / 2 && angle <= Math.PI * 6 / 4)
 			{
 				fDirection = -1;
-			} else
+                if(fA > 0)
+                    fAngle = fAngle+ Math.PI/2;
+			} else {
 				fDirection = +1;
+                if(fA < 0)
+                    fAngle = fAngle- Math.PI/2;
+            }
+
 		} else
 		{
-			if (fLane.getDirection(fLane.getEnd()).equals(Tile.COMPASS_POINT_W) || fLane.getDirection(fLane.getEnd()).equals(Tile.COMPASS_POINT_S))
+            boolean isSouth = fLane.getDirection(fLane.getEnd()).equals(Tile.COMPASS_POINT_S);
+            if (fLane.getDirection(fLane.getEnd()).equals(Tile.COMPASS_POINT_W) || isSouth)
 			{
 				fDirection = -1;
-			} else
+
+
+			} else{
 				fDirection = +1;
+                if(fLane.getDirection(fLane.getEnd()).equals(Tile.COMPASS_POINT_N))
+                    fAngle = fAngle+Math.PI;
+
+            }
 
 		}
 
@@ -86,5 +102,9 @@ public class StraightTrajectory implements ITrajectory
 
 
         return newPos;
+    }
+
+    public double getAngle() {
+        return fAngle;
     }
 }

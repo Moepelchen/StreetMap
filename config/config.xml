@@ -1,9 +1,9 @@
 <?xml version="1.0" standalone="yes"?>
 <JAXBConfig>
     <drawtiles>false</drawtiles>
-    <drawanchors>false</drawanchors>
+    <drawanchors>true</drawanchors>
     <drawsides>false</drawsides>
-    <drawlanes>false</drawlanes>
+    <drawlanes>true</drawlanes>
     <width>700</width>
     <height>400</height>
     <tilesize>10</tilesize>

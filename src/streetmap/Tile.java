@@ -229,13 +229,12 @@ public class Tile implements IPrintable, ISimulateable
 			fStreet.print(g);
 		}
 
-		if (fGlobals.getConfig().isDrawSides())
-		{
+
 			for (String s : fSides.keySet())
 			{
 				fSides.get(s).print(g);
 			}
-		}
+
 	}
 
 	public void simulate()

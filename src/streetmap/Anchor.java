@@ -6,22 +6,32 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 
+/**
+ * An anchor is a point where a lane can connect to
+ * currently each Side as two Anchors, this might be changed
+ * in future releases
+ */
 public class Anchor implements IPrintable
 {
-
+    /**
+     *
+     * Position of this anchor
+     */
 	private Point2D fPosition;
-
+    /**
+     * Lanes connected to this anchor
+     */
 	private HashMap<String, Lane> fLanes;
-
+    /**
+     * indicates that the anchor is currently blocked, meaning that the cars can not move any further
+     */
 	private boolean fBlocked;
-	private String fCompassPoint;
 
 
 	public Anchor(Point2D position, String compassPoint)
 	{
 		fPosition = position;
 		fLanes = new HashMap<String, Lane>();
-		fCompassPoint = compassPoint;
 
 	}
 
@@ -61,11 +71,6 @@ public class Anchor implements IPrintable
 	{
 
 		fLanes.put(to, lane);
-	}
-
-	public String getCompassPoint()
-	{
-		return fCompassPoint;
 	}
 
 	public Lane getRandomLane()

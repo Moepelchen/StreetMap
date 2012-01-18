@@ -1,7 +1,7 @@
 package streetmap.GUI;
 
-import streetmap.Handlers.gui.LoadHandler;
-import streetmap.Handlers.gui.SaveHandler;
+import streetmap.Handlers.gui.LoadClickHandler;
+import streetmap.Handlers.gui.SaveClickHandler;
 import streetmap.SSGlobals;
 
 import javax.swing.*;
@@ -27,10 +27,10 @@ public class MenuPanel extends JPanel
 		fGlobals = glob;
 		this.setPreferredSize(new Dimension(200, 500));
 		JButton save = new JButton("Save");
-		save.addActionListener(new SaveHandler(fGlobals));
+		save.addActionListener(new SaveClickHandler(fGlobals));
 		this.add(save);
 		JButton load = new JButton("Load");
-		load.addActionListener(new LoadHandler(fGlobals));
+		load.addActionListener(new LoadClickHandler(fGlobals));
 		this.add(load);
 		this.setVisible(true);
 	}

@@ -25,12 +25,12 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * ClickHandler which handles all interaction with the save button
  */
-public class LoadHandler extends ClickHandler
+public class LoadClickHandler extends ClickHandler
 {
 	//Create a file chooser
 	final JFileChooser fFileChooser = new JFileChooser("./");
 
-	public LoadHandler(SSGlobals globals)
+	public LoadClickHandler(SSGlobals globals)
 	{
 		super(globals);
 		fFileChooser.setAcceptAllFileFilterUsed(false);
