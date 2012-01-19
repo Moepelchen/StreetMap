@@ -4,6 +4,7 @@ import streetmap.Interfaces.IPrintable;
 import streetmap.Interfaces.ISimulateable;
 import streetmap.Utils.DrawHelper;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
@@ -27,9 +28,10 @@ public class Car implements IPrintable, ISimulateable
      * Color of this car
      */
 	private Color fColor;
+    private Image fImage;
 
 
-	public Point2D getPosition()
+    public Point2D getPosition()
 	{
 		return fPosition;
 	}
@@ -54,6 +56,7 @@ public class Car implements IPrintable, ISimulateable
 		fLane = lane;
 		fPosition = pos;
 		fColor = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()));
+        fImage = new ImageIcon("./images/cop_car.png").getImage();
 	}
 
 	public void print(Graphics2D g)
@@ -83,4 +86,8 @@ public class Car implements IPrintable, ISimulateable
 	public void reset(Lane lane){
 		fLane = lane;
 	}
+
+    public Image getImage() {
+        return fImage;
+    }
 }

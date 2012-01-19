@@ -4,6 +4,8 @@ import streetmap.Car;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 /**
@@ -18,12 +20,37 @@ public class DrawHelper
 
 	public static void drawCar(Graphics2D g, Car car, Color color)
 	{
-		int width;
+		double scaleX;
+        double scaleY;
 		g.setColor(color);
-		width = (int) (car.getLane().getGlobals().getConfig().getTileSize() / 4);
-        Image image = new ImageIcon("./images/car.png").getImage();
-        g.rotate(car.getLane().getTrajectory().getAngle(),car.getPosition().getX(),car.getPosition().getY());
-        g.drawImage(image,(int) car.getPosition().getX() - width / 2, (int) car.getPosition().getY() - width / 2, width, width,null);
-        g.rotate(-car.getLane().getTrajectory().getAngle(),car.getPosition().getX(),car.getPosition().getY());
+        double width = car.getLane().getGlobals().getConfig().getTileSize() / 4;
+        scaleX =  width /car.getImage().getWidth(null);
+        Shape b = new Rectangle();
+
+       Image image = car.getImage();//.getScaledInstance(Image.SCALE_DEFAULT,width,width);
+        g.setComposite(AlphaComposite.Src);
+        AffineTransform trans = new AffineTransform();
+
+        double x = car.getPosition().getX();
+        double y = car.getPosition().getY();
+        trans.setToRotation(car.getLane().getTrajectory().getAngle(), x, y);
+        trans.translate(x-width/4,y-width/4);
+        //trans.shear(width,width);
+        Rectangle2D rect;
+        rect = new Rectangle2D.Double();
+
+        trans.scale(scaleX,scaleX);
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g.setRenderingHint(RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_QUALITY);
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+       // g.rotate(image,car.getPosition().getX(),car.getPosition().getY());
+        g.drawImage(image, trans,null);
+        //g.rotate(-car.getLane().getTrajectory().getAngle(),car.getPosition().getX(),car.getPosition().getY());
+
+
     }
+
 }

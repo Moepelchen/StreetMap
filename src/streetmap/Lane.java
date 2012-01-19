@@ -77,7 +77,7 @@ public class Lane implements IPrintable, ISimulateable
     public void simulate()
 	{
 		Vector<Car> toRemoveCars = new Vector<Car>();
-		if (Math.random() < 0.05 && this.isStartLane())
+		if (Math.random() < 0.05 && this.isStartLane()&& fCars.size()<1)
 		{
 			Car car = new Car(this, fStartAnchor.getPosition());
 			fCars.add(car);
