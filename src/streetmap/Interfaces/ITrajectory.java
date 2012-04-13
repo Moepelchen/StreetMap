@@ -12,4 +12,6 @@ import java.awt.geom.Point2D;
 public interface ITrajectory
 {
 	public Point2D calculatePosition(Point2D pos, double speed);
+
+    double getAngle();
 }

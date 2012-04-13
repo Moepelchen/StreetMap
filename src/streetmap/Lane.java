@@ -2,6 +2,7 @@ package streetmap;
 
 import streetmap.Interfaces.IPrintable;
 import streetmap.Interfaces.ISimulateable;
+import streetmap.Interfaces.ITrajectory;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public class Lane implements IPrintable, ISimulateable
 
 	private SSGlobals fGlobals;
 
-	private StraightTrajectory fTrajectory;
+	private ITrajectory fTrajectory;
 
 	private HashMap<Anchor, String> fDirections;
 
@@ -121,7 +122,7 @@ public class Lane implements IPrintable, ISimulateable
 		{
 			return true;
 		}
-		return false;  
+		return false;
 	}
 
 	public void setStart(Anchor start, String compass)
@@ -156,7 +157,7 @@ public class Lane implements IPrintable, ISimulateable
 		return fEndAnchor;
 	}
 
-	public StraightTrajectory getTrajectory()
+	public ITrajectory getTrajectory()
 	{
 		return fTrajectory;
 	}

@@ -2,6 +2,7 @@ package streetmap;
 
 import streetmap.Interfaces.IPrintable;
 import streetmap.Interfaces.ISimulateable;
+import streetmap.Interfaces.ITrajectory;
 import streetmap.Utils.DrawHelper;
 
 import javax.swing.*;
@@ -74,7 +75,7 @@ public class Car implements IPrintable, ISimulateable
      */
 	private void move()
 	{
-		StraightTrajectory trajectory = fLane.getTrajectory();
+		ITrajectory trajectory = fLane.getTrajectory();
 		if (trajectory != null)
 			setPosition(trajectory.calculatePosition(fPosition, getLane().getGlobals().getConfig().getTileSize() / 50));
 	}
