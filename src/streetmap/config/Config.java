@@ -5,6 +5,7 @@ import streetmap.Interfaces.config.IConfig;
 import streetmap.SSGlobals;
 import streetmap.xml.jaxb.JAXBConfig;
 
+import javax.swing.*;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -14,6 +15,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Vector;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,13 +32,19 @@ import java.io.IOException;
 public class Config implements IConfig
 {
 	JAXBConfig fConfig;
+	/**
+	 * Collection of images for Cars
+	 */
+	private Vector<ImageIcon> fCarImages;
 
 
 	public Config(SSGlobals glob) throws FileNotFoundException
 	{
+		fCarImages = new Vector<ImageIcon>();
 		try
 		{
 			parseConfig(glob);
+			setCarImages();
 		} catch (ParserConfigurationException e)
 		{
 			throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
@@ -53,7 +61,17 @@ public class Config implements IConfig
 
 	}
 
-    /**
+	private void setCarImages()
+	{
+		String pathname = "F:\\Workspace\\StreetMap\\images\\cars";
+		File dir = new File(pathname);
+		for (String s : dir.list())
+		{
+			fCarImages.add(new ImageIcon(pathname+ File.separator+s));
+		}
+	}
+
+	/**
      * This method does the actual parsing of the config.xml
      * @param glob
      * @throws ParserConfigurationException
@@ -84,6 +102,12 @@ public class Config implements IConfig
 	public boolean isDrawLanes()
 	{
 		return fConfig.isDrawlanes();
+	}
+
+	@Override
+	public Vector<ImageIcon> getCarImages()
+	{
+		return fCarImages;
 	}
 
 	public boolean isDrawTiles()

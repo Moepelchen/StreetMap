@@ -1,5 +1,8 @@
 package streetmap.Interfaces.config;
 
+import javax.swing.*;
+import java.util.Vector;
+
 /**
  * Created by IntelliJ IDEA.
  * User: shifter
@@ -22,4 +25,6 @@ public interface IConfig
 	boolean isDrawSides();
 
 	boolean isDrawLanes();
+
+	Vector<ImageIcon> getCarImages();
 }

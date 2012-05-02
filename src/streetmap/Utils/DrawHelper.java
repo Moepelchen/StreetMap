@@ -1,12 +1,11 @@
 package streetmap.Utils;
 
-import streetmap.Car;
+import streetmap.car.Car;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,10 +23,10 @@ public class DrawHelper
         double scaleY;
 		g.setColor(color);
         double width = car.getLane().getGlobals().getConfig().getTileSize() / 4;
-        scaleX =  width /car.getImage().getWidth(null);
+        scaleX =  width /car.getImage().getImage().getWidth(null);
         Shape b = new Rectangle();
 
-       Image image = car.getImage();//.getScaledInstance(Image.SCALE_DEFAULT,width,width);
+        ImageIcon icon = car.getImage();//.getScaledInstance(Image.SCALE_DEFAULT,width,width);
         g.setComposite(AlphaComposite.Src);
         AffineTransform trans = new AffineTransform();
 
@@ -46,8 +45,8 @@ public class DrawHelper
                 RenderingHints.VALUE_RENDER_QUALITY);
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-       // g.rotate(image,car.getPosition().getX(),car.getPosition().getY());
-        g.drawImage(image, trans,null);
+       // g.rotate(icon,car.getPosition().getX(),car.getPosition().getY());
+        g.drawImage(icon.getImage(), trans,null);
         //g.rotate(-car.getLane().getTrajectory().getAngle(),car.getPosition().getX(),car.getPosition().getY());
 
 

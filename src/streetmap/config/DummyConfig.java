@@ -2,6 +2,9 @@ package streetmap.config;
 
 import streetmap.Interfaces.config.IConfig;
 
+import javax.swing.*;
+import java.util.Vector;
+
 /**
  * Created by IntelliJ IDEA.
  * User: ulrich.tewes
@@ -52,6 +55,12 @@ public class DummyConfig implements IConfig
 	public boolean isDrawLanes()
 	{
 		return true;
+	}
+
+	@Override
+	public Vector<ImageIcon> getCarImages()
+	{
+		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	public String getStreetPath()

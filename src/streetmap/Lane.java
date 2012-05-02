@@ -3,6 +3,8 @@ package streetmap;
 import streetmap.Interfaces.IPrintable;
 import streetmap.Interfaces.ISimulateable;
 import streetmap.Interfaces.ITrajectory;
+import streetmap.car.Car;
+import streetmap.car.CarFactory;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -80,7 +82,7 @@ public class Lane implements IPrintable, ISimulateable
 		Vector<Car> toRemoveCars = new Vector<Car>();
 		if (Math.random() < 0.05 && this.isStartLane()&& fCars.size()<1)
 		{
-			Car car = new Car(this, fStartAnchor.getPosition());
+			Car car = CarFactory.createCar(getGlobals(),this, fStartAnchor.getPosition());
 			fCars.add(car);
 
 		}

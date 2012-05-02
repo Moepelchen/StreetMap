@@ -3,6 +3,7 @@ package streetmap;
 import streetmap.Handlers.gui.MapClickHandler;
 import streetmap.Interfaces.IPrintable;
 import streetmap.Interfaces.ISimulateable;
+import streetmap.car.Car;
 
 import javax.swing.*;
 import java.awt.*;
