@@ -70,10 +70,17 @@ public class ConfigLoader extends Loader
 								beginIndex = 2;
 							}
 							String name = "set" + method.getName().substring(beginIndex);
-							Method setMethod = config.getClass().getMethod(name, method.getReturnType());
-							Object[] args = new Object[1];
-							args[0] = ReflectionUtils.cast(value, method.getReturnType());
-							setMethod.invoke(config, args);
+							try
+							{
+								Method setMethod = config.getClass().getMethod(name, method.getReturnType());
+
+								Object[] args = new Object[1];
+								args[0] = ReflectionUtils.cast(value, method.getReturnType());
+								setMethod.invoke(config, args);
+							} catch (NoSuchMethodException e)
+							{
+
+							}
 						}
 					}
 				}
