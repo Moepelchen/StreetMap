@@ -2,7 +2,9 @@ package streetmap;
 
 import streetmap.Interfaces.ILaneTypes;
 import streetmap.Interfaces.ITrajectory;
+import streetmap.car.Car;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 /**
@@ -107,4 +109,31 @@ public class StraightTrajectory implements ITrajectory
     public double getAngle() {
         return fAngle;
     }
+
+	@Override
+	public void print(Graphics2D g)
+	{
+		g.drawLine((int) fLane.getStart().getPosition().getX(), (int)fLane.getStart().getPosition().getY(), (int) fLane.getEnd().getPosition().getX(), (int) fLane.getEnd().getPosition().getY());
+
+	}
+
+	/**
+	 * determines whether the car is still on this lane
+	 *
+	 *
+	 * @param fCar car to test with
+	 * @param lane
+	 * @return
+	 */
+	public boolean carOnLane(Car fCar, Lane lane)
+	{
+
+		double x = fCar.getPosition().getX();
+		double y = fCar.getPosition().getY();
+		if (x >= lane.getMinX() && x <= lane.getMaxX() && y >= lane.getMinY() && y <= lane.getMaxY())
+		{
+			return true;
+		}
+		return false;
+	}
 }

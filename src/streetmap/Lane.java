@@ -1,5 +1,6 @@
 package streetmap;
 
+import streetmap.Interfaces.ILaneTypes;
 import streetmap.Interfaces.IPrintable;
 import streetmap.Interfaces.ISimulateable;
 import streetmap.Interfaces.ITrajectory;
@@ -28,10 +29,35 @@ public class Lane implements IPrintable, ISimulateable
 	private HashMap<Anchor, String> fDirections;
 
 	private boolean isEnd;
-    private String fTo;
-    private String fFrom;
+	private String fTo;
+	private String fFrom;
+	private double fMaxX;
+	private double fMaxY;
 
-    public boolean isEndLane()
+	public double getMaxX()
+	{
+		return fMaxX;
+	}
+
+	public double getMaxY()
+	{
+		return fMaxY;
+	}
+
+	public double getMinX()
+	{
+		return fMinX;
+	}
+
+	public double getMinY()
+	{
+		return fMinY;
+	}
+
+	private double fMinX;
+	private double fMinY;
+
+	public boolean isEndLane()
 	{
 		return isEnd;
 	}
@@ -58,6 +84,7 @@ public class Lane implements IPrintable, ISimulateable
 		fGlobals = glob;
 		fCars = new Vector<Car>();
 		fDirections = new HashMap<Anchor, String>();
+
 	}
 
 
@@ -66,30 +93,32 @@ public class Lane implements IPrintable, ISimulateable
 		if (fGlobals.getConfig().isDrawLanes())
 		{
 			g.setColor(Color.PINK);
-			g.drawLine((int) fStartAnchor.getPosition().getX(), (int) fStartAnchor.getPosition().getY(), (int) fEndAnchor.getPosition().getX(), (int) fEndAnchor.getPosition().getY());
+			fTrajectory.print(g);
 		}
 		//drawCars(g);
 	}
 
-    private void drawCars(Graphics2D g) {
-        for (Car fCar : fCars) {
-            fCar.print(g);
-        }
-    }
+	private void drawCars(Graphics2D g)
+	{
+		for (Car fCar : fCars)
+		{
+			fCar.print(g);
+		}
+	}
 
-    public void simulate()
+	public void simulate()
 	{
 		Vector<Car> toRemoveCars = new Vector<Car>();
-		if (Math.random() < 0.05 && this.isStartLane()&& fCars.size()<1)
+		if (Math.random() < 0.05 && this.isStartLane() && fCars.size() < 1)
 		{
-			Car car = CarFactory.createCar(getGlobals(),this, fStartAnchor.getPosition());
+			Car car = CarFactory.createCar(getGlobals(), this, fStartAnchor.getPosition());
 			fCars.add(car);
 
 		}
 		for (Car fCar : fCars)
 		{
 			fCar.simulate();
-			if (!carOnLane(fCar))
+			if (!fTrajectory.carOnLane(fCar, this))
 			{
 				toRemoveCars.add(fCar);
 				Lane randomOtherLane = fEndAnchor.getRandomLane();
@@ -105,26 +134,6 @@ public class Lane implements IPrintable, ISimulateable
 		fCar.setPosition(fStartAnchor.getPosition());
 		fCar.reset(this);
 		fCars.add(fCar);
-	}
-
-    /**
-     * determines whether the car is still on this lane
-     * @param fCar car to test with
-     * @return
-     */
-	private boolean carOnLane(Car fCar)
-	{
-		double maxX = Math.max(getStart().getPosition().getX(), getEnd().getPosition().getX());
-		double maxY = Math.max(getStart().getPosition().getY(), getEnd().getPosition().getY());
-		double minX = Math.min(getStart().getPosition().getX(), getEnd().getPosition().getX());
-		double minY = Math.min(getStart().getPosition().getY(), getEnd().getPosition().getY());
-		double x = fCar.getPosition().getX();
-		double y = fCar.getPosition().getY();
-		if (x >= minX && x <= maxX && y >= minY && y <= maxY)
-		{
-			return true;
-		}
-		return false;
 	}
 
 	public void setStart(Anchor start, String compass)
@@ -166,7 +175,15 @@ public class Lane implements IPrintable, ISimulateable
 
 	public void init()
 	{
-		fTrajectory = new StraightTrajectory(this);
+		//fTrajectory = new StraightTrajectory(this);
+		if (getType() == ILaneTypes.BEND)
+			fTrajectory = new BendTrajectory(this);
+		else
+			fTrajectory = new StraightTrajectory(this);
+		fMaxX = Math.max(getStart().getPosition().getX(), getEnd().getPosition().getX());
+		fMaxY = Math.max(getStart().getPosition().getY(), getEnd().getPosition().getY());
+		fMinX = Math.min(getStart().getPosition().getX(), getEnd().getPosition().getX());
+		fMinY = Math.min(getStart().getPosition().getY(), getEnd().getPosition().getY());
 	}
 
 	public Vector<Car> getCars()
@@ -183,20 +200,24 @@ public class Lane implements IPrintable, ISimulateable
 	{
 		return fDirections.get(anc);
 	}
-    
-    public void setTo(String to){
-        fTo = to;
-    }
 
-    public String getTo() {
-        return fTo;
-    }
+	public void setTo(String to)
+	{
+		fTo = to;
+	}
 
-    public String getFrom() {
-        return fFrom;
-    }
+	public String getTo()
+	{
+		return fTo;
+	}
 
-    public void setFrom(String fFrom) {
-        this.fFrom = fFrom;
-    }
+	public String getFrom()
+	{
+		return fFrom;
+	}
+
+	public void setFrom(String fFrom)
+	{
+		this.fFrom = fFrom;
+	}
 }

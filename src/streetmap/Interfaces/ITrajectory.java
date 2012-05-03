@@ -1,5 +1,9 @@
 package streetmap.Interfaces;
 
+import streetmap.Lane;
+import streetmap.car.Car;
+
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 /**
@@ -14,4 +18,16 @@ public interface ITrajectory
 	public Point2D calculatePosition(Point2D pos, double speed);
 
     double getAngle();
+
+	void print(Graphics2D g);
+
+	/**
+	 * determines whether the car is still on this lane
+	 *
+	 *
+	 * @param fCar car to test with
+	 * @param lane
+	 * @return
+	 */
+	boolean carOnLane(Car fCar, Lane lane);
 }

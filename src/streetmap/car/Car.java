@@ -92,4 +92,6 @@ public class Car implements IPrintable, ISimulateable
     public ImageIcon getImage() {
         return fImage;
     }
+
+
 }
