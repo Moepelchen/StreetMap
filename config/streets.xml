@@ -360,4 +360,23 @@
         </LaneTemplates>
     </StreetTemplate>
 
+    <StreetTemplate>
+           <name>EastWestEntry</name>
+           <imagePath>./images/streets/EWEntry.png</imagePath>
+           <isStartEndPoint>true</isStartEndPoint>
+           <LaneTemplates>
+               <LaneTemplate>
+                   <isStartPoint>true</isStartPoint>
+                   <from>W</from>
+                   <to>E</to>
+               </LaneTemplate>
+               <LaneTemplate>
+
+                   <isEndPoint>true</isEndPoint>
+                   <from>E</from>
+                   <to>W</to>
+               </LaneTemplate>
+           </LaneTemplates>
+       </StreetTemplate>
+
 </StreetTemplates>

@@ -55,7 +55,7 @@ public class CarFactory
 	public static Car createCar(SSGlobals globals,Lane lane, Point2D pos)
 	{
 		ImageIcon carImage = getCarImage(globals);
-		return new Car(lane, pos, carImage);
+		return new Car(lane, pos, carImage,globals.getConfig().getTileSize() / 4);
 	}
 
 	public static ImageIcon getCarImage(SSGlobals globals)

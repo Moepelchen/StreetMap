@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Vector;
 
@@ -52,6 +53,8 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 	 */
 	private BufferedImage fImage;
 
+	private BufferedImage fCarLayerImage;
+
 	/**
 	 * graphics to draw
 	 */
@@ -79,6 +82,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 		fGlobals = globals;
 
 		fImage = new BufferedImage(fWidth.intValue() + 5, fHeight.intValue() + 5, BufferedImage.TYPE_INT_ARGB);
+		fCarLayerImage = new BufferedImage(fWidth.intValue() + 5, fHeight.intValue() + 5, BufferedImage.TYPE_INT_ARGB);
 		fGraphics = (Graphics2D) fImage.getGraphics();
 		int numberOfTilesX = (int) (fWidth / fTileSize);
 		int numberOfTilesY = (int) (fHeight / fTileSize);
@@ -142,7 +146,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 	{
 
 		drawTiles(g);
-		drawCars(g);
+		//drawCars(g);
 	}
 
 	private void drawCars(Graphics2D g)
@@ -151,7 +155,6 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 		{
 			for (Tile tile : fTile)
 			{
-
 					Street street = tile.getStreet();
 					if (street != null)
 					{
@@ -202,23 +205,29 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 		this.simulate();
 		super.paint(g);
 		fGraphics.clearRect(0, 0, fWidth.intValue() + 5, fHeight.intValue() + 5);
+		clearCarLayer();
 		this.print(fGraphics);
 		g.translate(5, 5);
+		fGraphics.drawImage(fCarLayerImage, 0, 0, null);
 		g.drawImage(fImage, 0, 0, null);
 		Toolkit.getDefaultToolkit().sync();
 		g.dispose();
+		getCarLayerGraphics().dispose();
 
 	}
 
-	/*public static void main(String[] args) {
-			SSGlobals globals = null;
-			try {
-				globals = new SSGlobals();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-			Map map = new Map(globals);
-		}*/
+	private void clearCarLayer()
+	{
+		Graphics2D carLayerGraphics = (Graphics2D) getCarLayerGraphics();
+		Composite backup=carLayerGraphics.getComposite();
+		carLayerGraphics.setComposite(
+				AlphaComposite.getInstance(AlphaComposite.CLEAR, 0.0f));
+		Rectangle2D.Double rect =
+				new Rectangle2D.Double(0,0,fWidth.intValue() + 5,fHeight.intValue() + 5);
+		carLayerGraphics.fill(rect);
+		carLayerGraphics.setComposite(backup);
+	}
+
 
 
 	public void actionPerformed(ActionEvent e)
@@ -251,5 +260,8 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 	public void addEnd(Lane lane)
 	{
 		fEndLanes.add(lane);
+	}
+	public Graphics getCarLayerGraphics(){
+		return fCarLayerImage.getGraphics();
 	}
 }

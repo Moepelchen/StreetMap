@@ -5,7 +5,9 @@ import streetmap.car.Car;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Vector;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,12 +19,13 @@ import java.awt.geom.Rectangle2D;
 public class DrawHelper
 {
 
-	public static void drawCar(Graphics2D g, Car car, Color color)
+	public static void drawCar(Car car, Color color)
 	{
+		Graphics2D g = getCarLayerGraphics(car);
 		double scaleX;
         double scaleY;
 		g.setColor(color);
-        double width = car.getLane().getGlobals().getConfig().getTileSize() / 4;
+        double width = car.getLenght();
         scaleX =  width /car.getImage().getImage().getWidth(null);
         Shape b = new Rectangle();
 
@@ -46,10 +49,34 @@ public class DrawHelper
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
        // g.rotate(icon,car.getPosition().getX(),car.getPosition().getY());
-        g.drawImage(icon.getImage(), trans,null);
+        //g.drawImage(icon.getImage(), trans,null);
+		g.fillOval((int)(car.getPosition().getX()-width/2),(int)(car.getPosition().getY()-width/2),(int)width,(int)width);
         //g.rotate(-car.getLane().getTrajectory().getAngle(),car.getPosition().getX(),car.getPosition().getY());
 
 
     }
 
+	private static Graphics2D getCarLayerGraphics(Car car)
+	{
+		return (Graphics2D) car.getLane().getGlobals().getMap().getCarLayerGraphics();
+	}
+
+	public static void drawFronCars(Car car, Vector<Car> frontCar)
+	{
+		Graphics2D g = getCarLayerGraphics(car);
+		g.setColor(Color.WHITE);
+
+		for (Car car1 : frontCar)
+		{
+			drawLine(g, car.getPosition(), car1.getPosition());
+		}
+
+
+
+	}
+
+	private static void drawLine(Graphics2D g, Point2D position, Point2D position1)
+	{
+		g.drawLine((int)position.getX(),(int)position.getY(),(int)position1.getX(),(int)position1.getY());
+	}
 }

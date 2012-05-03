@@ -9,6 +9,8 @@ import streetmap.Utils.DrawHelper;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.Collection;
+import java.util.Vector;
 
 /**
  * This class represents cars moving on the map
@@ -16,24 +18,27 @@ import java.awt.geom.Point2D;
 public class Car implements IPrintable, ISimulateable
 {
 
-    /**
-     * Current position
-     */
+	/**
+	 * Current position
+	 */
 	private Point2D fPosition;
 
-    /**
-     * Current lane the car is driving on
-     */
+	/**
+	 * Current lane the car is driving on
+	 */
 	private Lane fLane;
 
-    /**
-     * Color of this car
-     */
+	/**
+	 * Color of this car
+	 */
 	private Color fColor;
-    private ImageIcon fImage;
+	private ImageIcon fImage;
+	private double fSpeed;
+	private final double fOriginalSpeed;
+	private double fLength;
 
 
-    public Point2D getPosition()
+	public Point2D getPosition()
 	{
 		return fPosition;
 	}
@@ -53,17 +58,23 @@ public class Car implements IPrintable, ISimulateable
 		this.fLane = fLane;
 	}
 
-	Car(Lane lane, Point2D pos, ImageIcon carImage)
+	Car(Lane lane, Point2D pos, ImageIcon carImage, double length)
 	{
+		fLength = length;
 		fLane = lane;
 		fPosition = pos;
 		fColor = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()));
-        fImage = carImage;
+		fImage = carImage;
+		double v = Math.random() + 1;
+		fSpeed = v;
+		fOriginalSpeed = v;
 	}
 
 	public void print(Graphics2D g)
 	{
-		DrawHelper.drawCar(g, this, fColor);
+		DrawHelper.drawCar(this, fColor);
+		DrawHelper.drawFronCars(this, getFrontCars());
+
 	}
 
 	public void simulate()
@@ -71,27 +82,84 @@ public class Car implements IPrintable, ISimulateable
 		move();
 	}
 
-    /**
-     * This method is the one called by lane for the car to move
-     */
+	/**
+	 * This method is the one called by lane for the car to move
+	 */
 	private void move()
 	{
+		boolean caped = false;
+		for (Car car : getFrontCars())
+		{
+			double distance = car.getPosition().distance(this.getPosition());
+			if (distance < 2.5 * car.getLenght() )
+			{
+				fSpeed = car.getSpeedModifier()-0.1*car.getSpeedModifier();
+				caped = true;
+				break;
+
+
+			}
+		}
+		if (!caped)
+			fSpeed = fOriginalSpeed;
 		ITrajectory trajectory = fLane.getTrajectory();
 		if (trajectory != null)
-			setPosition(trajectory.calculatePosition(fPosition, getLane().getGlobals().getConfig().getTileSize() / 50));
+		{
+			Point2D fPosition1 = trajectory.calculatePosition(fPosition, getSpeed());
+			setPosition(fPosition1);
+		}
 	}
 
-    /**
-     *
-     * @param lane
-     */
-	public void reset(Lane lane){
+	public double getSpeed()
+	{
+		return (getLane().getGlobals().getConfig().getTileSize() / 50) * fSpeed;
+	}
+
+	public double getSpeedModifier()
+	{
+		return fSpeed;
+	}
+
+	/**
+	 * @param lane
+	 */
+	public void reset(Lane lane)
+	{
 		fLane = lane;
 	}
 
-    public ImageIcon getImage() {
-        return fImage;
-    }
+	public ImageIcon getImage()
+	{
+		return fImage;
+	}
+
+	private Vector<Car> getFrontCars()
+	{
+
+		Vector<Car> toReturn = new Vector<Car>();
+		Vector<Car> cars = fLane.getCars();
+		int index = cars.indexOf(this);
+		if (!(index == 0))
+		{
+			toReturn.add(cars.get(index - 1));
+			return toReturn;
+		}
+		Collection<Lane> lanes = fLane.getEnd().getLanes();
+		for (Lane lane : lanes)
+		{
+			Vector<Car> carsOnLane = lane.getCars();
+			if (!carsOnLane.isEmpty())
+				toReturn.add(carsOnLane.get(carsOnLane.size() - 1));
+
+		}
 
 
+		return toReturn;
+	}
+
+
+	public double getLenght()
+	{
+		return fLength;
+	}
 }

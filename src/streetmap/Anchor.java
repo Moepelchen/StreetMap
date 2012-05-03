@@ -4,6 +4,7 @@ import streetmap.Interfaces.IPrintable;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -89,4 +90,9 @@ public class Anchor implements IPrintable
     public void removeLane(String s, Lane lane) {
         fLanes.remove(s);
     }
+
+	public Collection<Lane> getLanes()
+	{
+		return fLanes.values();
+	}
 }

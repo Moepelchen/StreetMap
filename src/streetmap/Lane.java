@@ -95,7 +95,7 @@ public class Lane implements IPrintable, ISimulateable
 			g.setColor(Color.PINK);
 			fTrajectory.print(g);
 		}
-		//drawCars(g);
+		drawCars(g);
 	}
 
 	private void drawCars(Graphics2D g)
