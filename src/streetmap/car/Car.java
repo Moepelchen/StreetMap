@@ -73,7 +73,7 @@ public class Car implements IPrintable, ISimulateable
 	public void print(Graphics2D g)
 	{
 		DrawHelper.drawCar(this, fColor);
-		DrawHelper.drawFronCars(this, getFrontCars());
+		//DrawHelper.drawFronCars(this, getFrontCars());
 
 	}
 
@@ -93,7 +93,7 @@ public class Car implements IPrintable, ISimulateable
 			double distance = car.getPosition().distance(this.getPosition());
 			if (distance < 2.5 * car.getLenght() )
 			{
-				fSpeed = car.getSpeedModifier()-0.1*car.getSpeedModifier();
+				//fSpeed = car.getSpeedModifier()-0.1*car.getSpeedModifier();
 				caped = true;
 				break;
 

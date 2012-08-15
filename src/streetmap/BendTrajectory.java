@@ -57,7 +57,7 @@ public class BendTrajectory implements ITrajectory
 
 		}
 		PathIterator p = fCurve.getPathIterator(null);
-		FlatteningPathIterator f = new FlatteningPathIterator(p, speed / 20);
+		FlatteningPathIterator f = new FlatteningPathIterator(p, reduceCarSpeed(speed));
 		while (!f.isDone())
 		{
 			float[] pts = new float[6];
@@ -66,7 +66,7 @@ public class BendTrajectory implements ITrajectory
 				case PathIterator.SEG_MOVETO:
 				case PathIterator.SEG_LINETO:
 					Point2D point = new Point2D.Float(pts[0], pts[1]);
-					if (point.distance(pos) == 0)
+					if (point.distance(pos) <= 1)
 					{
 						f.next();
 						if (!f.isDone())
@@ -84,7 +84,11 @@ public class BendTrajectory implements ITrajectory
 		return new Point2D.Double(-1, -1);
 	}
 
-	@Override
+    private double reduceCarSpeed(double speed) {
+        return speed / 50;
+    }
+
+    @Override
 	public double getAngle()
 	{
 		return 0;  //To change body of implemented methods use File | Settings | File Templates.
@@ -116,7 +120,7 @@ public class BendTrajectory implements ITrajectory
 	public boolean carOnLane(Car fCar, Lane lane)
 	{
 		PathIterator p = fCurve.getPathIterator(null);
-		FlatteningPathIterator f = new FlatteningPathIterator(p, fCar.getSpeed() / 20);
+		FlatteningPathIterator f = new FlatteningPathIterator(p, reduceCarSpeed(fCar.getSpeed()));
 		while (!f.isDone())
 		{
 			float[] pts = new float[6];

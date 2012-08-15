@@ -63,7 +63,7 @@ public class Config implements IConfig
 
 	private void setCarImages()
 	{
-		String pathname = "F:\\Workspace\\StreetMap\\images\\cars";
+		String pathname = "images/cars";
 		File dir = new File(pathname);
 		for (String s : dir.list())
 		{
