@@ -65,7 +65,7 @@ public class Car implements IPrintable, ISimulateable
 		fPosition = pos;
 		fColor = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()));
 		fImage = carImage;
-		double v = Math.random() + 1;
+		double v = Math.random() + length/100;
 		fSpeed = v;
 		fOriginalSpeed = v;
 	}
@@ -91,7 +91,7 @@ public class Car implements IPrintable, ISimulateable
 		for (Car car : getFrontCars())
 		{
 			double distance = car.getPosition().distance(this.getPosition());
-			if (distance < 2.5 * car.getLenght() )
+			if (distance < 2.5 * car.getLength() )
 			{
 				//fSpeed = car.getSpeedModifier()-0.1*car.getSpeedModifier();
 				caped = true;
@@ -158,7 +158,7 @@ public class Car implements IPrintable, ISimulateable
 	}
 
 
-	public double getLenght()
+	public double getLength()
 	{
 		return fLength;
 	}

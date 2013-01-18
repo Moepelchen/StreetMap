@@ -25,7 +25,7 @@ public class DrawHelper
 		double scaleX;
         double scaleY;
 		g.setColor(color);
-        double width = car.getLenght();
+        double width = car.getLength();
         scaleX =  width /car.getImage().getImage().getWidth(null);
         Shape b = new Rectangle();
 

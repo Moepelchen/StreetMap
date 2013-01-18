@@ -66,7 +66,7 @@ public class BendTrajectory implements ITrajectory
 				case PathIterator.SEG_MOVETO:
 				case PathIterator.SEG_LINETO:
 					Point2D point = new Point2D.Float(pts[0], pts[1]);
-					if (point.distance(pos) <= 1)
+					if (point.distance(pos) == 0)
 					{
 						f.next();
 						if (!f.isDone())
@@ -91,22 +91,12 @@ public class BendTrajectory implements ITrajectory
     @Override
 	public double getAngle()
 	{
-		return 0;  //To change body of implemented methods use File | Settings | File Templates.
+		return 0;
 	}
 
 	@Override
 	public void print(Graphics2D g)
 	{
-		/*int oldx = (int) fStartX;
-		int oldy = (int) fStartY;
-		while (oldx + 1 < fEndX)
-		{
-			int interpolateY = (int) fSpline.interpolate(oldx + 1);
-			g.drawLine(oldx, oldy, oldx + 1, interpolateY);
-			oldx = oldx + 1;
-			oldy = interpolateY;
-		}*/
-
 		g.draw(fCurve);
 	}
 
