@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 /**
- * This class represents cars moving on the map
+ * This class represents one car moving on the map
  */
 public class Car implements IPrintable, ISimulateable
 {
@@ -65,7 +65,7 @@ public class Car implements IPrintable, ISimulateable
 		fPosition = pos;
 		fColor = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()));
 		fImage = carImage;
-		double v = Math.random() + length/100;
+		double v = Math.random() + length/20;
 		fSpeed = v;
 		fOriginalSpeed = v;
 	}
@@ -93,7 +93,8 @@ public class Car implements IPrintable, ISimulateable
 			double distance = car.getPosition().distance(this.getPosition());
 			if (distance < 2.5 * car.getLength() )
 			{
-				//fSpeed = car.getSpeedModifier()-0.1*car.getSpeedModifier();
+
+				setSpeed(car.getSpeedModifier() - 0.3 * car.getSpeedModifier());
 				caped = true;
 				break;
 
@@ -105,6 +106,10 @@ public class Car implements IPrintable, ISimulateable
 		ITrajectory trajectory = fLane.getTrajectory();
 		if (trajectory != null)
 		{
+
+
+                trajectory.relaocate(this);
+
 			Point2D fPosition1 = trajectory.calculatePosition(fPosition, getSpeed());
 			setPosition(fPosition1);
 		}
@@ -162,4 +167,11 @@ public class Car implements IPrintable, ISimulateable
 	{
 		return fLength;
 	}
+
+    public void setSpeed(double speed) {
+        if(speed <0)
+            fSpeed = 0;
+        else
+            fSpeed = speed;
+    }
 }

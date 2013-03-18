@@ -38,7 +38,7 @@ public class SaveClickHandler extends ClickHandler
 				file.createNewFile();
 
 			}
-			BufferedWriter output = null;
+			BufferedWriter output;
 
 
 			output = new BufferedWriter(new FileWriter(file));

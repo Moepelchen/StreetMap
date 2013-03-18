@@ -220,4 +220,8 @@ public class Lane implements IPrintable, ISimulateable
 	{
 		this.fFrom = fFrom;
 	}
+
+    public boolean isBlocked() {
+        return false;
+    }
 }

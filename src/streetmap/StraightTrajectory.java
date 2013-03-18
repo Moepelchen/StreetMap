@@ -136,4 +136,9 @@ public class StraightTrajectory implements ITrajectory
 		}
 		return false;
 	}
+
+    @Override
+    public void relaocate(Car car) {
+        // nothing to do here
+    }
 }

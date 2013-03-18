@@ -30,4 +30,6 @@ public interface ITrajectory
 	 * @return
 	 */
 	boolean carOnLane(Car fCar, Lane lane);
+
+    void relaocate(Car car);
 }

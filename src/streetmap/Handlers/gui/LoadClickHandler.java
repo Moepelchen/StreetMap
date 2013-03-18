@@ -28,7 +28,7 @@ import java.lang.reflect.InvocationTargetException;
 public class LoadClickHandler extends ClickHandler
 {
 	//Create a file chooser
-	final JFileChooser fFileChooser = new JFileChooser("./");
+	final JFileChooser fFileChooser = new JFileChooser("./save");
 
 	public LoadClickHandler(SSGlobals globals)
 	{

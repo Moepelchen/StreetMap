@@ -82,7 +82,9 @@ public class Anchor implements IPrintable
 		if(objects.length >0)
 		{
 			String test = (String) objects[index];
-			return fLanes.get(test);
+            Lane lane = fLanes.get(test);
+            if(!lane.isBlocked())
+            return lane;
 		}
 		return null;
 	}
