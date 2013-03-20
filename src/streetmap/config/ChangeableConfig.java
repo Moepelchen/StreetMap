@@ -15,15 +15,15 @@ import java.io.FileNotFoundException;
 
 /**
  * This class implements the interface IChangeableConfig, it is the first implementation
- *
  */
 public class ChangeableConfig extends Config implements IChangeableConfig
 {
-    /**
-     * Constructor  for setting up a ChangeableConfig
-     * @param glob current globals
-     * @throws FileNotFoundException thrown when the config file is not available
-     */
+	/**
+	 * Constructor  for setting up a ChangeableConfig
+	 *
+	 * @param glob current globals
+	 * @throws FileNotFoundException thrown when the config file is not available
+	 */
 	public ChangeableConfig(SSGlobals glob) throws FileNotFoundException
 	{
 		super(glob);

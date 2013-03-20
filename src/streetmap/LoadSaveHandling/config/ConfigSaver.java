@@ -19,7 +19,6 @@ import java.lang.reflect.Method;
 public class ConfigSaver
 {
 
-
 	public static void saveConfig(BufferedWriter out, IConfig config)
 	{
 		try
@@ -36,13 +35,16 @@ public class ConfigSaver
 				}
 			}
 			endConfigTag(out);
-		} catch (IllegalAccessException e)
+		}
+		catch (IllegalAccessException e)
 		{
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-		} catch (InvocationTargetException e)
+		}
+		catch (InvocationTargetException e)
 		{
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-		} catch (IOException e)
+		}
+		catch (IOException e)
 		{
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 		}

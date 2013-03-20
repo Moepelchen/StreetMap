@@ -14,13 +14,16 @@ public class ReflectionUtils
 		if (clazz.equals(String.class))
 		{
 			return obj;
-		} else if (clazz.equals(boolean.class))
+		}
+		else if (clazz.equals(boolean.class))
 		{
 			return Boolean.parseBoolean(obj.toString());
-		} else if (clazz.equals(Boolean.class))
+		}
+		else if (clazz.equals(Boolean.class))
 		{
 			return (Boolean) Boolean.parseBoolean(obj.toString());
-		} else if (clazz.equals(Double.class))
+		}
+		else if (clazz.equals(Double.class))
 		{
 			return (Double) Double.parseDouble(obj.toString());
 		}

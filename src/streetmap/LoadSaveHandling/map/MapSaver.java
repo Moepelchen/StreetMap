@@ -58,14 +58,12 @@ public class MapSaver
 		output.write(">");
 	}
 
-
 	private static void beginStreetTag(BufferedWriter output) throws IOException
 	{
 		output.write("<");
 		output.write(ISaveConstants.STREET_TAG);
 		output.write(">");
 	}
-
 
 	private static void endStreetTag(BufferedWriter output) throws IOException
 	{
@@ -80,7 +78,6 @@ public class MapSaver
 		output.write(ISaveConstants.XPOS_TAG);
 		output.write(">");
 	}
-
 
 	private static void beginYPosTag(BufferedWriter output) throws IOException
 	{

@@ -17,13 +17,12 @@ public interface ITrajectory
 {
 	public Point2D calculatePosition(Point2D pos, double speed);
 
-    double getAngle();
+	double getAngle();
 
 	void print(Graphics2D g);
 
 	/**
 	 * determines whether the car is still on this lane
-	 *
 	 *
 	 * @param fCar car to test with
 	 * @param lane
@@ -31,5 +30,5 @@ public interface ITrajectory
 	 */
 	boolean carOnLane(Car fCar, Lane lane);
 
-    void relaocate(Car car);
+	void relaocate(Car car);
 }

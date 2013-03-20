@@ -30,7 +30,6 @@ import java.lang.reflect.Method;
 public class ConfigLoader extends Loader
 {
 
-
 	@Override
 	public boolean load(File file, SSGlobals glob) throws ParserConfigurationException, IOException, SAXException, NoSuchMethodException, InvocationTargetException, IllegalAccessException
 	{
@@ -77,7 +76,8 @@ public class ConfigLoader extends Loader
 								Object[] args = new Object[1];
 								args[0] = ReflectionUtils.cast(value, method.getReturnType());
 								setMethod.invoke(config, args);
-							} catch (NoSuchMethodException e)
+							}
+							catch (NoSuchMethodException e)
 							{
 
 							}
@@ -86,7 +86,6 @@ public class ConfigLoader extends Loader
 				}
 			}
 		}
-
 
 		return false;  //To change body of implemented methods use File | Settings | File Templates.
 	}

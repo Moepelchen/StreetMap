@@ -87,7 +87,6 @@ public class Lane implements IPrintable, ISimulateable
 
 	}
 
-
 	public void print(Graphics2D g)
 	{
 		if (fGlobals.getConfig().isDrawLanes())
@@ -123,7 +122,9 @@ public class Lane implements IPrintable, ISimulateable
 				toRemoveCars.add(fCar);
 				Lane randomOtherLane = fEndAnchor.getRandomLane();
 				if (randomOtherLane != null)
+				{
 					randomOtherLane.addCar(fCar);
+				}
 			}
 		}
 		fCars.removeAll(toRemoveCars);
@@ -177,9 +178,13 @@ public class Lane implements IPrintable, ISimulateable
 	{
 		//fTrajectory = new StraightTrajectory(this);
 		if (getType() == ILaneTypes.BEND)
+		{
 			fTrajectory = new BendTrajectory(this);
+		}
 		else
+		{
 			fTrajectory = new StraightTrajectory(this);
+		}
 		fMaxX = Math.max(getStart().getPosition().getX(), getEnd().getPosition().getX());
 		fMaxY = Math.max(getStart().getPosition().getY(), getEnd().getPosition().getY());
 		fMinX = Math.min(getStart().getPosition().getX(), getEnd().getPosition().getX());
@@ -221,7 +226,8 @@ public class Lane implements IPrintable, ISimulateable
 		this.fFrom = fFrom;
 	}
 
-    public boolean isBlocked() {
-        return false;
-    }
+	public boolean isBlocked()
+	{
+		return false;
+	}
 }

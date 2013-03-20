@@ -5,8 +5,6 @@ import streetmap.SSGlobals;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 
 /**
@@ -18,14 +16,15 @@ import java.io.FileNotFoundException;
  */
 
 /**
- *  Main frame which contains all other gui components
+ * Main frame which contains all other gui components
  */
 public class MainPanel extends JFrame
 {
-    /**
-     * Constructor to return one MainPanel
-     * @param globals current globals
-     */
+	/**
+	 * Constructor to return one MainPanel
+	 *
+	 * @param globals current globals
+	 */
 	public MainPanel(SSGlobals globals)
 	{
 		this.setLayout(new BorderLayout(5, 5));
@@ -39,17 +38,17 @@ public class MainPanel extends JFrame
 
 	}
 
-
 	public static void main(String[] args)
 	{
 		SSGlobals globals = null;
 		try
 		{
 			globals = new SSGlobals();
-		} catch (FileNotFoundException e)
+		}
+		catch (FileNotFoundException e)
 		{
 			e.printStackTrace();
 		}
 		MainPanel main = new MainPanel(globals);
-    }
+	}
 }

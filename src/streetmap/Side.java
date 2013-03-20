@@ -23,7 +23,6 @@ public abstract class Side implements IPrintable
 		return fAnchorOne;
 	}
 
-
 	public Anchor getAnchorTwo()
 	{
 		return fAnchorTwo;
@@ -70,7 +69,6 @@ public abstract class Side implements IPrintable
 			g.setColor(Color.MAGENTA);
 			fAnchorTwo.print(g);
 		}
-
 
 	}
 

@@ -40,7 +40,6 @@ public class SaveClickHandler extends ClickHandler
 			}
 			BufferedWriter output;
 
-
 			output = new BufferedWriter(new FileWriter(file));
 
 			beginMapTag(output);
@@ -51,7 +50,8 @@ public class SaveClickHandler extends ClickHandler
 
 			output.close();
 
-		} catch (IOException e1)
+		}
+		catch (IOException e1)
 		{
 			e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 		}

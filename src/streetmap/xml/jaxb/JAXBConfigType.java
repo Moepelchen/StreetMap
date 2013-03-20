@@ -5,19 +5,17 @@
 // Generated on: 2011.11.24 at 02:43:58 PM CET 
 //
 
-
 package streetmap.xml.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
  * <p>Java class for JAXBConfigType complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="JAXBConfigType">
  *   &lt;complexContent>
@@ -34,169 +32,156 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "JAXBConfigType", propOrder = {
-    "drawsides",
-    "drawtiles",
-    "drawanchors",
-    "tilesize",
-    "width",
-    "height"
+		"drawsides",
+		"drawtiles",
+		"drawanchors",
+		"tilesize",
+		"width",
+		"height"
 })
-public class JAXBConfigType {
+public class JAXBConfigType
+{
 
-    protected Boolean drawsides;
-    protected Boolean drawtiles;
-    protected Boolean drawanchors;
-    protected Double tilesize;
-    protected Double width;
-    protected Double height;
+	protected Boolean drawsides;
+	protected Boolean drawtiles;
+	protected Boolean drawanchors;
+	protected Double tilesize;
+	protected Double width;
+	protected Double height;
 
-    /**
-     * Gets the value of the drawsides property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
-     */
-    public Boolean isDrawsides() {
-        return drawsides;
-    }
+	/**
+	 * Gets the value of the drawsides property.
+	 *
+	 * @return possible object is
+	 *         {@link Boolean }
+	 */
+	public Boolean isDrawsides()
+	{
+		return drawsides;
+	}
 
-    /**
-     * Sets the value of the drawsides property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
-     */
-    public void setDrawsides(Boolean value) {
-        this.drawsides = value;
-    }
+	/**
+	 * Sets the value of the drawsides property.
+	 *
+	 * @param value allowed object is
+	 *              {@link Boolean }
+	 */
+	public void setDrawsides(Boolean value)
+	{
+		this.drawsides = value;
+	}
 
-    /**
-     * Gets the value of the drawtiles property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
-     */
-    public Boolean isDrawtiles() {
-        return drawtiles;
-    }
+	/**
+	 * Gets the value of the drawtiles property.
+	 *
+	 * @return possible object is
+	 *         {@link Boolean }
+	 */
+	public Boolean isDrawtiles()
+	{
+		return drawtiles;
+	}
 
-    /**
-     * Sets the value of the drawtiles property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
-     */
-    public void setDrawtiles(Boolean value) {
-        this.drawtiles = value;
-    }
+	/**
+	 * Sets the value of the drawtiles property.
+	 *
+	 * @param value allowed object is
+	 *              {@link Boolean }
+	 */
+	public void setDrawtiles(Boolean value)
+	{
+		this.drawtiles = value;
+	}
 
-    /**
-     * Gets the value of the drawanchors property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
-     */
-    public Boolean isDrawanchors() {
-        return drawanchors;
-    }
+	/**
+	 * Gets the value of the drawanchors property.
+	 *
+	 * @return possible object is
+	 *         {@link Boolean }
+	 */
+	public Boolean isDrawanchors()
+	{
+		return drawanchors;
+	}
 
-    /**
-     * Sets the value of the drawanchors property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
-     */
-    public void setDrawanchors(Boolean value) {
-        this.drawanchors = value;
-    }
+	/**
+	 * Sets the value of the drawanchors property.
+	 *
+	 * @param value allowed object is
+	 *              {@link Boolean }
+	 */
+	public void setDrawanchors(Boolean value)
+	{
+		this.drawanchors = value;
+	}
 
-    /**
-     * Gets the value of the tilesize property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Double }
-     *     
-     */
-    public Double getTilesize() {
-        return tilesize;
-    }
+	/**
+	 * Gets the value of the tilesize property.
+	 *
+	 * @return possible object is
+	 *         {@link Double }
+	 */
+	public Double getTilesize()
+	{
+		return tilesize;
+	}
 
-    /**
-     * Sets the value of the tilesize property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Double }
-     *     
-     */
-    public void setTilesize(Double value) {
-        this.tilesize = value;
-    }
+	/**
+	 * Sets the value of the tilesize property.
+	 *
+	 * @param value allowed object is
+	 *              {@link Double }
+	 */
+	public void setTilesize(Double value)
+	{
+		this.tilesize = value;
+	}
 
-    /**
-     * Gets the value of the width property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Double }
-     *     
-     */
-    public Double getWidth() {
-        return width;
-    }
+	/**
+	 * Gets the value of the width property.
+	 *
+	 * @return possible object is
+	 *         {@link Double }
+	 */
+	public Double getWidth()
+	{
+		return width;
+	}
 
-    /**
-     * Sets the value of the width property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Double }
-     *     
-     */
-    public void setWidth(Double value) {
-        this.width = value;
-    }
+	/**
+	 * Sets the value of the width property.
+	 *
+	 * @param value allowed object is
+	 *              {@link Double }
+	 */
+	public void setWidth(Double value)
+	{
+		this.width = value;
+	}
 
-    /**
-     * Gets the value of the height property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Double }
-     *     
-     */
-    public Double getHeight() {
-        return height;
-    }
+	/**
+	 * Gets the value of the height property.
+	 *
+	 * @return possible object is
+	 *         {@link Double }
+	 */
+	public Double getHeight()
+	{
+		return height;
+	}
 
-    /**
-     * Sets the value of the height property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Double }
-     *     
-     */
-    public void setHeight(Double value) {
-        this.height = value;
-    }
+	/**
+	 * Sets the value of the height property.
+	 *
+	 * @param value allowed object is
+	 *              {@link Double }
+	 */
+	public void setHeight(Double value)
+	{
+		this.height = value;
+	}
 
 }

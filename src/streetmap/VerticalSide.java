@@ -5,7 +5,6 @@ import java.awt.geom.Point2D;
 public class VerticalSide extends Side
 {
 
-
 	/**
 	 * This class describes a side with vertical orientation, meaning east or west
 	 *

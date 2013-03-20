@@ -27,7 +27,6 @@ import java.util.List;
 
 /**
  * This class reads the street config file to determine which kind of streets are available
- *
  */
 public class StreetConfig
 {
@@ -38,12 +37,12 @@ public class StreetConfig
 
 	private HashMap<String, StreetTemplate> fStreets;
 
-    /**
-     * Constructor
-     *
-     * @param glob current globals
-     * @throws FileNotFoundException thrown when the streets.xml is not available
-     */
+	/**
+	 * Constructor
+	 *
+	 * @param glob current globals
+	 * @throws FileNotFoundException thrown when the streets.xml is not available
+	 */
 	public StreetConfig(SSGlobals glob) throws FileNotFoundException
 	{
 		fGlobals = glob;
@@ -51,28 +50,33 @@ public class StreetConfig
 		try
 		{
 			parse();
-		} catch (ParserConfigurationException e)
+		}
+		catch (ParserConfigurationException e)
 		{
 			throw new FileNotFoundException("Die Strassen-Konfigurationsdatei konnte nicht gefunden werden");
-		} catch (IOException e)
+		}
+		catch (IOException e)
 		{
 			throw new FileNotFoundException("Die Strassen-Konfigurationsdatei konnte nicht gefunden werden");
-		} catch (SAXException e)
+		}
+		catch (SAXException e)
 		{
 			throw new FileNotFoundException("Die Strassen-Konfigurationsdatei konnte nicht gefunden werden");
-		} catch (JAXBException e)
+		}
+		catch (JAXBException e)
 		{
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 		}
 	}
 
-    /**
-     * Parses the streets.xml into an jaxb object
-     * @throws IOException
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws JAXBException
-     */
+	/**
+	 * Parses the streets.xml into an jaxb object
+	 *
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws JAXBException
+	 */
 	private void parse() throws IOException, ParserConfigurationException, SAXException, JAXBException
 	{
 		JAXBContext jc = JAXBContext.newInstance("streetmap.xml.jaxb");

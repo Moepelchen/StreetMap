@@ -14,34 +14,35 @@ import java.util.Vector;
 public class Street implements IPrintable, ISimulateable
 {
 
-    /**
-     * lanes this street consists of
-     */
+	/**
+	 * lanes this street consists of
+	 */
 	private Vector<Lane> fLanes;
-    /**
-     * the tile on which this street is located on
-     */
+	/**
+	 * the tile on which this street is located on
+	 */
 	private Tile fTile;
-    /**
-     * Name of the StreetTemplate used
-     */
+	/**
+	 * Name of the StreetTemplate used
+	 */
 	private String fName;
-    /**
-     * Current globals
-     */
+	/**
+	 * Current globals
+	 */
 	private SSGlobals fGlobals;
-    /**
-     * indicates that this street can spawn new cars
-     */
+	/**
+	 * indicates that this street can spawn new cars
+	 */
 	private boolean fisStartEnd;
 
-    /**
-     * Constructor
-     * @param glob current globals
-     * @param tile the tile this street is located on
-     * @param name name of the streettemplate which was used to construct this street
-     * @param isStartEndPoint indicates that this street can spawn new cars
-     */
+	/**
+	 * Constructor
+	 *
+	 * @param glob            current globals
+	 * @param tile            the tile this street is located on
+	 * @param name            name of the streettemplate which was used to construct this street
+	 * @param isStartEndPoint indicates that this street can spawn new cars
+	 */
 	public Street(SSGlobals glob, Tile tile, String name, boolean isStartEndPoint)
 	{
 		fName = name;
@@ -50,7 +51,6 @@ public class Street implements IPrintable, ISimulateable
 		fTile = tile;
 		fLanes = new Vector<Lane>();
 	}
-
 
 	public Vector<Lane> getLanes()
 	{
@@ -72,7 +72,6 @@ public class Street implements IPrintable, ISimulateable
 			Double tileSize = fTile.getWidth();
 			g.drawImage(image, (int) (fTile.getArrayPosition().getX() * tileSize), (int) (fTile.getArrayPosition().getY() * tileSize), tileSize.intValue(), tileSize.intValue(), null);
 		}
-
 
 		for (Lane lane : fLanes)
 		{

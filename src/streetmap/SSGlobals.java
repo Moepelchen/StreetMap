@@ -14,7 +14,6 @@ import java.io.FileNotFoundException;
  * SS stands for StreetSimulator ;)
  */
 
-
 public class SSGlobals
 {
 	/**

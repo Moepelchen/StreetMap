@@ -5,7 +5,6 @@
 // Generated on: 2012.01.06 at 04:50:50 PM CET 
 //
 
-
 package streetmap.xml.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -13,12 +12,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
  * <p>Java class for StreetTemplate complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="StreetTemplate">
  *   &lt;complexContent>
@@ -32,94 +30,87 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StreetTemplate", propOrder = {
-    "name",
-    "imagePath",
-    "laneTemplates"
+		"name",
+		"imagePath",
+		"laneTemplates"
 })
-public class StreetTemplate {
+public class StreetTemplate
+{
 
-    @XmlElement(required = true)
-    protected String name;
-    @XmlElement(required = true)
-    protected String imagePath;
-    @XmlElement(name = "LaneTemplates", required = true)
-    protected LaneTemplates laneTemplates;
+	@XmlElement(required = true)
+	protected String name;
+	@XmlElement(required = true)
+	protected String imagePath;
+	@XmlElement(name = "LaneTemplates", required = true)
+	protected LaneTemplates laneTemplates;
 
-    /**
-     * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * Gets the value of the name property.
+	 *
+	 * @return possible object is
+	 *         {@link String }
+	 */
+	public String getName()
+	{
+		return name;
+	}
 
-    /**
-     * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
+	/**
+	 * Sets the value of the name property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setName(String value)
+	{
+		this.name = value;
+	}
 
-    /**
-     * Gets the value of the imagePath property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getImagePath() {
-        return imagePath;
-    }
+	/**
+	 * Gets the value of the imagePath property.
+	 *
+	 * @return possible object is
+	 *         {@link String }
+	 */
+	public String getImagePath()
+	{
+		return imagePath;
+	}
 
-    /**
-     * Sets the value of the imagePath property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setImagePath(String value) {
-        this.imagePath = value;
-    }
+	/**
+	 * Sets the value of the imagePath property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setImagePath(String value)
+	{
+		this.imagePath = value;
+	}
 
-    /**
-     * Gets the value of the laneTemplates property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link LaneTemplates }
-     *     
-     */
-    public LaneTemplates getLaneTemplates() {
-        return laneTemplates;
-    }
+	/**
+	 * Gets the value of the laneTemplates property.
+	 *
+	 * @return possible object is
+	 *         {@link LaneTemplates }
+	 */
+	public LaneTemplates getLaneTemplates()
+	{
+		return laneTemplates;
+	}
 
-    /**
-     * Sets the value of the laneTemplates property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link LaneTemplates }
-     *     
-     */
-    public void setLaneTemplates(LaneTemplates value) {
-        this.laneTemplates = value;
-    }
+	/**
+	 * Sets the value of the laneTemplates property.
+	 *
+	 * @param value allowed object is
+	 *              {@link LaneTemplates }
+	 */
+	public void setLaneTemplates(LaneTemplates value)
+	{
+		this.laneTemplates = value;
+	}
 
 }

@@ -37,7 +37,6 @@ public class Car implements IPrintable, ISimulateable
 	private final double fOriginalSpeed;
 	private double fLength;
 
-
 	public Point2D getPosition()
 	{
 		return fPosition;
@@ -65,7 +64,7 @@ public class Car implements IPrintable, ISimulateable
 		fPosition = pos;
 		fColor = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()));
 		fImage = carImage;
-		double v = Math.random() + length/20;
+		double v = Math.random() + length / 20;
 		fSpeed = v;
 		fOriginalSpeed = v;
 	}
@@ -91,24 +90,24 @@ public class Car implements IPrintable, ISimulateable
 		for (Car car : getFrontCars())
 		{
 			double distance = car.getPosition().distance(this.getPosition());
-			if (distance < 2.5 * car.getLength() )
+			if (distance < 2.5 * car.getLength())
 			{
 
 				setSpeed(car.getSpeedModifier() - 0.3 * car.getSpeedModifier());
 				caped = true;
 				break;
 
-
 			}
 		}
 		if (!caped)
+		{
 			fSpeed = fOriginalSpeed;
+		}
 		ITrajectory trajectory = fLane.getTrajectory();
 		if (trajectory != null)
 		{
 
-
-                trajectory.relaocate(this);
+			trajectory.relaocate(this);
 
 			Point2D fPosition1 = trajectory.calculatePosition(fPosition, getSpeed());
 			setPosition(fPosition1);
@@ -154,24 +153,29 @@ public class Car implements IPrintable, ISimulateable
 		{
 			Vector<Car> carsOnLane = lane.getCars();
 			if (!carsOnLane.isEmpty())
+			{
 				toReturn.add(carsOnLane.get(carsOnLane.size() - 1));
+			}
 
 		}
 
-
 		return toReturn;
 	}
-
 
 	public double getLength()
 	{
 		return fLength;
 	}
 
-    public void setSpeed(double speed) {
-        if(speed <0)
-            fSpeed = 0;
-        else
-            fSpeed = speed;
-    }
+	public void setSpeed(double speed)
+	{
+		if (speed < 0)
+		{
+			fSpeed = 0;
+		}
+		else
+		{
+			fSpeed = speed;
+		}
+	}
 }

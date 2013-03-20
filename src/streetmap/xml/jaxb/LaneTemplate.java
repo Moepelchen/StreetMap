@@ -5,7 +5,6 @@
 // Generated on: 2012.01.06 at 04:50:50 PM CET 
 //
 
-
 package streetmap.xml.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -13,12 +12,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
  * <p>Java class for LaneTemplate complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="LaneTemplate">
  *   &lt;complexContent>
@@ -33,103 +31,98 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LaneTemplate", propOrder = {
-    "isStartPoint",
-    "isEndPoint",
-    "from",
-    "to"
+		"isStartPoint",
+		"isEndPoint",
+		"from",
+		"to"
 })
-public class LaneTemplate {
+public class LaneTemplate
+{
 
-    protected boolean isStartPoint;
-    protected boolean isEndPoint;
-    @XmlElement(required = true)
-    protected String from;
-    @XmlElement(required = true)
-    protected String to;
+	protected boolean isStartPoint;
+	protected boolean isEndPoint;
+	@XmlElement(required = true)
+	protected String from;
+	@XmlElement(required = true)
+	protected String to;
 
-    /**
-     * Gets the value of the isStartPoint property.
-     * 
-     */
-    public boolean isIsStartPoint() {
-        return isStartPoint;
-    }
+	/**
+	 * Gets the value of the isStartPoint property.
+	 */
+	public boolean isIsStartPoint()
+	{
+		return isStartPoint;
+	}
 
-    /**
-     * Sets the value of the isStartPoint property.
-     * 
-     */
-    public void setIsStartPoint(boolean value) {
-        this.isStartPoint = value;
-    }
+	/**
+	 * Sets the value of the isStartPoint property.
+	 */
+	public void setIsStartPoint(boolean value)
+	{
+		this.isStartPoint = value;
+	}
 
-    /**
-     * Gets the value of the isEndPoint property.
-     * 
-     */
-    public boolean isIsEndPoint() {
-        return isEndPoint;
-    }
+	/**
+	 * Gets the value of the isEndPoint property.
+	 */
+	public boolean isIsEndPoint()
+	{
+		return isEndPoint;
+	}
 
-    /**
-     * Sets the value of the isEndPoint property.
-     * 
-     */
-    public void setIsEndPoint(boolean value) {
-        this.isEndPoint = value;
-    }
+	/**
+	 * Sets the value of the isEndPoint property.
+	 */
+	public void setIsEndPoint(boolean value)
+	{
+		this.isEndPoint = value;
+	}
 
-    /**
-     * Gets the value of the from property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getFrom() {
-        return from;
-    }
+	/**
+	 * Gets the value of the from property.
+	 *
+	 * @return possible object is
+	 *         {@link String }
+	 */
+	public String getFrom()
+	{
+		return from;
+	}
 
-    /**
-     * Sets the value of the from property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setFrom(String value) {
-        this.from = value;
-    }
+	/**
+	 * Sets the value of the from property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setFrom(String value)
+	{
+		this.from = value;
+	}
 
-    /**
-     * Gets the value of the to property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getTo() {
-        return to;
-    }
+	/**
+	 * Gets the value of the to property.
+	 *
+	 * @return possible object is
+	 *         {@link String }
+	 */
+	public String getTo()
+	{
+		return to;
+	}
 
-    /**
-     * Sets the value of the to property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setTo(String value) {
-        this.to = value;
-    }
+	/**
+	 * Sets the value of the to property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setTo(String value)
+	{
+		this.to = value;
+	}
 
 }

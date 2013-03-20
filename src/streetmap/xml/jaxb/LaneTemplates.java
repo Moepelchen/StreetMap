@@ -5,22 +5,20 @@
 // Generated on: 2012.01.06 at 04:50:50 PM CET 
 //
 
-
 package streetmap.xml.jaxb;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>Java class for LaneTemplates complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="LaneTemplates">
  *   &lt;complexContent>
@@ -32,45 +30,44 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LaneTemplates", propOrder = {
-    "laneTemplate"
+		"laneTemplate"
 })
-public class LaneTemplates {
+public class LaneTemplates
+{
 
-    @XmlElement(name = "LaneTemplate", required = true)
-    protected List<LaneTemplate> laneTemplate;
+	@XmlElement(name = "LaneTemplate", required = true)
+	protected List<LaneTemplate> laneTemplate;
 
-    /**
-     * Gets the value of the laneTemplate property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the laneTemplate property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getLaneTemplate().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link LaneTemplate }
-     * 
-     * 
-     */
-    public List<LaneTemplate> getLaneTemplate() {
-        if (laneTemplate == null) {
-            laneTemplate = new ArrayList<LaneTemplate>();
-        }
-        return this.laneTemplate;
-    }
+	/**
+	 * Gets the value of the laneTemplate property.
+	 * <p/>
+	 * <p/>
+	 * This accessor method returns a reference to the live list,
+	 * not a snapshot. Therefore any modification you make to the
+	 * returned list will be present inside the JAXB object.
+	 * This is why there is not a <CODE>set</CODE> method for the laneTemplate property.
+	 * <p/>
+	 * <p/>
+	 * For example, to add a new item, do as follows:
+	 * <pre>
+	 *    getLaneTemplate().add(newItem);
+	 * </pre>
+	 * <p/>
+	 * <p/>
+	 * <p/>
+	 * Objects of the following type(s) are allowed in the list
+	 * {@link LaneTemplate }
+	 */
+	public List<LaneTemplate> getLaneTemplate()
+	{
+		if (laneTemplate == null)
+		{
+			laneTemplate = new ArrayList<LaneTemplate>();
+		}
+		return this.laneTemplate;
+	}
 
 }

@@ -37,7 +37,6 @@ public class Config implements IConfig
 	 */
 	private Vector<ImageIcon> fCarImages;
 
-
 	public Config(SSGlobals glob) throws FileNotFoundException
 	{
 		fCarImages = new Vector<ImageIcon>();
@@ -45,16 +44,20 @@ public class Config implements IConfig
 		{
 			parseConfig(glob);
 			setCarImages();
-		} catch (ParserConfigurationException e)
+		}
+		catch (ParserConfigurationException e)
 		{
 			throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
-		} catch (IOException e)
+		}
+		catch (IOException e)
 		{
 			throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
-		} catch (SAXException e)
+		}
+		catch (SAXException e)
 		{
 			throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
-		} catch (JAXBException e)
+		}
+		catch (JAXBException e)
 		{
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 		}
@@ -67,18 +70,19 @@ public class Config implements IConfig
 		File dir = new File(pathname);
 		for (String s : dir.list())
 		{
-			fCarImages.add(new ImageIcon(pathname+ File.separator+s));
+			fCarImages.add(new ImageIcon(pathname + File.separator + s));
 		}
 	}
 
 	/**
-     * This method does the actual parsing of the config.xml
-     * @param glob
-     * @throws ParserConfigurationException
-     * @throws IOException
-     * @throws SAXException
-     * @throws JAXBException
-     */
+	 * This method does the actual parsing of the config.xml
+	 *
+	 * @param glob
+	 * @throws ParserConfigurationException
+	 * @throws IOException
+	 * @throws SAXException
+	 * @throws JAXBException
+	 */
 	private void parseConfig(SSGlobals glob) throws ParserConfigurationException, IOException, SAXException, JAXBException
 	{
 		JAXBContext jc = JAXBContext.newInstance("streetmap.xml.jaxb");

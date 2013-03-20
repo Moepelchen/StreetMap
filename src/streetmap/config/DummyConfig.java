@@ -20,7 +20,6 @@ import java.util.Vector;
 public class DummyConfig implements IConfig
 {
 
-
 	public boolean isDrawTiles()
 	{
 		return true;

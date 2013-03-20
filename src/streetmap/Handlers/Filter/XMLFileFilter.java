@@ -32,7 +32,8 @@ public class XMLFileFilter extends FileFilter
 			if (extension.equals(FileUtils.xml))
 			{
 				return true;
-			} else
+			}
+			else
 			{
 				return false;
 			}

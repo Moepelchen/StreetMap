@@ -54,22 +54,28 @@ public class LoadClickHandler extends ClickHandler
 				{
 					configLoader.load(file, fGlobals);
 					mapLoader.load(file, fGlobals);
-				} catch (ParserConfigurationException e1)
+				}
+				catch (ParserConfigurationException e1)
 				{
 					e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-				} catch (IOException e1)
+				}
+				catch (IOException e1)
 				{
 					e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-				} catch (SAXException e1)
+				}
+				catch (SAXException e1)
 				{
 					e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-				} catch (NoSuchMethodException e1)
+				}
+				catch (NoSuchMethodException e1)
 				{
 					e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-				} catch (IllegalAccessException e1)
+				}
+				catch (IllegalAccessException e1)
 				{
 					e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-				} catch (InvocationTargetException e1)
+				}
+				catch (InvocationTargetException e1)
 				{
 					e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 				}

@@ -42,7 +42,6 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 	 */
 	private Double fTileSize;
 
-
 	/**
 	 * Globals containing the different configurations
 	 */
@@ -91,7 +90,6 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 		fEndLanes = new Vector<Lane>();
 		generateTiles();
 
-
 		this.addMouseListener(new MapClickHandler(fGlobals, this));
 		// debug stuff
 		this.setBounds(0, 0, fWidth.intValue() + 2 * 5, fHeight.intValue() + 2 * 5);
@@ -103,7 +101,6 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 
 		fGlobals.setMap(this);
 	}
-
 
 	/**
 	 * This method generates all Tiles, determined by the width, height and tile size
@@ -119,7 +116,6 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 				fTiles[(int) x][(int) y] = new Tile(fGlobals, this, new Point2D.Double(x, y));
 			}
 		}
-
 
 	}
 
@@ -155,17 +151,17 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 		{
 			for (Tile tile : fTile)
 			{
-					Street street = tile.getStreet();
-					if (street != null)
+				Street street = tile.getStreet();
+				if (street != null)
+				{
+					for (Lane lane : street.getLanes())
 					{
-						for (Lane lane : street.getLanes())
+						for (Car car : lane.getCars())
 						{
-							for (Car car : lane.getCars())
-							{
-								car.print(g);
-							}
+							car.print(g);
 						}
 					}
+				}
 
 			}
 		}
@@ -194,7 +190,8 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 		try
 		{
 			return fTiles[(int) x][(int) y];
-		} catch (ArrayIndexOutOfBoundsException e)
+		}
+		catch (ArrayIndexOutOfBoundsException e)
 		{
 			return null;
 		}
@@ -219,16 +216,14 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 	private void clearCarLayer()
 	{
 		Graphics2D carLayerGraphics = (Graphics2D) getCarLayerGraphics();
-		Composite backup=carLayerGraphics.getComposite();
+		Composite backup = carLayerGraphics.getComposite();
 		carLayerGraphics.setComposite(
 				AlphaComposite.getInstance(AlphaComposite.CLEAR, 0.0f));
 		Rectangle2D.Double rect =
-				new Rectangle2D.Double(0,0,fWidth.intValue() + 5,fHeight.intValue() + 5);
+				new Rectangle2D.Double(0, 0, fWidth.intValue() + 5, fHeight.intValue() + 5);
 		carLayerGraphics.fill(rect);
 		carLayerGraphics.setComposite(backup);
 	}
-
-
 
 	public void actionPerformed(ActionEvent e)
 	{
@@ -249,19 +244,24 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 	{
 		fStartingLanes.remove(lane);
 	}
+
 	public void addStart(Lane lane)
 	{
 		fStartingLanes.add(lane);
 	}
+
 	public void removeEnd(Lane lane)
 	{
 		fEndLanes.remove(lane);
 	}
+
 	public void addEnd(Lane lane)
 	{
 		fEndLanes.add(lane);
 	}
-	public Graphics getCarLayerGraphics(){
+
+	public Graphics getCarLayerGraphics()
+	{
 		return fCarLayerImage.getGraphics();
 	}
 }

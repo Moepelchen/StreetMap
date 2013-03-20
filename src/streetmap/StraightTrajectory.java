@@ -15,11 +15,9 @@ import java.awt.geom.Point2D;
  * To change this template use File | Settings | File Templates.
  */
 
-
 /**
  * This class determines on what trajectory the car moves on a lane between two anchor points
  * In this case it is a straight line
- *
  */
 public class StraightTrajectory implements ITrajectory
 {
@@ -32,9 +30,9 @@ public class StraightTrajectory implements ITrajectory
 	private double fDirection;
 
 	private Lane fLane;
-    private double fAngle;
+	private double fAngle;
 
-    public StraightTrajectory(Lane lane)
+	public StraightTrajectory(Lane lane)
 	{
 		fLane = lane;
 		Point2D p1 = lane.getStart().getPosition();
@@ -43,83 +41,94 @@ public class StraightTrajectory implements ITrajectory
 		double deltaX = p2.getX() - p1.getX();
 		double deltaY = p2.getY() - p1.getY();
 
-
 		if (deltaX != 0)
 		{
 			fA = (deltaY) / (deltaX);
 			fB = p1.getY() - fA * p1.getX();
-		} else
+		}
+		else
 		{
 			fA = INT;
 		}
-        double angle = Math.abs(Math.atan2(deltaY, deltaX));
-        fAngle = angle;
+		double angle = Math.abs(Math.atan2(deltaY, deltaX));
+		fAngle = angle;
 		if (lane.getType() == ILaneTypes.BEND)
 		{
 
 			if (angle >= Math.PI / 2 && angle <= Math.PI * 6 / 4)
 			{
 				fDirection = -1;
-                if(fA > 0)
-                    fAngle = fAngle+ Math.PI/2;
-			} else {
+				if (fA > 0)
+				{
+					fAngle = fAngle + Math.PI / 2;
+				}
+			}
+			else
+			{
 				fDirection = +1;
-                if(fA < 0)
-                    fAngle = fAngle- Math.PI/2;
-            }
+				if (fA < 0)
+				{
+					fAngle = fAngle - Math.PI / 2;
+				}
+			}
 
-		} else
+		}
+		else
 		{
-            boolean isSouth = fLane.getDirection(fLane.getEnd()).equals(Tile.COMPASS_POINT_S);
-            if (fLane.getDirection(fLane.getEnd()).equals(Tile.COMPASS_POINT_W) || isSouth)
+			boolean isSouth = fLane.getDirection(fLane.getEnd()).equals(Tile.COMPASS_POINT_S);
+			if (fLane.getDirection(fLane.getEnd()).equals(Tile.COMPASS_POINT_W) || isSouth)
 			{
 				fDirection = -1;
 
-
-			} else{
+			}
+			else
+			{
 				fDirection = +1;
-                if(fLane.getDirection(fLane.getEnd()).equals(Tile.COMPASS_POINT_N))
-                    fAngle = fAngle+Math.PI;
+				if (fLane.getDirection(fLane.getEnd()).equals(Tile.COMPASS_POINT_N))
+				{
+					fAngle = fAngle + Math.PI;
+				}
 
-            }
+			}
 
 		}
 
 	}
 
-    public Point2D calculatePosition(Point2D pos, double speed)
-    {
-        Point2D newPos = new Point2D.Double();
-        if (fLane.getType() == ILaneTypes.BEND)
-        {
-            speed = speed / 2;
-        }
-        double x = pos.getX() + fDirection * speed;
-        if (fA != INT)
-            newPos.setLocation(x, fA * x + fB);
-        else if (fA == INT)
-        {
-            newPos.setLocation(pos.getX(), pos.getY() - fDirection * speed);
-        }
+	public Point2D calculatePosition(Point2D pos, double speed)
+	{
+		Point2D newPos = new Point2D.Double();
+		if (fLane.getType() == ILaneTypes.BEND)
+		{
+			speed = speed / 2;
+		}
+		double x = pos.getX() + fDirection * speed;
+		if (fA != INT)
+		{
+			newPos.setLocation(x, fA * x + fB);
+		}
+		else if (fA == INT)
+		{
+			newPos.setLocation(pos.getX(), pos.getY() - fDirection * speed);
+		}
 
+		return newPos;
+	}
 
-        return newPos;
-    }
-
-    public double getAngle() {
-        return fAngle;
-    }
+	public double getAngle()
+	{
+		return fAngle;
+	}
 
 	@Override
 	public void print(Graphics2D g)
 	{
-		g.drawLine((int) fLane.getStart().getPosition().getX(), (int)fLane.getStart().getPosition().getY(), (int) fLane.getEnd().getPosition().getX(), (int) fLane.getEnd().getPosition().getY());
+		g.drawLine((int) fLane.getStart().getPosition().getX(), (int) fLane.getStart().getPosition().getY(), (int) fLane.getEnd().getPosition().getX(), (int) fLane.getEnd().getPosition().getY());
 
 	}
 
 	/**
 	 * determines whether the car is still on this lane
-	 *
 	 *
 	 * @param fCar car to test with
 	 * @param lane
@@ -137,8 +146,9 @@ public class StraightTrajectory implements ITrajectory
 		return false;
 	}
 
-    @Override
-    public void relaocate(Car car) {
-        // nothing to do here
-    }
+	@Override
+	public void relaocate(Car car)
+	{
+		// nothing to do here
+	}
 }

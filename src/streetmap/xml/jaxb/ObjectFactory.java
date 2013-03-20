@@ -5,7 +5,6 @@
 // Generated on: 2012.01.06 at 04:50:50 PM CET 
 //
 
-
 package streetmap.xml.jaxb;
 
 import javax.xml.bind.JAXBElement;
@@ -13,90 +12,89 @@ import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
-
 /**
- * This object contains factory methods for each 
- * Java content interface and Java element interface 
- * generated in the generated package. 
- * <p>An ObjectFactory allows you to programatically 
- * construct new instances of the Java representation 
- * for XML content. The Java representation of XML 
- * content can consist of schema derived interfaces 
- * and classes representing the binding of schema 
- * type definitions, element declarations and model 
- * groups.  Factory methods for each of these are 
+ * This object contains factory methods for each
+ * Java content interface and Java element interface
+ * generated in the generated package.
+ * <p>An ObjectFactory allows you to programatically
+ * construct new instances of the Java representation
+ * for XML content. The Java representation of XML
+ * content can consist of schema derived interfaces
+ * and classes representing the binding of schema
+ * type definitions, element declarations and model
+ * groups.  Factory methods for each of these are
  * provided in this class.
- * 
  */
 @XmlRegistry
-public class ObjectFactory {
+public class ObjectFactory
+{
 
-    private final static QName _StreetTemplates_QNAME = new QName("", "StreetTemplates");
-    private final static QName _JAXBConfig_QNAME = new QName("", "JAXBConfig");
+	private final static QName _StreetTemplates_QNAME = new QName("", "StreetTemplates");
+	private final static QName _JAXBConfig_QNAME = new QName("", "JAXBConfig");
 
-    /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: generated
-     * 
-     */
-    public ObjectFactory() {
-    }
+	/**
+	 * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: generated
+	 */
+	public ObjectFactory()
+	{
+	}
 
-    /**
-     * Create an instance of {@link StreetTemplates }
-     * 
-     */
-    public StreetTemplates createStreetTemplates() {
-        return new StreetTemplates();
-    }
+	/**
+	 * Create an instance of {@link StreetTemplates }
+	 */
+	public StreetTemplates createStreetTemplates()
+	{
+		return new StreetTemplates();
+	}
 
-    /**
-     * Create an instance of {@link JAXBConfig }
-     * 
-     */
-    public JAXBConfig createJAXBConfig() {
-        return new JAXBConfig();
-    }
+	/**
+	 * Create an instance of {@link JAXBConfig }
+	 */
+	public JAXBConfig createJAXBConfig()
+	{
+		return new JAXBConfig();
+	}
 
-    /**
-     * Create an instance of {@link LaneTemplate }
-     * 
-     */
-    public LaneTemplate createLaneTemplate() {
-        return new LaneTemplate();
-    }
+	/**
+	 * Create an instance of {@link LaneTemplate }
+	 */
+	public LaneTemplate createLaneTemplate()
+	{
+		return new LaneTemplate();
+	}
 
-    /**
-     * Create an instance of {@link StreetTemplate }
-     * 
-     */
-    public StreetTemplate createStreetTemplate() {
-        return new StreetTemplate();
-    }
+	/**
+	 * Create an instance of {@link StreetTemplate }
+	 */
+	public StreetTemplate createStreetTemplate()
+	{
+		return new StreetTemplate();
+	}
 
-    /**
-     * Create an instance of {@link LaneTemplates }
-     * 
-     */
-    public LaneTemplates createLaneTemplates() {
-        return new LaneTemplates();
-    }
+	/**
+	 * Create an instance of {@link LaneTemplates }
+	 */
+	public LaneTemplates createLaneTemplates()
+	{
+		return new LaneTemplates();
+	}
 
-    /**
-     * Create an instance of {@link javax.xml.bind.JAXBElement }{@code <}{@link StreetTemplates }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "", name = "StreetTemplates")
-    public JAXBElement<StreetTemplates> createStreetTemplates(StreetTemplates value) {
-        return new JAXBElement<StreetTemplates>(_StreetTemplates_QNAME, StreetTemplates.class, null, value);
-    }
+	/**
+	 * Create an instance of {@link javax.xml.bind.JAXBElement }{@code <}{@link StreetTemplates }{@code >}}
+	 */
+	@XmlElementDecl(namespace = "", name = "StreetTemplates")
+	public JAXBElement<StreetTemplates> createStreetTemplates(StreetTemplates value)
+	{
+		return new JAXBElement<StreetTemplates>(_StreetTemplates_QNAME, StreetTemplates.class, null, value);
+	}
 
-    /**
-     * Create an instance of {@link javax.xml.bind.JAXBElement }{@code <}{@link JAXBConfig }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "", name = "JAXBConfig")
-    public JAXBElement<JAXBConfig> createJAXBConfig(JAXBConfig value) {
-        return new JAXBElement<JAXBConfig>(_JAXBConfig_QNAME, JAXBConfig.class, null, value);
-    }
+	/**
+	 * Create an instance of {@link javax.xml.bind.JAXBElement }{@code <}{@link JAXBConfig }{@code >}}
+	 */
+	@XmlElementDecl(namespace = "", name = "JAXBConfig")
+	public JAXBElement<JAXBConfig> createJAXBConfig(JAXBConfig value)
+	{
+		return new JAXBElement<JAXBConfig>(_JAXBConfig_QNAME, JAXBConfig.class, null, value);
+	}
 
 }

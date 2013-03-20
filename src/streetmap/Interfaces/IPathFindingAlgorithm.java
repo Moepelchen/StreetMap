@@ -11,7 +11,8 @@ import java.util.LinkedList;
  * Time: 22:43
  * To change this template use File | Settings | File Templates.
  */
-public interface IPathFindingAlgorithm {
-    
-    public LinkedList getPath(Lane start, Lane end);
+public interface IPathFindingAlgorithm
+{
+
+	public LinkedList getPath(Lane start, Lane end);
 }

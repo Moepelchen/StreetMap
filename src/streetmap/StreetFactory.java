@@ -34,7 +34,7 @@ public class StreetFactory
 	/**
 	 * Creates a Street with the given Name for the given Tile
 	 *
-	 * @param tile tile to generate a street for
+	 * @param tile       tile to generate a street for
 	 * @param streetName Name of the StreetTemplate
 	 * @return
 	 */
@@ -46,7 +46,7 @@ public class StreetFactory
 			for (Lane lane : tile.getStreet().getLanes())
 			{
 				tile.getMap().removeStart(lane);
-                lane.getStart().removeLane(lane.getTo(),lane);
+				lane.getStart().removeLane(lane.getTo(), lane);
 			}
 
 		}
@@ -77,15 +77,14 @@ public class StreetFactory
 			String from = laneTemplate.getFrom();
 			String to = laneTemplate.getTo();
 
-
 			Side start = tile.getSide(from);
 			Side dest = tile.getSide(to);
 
 			lane.setType(getLaneType(from, to));
 			lane.setIsEndLane(laneTemplate.isIsEndPoint());
 			lane.setIsStartLane(laneTemplate.isIsStartPoint());
-            lane.setTo(to);
-            lane.setFrom(from);
+			lane.setTo(to);
+			lane.setFrom(from);
 			if (lane.getType() == ILaneTypes.STRAIGHT)
 			{
 				createStraight(lane, start, dest, from, to);
@@ -106,61 +105,67 @@ public class StreetFactory
 				if (lane.isStartLane())
 				{
 					tile.getMap().addStart(lane);
-				} else if (lane.isEndLane())
+				}
+				else if (lane.isEndLane())
 				{
 
 					tile.getMap().addEnd(lane);
 				}
 			}
 
-
 		}
 	}
 
-    /**
-     * Creates a Bend between the given sides
-     * @param lane the bend
-     * @param start starting side of this bend
-     * @param dest destination side for this bend
-     * @param from compass point to start from
-     * @param to compass point which the lane connects as end
-     */
+	/**
+	 * Creates a Bend between the given sides
+	 *
+	 * @param lane  the bend
+	 * @param start starting side of this bend
+	 * @param dest  destination side for this bend
+	 * @param from  compass point to start from
+	 * @param to    compass point which the lane connects as end
+	 */
 	private void createBend(Lane lane, Side start, Side dest, String from, String to)
 	{
 		if ((from.equals("E") && to.equals("N")) || (from.equals("S") && to.equals("W")))
 		{
 			lane.setStart(start.getAnchorTwo(), from);
 			lane.setEnd(dest.getAnchorTwo(), to);
-		} else if ((from.equals("N") && to.equals("E")) || (from.equals("W") && to.equals("S")))
+		}
+		else if ((from.equals("N") && to.equals("E")) || (from.equals("W") && to.equals("S")))
 		{
 			lane.setStart(start.getAnchorOne(), from);
 			lane.setEnd(dest.getAnchorOne(), to);
-		} else if ((from.equals("S") && to.equals("E")) || (from.equals("E") && to.equals("S")))
+		}
+		else if ((from.equals("S") && to.equals("E")) || (from.equals("E") && to.equals("S")))
 		{
 			lane.setStart(start.getAnchorTwo(), from);
 			lane.setEnd(dest.getAnchorOne(), to);
-		} else if ((from.equals("W") && to.equals("N")) || (from.equals("N") && to.equals("W")))
+		}
+		else if ((from.equals("W") && to.equals("N")) || (from.equals("N") && to.equals("W")))
 		{
 			lane.setStart(start.getAnchorOne(), from);
 			lane.setEnd(dest.getAnchorTwo(), to);
 		}
 	}
 
-    /**
-     * Creates a straight between the given sides
-     * @param lane
-     * @param start
-     * @param dest
-     * @param from
-     * @param to
-     */
+	/**
+	 * Creates a straight between the given sides
+	 *
+	 * @param lane
+	 * @param start
+	 * @param dest
+	 * @param from
+	 * @param to
+	 */
 	private void createStraight(Lane lane, Side start, Side dest, String from, String to)
 	{
 		if (from.equals("S") || from.equals("E"))
 		{
 			lane.setStart(start.getAnchorTwo(), from);
 			lane.setEnd(dest.getAnchorTwo(), to);
-		} else
+		}
+		else
 		{
 			lane.setStart(start.getAnchorOne(), from);
 			lane.setEnd(dest.getAnchorOne(), to);
@@ -181,27 +186,32 @@ public class StreetFactory
 	{
 	}
 
-    /**
-     * determines the lane type depending on the start and end compass point
-     * @param from starting compass point
-     * @param to end compass point
-     * @return
-     */
+	/**
+	 * determines the lane type depending on the start and end compass point
+	 *
+	 * @param from starting compass point
+	 * @param to   end compass point
+	 * @return
+	 */
 	private int getLaneType(String from, String to)
 	{
 		if (sameAxis(from, to))
 		{
 			return ILaneTypes.STRAIGHT;
-		} else
+		}
+		else
+		{
 			return ILaneTypes.BEND;
+		}
 	}
 
-    /**
-     * Determines wether the given compass points are located on the same axis
-     * @param from starting compass point
-     * @param to destination compass point
-     * @return true for (W,E)and (N,S) else false
-     */
+	/**
+	 * Determines wether the given compass points are located on the same axis
+	 *
+	 * @param from starting compass point
+	 * @param to   destination compass point
+	 * @return true for (W,E)and (N,S) else false
+	 */
 	private boolean sameAxis(String from, String to)
 	{
 		if (((from.equals("E") || from.equals("W")) && (to.equals("W") || to.equals("E"))) || ((from.equals("S") || from.equals("N")) && (to.equals("S") || to.equals("N"))))
