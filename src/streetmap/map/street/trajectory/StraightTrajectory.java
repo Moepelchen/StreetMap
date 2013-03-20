@@ -1,4 +1,4 @@
-package streetmap.map.trajectory;
+package streetmap.map.street.trajectory;
 
 import streetmap.map.street.ILaneTypes;
 import streetmap.car.Car;

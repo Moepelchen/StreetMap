@@ -2,13 +2,13 @@ package streetmap.map.street;
 
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
-import streetmap.map.trajectory.ITrajectory;
+import streetmap.map.street.trajectory.ITrajectory;
 import streetmap.SSGlobals;
 import streetmap.car.Car;
 import streetmap.car.CarFactory;
 import streetmap.map.side.Anchor;
-import streetmap.map.trajectory.BendTrajectory;
-import streetmap.map.trajectory.StraightTrajectory;
+import streetmap.map.street.trajectory.BendTrajectory;
+import streetmap.map.street.trajectory.StraightTrajectory;
 
 import java.awt.*;
 import java.util.HashMap;

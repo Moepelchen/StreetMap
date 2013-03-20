@@ -2,7 +2,7 @@ package streetmap.car;
 
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
-import streetmap.map.trajectory.ITrajectory;
+import streetmap.map.street.trajectory.ITrajectory;
 import streetmap.map.street.Lane;
 import streetmap.utils.DrawHelper;
 
