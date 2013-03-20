@@ -93,17 +93,17 @@ public class StreetPanel extends JPanel implements MouseListener
 		int x = e.getX();
 		int y = e.getY();
 
-		int arryPos = (int) (x / GUI_TILE_WIDTH);
+		int arrayPos = (int) (x / GUI_TILE_WIDTH);
 		if (y < GUI_TILE_WIDTH)
 		{
-			StreetSelectClickHandler handler = fHandlers[arryPos];
+			StreetSelectClickHandler handler = fHandlers[arrayPos];
 			if (handler != null)
 			{
 				handler.handleClick();
 			}
 		}
 
-		repaint();
+		this.repaint();
 	}
 
 	@Override

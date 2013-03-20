@@ -378,5 +378,28 @@
             </LaneTemplate>
         </LaneTemplates>
     </StreetTemplate>
+    <StreetTemplate>
+           <name>TIntersectionNoNorth2</name>
+           <imagePath>./images/streets/TIntersectionNoNorth2.png</imagePath>
+           <LaneTemplates>
 
+               <LaneTemplate>
+                   <from>E</from>
+                   <to>W</to>
+               </LaneTemplate>
+               <LaneTemplate>
+                   <from>S</from>
+                   <to>E</to>
+               </LaneTemplate>
+               <LaneTemplate>
+                   <from>S</from>
+                   <to>W</to>
+               </LaneTemplate>
+
+               <LaneTemplate>
+                   <from>W</from>
+                   <to>E</to>
+               </LaneTemplate>
+           </LaneTemplates>
+       </StreetTemplate>
 </StreetTemplates>

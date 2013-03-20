@@ -36,6 +36,7 @@ public class Car implements IPrintable, ISimulateable
 	private double fSpeed;
 	private final double fOriginalSpeed;
 	private double fLength;
+	private double fHappiness;
 
 	public Point2D getPosition()
 	{
@@ -64,14 +65,30 @@ public class Car implements IPrintable, ISimulateable
 		fPosition = pos;
 		fColor = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()));
 		fImage = carImage;
-		double v = Math.random() + length / 20;
+		double v = Math.random() + length / 5;
 		fSpeed = v;
 		fOriginalSpeed = v;
 	}
 
 	public void print(Graphics2D g)
 	{
-		DrawHelper.drawCar(this, fColor);
+
+		try
+		{
+			int red = Math.min((int) (254 * (1 - fHappiness)), 254);
+			int green = 0;
+			if(fHappiness == 1)
+			{
+				green = Math.min((int) (254 * (fHappiness)), 254);
+			}
+			Color color = new Color(red, green, 0);
+			DrawHelper.drawCar(this, color);
+		}
+		catch (IllegalArgumentException e)
+		{
+			e.printStackTrace();
+		}
+
 		//DrawHelper.drawFronCars(this, getFrontCars());
 
 	}
@@ -79,6 +96,7 @@ public class Car implements IPrintable, ISimulateable
 	public void simulate()
 	{
 		move();
+		fHappiness = Math.min(1,fSpeed / fOriginalSpeed);
 	}
 
 	/**
@@ -93,7 +111,7 @@ public class Car implements IPrintable, ISimulateable
 			if (distance < 2.5 * car.getLength())
 			{
 
-				setSpeed(car.getSpeedModifier() - 0.3 * car.getSpeedModifier());
+				setSpeed(car.getSpeedModifier() - 0.1 * car.getSpeedModifier());
 				caped = true;
 				break;
 
@@ -101,7 +119,21 @@ public class Car implements IPrintable, ISimulateable
 		}
 		if (!caped)
 		{
-			fSpeed = fOriginalSpeed;
+			if (fSpeed < fOriginalSpeed)
+			{
+				double delta = fOriginalSpeed - fSpeed;
+				double inc = delta / 10;
+				fSpeed = fSpeed + inc;
+				if(fSpeed > fOriginalSpeed)
+				{
+					fSpeed = fOriginalSpeed;
+				}
+
+			}
+			else
+			{
+				fSpeed = fOriginalSpeed;
+			}
 		}
 		ITrajectory trajectory = fLane.getTrajectory();
 		if (trajectory != null)
