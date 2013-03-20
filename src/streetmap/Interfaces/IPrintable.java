@@ -1,4 +1,4 @@
-package streetmap.Interfaces;
+package streetmap.interfaces;
 
 import java.awt.*;
 

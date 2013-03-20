@@ -1,4 +1,4 @@
-package streetmap.Utils;
+package streetmap.utils;
 
 /**
  * Created by IntelliJ IDEA.

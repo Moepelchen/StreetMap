@@ -1,6 +1,6 @@
-package streetmap.Interfaces;
+package streetmap.interfaces;
 
-import streetmap.Lane;
+import streetmap.map.street.Lane;
 
 import java.util.LinkedList;
 

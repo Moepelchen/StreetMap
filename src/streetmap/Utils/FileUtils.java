@@ -1,4 +1,4 @@
-package streetmap.Utils;
+package streetmap.utils;
 
 import java.io.File;
 
