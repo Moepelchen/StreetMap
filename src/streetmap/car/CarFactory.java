@@ -4,7 +4,7 @@
 
 package streetmap.car;
 
-import streetmap.Lane;
+import streetmap.map.street.Lane;
 import streetmap.SSGlobals;
 
 import javax.swing.*;

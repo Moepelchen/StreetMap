@@ -1,4 +1,4 @@
-package streetmap.GUI;
+package streetmap.gui;
 
 import javax.swing.*;
 

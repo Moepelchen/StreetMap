@@ -1,10 +1,10 @@
 package streetmap.car;
 
-import streetmap.Interfaces.IPrintable;
-import streetmap.Interfaces.ISimulateable;
-import streetmap.Interfaces.ITrajectory;
-import streetmap.Lane;
-import streetmap.Utils.DrawHelper;
+import streetmap.interfaces.IPrintable;
+import streetmap.interfaces.ISimulateable;
+import streetmap.map.trajectory.ITrajectory;
+import streetmap.map.street.Lane;
+import streetmap.utils.DrawHelper;
 
 import javax.swing.*;
 import java.awt.*;

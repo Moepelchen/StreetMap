@@ -1,8 +1,10 @@
 package streetmap;
 
-import streetmap.Interfaces.config.IConfig;
+import streetmap.interfaces.config.IConfig;
 import streetmap.config.ChangeableConfig;
 import streetmap.config.StreetConfig;
+import streetmap.map.Map;
+import streetmap.map.street.StreetFactory;
 
 import java.io.FileNotFoundException;
 

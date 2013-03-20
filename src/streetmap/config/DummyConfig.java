@@ -1,6 +1,6 @@
 package streetmap.config;
 
-import streetmap.Interfaces.config.IConfig;
+import streetmap.interfaces.config.IConfig;
 
 import javax.swing.*;
 import java.util.Vector;
