@@ -1,4 +1,4 @@
-package streetmap.Interfaces2.config;
+package streetmap.interfaces.config;
 
 import javax.swing.*;
 import java.util.Vector;

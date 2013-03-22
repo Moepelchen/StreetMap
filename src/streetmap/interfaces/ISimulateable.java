@@ -1,4 +1,4 @@
-package streetmap.Interfaces2;
+package streetmap.interfaces;
 
 /**
  * Created by IntelliJ IDEA.

@@ -1,6 +1,6 @@
 package streetmap.saveandload.map;
 
-import streetmap.Interfaces2.save.ISaveConstants;
+import streetmap.interfaces.save.ISaveConstants;
 import streetmap.map.Map;
 import streetmap.map.tile.Tile;
 

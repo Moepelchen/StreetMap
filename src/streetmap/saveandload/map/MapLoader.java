@@ -5,7 +5,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import streetmap.Interfaces2.save.ISaveConstants;
+import streetmap.interfaces.save.ISaveConstants;
 import streetmap.saveandload.Loader;
 import streetmap.SSGlobals;
 import streetmap.map.tile.Tile;

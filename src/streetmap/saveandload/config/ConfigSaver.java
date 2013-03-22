@@ -1,7 +1,7 @@
 package streetmap.saveandload.config;
 
-import streetmap.Interfaces2.config.IConfig;
-import streetmap.Interfaces2.save.ISaveConstants;
+import streetmap.interfaces.config.IConfig;
+import streetmap.interfaces.save.ISaveConstants;
 import streetmap.config.Config;
 
 import java.io.BufferedWriter;

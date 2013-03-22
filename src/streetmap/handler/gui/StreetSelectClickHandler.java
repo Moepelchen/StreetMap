@@ -1,6 +1,6 @@
 package streetmap.handler.gui;
 
-import streetmap.Interfaces2.IPrintable;
+import streetmap.interfaces.IPrintable;
 import streetmap.SSGlobals;
 import streetmap.map.tile.Tile;
 
