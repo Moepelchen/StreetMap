@@ -1,4 +1,4 @@
-package streetmap.GUI2;
+package streetmap.gui;
 
 import streetmap.handler.gui.LoadClickHandler;
 import streetmap.handler.gui.SaveClickHandler;

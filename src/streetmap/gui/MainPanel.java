@@ -1,4 +1,4 @@
-package streetmap.GUI2;
+package streetmap.gui;
 
 import streetmap.SSGlobals;
 import streetmap.map.Map;
@@ -31,7 +31,7 @@ public class MainPanel extends JFrame
 		this.getContentPane().add(new Map(globals));
 
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.getContentPane().add(new streetmap.GUI2.StreetPanel(globals), BorderLayout.PAGE_END);
+		this.getContentPane().add(new streetmap.gui.StreetPanel(globals), BorderLayout.PAGE_END);
 		this.getContentPane().add(new MenuPanel(globals), BorderLayout.LINE_END);
 		this.pack();
 		this.setVisible(true);
