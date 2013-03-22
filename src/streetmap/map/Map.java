@@ -215,7 +215,14 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 		clearCarLayer();
 		this.print(fGraphics);
         fHeatMap.update(fHeatMap.getGraphics());
+        AlphaComposite alpha = AlphaComposite
+                .getInstance(
+                        AlphaComposite.SRC_OVER,
+                        0.75f);
+        Composite composite = fGraphics.getComposite();
+        fGraphics.setComposite(alpha);
         fGraphics.drawImage(fHeatMap.getBufferedImage(),0,0,fWidth.intValue() + 5, fHeight.intValue() + 5,null);
+        fGraphics.setComposite(composite);
 
 		g.translate(5, 5);
 		fGraphics.drawImage(fCarLayerImage, 0, 0, null);
