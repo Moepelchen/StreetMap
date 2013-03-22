@@ -1,4 +1,4 @@
-package streetmap.gui;
+package streetmap.GUI2;
 
 import streetmap.handler.gui.StreetSelectClickHandler;
 import streetmap.SSGlobals;
