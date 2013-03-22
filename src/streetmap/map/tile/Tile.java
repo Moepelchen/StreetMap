@@ -50,8 +50,9 @@ public class Tile implements IPrintable, ISimulateable
 	private boolean fSidesGenerated;
 	public Street fStreet;
 	private Point2D fPosition;
+    private int fNumberOfCars;
 
-	public HorizontalSide getNorthSide()
+    public HorizontalSide getNorthSide()
 	{
 		return (HorizontalSide) getSide(COMPASS_POINT_N);
 	}
@@ -238,6 +239,7 @@ public class Tile implements IPrintable, ISimulateable
 			fStreet.print(g);
 		}
 
+
 		for (String s : fSides.keySet())
 		{
 			fSides.get(s).print(g);
@@ -267,4 +269,14 @@ public class Tile implements IPrintable, ISimulateable
 		}
 		return new Vector<Lane>();
 	}
+
+    public int getNumberOfCars() {
+        Vector<Lane> lanes = this.getLanes();
+
+        fNumberOfCars = 0;
+        for (Lane lane : lanes) {
+            fNumberOfCars = fNumberOfCars + lane.getCars().size();
+        }
+        return fNumberOfCars;
+    }
 }

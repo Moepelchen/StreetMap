@@ -1,6 +1,8 @@
 package streetmap.map;
 
 import streetmap.handler.gui.MapClickHandler;
+import streetmap.heatmap.Gradient;
+import streetmap.heatmap.HeatMap;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.SSGlobals;
@@ -65,7 +67,14 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 	private Vector<Lane> fStartingLanes;
 	private Vector<Lane> fEndLanes;
 
-	/**
+    private int fMaxNumberOfCars = 0;
+
+    private double[][] fHeatMapData;
+    private HeatMap fHeatMap;
+    private int fNumberOfTilesX;
+    private int fNumberOfTilesY;
+
+    /**
 	 * Constructor setting everything up
 	 *
 	 * @param globals Global settings and parameters
@@ -102,7 +111,9 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 		Timer timer;
 		timer = new Timer(25, this);
 		timer.start();
+        fHeatMapData = new double[numberOfTilesX][numberOfTilesY];
 
+        fHeatMap = new HeatMap(fHeatMapData,true, Gradient.GRADIENT_GREEN_YELLOW_ORANGE_RED);
 		fGlobals.setMap(this);
 	}
 
@@ -111,11 +122,11 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 	 */
 	private void generateTiles()
 	{
-		int numberOfTilesX = (int) (fWidth / fTileSize);
-		int numberOfTilesY = (int) (fHeight / fTileSize);
-		for (double x = 0; x < numberOfTilesX; x++)
+		fNumberOfTilesX = (int) (fWidth / fTileSize);
+		fNumberOfTilesY = (int) (fHeight / fTileSize);
+		for (double x = 0; x < fNumberOfTilesX; x++)
 		{
-			for (double y = 0; y < numberOfTilesY; y++)
+			for (double y = 0; y < fNumberOfTilesY; y++)
 			{
 				fTiles[(int) x][(int) y] = new Tile(fGlobals, this, new Point2D.Double(x, y));
 			}
@@ -128,13 +139,29 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 	 */
 	public void simulate()
 	{
+        fMaxNumberOfCars = 0;
+
 		for (Tile[] fTile : fTiles)
 		{
 			for (Tile tile : fTile)
 			{
 				tile.simulate();
-			}
+                int numberOfCars = tile.getNumberOfCars();
+                if(fMaxNumberOfCars < numberOfCars)
+                {
+                    fMaxNumberOfCars = numberOfCars;
+                }
+            }
 		}
+        for(int i = 0; i< fNumberOfTilesX ; i++)
+        {
+            for(int y = 0; y< fNumberOfTilesY; y++)
+            {
+                fHeatMapData[i][y] = (double)fTiles[i][y].getNumberOfCars()/(double)fMaxNumberOfCars;
+            }
+        }
+        fHeatMap.updateData(fHeatMapData,true);
+
 	}
 
 	/**
@@ -146,29 +173,8 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 	{
 
 		drawTiles(g);
+
 		//drawCars(g);
-	}
-
-	private void drawCars(Graphics2D g)
-	{
-		for (Tile[] fTile : fTiles)
-		{
-			for (Tile tile : fTile)
-			{
-				Street street = tile.getStreet();
-				if (street != null)
-				{
-					for (Lane lane : street.getLanes())
-					{
-						for (Car car : lane.getCars())
-						{
-							car.print(g);
-						}
-					}
-				}
-
-			}
-		}
 	}
 
 	private void drawTiles(Graphics2D g)
@@ -208,6 +214,9 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 		fGraphics.clearRect(0, 0, fWidth.intValue() + 5, fHeight.intValue() + 5);
 		clearCarLayer();
 		this.print(fGraphics);
+        fHeatMap.update(fHeatMap.getGraphics());
+        fGraphics.drawImage(fHeatMap.getBufferedImage(),0,0,fWidth.intValue() + 5, fHeight.intValue() + 5,null);
+
 		g.translate(5, 5);
 		fGraphics.drawImage(fCarLayerImage, 0, 0, null);
 		g.drawImage(fImage, 0, 0, null);
@@ -268,4 +277,9 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 	{
 		return fCarLayerImage.getGraphics();
 	}
+
+    public int getMaxNumberOfCars()
+    {
+        return fMaxNumberOfCars;
+    }
 }

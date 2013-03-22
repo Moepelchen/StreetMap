@@ -1,6 +1,7 @@
 package streetmap.gui;
 
 import streetmap.SSGlobals;
+import streetmap.heatmap.HeatMap;
 import streetmap.map.Map;
 
 import javax.swing.*;
@@ -50,5 +51,6 @@ public class MainPanel extends JFrame
 			e.printStackTrace();
 		}
 		MainPanel main = new MainPanel(globals);
+
 	}
 }
