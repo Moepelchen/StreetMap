@@ -1,6 +1,6 @@
 package streetmap.config;
 
-import streetmap.interfaces.config.IChangeableConfig;
+import streetmap.Interfaces2.config.IChangeableConfig;
 import streetmap.SSGlobals;
 
 import java.io.FileNotFoundException;

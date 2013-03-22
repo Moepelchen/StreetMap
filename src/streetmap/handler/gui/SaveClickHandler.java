@@ -1,6 +1,6 @@
 package streetmap.handler.gui;
 
-import streetmap.interfaces.save.ISaveConstants;
+import streetmap.Interfaces2.save.ISaveConstants;
 import streetmap.saveandload.config.ConfigSaver;
 import streetmap.saveandload.map.MapSaver;
 import streetmap.SSGlobals;

@@ -1,8 +1,8 @@
 package streetmap.map;
 
 import streetmap.handler.gui.MapClickHandler;
-import streetmap.interfaces.IPrintable;
-import streetmap.interfaces.ISimulateable;
+import streetmap.Interfaces2.IPrintable;
+import streetmap.Interfaces2.ISimulateable;
 import streetmap.SSGlobals;
 import streetmap.car.Car;
 import streetmap.map.street.Lane;

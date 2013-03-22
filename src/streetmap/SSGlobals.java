@@ -1,6 +1,6 @@
 package streetmap;
 
-import streetmap.interfaces.config.IConfig;
+import streetmap.Interfaces2.config.IConfig;
 import streetmap.config.ChangeableConfig;
 import streetmap.config.StreetConfig;
 import streetmap.map.Map;
