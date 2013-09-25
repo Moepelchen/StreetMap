@@ -139,7 +139,7 @@ public class Car implements IPrintable, ISimulateable
 		if (trajectory != null)
 		{
 
-			trajectory.relaocate(this);
+			trajectory.relocate(this);
 
 			Point2D fPosition1 = trajectory.calculatePosition(fPosition, getSpeed());
 			setPosition(fPosition1);

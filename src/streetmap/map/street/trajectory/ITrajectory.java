@@ -30,5 +30,5 @@ public interface ITrajectory
 	 */
 	boolean carOnLane(Car fCar, Lane lane);
 
-	void relaocate(Car car);
+	void relocate(Car car);
 }
