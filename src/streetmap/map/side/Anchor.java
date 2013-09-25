@@ -15,6 +15,12 @@ import java.util.HashMap;
  */
 public class Anchor implements IPrintable
 {
+	public Side getSide()
+	{
+		return fSide;
+	}
+
+	private final Side fSide;
 	/**
 	 * Position of this anchor
 	 */
@@ -28,8 +34,9 @@ public class Anchor implements IPrintable
 	 */
 	private boolean fBlocked;
 
-	public Anchor(Point2D position, String compassPoint)
+	public Anchor(Side horizontalSide, Point2D position, String compassPoint)
 	{
+		fSide = horizontalSide;
 		fPosition = position;
 		fLanes = new HashMap<String, Lane>();
 
@@ -97,5 +104,11 @@ public class Anchor implements IPrintable
 	public Collection<Lane> getLanes()
 	{
 		return fLanes.values();
+	}
+
+	public Lane getParallelLane()
+	{
+		Anchor parallelAnchor = fSide.getParallelAnchor(this);
+		return parallelAnchor.getRandomLane();
 	}
 }

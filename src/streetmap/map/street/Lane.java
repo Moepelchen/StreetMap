@@ -1,13 +1,13 @@
 package streetmap.map.street;
 
-import streetmap.interfaces.IPrintable;
-import streetmap.interfaces.ISimulateable;
-import streetmap.map.street.trajectory.ITrajectory;
 import streetmap.SSGlobals;
 import streetmap.car.Car;
 import streetmap.car.CarFactory;
+import streetmap.interfaces.IPrintable;
+import streetmap.interfaces.ISimulateable;
 import streetmap.map.side.Anchor;
 import streetmap.map.street.trajectory.BendTrajectory;
+import streetmap.map.street.trajectory.ITrajectory;
 import streetmap.map.street.trajectory.StraightTrajectory;
 
 import java.awt.*;
@@ -18,24 +18,20 @@ public class Lane implements IPrintable, ISimulateable
 {
 
 	private Anchor fStartAnchor;
-
 	private Anchor fEndAnchor;
-
 	private Vector<Car> fCars;
-
 	private int fType;
-
 	private SSGlobals fGlobals;
-
 	private ITrajectory fTrajectory;
-
 	private HashMap<Anchor, String> fDirections;
-
 	private boolean isEnd;
 	private String fTo;
 	private String fFrom;
 	private double fMaxX;
 	private double fMaxY;
+	private double fMinX;
+	private double fMinY;
+	private boolean isStart;
 
 	public double getMaxX()
 	{
@@ -57,9 +53,6 @@ public class Lane implements IPrintable, ISimulateable
 		return fMinY;
 	}
 
-	private double fMinX;
-	private double fMinY;
-
 	public boolean isEndLane()
 	{
 		return isEnd;
@@ -79,8 +72,6 @@ public class Lane implements IPrintable, ISimulateable
 	{
 		isStart = start;
 	}
-
-	private boolean isStart;
 
 	public Lane(SSGlobals glob)
 	{
@@ -128,6 +119,18 @@ public class Lane implements IPrintable, ISimulateable
 				{
 					randomOtherLane.addCar(fCar);
 				}
+				else
+				{
+					if (true)
+					{
+
+						Lane parallelLane = fEndAnchor.getParallelLane();
+						if (parallelLane != null)
+						{
+							parallelLane.addCar(fCar);
+						}
+					}
+				}
 			}
 		}
 		fCars.removeAll(toRemoveCars);
@@ -152,14 +155,14 @@ public class Lane implements IPrintable, ISimulateable
 		fDirections.put(fEndAnchor, compass);
 	}
 
-	public void setType(int laneType)
-	{
-		fType = laneType;
-	}
-
 	public int getType()
 	{
 		return fType;
+	}
+
+	public void setType(int laneType)
+	{
+		fType = laneType;
 	}
 
 	public Anchor getStart()
@@ -209,14 +212,14 @@ public class Lane implements IPrintable, ISimulateable
 		return fDirections.get(anc);
 	}
 
-	public void setTo(String to)
-	{
-		fTo = to;
-	}
-
 	public String getTo()
 	{
 		return fTo;
+	}
+
+	public void setTo(String to)
+	{
+		fTo = to;
 	}
 
 	public String getFrom()

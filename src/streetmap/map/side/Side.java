@@ -1,7 +1,7 @@
 package streetmap.map.side;
 
-import streetmap.interfaces.IPrintable;
 import streetmap.SSGlobals;
+import streetmap.interfaces.IPrintable;
 import streetmap.map.tile.Tile;
 
 import java.awt.*;
@@ -11,14 +11,11 @@ public abstract class Side implements IPrintable
 {
 
 	protected Anchor fAnchorOne;
-
 	protected Anchor fAnchorTwo;
-
 	protected Point2D fPosition;
-
 	protected String fCompassPoint;
-
 	protected Tile fTile;
+	private SSGlobals fGlobals;
 
 	public Anchor getAnchorOne()
 	{
@@ -39,8 +36,6 @@ public abstract class Side implements IPrintable
 	{
 		return fGlobals;
 	}
-
-	private SSGlobals fGlobals;
 
 	public Side(SSGlobals globals, Tile tile, Point2D position, String compassPoint)
 	{
@@ -84,5 +79,17 @@ public abstract class Side implements IPrintable
 	{
 		return this instanceof VerticalSide;
 
+	}
+
+	public Anchor getParallelAnchor(Anchor anchor)
+	{
+		if (fAnchorOne == anchor)
+		{
+			return fAnchorTwo;
+		}
+		else
+		{
+			return fAnchorOne;
+		}
 	}
 }
