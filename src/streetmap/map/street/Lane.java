@@ -121,7 +121,7 @@ public class Lane implements IPrintable, ISimulateable
 				}
 				else
 				{
-					if (true)
+					if (!fCar.getLane().isEndLane())
 					{
 
 						Lane parallelLane = fEndAnchor.getParallelLane();
