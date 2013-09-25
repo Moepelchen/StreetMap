@@ -7,7 +7,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import streetmap.interfaces.config.IChangeableConfig;
 import streetmap.interfaces.save.ISaveConstants;
-import streetmap.saveandload.Loader;
+import streetmap.saveandload.AbstractLoader;
 import streetmap.SSGlobals;
 import streetmap.utils.ReflectionUtils;
 import streetmap.config.Config;
@@ -27,7 +27,7 @@ import java.lang.reflect.Method;
  * Time: 12:48 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ConfigLoader extends Loader
+public class ConfigLoader extends AbstractLoader
 {
 
 	@Override
