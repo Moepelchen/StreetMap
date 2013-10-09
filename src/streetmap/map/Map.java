@@ -6,19 +6,18 @@ import streetmap.heatmap.HeatMap;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.SSGlobals;
-import streetmap.car.Car;
 import streetmap.map.street.Lane;
-import streetmap.map.street.Street;
 import streetmap.map.tile.Tile;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * This represents the the whole Street-Map. The map consist of an Array of Tiles.
@@ -70,6 +69,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
     private int fMaxNumberOfCars = 0;
 
     private double[][] fHeatMapData;
+    private java.util.List<double[][]> fHeatMapCache;
     private HeatMap fHeatMap;
     private int fNumberOfTilesX;
     private int fNumberOfTilesY;
@@ -112,8 +112,17 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 		timer = new Timer(25, this);
 		timer.start();
         fHeatMapData = new double[numberOfTilesX][numberOfTilesY];
+        for(int i = 0; i< fNumberOfTilesX ; i++)
+        {
+            for(int y = 0; y< fNumberOfTilesY; y++)
+            {
+                fHeatMapData[i][y] =  0;
+            }
+        }
+        fHeatMapCache = new ArrayList<double[][]>();
+        fMaxNumberOfCars = 1;
 
-        fHeatMap = new HeatMap(fHeatMapData,true, Gradient.GRADIENT_GREEN_YELLOW_ORANGE_RED);
+        fHeatMap = new HeatMap(fHeatMapData,true, Gradient.GRADIENT_RAINBOW);
 		fGlobals.setMap(this);
 	}
 
@@ -139,7 +148,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 	 */
 	public void simulate()
 	{
-        fMaxNumberOfCars = 0;
+        fMaxNumberOfCars = 1;
 
 		for (Tile[] fTile : fTiles)
 		{
@@ -153,18 +162,42 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
                 }
             }
 		}
+        updateHeatMap();
+
+	}
+
+    private void updateHeatMap() {
+
+        double[][] cache = new double[fNumberOfTilesX][fNumberOfTilesY];
+
         for(int i = 0; i< fNumberOfTilesX ; i++)
         {
             for(int y = 0; y< fNumberOfTilesY; y++)
             {
-                fHeatMapData[i][y] = (double)fTiles[i][y].getNumberOfCars()/(double)fMaxNumberOfCars;
+                cache[i][y] =  (double)fTiles[i][y].getNumberOfCars()/(double)fMaxNumberOfCars;
             }
         }
-        fHeatMap.updateData(fHeatMapData,true);
+        fHeatMapCache.add(cache);
+        if(fHeatMapCache.size() > 300)
+        {
+            fHeatMapCache.remove(0);
+        }
 
-	}
+        cache = new double[fNumberOfTilesX][fNumberOfTilesY];
+        for (double[][] doubles : fHeatMapCache) {
+            for (int i = 0; i<fNumberOfTilesX; i++)
+            {
+                for (int y = 0; y<fNumberOfTilesY;y++)
+                {
+                    cache[i][y] = cache[i][y] + doubles[i][y]/(double)fMaxNumberOfCars;
+                }
+            }
+        }
 
-	/**
+        fHeatMap.updateData(cache,true);
+    }
+
+    /**
 	 * print each tile
 	 *
 	 * @param g current Graphics2D object
