@@ -1,15 +1,9 @@
 package streetmap.handler.gui;
 
-import streetmap.interfaces.save.ISaveConstants;
-import streetmap.saveandload.config.ConfigSaver;
-import streetmap.saveandload.map.MapSaver;
 import streetmap.SSGlobals;
+import streetmap.saveandload.Saver;
 
 import java.awt.event.ActionEvent;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,50 +23,8 @@ public class SaveClickHandler extends ClickHandler
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		try
-		{
-			File file = new File("./save/" + getSaveFileName() + ".xml");
-			if (!file.exists())
-			{
-
-				file.createNewFile();
-
-			}
-			BufferedWriter output;
-
-			output = new BufferedWriter(new FileWriter(file));
-
-			beginMapTag(output);
-			MapSaver.saveMap(output, fGlobals.getMap());
-			output.newLine();
-			ConfigSaver.saveConfig(output, fGlobals.getConfig());
-			endMapTag(output);
-
-			output.close();
-
-		}
-		catch (IOException e1)
-		{
-			e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-		}
+		new Saver().save(fGlobals);
 	}
 
-	private void beginMapTag(BufferedWriter output) throws IOException
-	{
-		output.write("<");
-		output.write(ISaveConstants.MAP_TAG);
-		output.write(">");
-	}
 
-	private void endMapTag(BufferedWriter output) throws IOException
-	{
-		output.write("</");
-		output.write(ISaveConstants.MAP_TAG);
-		output.write(">");
-	}
-
-	public String getSaveFileName()
-	{
-		return String.valueOf(System.currentTimeMillis());
-	}
 }

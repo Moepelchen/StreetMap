@@ -148,7 +148,7 @@ public class StraightTrajectory implements ITrajectory
 	}
 
 	@Override
-	public void relaocate(Car car)
+	public void relocate(Car car)
 	{
 		// nothing to do here
 	}

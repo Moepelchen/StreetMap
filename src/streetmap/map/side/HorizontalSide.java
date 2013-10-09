@@ -21,8 +21,8 @@ public class HorizontalSide extends Side
 
 	public void setAnchors()
 	{
-		fAnchorOne = new Anchor(new Point2D.Double(getPosition().getX() - fTile.getWidth() / 8, getPosition().getY()), fCompassPoint);
-		fAnchorTwo = new Anchor(new Point2D.Double(getPosition().getX() + fTile.getWidth() / 8, getPosition().getY()), fCompassPoint);
+		fAnchorOne = new Anchor(this,new Point2D.Double(getPosition().getX() - fTile.getWidth() / 8, getPosition().getY()), fCompassPoint);
+		fAnchorTwo = new Anchor(this,new Point2D.Double(getPosition().getX() + fTile.getWidth() / 8, getPosition().getY()), fCompassPoint);
 
 	}
 

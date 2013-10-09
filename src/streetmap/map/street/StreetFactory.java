@@ -216,12 +216,8 @@ public class StreetFactory
 	 */
 	private boolean sameAxis(String from, String to)
 	{
-		if (((from.equals("E") || from.equals("W")) && (to.equals("W") || to.equals("E"))) || ((from.equals("S") || from.equals("N")) && (to.equals("S") || to.equals("N"))))
-		{
-			return true;
-		}
+		return ((from.equals("E") || from.equals("W")) && (to.equals("W") || to.equals("E"))) || ((from.equals("S") || from.equals("N")) && (to.equals("S") || to.equals("N")));
 
-		return false;
 	}
 
 }

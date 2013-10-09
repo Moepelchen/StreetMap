@@ -134,7 +134,7 @@ public class BendTrajectory implements ITrajectory
 	}
 
 	@Override
-	public void relaocate(Car fCar)
+	public void relocate(Car fCar)
 	{
 		PathIterator p = fCurve.getPathIterator(null);
 		FlatteningPathIterator f = new FlatteningPathIterator(p, reduceCarSpeed(fCar.getSpeed()));

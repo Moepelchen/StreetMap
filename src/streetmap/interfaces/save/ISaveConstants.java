@@ -12,7 +12,6 @@ public interface ISaveConstants
 	public static final String MAP_TAG = "Map";
 	public static final String END_MAP_TAG = "Map";
 	public static final String CONFIG_TAG = "Config";
-	public static final String END_CONFIG_TAG = "Config";
 	public static final String TILE_TAG = "Tile";
 	public static final String END_TILE_TAG = "Tile";
 	public static final String XPOS_TAG = "XPos";

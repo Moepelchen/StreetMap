@@ -15,7 +15,7 @@ import java.lang.reflect.InvocationTargetException;
  * Time: 2:59 PM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class Loader
+public abstract class AbstractLoader
 {
 	public abstract boolean load(File file, SSGlobals glob) throws ParserConfigurationException, IOException, SAXException, NoSuchMethodException, InvocationTargetException, IllegalAccessException;
 

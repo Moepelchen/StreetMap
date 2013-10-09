@@ -3,6 +3,7 @@ package streetmap.saveandload.map;
 import streetmap.interfaces.save.ISaveConstants;
 import streetmap.map.Map;
 import streetmap.map.tile.Tile;
+import streetmap.saveandload.AbstractSaver;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -14,10 +15,12 @@ import java.io.IOException;
  * Time: 10:31 AM
  * To change this template use File | Settings | File Templates.
  */
-public class MapSaver
+public class MapSaver extends AbstractSaver
 {
-	public static void saveMap(BufferedWriter output, Map map) throws IOException
+	public void save(BufferedWriter output, Object object) throws IOException
 	{
+		Map map = (Map) object;
+
 		beginTilesTag(output);
 		Tile[][] mapTiles = map.getTiles();
 		int x = mapTiles.length;
@@ -46,71 +49,52 @@ public class MapSaver
 
 	private static void beginTilesTag(BufferedWriter output) throws IOException
 	{
-		output.write("<");
-		output.write(ISaveConstants.TILES_TAG);
-		output.write(">");
+		writeStartTag(ISaveConstants.TILES_TAG,output);
 	}
 
 	private static void endTilesTag(BufferedWriter output) throws IOException
 	{
-		output.write("</");
-		output.write(ISaveConstants.END_TILES_TAG);
-		output.write(">");
+		writeEndTag(ISaveConstants.END_TILES_TAG,output);
 	}
 
 	private static void beginStreetTag(BufferedWriter output) throws IOException
 	{
-		output.write("<");
-		output.write(ISaveConstants.STREET_TAG);
-		output.write(">");
+		writeStartTag(ISaveConstants.STREET_TAG,output);
 	}
 
 	private static void endStreetTag(BufferedWriter output) throws IOException
 	{
-		output.write("</");
-		output.write(ISaveConstants.END_STREET_TAG);
-		output.write(">");
+		writeEndTag(ISaveConstants.STREET_TAG,output);
 	}
 
 	private static void beginXPosTag(BufferedWriter output) throws IOException
 	{
-		output.write("<");
-		output.write(ISaveConstants.XPOS_TAG);
-		output.write(">");
+		writeStartTag(ISaveConstants.XPOS_TAG,output);
 	}
 
 	private static void beginYPosTag(BufferedWriter output) throws IOException
 	{
-		output.write("<");
-		output.write(ISaveConstants.YPOS_TAG);
-		output.write(">");
+		writeStartTag(ISaveConstants.YPOS_TAG,output);
 	}
 
 	private static void endYPosTag(BufferedWriter output) throws IOException
 	{
-		output.write("</");
-		output.write(ISaveConstants.END_YPOS_TAG);
-		output.write(">");
+		writeEndTag(ISaveConstants.END_YPOS_TAG,output);
 	}
 
 	private static void endXPosTag(BufferedWriter output) throws IOException
 	{
-		output.write("</");
-		output.write(ISaveConstants.END_XPOS_TAG);
-		output.write(">");
+		writeEndTag(ISaveConstants.END_XPOS_TAG,output);
 	}
 
 	private static void writeEndTileTag(BufferedWriter output) throws IOException
 	{
-		output.write("</");
-		output.write(ISaveConstants.END_TILE_TAG);
-		output.write(">");
+		writeEndTag(ISaveConstants.END_TILE_TAG,output);
 	}
 
 	private static void beginTileTag(BufferedWriter output) throws IOException
 	{
-		output.write("<");
-		output.write(ISaveConstants.TILE_TAG);
-		output.write(">");
+
+		writeStartTag(ISaveConstants.TILE_TAG,output);
 	}
 }

@@ -48,11 +48,11 @@ public class DrawHelper
 				RenderingHints.VALUE_RENDER_QUALITY);
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-		//g.rotate(0,car.getPosition().getX(),car.getPosition().getY());
-		//g.drawImage(icon.getImage(), trans,null);
 		g.fillOval((int) (car.getPosition().getX() - width / 2), (int) (car.getPosition().getY() - width / 2), (int) width, (int) width);
-		//g.rotate(-car.getLane().getTrajectory().getAngle(),car.getPosition().getX(),car.getPosition().getY());
-
+		/*g.rotate(0,car.getPosition().getX(),car.getPosition().getY());
+		g.drawImage(icon.getImage(), trans,null);
+		g.rotate(-car.getLane().getTrajectory().getAngle(),car.getPosition().getX(),car.getPosition().getY());
+*/
 	}
 
 	private static Graphics2D getCarLayerGraphics(Car car)
