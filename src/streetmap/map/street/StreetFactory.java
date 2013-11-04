@@ -48,6 +48,7 @@ public class StreetFactory
 			for (Lane lane : tile.getStreet().getLanes())
 			{
 				tile.getMap().removeStart(lane);
+                tile.getMap().removeEnd(lane);
 				lane.getStart().removeLane(lane.getTo(), lane);
 			}
 
@@ -75,7 +76,7 @@ public class StreetFactory
 		Lane lane = null;
 		for (LaneTemplate laneTemplate : laneTemplates.getLaneTemplate())
 		{
-			lane = new Lane(fGlobals);
+			lane = new Lane(fGlobals,street);
 			String from = laneTemplate.getFrom();
 			String to = laneTemplate.getTo();
 

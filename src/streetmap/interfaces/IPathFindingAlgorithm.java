@@ -15,4 +15,6 @@ public interface IPathFindingAlgorithm
 {
 
 	public LinkedList getPath(Lane start, Lane end);
+
+    Lane getNextLane();
 }

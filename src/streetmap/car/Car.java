@@ -1,5 +1,7 @@
 package streetmap.car;
 
+import streetmap.interfaces.CrappyPathfinder;
+import streetmap.interfaces.IPathFindingAlgorithm;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.map.street.trajectory.ITrajectory;
@@ -18,7 +20,8 @@ import java.util.Vector;
 public class Car implements IPrintable, ISimulateable
 {
 
-	/**
+    public static final int COLOR_HAPPINESS = 120;
+    /**
 	 * Current position
 	 */
 	private Point2D fPosition;
@@ -37,8 +40,9 @@ public class Car implements IPrintable, ISimulateable
 	private final double fOriginalSpeed;
 	private double fLength;
 	private double fHappiness;
+    private IPathFindingAlgorithm fPathFinder;
 
-	public Point2D getPosition()
+    public Point2D getPosition()
 	{
 		return fPosition;
 	}
@@ -58,16 +62,17 @@ public class Car implements IPrintable, ISimulateable
 		this.fLane = fLane;
 	}
 
-	Car(Lane lane, Point2D pos, ImageIcon carImage, double length)
+	public Car(Lane lane, Point2D pos, ImageIcon carImage, double length)
 	{
 		fLength = length;
 		fLane = lane;
 		fPosition = pos;
 		fColor = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()));
 		fImage = carImage;
-		double v = Math.random() + length / 5;
+		double v = Math.random() + length / 2;
 		fSpeed = v;
 		fOriginalSpeed = v;
+        fPathFinder = new CrappyPathfinder(this);
 	}
 
 	public void print(Graphics2D g)
@@ -75,11 +80,11 @@ public class Car implements IPrintable, ISimulateable
 
 		try
 		{
-			int red = Math.min((int) (254 * (1 - fHappiness)), 254);
+			int red = Math.min((int) (COLOR_HAPPINESS * (1 - fHappiness)), COLOR_HAPPINESS);
 			int green = 0;
 			if(fHappiness == 1)
 			{
-				green = Math.min((int) (254 * (fHappiness)), 254);
+				green = Math.min((int) (COLOR_HAPPINESS * (fHappiness)), COLOR_HAPPINESS);
 			}
 			Color color = new Color(red, green, 0);
 			DrawHelper.drawCar(this, color);
@@ -89,7 +94,7 @@ public class Car implements IPrintable, ISimulateable
 			e.printStackTrace();
 		}
 
-		//DrawHelper.drawFronCars(this, getFrontCars());
+		DrawHelper.drawFronCars(this, getFrontCars());
 
 	}
 
@@ -138,9 +143,7 @@ public class Car implements IPrintable, ISimulateable
 		ITrajectory trajectory = fLane.getTrajectory();
 		if (trajectory != null)
 		{
-
 			trajectory.relocate(this);
-
 			Point2D fPosition1 = trajectory.calculatePosition(fPosition, getSpeed());
 			setPosition(fPosition1);
 		}
@@ -210,4 +213,9 @@ public class Car implements IPrintable, ISimulateable
 			fSpeed = speed;
 		}
 	}
+
+    public IPathFindingAlgorithm getPathFinder()
+    {
+        return fPathFinder;
+    }
 }

@@ -3,6 +3,7 @@ package streetmap.map.street;
 import streetmap.SSGlobals;
 import streetmap.car.Car;
 import streetmap.car.CarFactory;
+import streetmap.interfaces.IPathFindingAlgorithm;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.map.side.Anchor;
@@ -17,7 +18,8 @@ import java.util.Vector;
 public class Lane implements IPrintable, ISimulateable
 {
 
-	private Anchor fStartAnchor;
+    private final Street fStreet;
+    private Anchor fStartAnchor;
 	private Anchor fEndAnchor;
 	private Vector<Car> fCars;
 	private int fType;
@@ -73,8 +75,9 @@ public class Lane implements IPrintable, ISimulateable
 		isStart = start;
 	}
 
-	public Lane(SSGlobals glob)
+	public Lane(SSGlobals glob, Street street)
 	{
+        fStreet = street;
 		fGlobals = glob;
 		fCars = new Vector<Car>();
 		fDirections = new HashMap<Anchor, String>();
@@ -102,7 +105,7 @@ public class Lane implements IPrintable, ISimulateable
 	public void simulate()
 	{
 		Vector<Car> toRemoveCars = new Vector<Car>();
-		if (Math.random() < 0.05 && this.isStartLane() && fCars.size() < 1)
+		if (Math.random() < 0.05 && this.isStartLane() && fCars.size() < 1 && fGlobals.getMap().getCurrentNumberOfCars() < fGlobals.getMap().getMaximumNumberOfCars())
 		{
 			Car car = CarFactory.createCar(getGlobals(), this, fStartAnchor.getPosition());
 			fCars.add(car);
@@ -114,10 +117,20 @@ public class Lane implements IPrintable, ISimulateable
 			if (!fTrajectory.carOnLane(fCar, this))
 			{
 				toRemoveCars.add(fCar);
-				Lane randomOtherLane = fEndAnchor.getRandomLane();
-				if (randomOtherLane != null)
+
+                Lane nexLane = null;
+                IPathFindingAlgorithm pathFinder = fCar.getPathFinder();
+                if (pathFinder != null)
+                {
+                    nexLane = pathFinder.getNextLane();
+                }
+                if (nexLane == null)
+                {
+                    nexLane = fEndAnchor.getRandomLane();
+                }
+				if (nexLane != null)
 				{
-					randomOtherLane.addCar(fCar);
+					nexLane.addCar(fCar);
 				}
 				else
 				{
@@ -236,4 +249,9 @@ public class Lane implements IPrintable, ISimulateable
 	{
 		return false;
 	}
+
+    public Street getStreet()
+    {
+        return fStreet;
+    }
 }

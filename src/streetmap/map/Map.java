@@ -25,48 +25,61 @@ import java.util.*;
  */
 public class Map extends JPanel implements IPrintable, ISimulateable, ActionListener
 {
-	/* {author=Ulrich Tewes, version=1.0}*/
+    /* {author=Ulrich Tewes, version=1.0}*/
 
-	/**
-	 * height of the map
-	 */
-	private Double fHeight;
+    /**
+     * height of the map
+     */
+    private Double fHeight;
 
-	/**
-	 * width of the map
-	 */
-	private Double fWidth;
+    /**
+     * width of the map
+     */
+    private Double fWidth;
 
-	/**
-	 * Array containing all tiles
-	 */
-	private Tile[][] fTiles;
+    /**
+     * Array containing all tiles
+     */
+    private Tile[][] fTiles;
 
-	/**
-	 * side length of one Tile
-	 */
-	private Double fTileSize;
+    /**
+     * side length of one Tile
+     */
+    private Double fTileSize;
 
-	/**
-	 * Globals containing the different configurations
-	 */
-	private SSGlobals fGlobals;
+    /**
+     * Globals containing the different configurations
+     */
+    private SSGlobals fGlobals;
 
-	/**
-	 * Image usd for double buffering
-	 */
-	private BufferedImage fImage;
+    /**
+     * Image usd for double buffering
+     */
+    private BufferedImage fImage;
 
-	private BufferedImage fCarLayerImage;
+    private BufferedImage fCarLayerImage;
 
-	/**
-	 * graphics to draw
-	 */
-	private Graphics2D fGraphics;
-	private Vector<Lane> fStartingLanes;
-	private Vector<Lane> fEndLanes;
+    /**
+     * graphics to draw
+     */
+    private Graphics2D fGraphics;
 
-    private int fMaxNumberOfCars = 0;
+    public Vector<Lane> getStartingLanes()
+    {
+        return fStartingLanes;
+    }
+
+    public Vector<Lane> getEndLanes()
+    {
+        return fEndLanes;
+    }
+
+    private Vector<Lane> fStartingLanes;
+    private Vector<Lane> fEndLanes;
+
+    private int fMaxNumberOfCarsOnOneTile = 0;
+    public static int MAX_NUMBER_OF_CARS = 100;
+    private int fCurrentNumberOfCars = 0;
 
     private double[][] fHeatMapData;
     private java.util.List<double[][]> fHeatMapCache;
@@ -75,251 +88,281 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
     private int fNumberOfTilesY;
 
     /**
-	 * Constructor setting everything up
-	 *
-	 * @param globals Global settings and parameters
-	 */
-	public Map(SSGlobals globals)
-	{
-		init(globals);
+     * Constructor setting everything up
+     *
+     * @param globals Global settings and parameters
+     */
+    public Map(SSGlobals globals)
+    {
+        init(globals);
 
-	}
+    }
 
-	private void init(SSGlobals globals)
-	{
-		//setting up display configuration
-		fHeight = globals.getConfig().getHeight();
-		fWidth = globals.getConfig().getWidth();
-		fTileSize = globals.getConfig().getTileSize();
-		fGlobals = globals;
+    private void init(SSGlobals globals)
+    {
+        //setting up display configuration
+        fHeight = globals.getConfig().getHeight();
+        fWidth = globals.getConfig().getWidth();
+        fTileSize = globals.getConfig().getTileSize();
+        fGlobals = globals;
+        fGlobals.setMap(this);
 
-		fImage = new BufferedImage(fWidth.intValue() + 5, fHeight.intValue() + 5, BufferedImage.TYPE_INT_ARGB);
-		fCarLayerImage = new BufferedImage(fWidth.intValue() + 5, fHeight.intValue() + 5, BufferedImage.TYPE_INT_ARGB);
-		fGraphics = (Graphics2D) fImage.getGraphics();
-		int numberOfTilesX = (int) (fWidth / fTileSize);
-		int numberOfTilesY = (int) (fHeight / fTileSize);
-		fTiles = new Tile[numberOfTilesX][numberOfTilesY];
-		fStartingLanes = new Vector<Lane>();
-		fEndLanes = new Vector<Lane>();
-		generateTiles();
+        fImage = new BufferedImage(fWidth.intValue() + 5, fHeight.intValue() + 5, BufferedImage.TYPE_INT_ARGB);
+        fCarLayerImage = new BufferedImage(fWidth.intValue() + 5, fHeight.intValue() + 5, BufferedImage.TYPE_INT_ARGB);
+        fGraphics = (Graphics2D) fImage.getGraphics();
+        int numberOfTilesX = (int) (fWidth / fTileSize);
+        int numberOfTilesY = (int) (fHeight / fTileSize);
+        fTiles = new Tile[numberOfTilesX][numberOfTilesY];
+        fStartingLanes = new Vector<Lane>();
+        fEndLanes = new Vector<Lane>();
+        generateTiles();
 
-		this.addMouseListener(new MapClickHandler(fGlobals, this));
-		// debug stuff
-		this.setBounds(0, 0, fWidth.intValue() + 2 * 5, fHeight.intValue() + 2 * 5);
-		this.setPreferredSize(new Dimension(fWidth.intValue() + 2 * 5, fHeight.intValue() + 2 * 5));
-		this.setVisible(true);
-		Timer timer;
-		timer = new Timer(25, this);
-		timer.start();
+        this.addMouseListener(new MapClickHandler(fGlobals, this));
+        // debug stuff
+        this.setBounds(0, 0, fWidth.intValue() + 2 * 5, fHeight.intValue() + 2 * 5);
+        this.setPreferredSize(new Dimension(fWidth.intValue() + 2 * 5, fHeight.intValue() + 2 * 5));
+        this.setVisible(true);
+        Timer timer;
+        timer = new Timer(25, this);
+        timer.start();
         fHeatMapData = new double[numberOfTilesX][numberOfTilesY];
-        for(int i = 0; i< fNumberOfTilesX ; i++)
+        for (int i = 0; i < fNumberOfTilesX; i++)
         {
-            for(int y = 0; y< fNumberOfTilesY; y++)
+            for (int y = 0; y < fNumberOfTilesY; y++)
             {
-                fHeatMapData[i][y] =  0;
+                fHeatMapData[i][y] = 0;
             }
         }
         fHeatMapCache = new ArrayList<double[][]>();
-        fMaxNumberOfCars = 1;
+        fMaxNumberOfCarsOnOneTile = 1;
 
-        fHeatMap = new HeatMap(fHeatMapData,true, Gradient.GRADIENT_RAINBOW);
-		fGlobals.setMap(this);
-	}
+        fHeatMap = new HeatMap(fHeatMapData, true, Gradient.GRADIENT_RAINBOW);
 
-	/**
-	 * This method generates all Tiles, determined by the width, height and tile size
-	 */
-	private void generateTiles()
-	{
-		fNumberOfTilesX = (int) (fWidth / fTileSize);
-		fNumberOfTilesY = (int) (fHeight / fTileSize);
-		for (double x = 0; x < fNumberOfTilesX; x++)
-		{
-			for (double y = 0; y < fNumberOfTilesY; y++)
-			{
-				fTiles[(int) x][(int) y] = new Tile(fGlobals, this, new Point2D.Double(x, y));
-			}
-		}
+    }
 
-	}
+    /**
+     * This method generates all Tiles, determined by the width, height and tile size
+     */
+    private void generateTiles()
+    {
+        fNumberOfTilesX = (int) (fWidth / fTileSize);
+        fNumberOfTilesY = (int) (fHeight / fTileSize);
+        for (double x = 0; x < fNumberOfTilesX; x++)
+        {
+            for (double y = 0; y < fNumberOfTilesY; y++)
+            {
+                tilesTest(x, y);
+            }
+        }
 
-	/**
-	 * Simulate each tile
-	 */
-	public void simulate()
-	{
-        fMaxNumberOfCars = 1;
+    }
 
-		for (Tile[] fTile : fTiles)
-		{
-			for (Tile tile : fTile)
-			{
-				tile.simulate();
+    private void tilesTest(double x, double y)
+    {
+        fTiles[(int) x][(int) y] = new Tile(fGlobals, this, new Point2D.Double(x, y));
+        System.out.println("x = " + x);
+    }
+
+    public int getCurrentNumberOfCars()
+    {
+        return fCurrentNumberOfCars;
+    }
+
+    /**
+     * Simulate each tile
+     */
+    public void simulate()
+    {
+        fMaxNumberOfCarsOnOneTile = 1;
+        fCurrentNumberOfCars = 0;
+        for (Tile[] fTile : fTiles)
+        {
+            for (Tile tile : fTile)
+            {
+                fCurrentNumberOfCars = fCurrentNumberOfCars + tile.getNumberOfCars();
                 int numberOfCars = tile.getNumberOfCars();
-                if(fMaxNumberOfCars < numberOfCars)
+                if (fMaxNumberOfCarsOnOneTile < numberOfCars)
                 {
-                    fMaxNumberOfCars = numberOfCars;
+                    fMaxNumberOfCarsOnOneTile = numberOfCars;
                 }
             }
-		}
+        }
+        for (Tile[] fTile : fTiles)
+        {
+
+
+
+            for (Tile tile : fTile)
+            {
+
+                    tile.simulate();
+
+            }
+        }
         updateHeatMap();
 
-	}
+    }
 
-    private void updateHeatMap() {
+    private void updateHeatMap()
+    {
 
         double[][] cache = new double[fNumberOfTilesX][fNumberOfTilesY];
 
-        for(int i = 0; i< fNumberOfTilesX ; i++)
+        for (int i = 0; i < fNumberOfTilesX; i++)
         {
-            for(int y = 0; y< fNumberOfTilesY; y++)
+            for (int y = 0; y < fNumberOfTilesY; y++)
             {
-                cache[i][y] =  (double)fTiles[i][y].getNumberOfCars()/(double)fMaxNumberOfCars;
+                cache[i][y] = (double) fTiles[i][y].getNumberOfCars() / (double) fMaxNumberOfCarsOnOneTile;
             }
         }
         fHeatMapCache.add(cache);
-        if(fHeatMapCache.size() > 300)
+        if (fHeatMapCache.size() > 300)
         {
             fHeatMapCache.remove(0);
         }
 
         cache = new double[fNumberOfTilesX][fNumberOfTilesY];
-        for (double[][] doubles : fHeatMapCache) {
-            for (int i = 0; i<fNumberOfTilesX; i++)
+        for (double[][] doubles : fHeatMapCache)
+        {
+            for (int i = 0; i < fNumberOfTilesX; i++)
             {
-                for (int y = 0; y<fNumberOfTilesY;y++)
+                for (int y = 0; y < fNumberOfTilesY; y++)
                 {
-                    cache[i][y] = cache[i][y] + doubles[i][y]/(double)fMaxNumberOfCars;
+                    cache[i][y] = cache[i][y] + doubles[i][y] / (double) fMaxNumberOfCarsOnOneTile;
                 }
             }
         }
 
-        fHeatMap.updateData(cache,true);
+        fHeatMap.updateData(cache, true);
     }
 
     /**
-	 * print each tile
-	 *
-	 * @param g current Graphics2D object
-	 */
-	public void print(Graphics2D g)
-	{
+     * print each tile
+     *
+     * @param g current Graphics2D object
+     */
+    public void print(Graphics2D g)
+    {
 
-		drawTiles(g);
+        drawTiles(g);
 
-		//drawCars(g);
-	}
+        //drawCars(g);
+    }
 
-	private void drawTiles(Graphics2D g)
-	{
-		for (Tile[] fTile : fTiles)
-		{
-			for (Tile tile : fTile)
-			{
-				tile.print(g);
-			}
-		}
-	}
+    private void drawTiles(Graphics2D g)
+    {
+        for (Tile[] fTile : fTiles)
+        {
+            for (Tile tile : fTile)
+            {
+                tile.print(g);
+            }
+        }
+    }
 
-	/**
-	 * Returns the Tile defined by x and y
-	 *
-	 * @param x x posiotn in the array
-	 * @param y y position in the array
-	 * @return the desired Tile, else null
-	 */
-	public Tile getTile(double x, double y)
-	{
-		try
-		{
-			return fTiles[(int) x][(int) y];
-		}
-		catch (ArrayIndexOutOfBoundsException e)
-		{
-			return null;
-		}
-	}
+    /**
+     * Returns the Tile defined by x and y
+     *
+     * @param x x posiotn in the array
+     * @param y y position in the array
+     * @return the desired Tile, else null
+     */
+    public Tile getTile(double x, double y)
+    {
+        try
+        {
+            return fTiles[(int) x][(int) y];
+        } catch (ArrayIndexOutOfBoundsException e)
+        {
+            return null;
+        }
+    }
 
-	public void paint(Graphics g)
-	{
-		this.simulate();
-		super.paint(g);
-		fGraphics.clearRect(0, 0, fWidth.intValue() + 5, fHeight.intValue() + 5);
-		clearCarLayer();
-		this.print(fGraphics);
-        fHeatMap.update(fHeatMap.getGraphics());
+    public void paint(Graphics g)
+    {
+        this.simulate();
+        super.paint(g);
+        fGraphics.clearRect(0, 0, fWidth.intValue() + 5, fHeight.intValue() + 5);
+        clearCarLayer();
+        this.print(fGraphics);
         AlphaComposite alpha = AlphaComposite
                 .getInstance(
                         AlphaComposite.SRC_OVER,
                         0.75f);
         Composite composite = fGraphics.getComposite();
         fGraphics.setComposite(alpha);
-        fGraphics.drawImage(fHeatMap.getBufferedImage(),0,0,fWidth.intValue() + 5, fHeight.intValue() + 5,null);
+        fHeatMap.update(fHeatMap.getGraphics());
+        fGraphics.drawImage(fHeatMap.getBufferedImage(), 0, 0, fWidth.intValue() + 5, fHeight.intValue() + 5, null);
         fGraphics.setComposite(composite);
 
-		g.translate(5, 5);
-		fGraphics.drawImage(fCarLayerImage, 0, 0, null);
-		g.drawImage(fImage, 0, 0, null);
-		Toolkit.getDefaultToolkit().sync();
-		g.dispose();
-		getCarLayerGraphics().dispose();
+        g.translate(5, 5);
+        fGraphics.drawImage(fCarLayerImage, 0, 0, null);
+        g.drawImage(fImage, 0, 0, null);
+        Toolkit.getDefaultToolkit().sync();
+        g.dispose();
+        getCarLayerGraphics().dispose();
 
-	}
+    }
 
-	private void clearCarLayer()
-	{
-		Graphics2D carLayerGraphics = (Graphics2D) getCarLayerGraphics();
-		Composite backup = carLayerGraphics.getComposite();
-		carLayerGraphics.setComposite(
-				AlphaComposite.getInstance(AlphaComposite.CLEAR, 0.0f));
-		Rectangle2D.Double rect =
-				new Rectangle2D.Double(0, 0, fWidth.intValue() + 5, fHeight.intValue() + 5);
-		carLayerGraphics.fill(rect);
-		carLayerGraphics.setComposite(backup);
-	}
-
-	public void actionPerformed(ActionEvent e)
-	{
-		repaint();
-	}
-
-	public Tile[][] getTiles()
-	{
-		return fTiles;
-	}
-
-	public void reset()
-	{
-		init(fGlobals);
-	}
-
-	public void removeStart(Lane lane)
-	{
-		fStartingLanes.remove(lane);
-	}
-
-	public void addStart(Lane lane)
-	{
-		fStartingLanes.add(lane);
-	}
-
-	public void removeEnd(Lane lane)
-	{
-		fEndLanes.remove(lane);
-	}
-
-	public void addEnd(Lane lane)
-	{
-		fEndLanes.add(lane);
-	}
-
-	public Graphics getCarLayerGraphics()
-	{
-		return fCarLayerImage.getGraphics();
-	}
-
-    public int getMaxNumberOfCars()
+    private void clearCarLayer()
     {
-        return fMaxNumberOfCars;
+        Graphics2D carLayerGraphics = (Graphics2D) getCarLayerGraphics();
+        Composite backup = carLayerGraphics.getComposite();
+        carLayerGraphics.setComposite(
+                AlphaComposite.getInstance(AlphaComposite.CLEAR, 0.0f));
+        Rectangle2D.Double rect =
+                new Rectangle2D.Double(0, 0, fWidth.intValue() + 5, fHeight.intValue() + 5);
+        carLayerGraphics.fill(rect);
+        carLayerGraphics.setComposite(backup);
+    }
+
+    public void actionPerformed(ActionEvent e)
+    {
+        repaint();
+    }
+
+    public Tile[][] getTiles()
+    {
+        return fTiles;
+    }
+
+    public void reset()
+    {
+        init(fGlobals);
+    }
+
+    public void removeStart(Lane lane)
+    {
+        fStartingLanes.remove(lane);
+    }
+
+    public void addStart(Lane lane)
+    {
+        fStartingLanes.add(lane);
+    }
+
+    public void removeEnd(Lane lane)
+    {
+        fEndLanes.remove(lane);
+    }
+
+    public void addEnd(Lane lane)
+    {
+        fEndLanes.add(lane);
+    }
+
+    public Graphics getCarLayerGraphics()
+    {
+        return fCarLayerImage.getGraphics();
+    }
+
+    public int getMaximumNumberOfCars()
+    {
+        return MAX_NUMBER_OF_CARS;
+    }
+
+    public double getTileWidth()
+    {
+        return fTileSize;
     }
 }
