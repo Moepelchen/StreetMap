@@ -63,8 +63,9 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
      * graphics to draw
      */
     private Graphics2D fGraphics;
+	private double[][] fHeatMapCache;
 
-    public Vector<Lane> getStartingLanes()
+	public Vector<Lane> getStartingLanes()
     {
         return fStartingLanes;
     }
@@ -82,7 +83,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
     private int fCurrentNumberOfCars = 0;
 
     private double[][] fHeatMapData;
-    private java.util.List<double[][]> fHeatMapCache;
+    private java.util.List<double[][]> fHeatMapCollection;
     private HeatMap fHeatMap;
     private int fNumberOfTilesX;
     private int fNumberOfTilesY;
@@ -133,10 +134,11 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
                 fHeatMapData[i][y] = 0;
             }
         }
-        fHeatMapCache = new ArrayList<double[][]>();
+        fHeatMapCollection = new ArrayList<double[][]>();
         fMaxNumberOfCarsOnOneTile = 1;
 
         fHeatMap = new HeatMap(fHeatMapData, true, Gradient.GRADIENT_RAINBOW);
+	    fHeatMapCache = new double[fNumberOfTilesX][fNumberOfTilesY];
 
     }
 
@@ -215,25 +217,25 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
                 cache[i][y] = (double) fTiles[i][y].getNumberOfCars() / (double) fMaxNumberOfCarsOnOneTile;
             }
         }
-        fHeatMapCache.add(cache);
-        if (fHeatMapCache.size() > 300)
+        fHeatMapCollection.add(cache);
+        if (fHeatMapCollection.size() > 300)
         {
-            fHeatMapCache.remove(0);
+            fHeatMapCollection.remove(0);
         }
 
-        cache = new double[fNumberOfTilesX][fNumberOfTilesY];
-        for (double[][] doubles : fHeatMapCache)
+		fHeatMapCache = new double[fNumberOfTilesX][fNumberOfTilesY];
+        for (double[][] doubles : fHeatMapCollection)
         {
             for (int i = 0; i < fNumberOfTilesX; i++)
             {
                 for (int y = 0; y < fNumberOfTilesY; y++)
                 {
-                    cache[i][y] = cache[i][y] + doubles[i][y] / (double) fMaxNumberOfCarsOnOneTile;
+	                fHeatMapCache[i][y] = fHeatMapCache[i][y] + doubles[i][y] / (double) fMaxNumberOfCarsOnOneTile;
                 }
             }
         }
 
-        fHeatMap.updateData(cache, true);
+        fHeatMap.updateData(fHeatMapCache, true);
     }
 
     /**
@@ -292,7 +294,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
         Composite composite = fGraphics.getComposite();
         fGraphics.setComposite(alpha);
         fHeatMap.update(fHeatMap.getGraphics());
-        fGraphics.drawImage(fHeatMap.getBufferedImage(), 0, 0, fWidth.intValue() + 5, fHeight.intValue() + 5, null);
+       // fGraphics.drawImage(fHeatMap.getBufferedImage(), 0, 0, fWidth.intValue(), fHeight.intValue(), null);
         fGraphics.setComposite(composite);
 
         g.translate(5, 5);
@@ -365,4 +367,9 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
     {
         return fTileSize;
     }
+
+	public double getHeatMapReading(Point2D point)
+	{
+		return fHeatMapCache[((int) point.getX())][((int) point.getY())];
+	}
 }

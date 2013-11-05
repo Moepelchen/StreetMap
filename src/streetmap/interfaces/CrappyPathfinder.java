@@ -3,8 +3,11 @@ package streetmap.interfaces;
 import streetmap.car.Car;
 import streetmap.map.street.Lane;
 
-import java.awt.*;
-import java.util.*;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -28,17 +31,28 @@ public class CrappyPathfinder implements IPathFindingAlgorithm
         fCar = car;
         fStart = car.getLane();
         ArrayList<Lane> lanes = new ArrayList<Lane>(fStart.getStreet().getLanes());
-        ArrayList<Lane> endLanes = new ArrayList<Lane>(fStart.getGlobals().getMap().getEndLanes());
-        endLanes.removeAll(lanes);
+        ArrayList<Lane> possibleEndLanes = new ArrayList<Lane>(fStart.getGlobals().getMap().getEndLanes());
+        possibleEndLanes.removeAll(lanes);
         fEnd = null;
-        if(endLanes.size() >0)
+        if(possibleEndLanes.size() >0)
         {
-            int index = (int) (Math.random() * endLanes.size());
-            fEnd = endLanes.get(index);
-            if(fEnd != null)
-            {
-                createPath(fStart);
-            }
+	        while (possibleEndLanes.size() > 0)
+	        {
+		        int index = (int) (Math.random() * possibleEndLanes.size());
+		        fEnd = possibleEndLanes.get(index);
+		        if (fEnd != null)
+		        {
+			        if(createPath(fStart))
+			        {
+				        break;
+			        }else
+			        {
+				        possibleEndLanes.remove(index);
+			        }
+		        }
+	        }
+
+
         }
 
     }
@@ -46,7 +60,6 @@ public class CrappyPathfinder implements IPathFindingAlgorithm
     private boolean createPath(Lane next)
     {
         fPath.add(next);
-        Graphics2D g = (Graphics2D) next.getGlobals().getMap().getGraphics();
         if(next.equals(fEnd))
         {
             return true;
@@ -58,7 +71,16 @@ public class CrappyPathfinder implements IPathFindingAlgorithm
             double distance = lane.getEnd().getPosition().distance(fEnd.getStart().getPosition());
             Candidate candidate = new Candidate();
             candidate.candidate = lane;
-            candidate.distance = distance;
+	        Lane cand = candidate.candidate;
+	        Lane randomLane = cand.getEnd().getRandomLane();
+	        double heatMapReading = 0;
+	        if(randomLane != null)
+	        {
+		        Point2D arrayPosition = randomLane.getEnd().getSide().getTile().getArrayPosition();
+		        heatMapReading = 2*/*cand.getCars().size()*/cand.getEnd().getSide().getGlobals().getMap().getHeatMapReading(arrayPosition);
+	        }
+
+	        candidate.distance = distance + heatMapReading;
             candidateCollection.add(candidate);
         }
         Collections.sort(candidateCollection);

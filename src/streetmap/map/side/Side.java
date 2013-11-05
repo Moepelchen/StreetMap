@@ -15,6 +15,7 @@ public abstract class Side implements IPrintable
 	protected Point2D fPosition;
 	protected String fCompassPoint;
 	private SSGlobals fGlobals;
+	private Tile fTile;
 
 	public Anchor getAnchorOne()
 	{
@@ -41,6 +42,7 @@ public abstract class Side implements IPrintable
 		fPosition = position;
 		fGlobals = globals;
 		fCompassPoint = compassPoint;
+		fTile = tile;
 		setAnchors();
 	}
 
@@ -89,5 +91,10 @@ public abstract class Side implements IPrintable
 		{
 			return fAnchorOne;
 		}
+	}
+
+	public Tile getTile()
+	{
+		return fTile;
 	}
 }

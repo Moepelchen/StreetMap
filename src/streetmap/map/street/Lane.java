@@ -105,7 +105,8 @@ public class Lane implements IPrintable, ISimulateable
 	public void simulate()
 	{
 		Vector<Car> toRemoveCars = new Vector<Car>();
-		if (Math.random() < 0.05 && this.isStartLane() && fCars.size() < 1 && fGlobals.getMap().getCurrentNumberOfCars() < fGlobals.getMap().getMaximumNumberOfCars())
+
+		if (this.getEnd().getRandomLane() != null &&Math.random() < 0.05 && this.isStartLane() && fCars.size() < 1 && fGlobals.getMap().getCurrentNumberOfCars() < fGlobals.getMap().getMaximumNumberOfCars())
 		{
 			Car car = CarFactory.createCar(getGlobals(), this, fStartAnchor.getPosition());
 			fCars.add(car);
