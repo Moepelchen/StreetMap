@@ -294,7 +294,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
         Composite composite = fGraphics.getComposite();
         fGraphics.setComposite(alpha);
         fHeatMap.update(fHeatMap.getGraphics());
-       // fGraphics.drawImage(fHeatMap.getBufferedImage(), 0, 0, fWidth.intValue(), fHeight.intValue(), null);
+        fGraphics.drawImage(fHeatMap.getBufferedImage(), 0, 0, fWidth.intValue(), fHeight.intValue(), null);
         fGraphics.setComposite(composite);
 
         g.translate(5, 5);

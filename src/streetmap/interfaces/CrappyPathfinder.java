@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class CrappyPathfinder implements IPathFindingAlgorithm
 
     private Car fCar;
     private LinkedList<Lane> fPath;
+	private HashSet<Integer> fNoGo = new HashSet<Integer>();
 
     public CrappyPathfinder(Car car)
     {
@@ -47,6 +49,7 @@ public class CrappyPathfinder implements IPathFindingAlgorithm
 				        break;
 			        }else
 			        {
+				        fNoGo.clear();
 				        possibleEndLanes.remove(index);
 			        }
 		        }
@@ -66,27 +69,29 @@ public class CrappyPathfinder implements IPathFindingAlgorithm
         }
         Collection<Lane> candidates = next.getEnd().getLanes();
         List<Candidate> candidateCollection = new ArrayList<Candidate>();
-        for (Lane lane : candidates)
+	    double startEndDistance = fStart.getEnd().getPosition().distance(fEnd.getStart().getPosition());
+	    for (Lane lane : candidates)
         {
-            double distance = lane.getEnd().getPosition().distance(fEnd.getStart().getPosition());
-            Candidate candidate = new Candidate();
-            candidate.candidate = lane;
+	        double distance = lane.getEnd().getPosition().distance(fEnd.getStart().getPosition());
+	        Candidate candidate = new Candidate();
+	        candidate.candidate = lane;
 	        Lane cand = candidate.candidate;
 	        Lane randomLane = cand.getEnd().getRandomLane();
 	        double heatMapReading = 0;
 	        if(randomLane != null)
 	        {
 		        Point2D arrayPosition = randomLane.getEnd().getSide().getTile().getArrayPosition();
-		        heatMapReading = 2*/*cand.getCars().size()*/cand.getEnd().getSide().getGlobals().getMap().getHeatMapReading(arrayPosition);
+		        heatMapReading = cand.getCars().size()*cand.getEnd().getSide().getGlobals().getMap().getHeatMapReading(arrayPosition);
+		        heatMapReading = (lane.getEnd().getPosition().distance(fEnd.getStart().getPosition()) / startEndDistance) *heatMapReading;
 	        }
 
-	        candidate.distance = distance + heatMapReading;
+	        candidate.distance = distance /*+heatMapReading*/ ;
             candidateCollection.add(candidate);
         }
         Collections.sort(candidateCollection);
         for (Candidate candidate : candidateCollection)
         {
-            if(!fPath.contains(candidate.candidate) &&createPath(candidate.candidate))
+            if(!fNoGo.contains(candidate.hashCode())&&!fPath.contains(candidate.candidate) &&createPath(candidate.candidate))
             {
                 return true;
             }
@@ -94,7 +99,8 @@ public class CrappyPathfinder implements IPathFindingAlgorithm
         int wrongIndex = fPath.indexOf(next);
         for (int i = wrongIndex; i< fPath.size();i++)
         {
-            fPath.remove(i);
+	        fNoGo.add(fPath.get(i).hashCode());
+	        fPath.remove(i);
         }
 
         return false;
