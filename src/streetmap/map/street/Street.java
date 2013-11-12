@@ -36,8 +36,9 @@ public class Street implements IPrintable, ISimulateable
 	 * indicates that this street can spawn new cars
 	 */
 	private boolean fisStartEnd;
+    private int fNumberOfCars;
 
-	/**
+    /**
 	 * Constructor
 	 *
 	 * @param glob            current globals
@@ -85,9 +86,11 @@ public class Street implements IPrintable, ISimulateable
 
 	public void simulate()
 	{
+        fNumberOfCars = 0;
 		for (Lane fLane : fLanes)
 		{
 			fLane.simulate();
+            fNumberOfCars = fNumberOfCars + fLane.getCars().size();
 		}
 	}
 
@@ -110,4 +113,9 @@ public class Street implements IPrintable, ISimulateable
 	{
 		return fisStartEnd;
 	}
+
+    public int getNumberOfCars()
+    {
+        return fNumberOfCars;
+    }
 }

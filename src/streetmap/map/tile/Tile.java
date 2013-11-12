@@ -50,7 +50,7 @@ public class Tile implements IPrintable, ISimulateable
 	private boolean fSidesGenerated;
 	public Street fStreet;
 	private Point2D fPosition;
-    private int fNumberOfCars;
+    private int fNumberOfCars = 0;
 
     public HorizontalSide getNorthSide()
 	{
@@ -252,7 +252,9 @@ public class Tile implements IPrintable, ISimulateable
 		if (fStreet != null)
 		{
 			fStreet.simulate();
-		}
+            fNumberOfCars = fStreet.getNumberOfCars();
+
+        }
 	}
 
 	public Side getSide(String direction)
@@ -271,12 +273,7 @@ public class Tile implements IPrintable, ISimulateable
 	}
 
     public int getNumberOfCars() {
-        Vector<Lane> lanes = this.getLanes();
 
-        fNumberOfCars = 0;
-        for (Lane lane : lanes) {
-            fNumberOfCars = fNumberOfCars + lane.getCars().size();
-        }
         return fNumberOfCars;
     }
 }

@@ -140,7 +140,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
         fHeatMapCollection = new ArrayList<double[][]>();
         fMaxNumberOfCarsOnOneTile = 1;
 
-        fHeatMap = new HeatMap(fHeatMapData, true, Gradient.GRADIENT_RAINBOW);
+        fHeatMap = new HeatMap(fHeatMapData, true, Gradient.GRADIENT_HEAT);
 	    fHeatMapCache = new double[fNumberOfTilesX][fNumberOfTilesY];
 	    fCarFlowData = new LinkedList<Integer>();
 	    fCarFlowData.add(0);
@@ -306,7 +306,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
         this.print(fGraphics);
         AlphaComposite alpha = AlphaComposite
                 .getInstance(
-                        AlphaComposite.SRC_OVER,
+                        AlphaComposite.SRC_ATOP,
                         0.75f);
         Composite composite = fGraphics.getComposite();
         fGraphics.setComposite(alpha);
