@@ -1,23 +1,24 @@
 package streetmap.map;
 
+import streetmap.SSGlobals;
 import streetmap.handler.gui.MapClickHandler;
 import streetmap.heatmap.Gradient;
 import streetmap.heatmap.HeatMap;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
-import streetmap.SSGlobals;
 import streetmap.map.street.Lane;
 import streetmap.map.tile.Tile;
 
 import javax.swing.*;
-import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Vector;
 
 /**
  * This represents the the whole Street-Map. The map consist of an Array of Tiles.
@@ -87,6 +88,8 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
     private HeatMap fHeatMap;
     private int fNumberOfTilesX;
     private int fNumberOfTilesY;
+	private LinkedList<Integer> fCarFlowData;
+	private double fCarFlowIndex;
 
     /**
      * Constructor setting everything up
@@ -139,6 +142,9 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 
         fHeatMap = new HeatMap(fHeatMapData, true, Gradient.GRADIENT_RAINBOW);
 	    fHeatMapCache = new double[fNumberOfTilesX][fNumberOfTilesY];
+	    fCarFlowData = new LinkedList<Integer>();
+	    fCarFlowData.add(0);
+	    fCarFlowIndex = 0;
 
     }
 
@@ -177,6 +183,8 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
     {
         fMaxNumberOfCarsOnOneTile = 1;
         fCurrentNumberOfCars = 0;
+	    fCarFlowIndex = 0;
+	    fCarFlowData.add(0);
         for (Tile[] fTile : fTiles)
         {
             for (Tile tile : fTile)
@@ -202,6 +210,15 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
             }
         }
         updateHeatMap();
+	    if(fCarFlowData.size() > 300)
+	    {
+		    fCarFlowData.removeFirst();
+	    }
+	    for (Integer integer : fCarFlowData)
+	    {
+		    fCarFlowIndex = fCarFlowIndex + integer;
+	    }
+	    System.out.println("fCarFlowIndex = " + fCarFlowIndex/300);
 
     }
 
@@ -371,5 +388,11 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 	public double getHeatMapReading(Point2D point)
 	{
 		return fHeatMapCache[((int) point.getX())][((int) point.getY())];
+	}
+
+	public void addCarFlowData(int removedCars)
+	{
+		int newLast = fCarFlowData.getLast() + removedCars;
+		fCarFlowData.set(fCarFlowData.size()-1,newLast);
 	}
 }

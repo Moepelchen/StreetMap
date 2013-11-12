@@ -85,7 +85,7 @@ public class CrappyPathfinder implements IPathFindingAlgorithm
 		        heatMapReading = (lane.getEnd().getPosition().distance(fEnd.getStart().getPosition()) / startEndDistance) *heatMapReading;
 	        }
 
-	        candidate.distance = distance /*+heatMapReading*/ ;
+	        candidate.distance = distance +heatMapReading ;
             candidateCollection.add(candidate);
         }
         Collections.sort(candidateCollection);
