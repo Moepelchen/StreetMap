@@ -34,6 +34,7 @@ public class Lane implements IPrintable, ISimulateable
 	private double fMinX;
 	private double fMinY;
 	private boolean isStart;
+	private boolean fBlocked;
 
 	public double getMaxX()
 	{
@@ -253,7 +254,11 @@ public class Lane implements IPrintable, ISimulateable
 
 	public boolean isBlocked()
 	{
-		return false;
+		return fBlocked;
+	}
+	public void setIsBlocked(boolean s)
+	{
+		fBlocked = s;
 	}
 
     public Street getStreet()

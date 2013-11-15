@@ -54,7 +54,7 @@ public class Anchor implements IPrintable
 
 	public boolean isBlocked()
 	{
-		return false;
+		return this.fBlocked;
 	}
 
 	public Point2D getPosition()

@@ -12,9 +12,11 @@ import streetmap.map.street.Lane;
 public class Candidate implements Comparable
 {
     public Lane candidate;
-    public double distance;
+    public double distance = 0;
+	private Candidate fPrevious;
+	private double fDistanceToGoal;
 
-    @Override
+	@Override
     public int compareTo(Object o)
     {
         Candidate candidate = (Candidate) o;
@@ -32,4 +34,24 @@ public class Candidate implements Comparable
         }
 
     }
+
+	public Candidate previous()
+	{
+		return fPrevious;
+	}
+
+	public void setPrevious(Candidate previous)
+	{
+		fPrevious = previous;
+	}
+
+	public void setDistanceToGoal(double distanceToGoal)
+	{
+		fDistanceToGoal = distanceToGoal;
+	}
+
+	public Candidate(Lane start)
+	{
+		candidate = start;
+	}
 }

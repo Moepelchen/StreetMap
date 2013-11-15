@@ -218,7 +218,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 	    {
 		    fCarFlowIndex = fCarFlowIndex + integer;
 	    }
-	    System.out.println("fCarFlowIndex = " + fCarFlowIndex/300);
+		fCarFlowIndex = fCarFlowIndex/300;
 
     }
 
@@ -299,6 +299,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 
     public void paint(Graphics g)
     {
+	    long time = System.currentTimeMillis();
         this.simulate();
         super.paint(g);
         fGraphics.clearRect(0, 0, fWidth.intValue() + 5, fHeight.intValue() + 5);
@@ -306,7 +307,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
         this.print(fGraphics);
         AlphaComposite alpha = AlphaComposite
                 .getInstance(
-                        AlphaComposite.SRC_ATOP,
+                        AlphaComposite.SRC_OVER,
                         0.75f);
         Composite composite = fGraphics.getComposite();
         fGraphics.setComposite(alpha);
@@ -317,7 +318,12 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
         g.translate(5, 5);
         fGraphics.drawImage(fCarLayerImage, 0, 0, null);
         g.drawImage(fImage, 0, 0, null);
-        Toolkit.getDefaultToolkit().sync();
+	    long takenTime = System.currentTimeMillis() - time;
+	    long fps = 1000 / takenTime;
+	    g.setColor(Color.white);
+	    double l = Math.round(fCarFlowIndex * 1000) / 1000.0;
+	    g.drawString(fps + " fps  " + l + " Carflow", 10, 10);
+	    Toolkit.getDefaultToolkit().sync();
         g.dispose();
         getCarLayerGraphics().dispose();
 
@@ -394,5 +400,10 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 	{
 		int newLast = fCarFlowData.getLast() + removedCars;
 		fCarFlowData.set(fCarFlowData.size()-1,newLast);
+	}
+
+	public Graphics2D getTheGraphics()
+	{
+		return (Graphics2D) this.getGraphics();
 	}
 }

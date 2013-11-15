@@ -2,8 +2,6 @@ package streetmap.interfaces;
 
 import streetmap.map.street.Lane;
 
-import java.util.LinkedList;
-
 /**
  * Created by IntelliJ IDEA.
  * User: ulrichtewes
@@ -13,8 +11,5 @@ import java.util.LinkedList;
  */
 public interface IPathFindingAlgorithm
 {
-
-	public LinkedList getPath(Lane start, Lane end);
-
     Lane getNextLane();
 }

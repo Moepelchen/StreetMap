@@ -1,11 +1,12 @@
 package streetmap.car;
 
+import streetmap.interfaces.AStarAlgorithm;
 import streetmap.interfaces.CrappyPathfinder;
 import streetmap.interfaces.IPathFindingAlgorithm;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
-import streetmap.map.street.trajectory.ITrajectory;
 import streetmap.map.street.Lane;
+import streetmap.map.street.trajectory.ITrajectory;
 import streetmap.utils.DrawHelper;
 
 import javax.swing.*;
@@ -57,10 +58,6 @@ public class Car implements IPrintable, ISimulateable
 		return fLane;
 	}
 
-	public void setLane(Lane fLane)
-	{
-		this.fLane = fLane;
-	}
 
 	public Car(Lane lane, Point2D pos, ImageIcon carImage, double length)
 	{
@@ -72,7 +69,16 @@ public class Car implements IPrintable, ISimulateable
 		double v = Math.random() + length / 2;
 		fSpeed = v;
 		fOriginalSpeed = v;
-        fPathFinder = new CrappyPathfinder(this);
+		if(Math.random() >0.5)
+		{
+			fPathFinder = new AStarAlgorithm(this);
+			fColor = Color.BLUE;
+		}
+		else
+		{
+			fPathFinder = new CrappyPathfinder(this);
+			fColor = Color.PINK;
+		}
 	}
 
 	public void print(Graphics2D g)
@@ -87,7 +93,7 @@ public class Car implements IPrintable, ISimulateable
 				green = Math.min((int) (COLOR_HAPPINESS * (fHappiness)), COLOR_HAPPINESS);
 			}
 			Color color = new Color(red, green, 0);
-			DrawHelper.drawCar(this, color);
+			DrawHelper.drawCar(this, fColor);
 		}
 		catch (IllegalArgumentException e)
 		{
