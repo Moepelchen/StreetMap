@@ -2,7 +2,7 @@
  * Copyright (C) veenion GmbH 1999-2012.
  */
 
-package streetmap.interfaces;
+package streetmap.pathfinding;
 
 import streetmap.car.Car;
 import streetmap.map.street.Lane;
@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,73 +31,96 @@ import java.util.List;
 public class AStarAlgorithm extends AbstractPathFinder
 {
 	private SortedNodeList fOpenList;
-	private LinkedList<Lane> fOpenListLanes;
 	private List<Lane> fClosedList;
+
+	private static HashMap<Integer,LinkedList<Lane>> fPathList = new HashMap<Integer, LinkedList<Lane>>();
 
 	@Override
 	protected boolean createPath(Lane start)
 	{
+		/*if(fPathList.get(fStart.hashCode() + fEnd.hashCode()) != null)
+		{
+			fPath = new LinkedList<Lane>(fPathList.get(fStart.hashCode() + fEnd.hashCode()));
+			return true;
+		}*/
 		fClosedList = new ArrayList<Lane>();
 		fOpenList = new SortedNodeList();
-		fOpenListLanes = new LinkedList<Lane>();
 		Graphics2D g = start.getEnd().getSide().getTile().getMap().getTheGraphics();
         double fromStartToEnd = start.getStart().getPosition().distance(fEnd.getEnd().getPosition());
         Candidate current = new Candidate(start);
-        current.distance = fromStartToEnd;
+        current.fDistanceToGoal = fromStartToEnd;
         fOpenList.add(current);
         while (fOpenList.size() != 0)
 		{
+			fOpenList.sort();
 			current = fOpenList.getFirst();
+			fOpenList.remove(current);
+			draw(g, current);
 			if(current.candidate.equals(fEnd))
 			{
 				getPath(current);
+				fPathList.put(fStart.hashCode() + fEnd.hashCode(),fPath);
 				return true;
 			}
 
-			fOpenList.remove(current);
-			fOpenListLanes.remove(current.candidate);
 
 			fClosedList.add(current.candidate);
 			for (Lane lane : current.candidate.getEnd().getLanes())
 			{
-
-				boolean neighborIsBetter;
 				Candidate neighbour = new Candidate(lane);
 				if(fClosedList.contains(lane))
 					continue;
 
-				double distanceToEnd =lane.getStart().getPosition().distance(fEnd.getEnd().getPosition());
+				double distanceToStart = current.fDistanceToStart + lane.getTrajectory().getLength();
+
+				double distanceToEnd = lane.getEnd().getPosition().distance(fEnd.getEnd().getPosition());
 
 				double heatMapReading = getHeatMapReading(lane);
-				distanceToEnd = distanceToEnd+ 5*heatMapReading;
+				distanceToStart = distanceToStart + 5* heatMapReading;
 
 
-				if(!fOpenListLanes.contains(neighbour.candidate))
+				if(fOpenList.contains(neighbour) && distanceToStart >= fOpenList.getByLane(neighbour).fDistanceToStart)
+					continue;
+
+				neighbour.setPrevious(current);
+				neighbour.setDistanceToStart(distanceToStart);
+				neighbour.fDistanceToGoal = distanceToEnd;
+
+				if (fOpenList.contains(neighbour))
 				{
-                    neighbour.distance = distanceToEnd;
-					fOpenList.add(neighbour);
-					fOpenListLanes.add(neighbour.candidate);
-					neighborIsBetter = true;
-				}
-				else if(distanceToEnd < current.distance)
-				{
-					neighborIsBetter = true;
+					fOpenList.getByLane(neighbour).fDistanceToStart = distanceToStart;
 				}
 				else
 				{
-					neighborIsBetter = false;
-				}
-				if(neighborIsBetter)
-				{
-					neighbour.setPrevious(current);
-					neighbour.distance = distanceToEnd;
-					neighbour.setDistanceToGoal(lane.getStart().getPosition().distance(fEnd.getEnd().getPosition()));
-				}
+					fOpenList.add(neighbour);
 
-
+				}
 			}
 		}
 		return false;
+	}
+
+	private void draw(Graphics2D g, Candidate current)
+	{
+
+		for (Lane lane : fClosedList)
+		{
+			g.setColor(Color.BLUE);
+			g.drawOval((int) lane.getEnd().getPosition().getX(), (int) lane.getEnd().getPosition().getY(), 5, 5);
+		}
+
+
+		for (Candidate openListLane : fOpenList.getList())
+		{
+			g.setColor(Color.GREEN);
+			g.drawOval((int) openListLane.candidate.getEnd().getPosition().getX(), (int) openListLane.candidate.getEnd().getPosition().getY(), 5, 5);
+		}
+
+		g.setColor(Color.MAGENTA);
+		g.drawOval((int) current.candidate.getEnd().getPosition().getX(), (int) current.candidate.getEnd().getPosition().getY(), 5, 5);
+
+		g.setColor(Color.MAGENTA);
+		g.drawOval((int) fEnd.getEnd().getPosition().getX(), (int) fEnd.getEnd().getPosition().getY(), 5, 5);
 	}
 
 	private double getHeatMapReading(Lane lane)
@@ -136,35 +160,60 @@ public class AStarAlgorithm extends AbstractPathFinder
         }
     }
 
-    private class SortedNodeList {
+	private class SortedNodeList
+	{
 
-               private ArrayList<Candidate> list = new ArrayList<Candidate>();
+		private ArrayList<Candidate> list = new ArrayList<Candidate>();
+		private HashMap<Integer, Candidate> hash = new HashMap<Integer, Candidate>();
 
-               public Candidate getFirst() {
-                       return list.get(0);
-               }
+		public Candidate getFirst()
+		{
+			return list.get(0);
+		}
 
-               public void clear() {
-                       list.clear();
-               }
+		public void clear()
+		{
+			list.clear();
+		}
 
-               public void add(Candidate Candidate) {
-                       list.add(Candidate);
-                       Collections.sort(list);
-               }
+		public void add(Candidate candidate)
+		{
+			list.add(candidate);
+			hash.put(candidate.hashCode(), candidate);
 
-               public void remove(Candidate n) {
-                       list.remove(n);
-               }
+		}
 
-               public int size() {
-                       return list.size();
-               }
+		public void remove(Candidate n)
+		{
+			list.remove(n);
+			hash.remove(n.hashCode());
+		}
 
-               public boolean contains(Candidate n) {
-                       return list.contains(n);
-               }
-       }
+		public int size()
+		{
+			return list.size();
+		}
+
+		public boolean contains(Candidate n)
+		{
+			return hash.get(n.hashCode()) != null;
+		}
+
+		public Candidate getByLane(Candidate n)
+		{
+			return hash.get(n.hashCode());
+		}
+
+		public List<Candidate> getList()
+		{
+			return list;
+		}
+
+		public void sort()
+		{
+			Collections.sort(list);
+		}
+	}
 
 // -----------------------------------------------------
 // constants

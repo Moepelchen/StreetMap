@@ -31,4 +31,6 @@ public interface ITrajectory
 	boolean carOnLane(Car fCar, Lane lane);
 
 	void relocate(Car car);
+
+	double getLength();
 }

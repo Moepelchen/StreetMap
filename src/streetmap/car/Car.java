@@ -1,12 +1,11 @@
 package streetmap.car;
 
-import streetmap.interfaces.AStarAlgorithm;
-import streetmap.interfaces.CrappyPathfinder;
 import streetmap.interfaces.IPathFindingAlgorithm;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.map.street.Lane;
 import streetmap.map.street.trajectory.ITrajectory;
+import streetmap.pathfinding.AStarAlgorithm;
 import streetmap.utils.DrawHelper;
 
 import javax.swing.*;
@@ -101,8 +100,6 @@ public class Car implements IPrintable, ISimulateable
 	{
 		move();
 		fHappiness = Math.min(1,fSpeed / fOriginalSpeed);
-        if(fHappiness < 0.5)
-            fPathFinder.update();
 	}
 
 	/**
@@ -166,6 +163,8 @@ public class Car implements IPrintable, ISimulateable
 	public void reset(Lane lane)
 	{
 		fLane = lane;
+		if(fHappiness < 0.25)
+	            fPathFinder.update();
 	}
 
 	public ImageIcon getImage()

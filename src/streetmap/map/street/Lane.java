@@ -76,6 +76,8 @@ public class Lane implements IPrintable, ISimulateable
 		isStart = start;
 	}
 
+
+
 	public Lane(SSGlobals glob, Street street)
 	{
         fStreet = street;

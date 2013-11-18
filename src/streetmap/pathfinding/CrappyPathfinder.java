@@ -1,8 +1,9 @@
-package streetmap.interfaces;
+package streetmap.pathfinding;
 
 import streetmap.car.Car;
 import streetmap.map.street.Lane;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -33,6 +34,7 @@ public class CrappyPathfinder extends AbstractPathFinder
         {
             return true;
         }
+	    //draw((Graphics2D)(next.getGlobals().getMap().getGraphics()),new Candidate(next));
         Collection<Lane> candidates = next.getEnd().getLanes();
         List<Candidate> candidateCollection = new ArrayList<Candidate>();
 	    double startEndDistance = fStart.getEnd().getPosition().distance(fEnd.getStart().getPosition());
@@ -49,9 +51,11 @@ public class CrappyPathfinder extends AbstractPathFinder
 		        heatMapReading = getHeatMapReading(startEndDistance, lane, cand, randomLane);
 	        }
 
-	        candidate.distance = distance +1.0*heatMapReading ;
+	        candidate.fDistanceToGoal = distance +1.0*heatMapReading ;
             candidateCollection.add(candidate);
         }
+
+
         Collections.sort(candidateCollection);
         for (Candidate candidate : candidateCollection)
         {
@@ -73,6 +77,17 @@ public class CrappyPathfinder extends AbstractPathFinder
     @Override
     public void update()
     {
-        //To change body of implemented methods use File | Settings | File Templates.
+       fPath.clear();
+	    createPath(fCar.getLane());
     }
+
+
+	private void draw(Graphics2D g, Candidate current)
+    	{
+		    for (Lane lane : fPath)
+	    		{
+	    			g.setColor(Color.BLUE);
+	    			g.drawOval((int) lane.getEnd().getPosition().getX(), (int) lane.getEnd().getPosition().getY(), 5, 5);
+	    		}
+    	}
 }

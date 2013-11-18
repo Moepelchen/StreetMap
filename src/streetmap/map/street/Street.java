@@ -1,8 +1,8 @@
 package streetmap.map.street;
 
+import streetmap.SSGlobals;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
-import streetmap.SSGlobals;
 import streetmap.map.tile.Tile;
 
 import javax.swing.*;

@@ -152,4 +152,10 @@ public class StraightTrajectory implements ITrajectory
 	{
 		// nothing to do here
 	}
+
+	@Override
+	public double getLength()
+	{
+		return fLane.getStart().getPosition().distance(fLane.getEnd().getPosition());
+	}
 }

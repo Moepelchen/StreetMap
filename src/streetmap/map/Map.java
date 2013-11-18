@@ -28,43 +28,48 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 {
     /* {author=Ulrich Tewes, version=1.0}*/
 
+    public int MAX_NUMBER_OF_CARS = 1;
     /**
      * height of the map
      */
     private Double fHeight;
-
     /**
      * width of the map
      */
     private Double fWidth;
-
     /**
      * Array containing all tiles
      */
     private Tile[][] fTiles;
-
     /**
      * side length of one Tile
      */
     private Double fTileSize;
-
     /**
      * Globals containing the different configurations
      */
     private SSGlobals fGlobals;
-
     /**
      * Image usd for double buffering
      */
     private BufferedImage fImage;
-
     private BufferedImage fCarLayerImage;
-
     /**
      * graphics to draw
      */
     private Graphics2D fGraphics;
 	private double[][] fHeatMapCache;
+    private Vector<Lane> fStartingLanes;
+    private Vector<Lane> fEndLanes;
+    private int fMaxNumberOfCarsOnOneTile = 0;
+    private int fCurrentNumberOfCars = 0;
+    private double[][] fHeatMapData;
+    private java.util.List<double[][]> fHeatMapCollection;
+    private HeatMap fHeatMap;
+    private int fNumberOfTilesX;
+    private int fNumberOfTilesY;
+	private LinkedList<Integer> fCarFlowData;
+	private double fCarFlowIndex;
 
 	public Vector<Lane> getStartingLanes()
     {
@@ -74,32 +79,6 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
     public Vector<Lane> getEndLanes()
     {
         return fEndLanes;
-    }
-
-    private Vector<Lane> fStartingLanes;
-    private Vector<Lane> fEndLanes;
-
-    private int fMaxNumberOfCarsOnOneTile = 0;
-    public static int MAX_NUMBER_OF_CARS = 100;
-    private int fCurrentNumberOfCars = 0;
-
-    private double[][] fHeatMapData;
-    private java.util.List<double[][]> fHeatMapCollection;
-    private HeatMap fHeatMap;
-    private int fNumberOfTilesX;
-    private int fNumberOfTilesY;
-	private LinkedList<Integer> fCarFlowData;
-	private double fCarFlowIndex;
-
-    /**
-     * Constructor setting everything up
-     *
-     * @param globals Global settings and parameters
-     */
-    public Map(SSGlobals globals)
-    {
-        init(globals);
-
     }
 
     private void init(SSGlobals globals)
@@ -306,7 +285,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
                         0.75f);
         Composite composite = fGraphics.getComposite();
         fGraphics.setComposite(alpha);
-        fHeatMap.update(fGraphics);
+        //fHeatMap.update(fGraphics);
         fGraphics.drawImage(fHeatMap.getBufferedImage(), 0, 0, fWidth.intValue(), fHeight.intValue(), null);
         fGraphics.setComposite(composite);
 
@@ -378,7 +357,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 
     public int getMaximumNumberOfCars()
     {
-        return MAX_NUMBER_OF_CARS;
+        return 1000;
     }
 
     public double getTileWidth()
@@ -401,4 +380,15 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 	{
 		return (Graphics2D) this.getGraphics();
 	}
+
+    /**
+     * Constructor setting everything up
+     *
+     * @param globals Global settings and parameters
+     */
+    public Map(SSGlobals globals)
+    {
+        init(globals);
+
+    }
 }

@@ -2,9 +2,10 @@
  * Copyright (C) veenion GmbH 1999-2012.
  */
 
-package streetmap.interfaces;
+package streetmap.pathfinding;
 
 import streetmap.car.Car;
+import streetmap.interfaces.IPathFindingAlgorithm;
 import streetmap.map.street.Lane;
 
 import java.awt.geom.Point2D;

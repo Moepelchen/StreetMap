@@ -1,4 +1,4 @@
-package streetmap.interfaces;
+package streetmap.pathfinding;
 
 import streetmap.map.street.Lane;
 
@@ -12,23 +12,23 @@ import streetmap.map.street.Lane;
 public class Candidate implements Comparable
 {
     public Lane candidate;
-    public double distance = 0;
+    public double fDistanceToGoal = 0;
 	private Candidate fPrevious;
-	private double fDistanceToGoal;
+	public double fDistanceToStart = 0;
 
 	@Override
     public int compareTo(Object o)
     {
         Candidate candidate = (Candidate) o;
-        if(this.distance < candidate.distance)
+        if((this.fDistanceToGoal + fDistanceToStart) < (candidate.fDistanceToGoal+ candidate.fDistanceToStart))
         {
             return -1;
 
-        }else if (this.distance > candidate.distance)
+        }else if ((this.fDistanceToGoal + fDistanceToStart) > candidate.fDistanceToGoal+ candidate.fDistanceToStart)
         {
             return  +1;
         }
-        else if (this.distance == candidate.distance);
+        else if ((this.fDistanceToGoal + fDistanceToStart) == candidate.fDistanceToGoal+ candidate.fDistanceToStart);
         {
             return 0;
         }
@@ -45,13 +45,19 @@ public class Candidate implements Comparable
 		fPrevious = previous;
 	}
 
-	public void setDistanceToGoal(double distanceToGoal)
+	public void setDistanceToStart(double distanceToStart)
 	{
-		fDistanceToGoal = distanceToGoal;
+		fDistanceToStart = distanceToStart;
 	}
 
 	public Candidate(Lane start)
 	{
 		candidate = start;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return candidate.hashCode();
 	}
 }

@@ -27,6 +27,7 @@ public class BendTrajectory implements ITrajectory
 	private double fEndY;
 	private boolean isBackWard;
 	private final QuadCurve2D fCurve;
+	private double fLength;
 
 	public BendTrajectory(Lane lane)
 	{
@@ -162,6 +163,30 @@ public class BendTrajectory implements ITrajectory
 		{
 			fCar.setPosition(nearestPoint);
 		}
+	}
+
+	@Override
+	public double getLength()
+	{
+		if (fLength == 0)
+		{
+			PathIterator iter = fCurve.getPathIterator(null,0.5);
+
+	        double [] curSeg = new double[2];
+	        iter.currentSegment(curSeg);
+	        iter.next();
+	        double x0 = curSeg[0];
+	        double y0 = curSeg[1];
+	        while(!iter.isDone()) {
+	            iter.currentSegment(curSeg);
+	            fLength += Math.sqrt((curSeg[0] - x0)*(curSeg[0] - x0) +
+	                    (curSeg[1] - y0)*(curSeg[1] - y0));
+	            x0 = curSeg[0];
+	            y0 = curSeg[1];
+	            iter.next();
+	        }
+		}
+		return fLength;
 	}
 
 }
