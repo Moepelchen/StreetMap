@@ -69,16 +69,9 @@ public class Car implements IPrintable, ISimulateable
 		double v = Math.random() + length / 2;
 		fSpeed = v;
 		fOriginalSpeed = v;
-		if(Math.random() >0.5)
-		{
+
 			fPathFinder = new AStarAlgorithm(this);
-			fColor = Color.BLUE;
-		}
-		else
-		{
-			fPathFinder = new CrappyPathfinder(this);
-			fColor = Color.PINK;
-		}
+//fPathFinder = new CrappyPathfinder(this);
 	}
 
 	public void print(Graphics2D g)
@@ -100,7 +93,7 @@ public class Car implements IPrintable, ISimulateable
 			e.printStackTrace();
 		}
 
-		DrawHelper.drawFronCars(this, getFrontCars());
+		//DrawHelper.drawFronCars(this, getFrontCars());
 
 	}
 
@@ -108,6 +101,8 @@ public class Car implements IPrintable, ISimulateable
 	{
 		move();
 		fHappiness = Math.min(1,fSpeed / fOriginalSpeed);
+        if(fHappiness < 0.5)
+            fPathFinder.update();
 	}
 
 	/**

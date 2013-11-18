@@ -12,4 +12,6 @@ import streetmap.map.street.Lane;
 public interface IPathFindingAlgorithm
 {
     Lane getNextLane();
+
+    void update();
 }

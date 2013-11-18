@@ -199,14 +199,9 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
         }
         for (Tile[] fTile : fTiles)
         {
-
-
-
             for (Tile tile : fTile)
             {
-
                     tile.simulate();
-
             }
         }
         updateHeatMap();
@@ -311,7 +306,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
                         0.75f);
         Composite composite = fGraphics.getComposite();
         fGraphics.setComposite(alpha);
-        fHeatMap.update(fHeatMap.getGraphics());
+        fHeatMap.update(fGraphics);
         fGraphics.drawImage(fHeatMap.getBufferedImage(), 0, 0, fWidth.intValue(), fHeight.intValue(), null);
         fGraphics.setComposite(composite);
 

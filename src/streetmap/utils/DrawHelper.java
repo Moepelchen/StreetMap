@@ -42,12 +42,7 @@ public class DrawHelper
 		rect = new Rectangle2D.Double();
 
 		trans.scale(scaleX, scaleX);
-		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-				RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		g.setRenderingHint(RenderingHints.KEY_RENDERING,
-				RenderingHints.VALUE_RENDER_QUALITY);
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+
 		g.fillOval((int) (car.getPosition().getX() - width / 2), (int) (car.getPosition().getY() - width / 2), (int) width, (int) width);
 		/*g.rotate(0,car.getPosition().getX(),car.getPosition().getY());
 		g.drawImage(icon.getImage(), trans,null);

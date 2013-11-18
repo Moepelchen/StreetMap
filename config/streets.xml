@@ -343,6 +343,26 @@
 
     </StreetTemplate>
     <StreetTemplate>
+        <name>NorthSouthEntry</name>
+        <imagePath>./images/streets/SNEntry.png</imagePath>
+        <isStartEndPoint>true</isStartEndPoint>
+        <LaneTemplates>
+            <LaneTemplate>
+
+                <isStartPoint>true</isStartPoint>
+                <from>N</from>
+                <to>S</to>
+            </LaneTemplate>
+            <LaneTemplate>
+                <isEndPoint>true</isEndPoint>
+                <from>S</from>
+                <to>N</to>
+            </LaneTemplate>
+        </LaneTemplates>
+
+    </StreetTemplate>
+
+    <StreetTemplate>
         <name>WestEastEntry</name>
         <imagePath>./images/streets/WEEntry.png</imagePath>
         <isStartEndPoint>true</isStartEndPoint>

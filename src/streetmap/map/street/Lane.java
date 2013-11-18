@@ -133,6 +133,7 @@ public class Lane implements IPrintable, ISimulateable
 				if (nexLane != null)
 				{
 					nexLane.addCar(fCar);
+
 				}
 				else
 				{
@@ -161,6 +162,7 @@ public class Lane implements IPrintable, ISimulateable
 		fCar.setPosition(fStartAnchor.getPosition());
 		fCar.reset(this);
 		fCars.add(fCar);
+
 	}
 
 	public void setStart(Anchor start, String compass)

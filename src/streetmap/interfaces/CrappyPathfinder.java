@@ -49,7 +49,7 @@ public class CrappyPathfinder extends AbstractPathFinder
 		        heatMapReading = getHeatMapReading(startEndDistance, lane, cand, randomLane);
 	        }
 
-	        candidate.distance = distance +heatMapReading ;
+	        candidate.distance = distance +1.0*heatMapReading ;
             candidateCollection.add(candidate);
         }
         Collections.sort(candidateCollection);
@@ -68,5 +68,11 @@ public class CrappyPathfinder extends AbstractPathFinder
         }
 
         return false;
+    }
+
+    @Override
+    public void update()
+    {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }
