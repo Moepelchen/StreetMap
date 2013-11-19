@@ -59,6 +59,7 @@ public class StreetFactory
 			street = new Street(fGlobals, tile, streetName, false);
 			generateLanes(street, template.getLaneTemplates(), tile);
 			tile.setStreet(street);
+
 		}
 		return street;
 

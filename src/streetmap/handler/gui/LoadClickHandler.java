@@ -54,6 +54,7 @@ public class LoadClickHandler extends ClickHandler
 				{
 					configLoader.load(file, fGlobals);
 					mapLoader.load(file, fGlobals);
+                    fGlobals.getMap().handleAddition();
 				}
 				catch (ParserConfigurationException e1)
 				{

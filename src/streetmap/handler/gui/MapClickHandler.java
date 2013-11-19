@@ -39,6 +39,7 @@ public class MapClickHandler implements MouseListener
 		if (tile != null)
 		{
 			fGlobals.getStreetFactory().createStreet(tile, fGlobals.getSelectedStreetTemplate());
+            fGlobals.getMap().handleAddition();
 
 		}
 

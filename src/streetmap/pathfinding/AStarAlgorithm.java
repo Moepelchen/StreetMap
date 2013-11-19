@@ -55,7 +55,7 @@ public class AStarAlgorithm extends AbstractPathFinder
 			fOpenList.sort();
 			current = fOpenList.getFirst();
 			fOpenList.remove(current);
-			draw(g, current);
+			//draw(g, current);
 			if(current.candidate.equals(fEnd))
 			{
 				getPath(current);
