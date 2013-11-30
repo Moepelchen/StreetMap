@@ -6,6 +6,8 @@ import streetmap.map.tile.Tile;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,6 +26,10 @@ public class MapClickHandler implements MouseListener
 
 	private SSGlobals fGlobals;
 
+    private Point2D fStartPoint;
+
+    private Point2D fEndPoint;
+
 	public MapClickHandler(SSGlobals glob, Map map)
 	{
 		fMap = map;
@@ -33,9 +39,7 @@ public class MapClickHandler implements MouseListener
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
-		double arrayX = (int) (e.getX() / fGlobals.getConfig().getTileSize());
-		double arrayY = (int) (e.getY() / fGlobals.getConfig().getTileSize());
-		Tile tile = fMap.getTile(arrayX, arrayY);
+		Tile tile = fMap.getTile(e.getPoint());
 		if (tile != null)
 		{
 			fGlobals.getStreetFactory().createStreet(tile, fGlobals.getSelectedStreetTemplate());
@@ -48,13 +52,34 @@ public class MapClickHandler implements MouseListener
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
-		mouseClicked(e);
+        fStartPoint = e.getPoint();
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e)
 	{
-		//To change body of implemented methods use File | Settings | File Templates.
+		fEndPoint = e.getPoint();
+        Tile startTile = fMap.getTile(fStartPoint);
+        Tile endTile = fMap.getTile(fEndPoint);
+        if( startTile != null && startTile.equals(endTile))
+        {
+            mouseClicked(e);
+        }else
+        {
+            Line2D.Double line = new Line2D.Double(fStartPoint,fEndPoint);
+            for (Tile[] tiles : fMap.getTiles())
+            {
+                for (Tile tile : tiles)
+                {
+                    if(line.intersects(tile.getRect()))
+                    {
+                        fGlobals.getStreetFactory().createStreet(tile, fGlobals.getSelectedStreetTemplate());
+                    }
+                }
+            }
+        }
+        fGlobals.getMap().handleAddition();
+
 	}
 
 	@Override

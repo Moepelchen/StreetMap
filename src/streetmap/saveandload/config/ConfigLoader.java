@@ -64,7 +64,7 @@ public class ConfigLoader extends AbstractLoader
 						{
 							String value = item.getTextContent();
 							int beginIndex = 3;
-							if (method.getReturnType().equals(boolean.class))
+							if (method.getReturnType().equals(boolean.class)||method.getReturnType().equals(Boolean.class) )
 							{
 								beginIndex = 2;
 							}
@@ -79,8 +79,8 @@ public class ConfigLoader extends AbstractLoader
 							}
 							catch (NoSuchMethodException e)
 							{
-
-							}
+                                System.out.println("e = " + e);
+                            }
 						}
 					}
 				}

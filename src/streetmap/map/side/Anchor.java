@@ -15,100 +15,95 @@ import java.util.HashMap;
  */
 public class Anchor implements IPrintable
 {
-	public Side getSide()
-	{
-		return fSide;
-	}
+    public Side getSide()
+    {
+        return fSide;
+    }
 
-	private final Side fSide;
-	/**
-	 * Position of this anchor
-	 */
-	private Point2D fPosition;
-	/**
-	 * Lanes connected to this anchor
-	 */
-	private HashMap<String, Lane> fLanes;
-	/**
-	 * indicates that the anchor is currently blocked, meaning that the cars can not move any further
-	 */
-	private boolean fBlocked;
+    private final Side fSide;
+    /**
+     * Position of this anchor
+     */
+    private Point2D fPosition;
+    /**
+     * Lanes connected to this anchor
+     */
+    private HashMap<String, Lane> fLanes;
+    /**
+     * indicates that the anchor is currently blocked, meaning that the cars can not move any further
+     */
+    private boolean fBlocked;
 
-	public Anchor(Side horizontalSide, Point2D position, String compassPoint)
-	{
-		fSide = horizontalSide;
-		fPosition = position;
-		fLanes = new HashMap<String, Lane>();
+    public Anchor(Side horizontalSide, Point2D position, String compassPoint)
+    {
+        fSide = horizontalSide;
+        fPosition = position;
+        fLanes = new HashMap<String, Lane>();
 
-	}
+    }
 
-	public boolean isfBlocked()
-	{
-		return fBlocked;
-	}
+    public void setBlocked(boolean fBlocked)
+    {
+        this.fBlocked = fBlocked;
+    }
 
-	public void setBlocked(boolean fBlocked)
-	{
-		this.fBlocked = fBlocked;
-	}
+    public boolean isBlocked()
+    {
+        return this.fBlocked;
+    }
 
-	public boolean isBlocked()
-	{
-		return this.fBlocked;
-	}
+    public Point2D getPosition()
+    {
+        return fPosition;
+    }
 
-	public Point2D getPosition()
-	{
-		return fPosition;
-	}
+    public void setPosition(Point2D position)
+    {
+        this.fPosition = position;
+    }
 
-	public void setPosition(Point2D position)
-	{
-		this.fPosition = position;
-	}
+    public void print(Graphics2D g)
+    {
 
-	public void print(Graphics2D g)
-	{
+        g.drawRect((int) getPosition().getX() - 1, (int) getPosition().getY() - 1, 2, 2);
+    }
 
-		g.drawRect((int) getPosition().getX() - 1, (int) getPosition().getY() - 1, 2, 2);
-	}
+    public void addLane(String to, Lane lane)
+    {
 
-	public void addLane(String to, Lane lane)
-	{
+        fLanes.put(to, lane);
+    }
 
-		fLanes.put(to, lane);
-	}
+    public Lane getRandomLane()
+    {
+        int index = (int) (Math.floor(fLanes.size() * Math.random()));
 
-	public Lane getRandomLane()
-	{
-		int index = (int) (Math.floor(fLanes.size() * Math.random()));
+        Object[] objects = fLanes.keySet().toArray();
+        if (objects.length > 0)
+        {
+            String test = (String) objects[index];
+            Lane lane = fLanes.get(test);
+            if (!lane.isBlocked())
+            {
+                return lane;
+            }
+        }
+        return null;
+    }
 
-		Object[] objects = fLanes.keySet().toArray();
-		if (objects.length > 0)
-		{
-			String test = (String) objects[index];
-			Lane lane = fLanes.get(test);
-			if (!lane.isBlocked())
-			{
-				return lane;
-			}
-		}
-		return null;
-	}
+    public void removeLane(String s, Lane lane)
+    {
+        fLanes.remove(s);
+    }
 
-	public void removeLane(String s, Lane lane)
-	{
-		fLanes.remove(s);
-	}
+    public Collection<Lane> getLanes()
+    {
+        return fLanes.values();
+    }
 
-	public Collection<Lane> getLanes()
-	{
-		return fLanes.values();
-	}
-
-	public Lane getParallelLane()
-	{
-		Anchor parallelAnchor = fSide.getParallelAnchor(this);
-		return parallelAnchor.getRandomLane();
-	}
+    public Lane getParallelLane()
+    {
+        Anchor parallelAnchor = fSide.getParallelAnchor(this);
+        return parallelAnchor.getRandomLane();
+    }
 }

@@ -12,6 +12,7 @@ import streetmap.map.side.VerticalSide;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -51,6 +52,7 @@ public class Tile implements IPrintable, ISimulateable
 	public Street fStreet;
 	private Point2D fPosition;
     private int fNumberOfCars = 0;
+    private Rectangle2D fRect;
 
     public HorizontalSide getNorthSide()
 	{
@@ -178,6 +180,8 @@ public class Tile implements IPrintable, ISimulateable
 			fNeighbors.put(COMPASS_POINT_E, map.getTile(arrayPosition.getX() + 1, arrayPosition.getY()));
 		}
 		fPosition = new Point2D.Double(fArrayPosition.getX() * fWidth, fArrayPosition.getY() * fWidth);
+        if(fMap != null)
+            fRect = new Rectangle2D.Double(fPosition.getX(),fPosition.getY(),fMap.getTileWidth(),fMap.getTileWidth());
 		generateSides();
 	}
 
@@ -275,5 +279,10 @@ public class Tile implements IPrintable, ISimulateable
     public int getNumberOfCars() {
 
         return fNumberOfCars;
+    }
+
+    public Rectangle2D getRect()
+    {
+        return fRect;
     }
 }

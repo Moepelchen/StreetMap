@@ -1,5 +1,7 @@
 package streetmap;
 
+import streetmap.gui.MainPanel;
+import streetmap.interfaces.config.IChangeableConfig;
 import streetmap.interfaces.config.IConfig;
 import streetmap.config.ChangeableConfig;
 import streetmap.config.StreetConfig;
@@ -21,7 +23,7 @@ public class SSGlobals
 	/**
 	 * the configuration
 	 */
-	private IConfig fConfig;
+	private IChangeableConfig fConfig;
 	/**
 	 * the streets the user is able to place
 	 */
@@ -38,8 +40,9 @@ public class SSGlobals
 	 * the map where the magic happens
 	 */
 	private Map fMap;
+    private MainPanel fMainPanel;
 
-	/**
+    /**
 	 * Constructor
 	 *
 	 * @throws FileNotFoundException is thrown when either the config or the streetconfig file is not found
@@ -51,7 +54,7 @@ public class SSGlobals
 		fStreetFactory = new StreetFactory(this);
 	}
 
-	public IConfig getConfig()
+	public IChangeableConfig getConfig()
 	{
 		return fConfig;
 	}
@@ -85,4 +88,15 @@ public class SSGlobals
 	{
 		return fMap;
 	}
+
+    public void setMainPanel(MainPanel mainPanel)
+    {
+        fMainPanel = mainPanel;
+    }
+
+    public void handleLoading()
+    {
+        this.getMap().handleAddition();
+        fMainPanel.update(this);
+    }
 }

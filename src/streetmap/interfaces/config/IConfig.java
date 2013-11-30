@@ -27,4 +27,10 @@ public interface IConfig
 	boolean isDrawLanes();
 
 	Vector<ImageIcon> getCarImages();
+
+    Double getHeatMapModifier();
+
+    Integer getMaximumNumOfCars();
+
+    boolean isShowHeatMap();
 }

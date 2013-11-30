@@ -7,7 +7,7 @@ package streetmap.interfaces.config;
  * Time: 10:38 AM
  * To change this template use File | Settings | File Templates.
  */
-public interface IChangeableConfig
+public interface IChangeableConfig extends IConfig
 {
 
 	void setDrawTiles(boolean isDrawTiles);
@@ -23,4 +23,10 @@ public interface IChangeableConfig
 	void setDrawSides(boolean isDrawSides);
 
 	void setDrawLanes(boolean isDrawLanes);
+
+    void setHeatMapModifier(Double modifier);
+
+    void setMaximumNumOfCars(Integer numberOfCars);
+
+    void setShowHeatMap(boolean toSet);
 }

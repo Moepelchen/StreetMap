@@ -27,6 +27,10 @@ public class ReflectionUtils
 		{
 			return (Double) Double.parseDouble(obj.toString());
 		}
+        else if(clazz.equals(Integer.class))
+        {
+            return Integer.parseInt(obj);
+        }
 		return obj;
 	}
 

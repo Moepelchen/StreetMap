@@ -89,7 +89,7 @@ public class BendTrajectory implements ITrajectory
 
 	private double reduceCarSpeed(double speed)
 	{
-		return speed / 50;
+		return speed / 40;
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import streetmap.map.tile.Tile;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 import java.util.Vector;
 
 /**
@@ -36,7 +37,22 @@ public class Street implements IPrintable, ISimulateable
 	 * indicates that this street can spawn new cars
 	 */
 	private boolean fisStartEnd;
+
+    /**
+     * Number of cars on this street
+     */
     private int fNumberOfCars;
+
+    /**
+     * Image of this Street
+     */
+
+    private Image fImage;
+
+    /**
+     * Image Storage
+     */
+    private static final HashMap<String,Image> gImageStore = new HashMap<String, Image>();
 
     /**
 	 * Constructor
@@ -68,15 +84,26 @@ public class Street implements IPrintable, ISimulateable
 	public void print(Graphics2D g)
 	{
 
-		String imagePath = fGlobals.getStreetConfig().getTemplate(fName).getImagePath();
-		if (imagePath != null)
-		{
-			Image image = new ImageIcon(imagePath).getImage();
-			Double tileSize = fTile.getWidth();
-			g.drawImage(image, (int) (fTile.getArrayPosition().getX() * tileSize), (int) (fTile.getArrayPosition().getY() * tileSize), tileSize.intValue(), tileSize.intValue(), null);
-		}
+        if(fImage == null)
+        {
 
-		for (Lane lane : fLanes)
+            String imagePath = fGlobals.getStreetConfig().getTemplate(fName).getImagePath();
+            if (imagePath != null)
+            {
+                fImage = gImageStore.get(imagePath);
+                if(fImage == null)
+                {
+                fImage = new ImageIcon(imagePath).getImage();
+                gImageStore.put(imagePath,fImage);
+                }
+            }
+        }
+        Double tileSize = fTile.getWidth();
+
+        g.drawImage(fImage, (int) (fTile.getArrayPosition().getX() * tileSize), (int) (fTile.getArrayPosition().getY() * tileSize), tileSize.intValue(), tileSize.intValue(), null);
+
+
+        for (Lane lane : fLanes)
 		{
 			lane.print(g);
 

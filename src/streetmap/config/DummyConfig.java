@@ -62,7 +62,25 @@ public class DummyConfig implements IConfig
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
-	public String getStreetPath()
+    @Override
+    public Double getHeatMapModifier()
+    {
+        return 0.0;
+    }
+
+    @Override
+    public Integer getMaximumNumOfCars()
+    {
+        return 0;
+    }
+
+    @Override
+    public boolean isShowHeatMap()
+    {
+        return false;
+    }
+
+    public String getStreetPath()
 	{
 		return "/home/shifter/workspace/StreetMap/config/Streets/";
 	}

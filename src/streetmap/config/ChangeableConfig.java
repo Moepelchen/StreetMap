@@ -18,7 +18,9 @@ import java.io.FileNotFoundException;
  */
 public class ChangeableConfig extends Config implements IChangeableConfig
 {
-	/**
+
+
+    /**
 	 * Constructor  for setting up a ChangeableConfig
 	 *
 	 * @param glob current globals
@@ -70,4 +72,22 @@ public class ChangeableConfig extends Config implements IChangeableConfig
 	{
 		fConfig.setDrawlanes(isDrawLanes);
 	}
+
+    @Override
+    public void setHeatMapModifier(Double modifier)
+    {
+        fHeatMapModifier = modifier;
+    }
+
+    @Override
+    public void setMaximumNumOfCars(Integer numberOfCars)
+    {
+        fNumberOfCars = numberOfCars;
+    }
+
+    @Override
+    public void setShowHeatMap(boolean toSet)
+    {
+        fShowHeatMap = toSet;
+    }
 }

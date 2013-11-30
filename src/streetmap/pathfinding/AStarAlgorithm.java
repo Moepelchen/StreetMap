@@ -71,12 +71,12 @@ public class AStarAlgorithm extends AbstractPathFinder
 				if(fClosedList.contains(lane))
 					continue;
 
-				double distanceToStart = current.fDistanceToStart + lane.getTrajectory().getLength();
+			double distanceToStart = current.fDistanceToStart + lane.getTrajectory().getLength();
 
 				double distanceToEnd = lane.getEnd().getPosition().distance(fEnd.getEnd().getPosition());
 
 				double heatMapReading = getHeatMapReading(lane);
-				distanceToStart = distanceToStart + 5* heatMapReading;
+				distanceToStart = distanceToStart + fGlobals.getConfig().getHeatMapModifier()* heatMapReading;
 
 
 				if(fOpenList.contains(neighbour) && distanceToStart >= fOpenList.getByLane(neighbour).fDistanceToStart)
@@ -130,9 +130,9 @@ public class AStarAlgorithm extends AbstractPathFinder
 		if(random != null)
 		{
 		Point2D arrayPosition = random.getEnd().getSide().getTile().getArrayPosition();
-		heatMapReading = lane.getEnd().getSide().getGlobals().getMap().getHeatMapReading(arrayPosition);
+		heatMapReading = fGlobals.getMap().getHeatMapReading(arrayPosition);
 		}
-		return 1*heatMapReading * Math.min(1,lane.getCars().size());
+		return heatMapReading * Math.min(1,lane.getCars().size());
 
 	}
 

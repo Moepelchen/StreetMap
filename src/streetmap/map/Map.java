@@ -27,8 +27,6 @@ import java.util.Vector;
 public class Map extends JPanel implements IPrintable, ISimulateable, ActionListener
 {
     /* {author=Ulrich Tewes, version=1.0}*/
-
-    public int MAX_NUMBER_OF_CARS = 1;
     /**
      * height of the map
      */
@@ -71,6 +69,10 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
     private LinkedList<Integer> fCarFlowData;
     private double fCarFlowIndex;
     private ArrayList<Tile> fOccupiedTiles;
+    private DataStorage2d fCarData = new DataStorage2d(300);
+    private DataStorage2d fFPSData = new DataStorage2d(300);
+    private DataStorage2d fFlowData = new DataStorage2d(300);
+
 
     public Vector<Lane> getStartingLanes()
     {
@@ -148,7 +150,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
     private void tilesTest(double x, double y)
     {
         fTiles[(int) x][(int) y] = new Tile(fGlobals, this, new Point2D.Double(x, y));
-        System.out.println("x = " + x);
+
     }
 
     public int getCurrentNumberOfCars()
@@ -291,25 +293,30 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
         fGraphics.clearRect(0, 0, fWidth.intValue() + 5, fHeight.intValue() + 5);
         clearCarLayer();
         this.print(fGraphics);
-        AlphaComposite alpha = AlphaComposite
-                .getInstance(
-                        AlphaComposite.SRC_OVER,
-                        0.75f);
-        Composite composite = fGraphics.getComposite();
-        fGraphics.setComposite(alpha);
-        //fHeatMap.update(fGraphics);
-        fGraphics.drawImage(fHeatMap.getBufferedImage(), 0, 0, fWidth.intValue(), fHeight.intValue(), null);
-        fGraphics.setComposite(composite);
+        if (fGlobals.getConfig().isShowHeatMap())
+        {
+            AlphaComposite alpha = AlphaComposite
+                    .getInstance(
+                            AlphaComposite.SRC_OVER,
+                            0.75f);
+            Composite composite = fGraphics.getComposite();
+            fGraphics.setComposite(alpha);
 
+            fGraphics.drawImage(fHeatMap.getBufferedImage(), 0, 0, fWidth.intValue(), fHeight.intValue(), null);
+            fGraphics.setComposite(composite);
+        }
         g.translate(5, 5);
         fGraphics.drawImage(fCarLayerImage, 0, 0, null);
         g.drawImage(fImage, 0, 0, null);
         long takenTime = System.currentTimeMillis() - time;
-        long fps = 1000 / takenTime;
+        double fps = 1000 / takenTime;
         g.setColor(Color.white);
         double l = Math.round(fCarFlowIndex * 1000) / 1000.0;
         g.drawString(fps + " fps  " + l + " Carflow", 10, 10);
         g.drawString(fCurrentNumberOfCars + " #Cars", 10, 30);
+        fCarData.add(new Double(fCurrentNumberOfCars));
+        fFPSData.add(fps);
+        fFlowData.add(l);
         Toolkit.getDefaultToolkit().sync();
         g.dispose();
         getCarLayerGraphics().dispose();
@@ -368,11 +375,6 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
         return fCarLayerImage.getGraphics();
     }
 
-    public int getMaximumNumberOfCars()
-    {
-        return 100;
-    }
-
     public double getTileWidth()
     {
         return fTileSize;
@@ -408,5 +410,27 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
     public void handleAddition()
     {
         fOccupiedTiles = null;
+    }
+
+    public DataStorage2d getFlowData()
+    {
+        return fFlowData;
+    }
+
+    public DataStorage2d getCarData()
+    {
+        return fCarData;
+    }
+
+    public DataStorage2d getFrameData()
+    {
+        return fFPSData;
+    }
+
+    public Tile getTile(Point2D point)
+    {
+        double arrayX = (int) (point.getX() / fGlobals.getConfig().getTileSize());
+        double arrayY = (int) (point.getY() / fGlobals.getConfig().getTileSize());
+        return this.getTile(arrayX, arrayY);
     }
 }

@@ -4,6 +4,7 @@
 
 package streetmap.pathfinding;
 
+import streetmap.SSGlobals;
 import streetmap.car.Car;
 import streetmap.interfaces.IPathFindingAlgorithm;
 import streetmap.map.street.Lane;
@@ -32,6 +33,7 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm
 	protected Car fCar;
 	protected Lane fStart;
 	protected Lane fEnd;
+    protected SSGlobals fGlobals;
 	protected AbstractCollection fNoGo;
 
 	// -----------------------------------------------------
@@ -53,6 +55,7 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm
 
 	protected void init(Car car)
 	{
+        fGlobals = car.getLane().getGlobals();
 		fPath = new LinkedList<Lane>();
 		fCar = car;
 		fNoGo = new ArrayList();

@@ -36,8 +36,11 @@ public class Config implements IConfig
 	 * Collection of images for Cars
 	 */
 	private Vector<ImageIcon> fCarImages;
+    protected double fHeatMapModifier;
+    protected int fNumberOfCars;
+    protected boolean fShowHeatMap;
 
-	public Config(SSGlobals glob) throws FileNotFoundException
+    public Config(SSGlobals glob) throws FileNotFoundException
 	{
 		fCarImages = new Vector<ImageIcon>();
 		try
@@ -61,6 +64,9 @@ public class Config implements IConfig
 		{
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 		}
+        fHeatMapModifier = 1;
+        fNumberOfCars = 100;
+        fShowHeatMap = true;
 
 	}
 
@@ -114,7 +120,25 @@ public class Config implements IConfig
 		return fCarImages;
 	}
 
-	public boolean isDrawTiles()
+    @Override
+    public Double getHeatMapModifier()
+    {
+        return fHeatMapModifier;
+    }
+
+    @Override
+    public Integer getMaximumNumOfCars()
+    {
+        return fNumberOfCars;
+    }
+
+    @Override
+    public boolean isShowHeatMap()
+    {
+        return fShowHeatMap;
+    }
+
+    public boolean isDrawTiles()
 	{
 		return fConfig.isDrawtiles();
 	}

@@ -163,7 +163,7 @@ public class Car implements IPrintable, ISimulateable
 	public void reset(Lane lane)
 	{
 		fLane = lane;
-		if(fHappiness < 0.25)
+		if(fHappiness < 0.95)
 	            fPathFinder.update();
 	}
 
