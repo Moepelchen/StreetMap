@@ -134,7 +134,7 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
         {
             createPath(fStart);
         }
-
+        fCar.setPath(this);
     }
 
     @Override

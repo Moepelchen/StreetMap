@@ -6,6 +6,7 @@ import streetmap.interfaces.ISimulateable;
 import streetmap.map.street.Lane;
 import streetmap.map.street.trajectory.ITrajectory;
 import streetmap.pathfinding.AStarAlgorithm;
+import streetmap.pathfinding.AbstractPathFinder;
 import streetmap.utils.DrawHelper;
 
 import javax.swing.*;
@@ -68,7 +69,7 @@ public class Car implements IPrintable, ISimulateable
 		double v = Math.random() + length / 2;
 		fSpeed = v;
 		fOriginalSpeed = v;
-		fPathFinder = fLane.getGlobals().getMap().getPathfactory().createPath(this);
+		fLane.getGlobals().getMap().getPathfactory().createPath(this);
 
 	}
 
@@ -162,8 +163,8 @@ public class Car implements IPrintable, ISimulateable
 	public void reset(Lane lane)
 	{
 		fLane = lane;
-		if(fHappiness < 0.95)
-	            fPathFinder = fLane.getGlobals().getMap().getPathfactory().createPath(this, fPathFinder.getDestination());
+		if(fHappiness < 0.5)
+	            fLane.getGlobals().getMap().getPathfactory().createPath(this, fPathFinder.getDestination());
 	}
 
 	public ImageIcon getImage()
@@ -216,5 +217,10 @@ public class Car implements IPrintable, ISimulateable
     public IPathFindingAlgorithm getPathFinder()
     {
         return fPathFinder;
+    }
+
+    public void setPath(AbstractPathFinder path)
+    {
+        fPathFinder = path;
     }
 }

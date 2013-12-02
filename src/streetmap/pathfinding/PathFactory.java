@@ -20,18 +20,16 @@ public class PathFactory extends Thread
         fExecutor = Executors.newFixedThreadPool(5);
     }
 
-    public IPathFindingAlgorithm createPath(Car car)
+    public void createPath(Car car)
     {
         AStarAlgorithm alog = new AStarAlgorithm(car);
         fExecutor.execute(alog);
-        return alog;
     }
 
-    public IPathFindingAlgorithm createPath(Car car, Lane destination)
+    public void createPath(Car car, Lane destination)
     {
         AStarAlgorithm alog = new AStarAlgorithm(car);
         alog.setEnd(destination);
         fExecutor.execute(alog);
-        return alog;
     }
 }
