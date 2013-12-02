@@ -5,8 +5,8 @@ import streetmap.map.street.Lane;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 
 /**
  * An anchor is a point where a lane can connect to
@@ -21,6 +21,7 @@ public class Anchor implements IPrintable
     }
 
     private final Side fSide;
+
     /**
      * Position of this anchor
      */
@@ -28,7 +29,8 @@ public class Anchor implements IPrintable
     /**
      * Lanes connected to this anchor
      */
-    private HashMap<String, Lane> fLanes;
+    private ArrayList<Lane> fOutputLanes;
+    private ArrayList<Lane> fInputLanes;
     /**
      * indicates that the anchor is currently blocked, meaning that the cars can not move any further
      */
@@ -38,7 +40,8 @@ public class Anchor implements IPrintable
     {
         fSide = horizontalSide;
         fPosition = position;
-        fLanes = new HashMap<String, Lane>();
+        fOutputLanes = new ArrayList<Lane>();
+        fInputLanes = new ArrayList<Lane>();
 
     }
 
@@ -68,42 +71,50 @@ public class Anchor implements IPrintable
         g.drawRect((int) getPosition().getX() - 1, (int) getPosition().getY() - 1, 2, 2);
     }
 
-    public void addLane(String to, Lane lane)
+    public void addOutputLane(Lane lane)
     {
 
-        fLanes.put(to, lane);
+        fOutputLanes.add(lane);
     }
 
     public Lane getRandomLane()
     {
-        int index = (int) (Math.floor(fLanes.size() * Math.random()));
+        int index = (int) (Math.floor(fOutputLanes.size() * Math.random()));
 
-        Object[] objects = fLanes.keySet().toArray();
-        if (objects.length > 0)
+        for (Lane lane : fOutputLanes)
         {
-            String test = (String) objects[index];
-            Lane lane = fLanes.get(test);
             if (!lane.isBlocked())
             {
                 return lane;
             }
+
         }
         return null;
     }
 
-    public void removeLane(String s, Lane lane)
+    public void removeOutputLane(Lane lane)
     {
-        fLanes.remove(s);
+        fOutputLanes.remove(lane);
     }
 
     public Collection<Lane> getLanes()
     {
-        return fLanes.values();
+        return fOutputLanes;
     }
 
     public Lane getParallelLane()
     {
         Anchor parallelAnchor = fSide.getParallelAnchor(this);
         return parallelAnchor.getRandomLane();
+    }
+
+    public void addInputLane(Lane lane)
+    {
+        fInputLanes.add(lane);
+    }
+
+    public void removeInputLane(Lane lane)
+    {
+        fInputLanes.remove(lane);
     }
 }

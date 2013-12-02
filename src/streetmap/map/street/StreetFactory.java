@@ -49,7 +49,8 @@ public class StreetFactory
 			{
 				tile.getMap().removeStart(lane);
                 tile.getMap().removeEnd(lane);
-				lane.getStart().removeLane(lane.getTo(), lane);
+				lane.getStart().removeOutputLane(lane);
+                lane.getEnd().removeInputLane(lane);
 			}
 
 		}
@@ -99,7 +100,8 @@ public class StreetFactory
 			}
 
 			// add this lane as a starting point to the compassPoint "to" from the starting anchor of the lane
-			lane.getStart().addLane(to, lane);
+			lane.getStart().addOutputLane(lane);
+            lane.getEnd().addInputLane(lane);
 
 			lane.init();
 

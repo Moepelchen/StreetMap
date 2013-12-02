@@ -68,9 +68,8 @@ public class Car implements IPrintable, ISimulateable
 		double v = Math.random() + length / 2;
 		fSpeed = v;
 		fOriginalSpeed = v;
+		fPathFinder = fLane.getGlobals().getMap().getPathfactory().createPath(this);
 
-			fPathFinder = new AStarAlgorithm(this);
-//fPathFinder = new CrappyPathfinder(this);
 	}
 
 	public void print(Graphics2D g)
@@ -164,7 +163,7 @@ public class Car implements IPrintable, ISimulateable
 	{
 		fLane = lane;
 		if(fHappiness < 0.95)
-	            fPathFinder.update();
+	            fPathFinder = fLane.getGlobals().getMap().getPathfactory().createPath(this, fPathFinder.getDestination());
 	}
 
 	public ImageIcon getImage()

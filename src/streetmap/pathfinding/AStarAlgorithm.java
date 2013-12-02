@@ -160,7 +160,7 @@ public class AStarAlgorithm extends AbstractPathFinder
         }
     }
 
-	private class SortedNodeList
+    private class SortedNodeList
 	{
 
 		private ArrayList<Candidate> list = new ArrayList<Candidate>();

@@ -31,6 +31,7 @@ public class ConfigPanel extends JPanel
         addMaximumCarsField(config);
         addHeatMapModifierField(config);
         addShowHeatMapSetting(config);
+        addShowLanesSetting(config);
         this.setSize(400, 300);
         this.setVisible(true);
 
@@ -44,6 +45,19 @@ public class ConfigPanel extends JPanel
             protected void setBoolean(boolean toSet)
             {
                 config.setShowHeatMap(toSet);
+            }
+        });
+
+    }
+
+    private void addShowLanesSetting(final IChangeableConfig config)
+    {
+        fShowHeatMapBox = this.addCheckBox("Show Lanes", config.isDrawLanes(), new BooleanHandler()
+        {
+            @Override
+            protected void setBoolean(boolean toSet)
+            {
+                config.setDrawLanes(toSet);
             }
         });
 

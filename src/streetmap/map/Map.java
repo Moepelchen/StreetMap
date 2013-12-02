@@ -4,10 +4,12 @@ import streetmap.SSGlobals;
 import streetmap.handler.gui.MapClickHandler;
 import streetmap.heatmap.Gradient;
 import streetmap.heatmap.HeatMap;
+import streetmap.interfaces.IPathFindingAlgorithm;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.map.street.Lane;
 import streetmap.map.tile.Tile;
+import streetmap.pathfinding.PathFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -72,6 +74,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
     private DataStorage2d fCarData = new DataStorage2d(300);
     private DataStorage2d fFPSData = new DataStorage2d(300);
     private DataStorage2d fFlowData = new DataStorage2d(300);
+    private PathFactory fPathFactory;
 
 
     public Vector<Lane> getStartingLanes()
@@ -127,6 +130,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
         fCarFlowData = new LinkedList<Integer>();
         fCarFlowData.add(0);
         fCarFlowIndex = 0;
+        fPathFactory = new PathFactory();
 
     }
 
@@ -432,5 +436,10 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
         double arrayX = (int) (point.getX() / fGlobals.getConfig().getTileSize());
         double arrayY = (int) (point.getY() / fGlobals.getConfig().getTileSize());
         return this.getTile(arrayX, arrayY);
+    }
+
+    public PathFactory getPathfactory()
+    {
+        return fPathFactory;
     }
 }

@@ -27,7 +27,7 @@ import java.util.LinkedList;
  * @version 1.0
  * @since Release
  */
-public abstract class AbstractPathFinder implements IPathFindingAlgorithm
+public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runnable
 {
 	protected LinkedList<Lane> fPath;
 	protected Car fCar;
@@ -60,32 +60,7 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm
 		fCar = car;
 		fNoGo = new ArrayList();
 		fStart = car.getLane();
-		ArrayList<Lane> lanes = new ArrayList<Lane>(fStart.getStreet().getLanes());
-		ArrayList<Lane> possibleEndLanes = new ArrayList<Lane>(fStart.getGlobals().getMap().getEndLanes());
-		possibleEndLanes.removeAll(lanes);
-		fEnd = null;
-		if (possibleEndLanes.size() > 0)
-		{
-			while (possibleEndLanes.size() > 0)
-			{
-				int index = (int) (Math.random() * possibleEndLanes.size());
-				fEnd = possibleEndLanes.get(index);
-				if (fEnd != null)
-				{
-					if (!fEnd.isBlocked() && createPath(fStart))
-					{
-						break;
-					}
-					else
-					{
-
-						fNoGo.clear();
-						fEnd.setIsBlocked(true);
-						possibleEndLanes.remove(index);
-					}
-				}
-			}
-		}
+        fEnd = null;
 	}
 
 	protected abstract boolean createPath(Lane start);
@@ -122,6 +97,57 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm
 		heatMapReading = (lane.getEnd().getPosition().distance(fEnd.getStart().getPosition()) / startEndDistance) *heatMapReading;
 		return heatMapReading;
 	}
+
+
+    @Override
+    public void run()
+    {
+        if(fEnd == null)
+        {
+            ArrayList<Lane> lanes = new ArrayList<Lane>(fStart.getStreet().getLanes());
+            ArrayList<Lane> possibleEndLanes = new ArrayList<Lane>(fStart.getGlobals().getMap().getEndLanes());
+            possibleEndLanes.removeAll(lanes);
+
+            if (possibleEndLanes.size() > 0)
+            {
+                while (possibleEndLanes.size() > 0)
+                {
+                    int index = (int) (Math.random() * possibleEndLanes.size());
+                    fEnd = possibleEndLanes.get(index);
+                    if (fEnd != null)
+                    {
+                        if (!fEnd.isBlocked() && createPath(fStart))
+                        {
+                            break;
+                        } else
+                        {
+
+                            fNoGo.clear();
+                            fEnd.setIsBlocked(true);
+                            possibleEndLanes.remove(index);
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            createPath(fStart);
+        }
+
+    }
+
+    @Override
+    public Lane getDestination()
+    {
+        return fEnd;
+    }
+
+    public void setEnd(Lane end)
+    {
+        this.fEnd = end;
+    }
+
 // -----------------------------------------------------
 // accessors
 // -----------------------------------------------------

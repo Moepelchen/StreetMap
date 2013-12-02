@@ -14,4 +14,6 @@ public interface IPathFindingAlgorithm
     Lane getNextLane();
 
     void update();
+
+    Lane getDestination();
 }
