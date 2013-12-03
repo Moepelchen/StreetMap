@@ -4,6 +4,7 @@ import streetmap.map.street.ILaneTypes;
 import streetmap.car.Car;
 import streetmap.map.street.Lane;
 import streetmap.map.tile.Tile;
+import streetmap.utils.DrawHelper;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -124,8 +125,7 @@ public class StraightTrajectory implements ITrajectory
 	@Override
 	public void print(Graphics2D g)
 	{
-		g.drawLine((int) fLane.getStart().getPosition().getX(), (int) fLane.getStart().getPosition().getY(), (int) fLane.getEnd().getPosition().getX(), (int) fLane.getEnd().getPosition().getY());
-
+		DrawHelper.drawStraight(g, this.fLane);
 	}
 
 	/**

@@ -3,6 +3,7 @@ package streetmap.map.side;
 import streetmap.SSGlobals;
 import streetmap.interfaces.IPrintable;
 import streetmap.map.tile.Tile;
+import streetmap.utils.DrawHelper;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -59,18 +60,7 @@ public abstract class Side implements IPrintable
 	public void print(Graphics2D g)
 	{
 
-		if (fGlobals.getConfig().isDrawSides())
-		{
-			g.setColor(Color.red);
-			g.drawRect((int) (fPosition.getX()) - 2, (int) fPosition.getY() - 2, 5, 5);
-		}
-		if (fGlobals.getConfig().isDrawAnchors())
-		{
-			g.setColor(Color.green);
-			fAnchorOne.print(g);
-			g.setColor(Color.MAGENTA);
-			fAnchorTwo.print(g);
-		}
+		DrawHelper.drawSide(g,this);
 
 	}
 

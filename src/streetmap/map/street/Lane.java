@@ -91,7 +91,6 @@ public class Lane implements IPrintable, ISimulateable
 	{
 		if (fGlobals.getConfig().isDrawLanes())
 		{
-			g.setColor(Color.PINK);
 			fTrajectory.print(g);
 		}
 		drawCars(g);
