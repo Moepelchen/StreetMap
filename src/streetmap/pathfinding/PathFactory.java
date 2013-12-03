@@ -1,7 +1,6 @@
 package streetmap.pathfinding;
 
 import streetmap.car.Car;
-import streetmap.interfaces.IPathFindingAlgorithm;
 import streetmap.map.street.Lane;
 
 import java.util.concurrent.ExecutorService;

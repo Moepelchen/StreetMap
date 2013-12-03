@@ -35,7 +35,7 @@ public class CrappyPathfinder extends AbstractPathFinder
             return true;
         }
 	    //draw((Graphics2D)(next.getGlobals().getMap().getGraphics()),new Candidate(next));
-        Collection<Lane> candidates = next.getEnd().getLanes();
+        Collection<Lane> candidates = next.getEnd().getOutputLanes();
         List<Candidate> candidateCollection = new ArrayList<Candidate>();
 	    double startEndDistance = fStart.getEnd().getPosition().distance(fEnd.getStart().getPosition());
 	    for (Lane lane : candidates)

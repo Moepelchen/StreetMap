@@ -4,7 +4,6 @@ import streetmap.SSGlobals;
 import streetmap.handler.gui.MapClickHandler;
 import streetmap.heatmap.Gradient;
 import streetmap.heatmap.HeatMap;
-import streetmap.interfaces.IPathFindingAlgorithm;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.map.street.Lane;
@@ -75,9 +74,9 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
     private DataStorage2d fFPSData = new DataStorage2d(300);
     private DataStorage2d fFlowData = new DataStorage2d(300);
     private PathFactory fPathFactory;
+	private boolean fRecalcPaths;
 
-
-    public Vector<Lane> getStartingLanes()
+	public Vector<Lane> getStartingLanes()
     {
         return fStartingLanes;
     }
@@ -214,6 +213,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
         }
         fCarFlowIndex = fCarFlowIndex / 300;
 
+	    fRecalcPaths = false;
     }
 
     private void updateHeatMap()
@@ -400,7 +400,12 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
         return (Graphics2D) this.getGraphics();
     }
 
-    /**
+	public boolean isRecalcPaths()
+	{
+		return fRecalcPaths;
+	}
+
+	/**
      * Constructor setting everything up
      *
      * @param globals Global settings and parameters
@@ -414,6 +419,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
     public void handleAddition()
     {
         fOccupiedTiles = null;
+	    fRecalcPaths = true;
     }
 
     public DataStorage2d getFlowData()

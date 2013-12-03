@@ -10,7 +10,6 @@ import streetmap.interfaces.IPathFindingAlgorithm;
 import streetmap.map.street.Lane;
 
 import java.awt.geom.Point2D;
-import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -34,7 +33,6 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
 	protected Lane fStart;
 	protected Lane fEnd;
     protected SSGlobals fGlobals;
-	protected AbstractCollection fNoGo;
 
 	// -----------------------------------------------------
 // constants
@@ -58,7 +56,6 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
         fGlobals = car.getLane().getGlobals();
 		fPath = new LinkedList<Lane>();
 		fCar = car;
-		fNoGo = new ArrayList();
 		fStart = car.getLane();
         fEnd = null;
 	}
@@ -121,8 +118,6 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
                             break;
                         } else
                         {
-
-                            fNoGo.clear();
                             fEnd.setIsBlocked(true);
                             possibleEndLanes.remove(index);
                         }

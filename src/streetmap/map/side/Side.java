@@ -37,7 +37,12 @@ public abstract class Side implements IPrintable
 		return fGlobals;
 	}
 
-    public Side(SSGlobals globals, Tile tile, Point2D position, String compassPoint)
+	public String getCompassPoint()
+	{
+		return fCompassPoint;
+	}
+
+	public Side(SSGlobals globals, Tile tile, Point2D position, String compassPoint)
 	{
 		fPosition = position;
 		fGlobals = globals;

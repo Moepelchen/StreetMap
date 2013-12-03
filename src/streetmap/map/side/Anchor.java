@@ -97,7 +97,7 @@ public class Anchor implements IPrintable
         fOutputLanes.remove(lane);
     }
 
-    public Collection<Lane> getLanes()
+    public Collection<Lane> getOutputLanes()
     {
         return fOutputLanes;
     }
@@ -108,7 +108,12 @@ public class Anchor implements IPrintable
         return parallelAnchor.getRandomLane();
     }
 
-    public void addInputLane(Lane lane)
+	public ArrayList<Lane> getInputLanes()
+	{
+		return fInputLanes;
+	}
+
+	public void addInputLane(Lane lane)
     {
         fInputLanes.add(lane);
     }

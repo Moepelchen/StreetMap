@@ -5,8 +5,8 @@ import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.map.street.Lane;
 import streetmap.map.street.trajectory.ITrajectory;
-import streetmap.pathfinding.AStarAlgorithm;
 import streetmap.pathfinding.AbstractPathFinder;
+import streetmap.rules.RightBeforeLeftRule;
 import streetmap.utils.DrawHelper;
 
 import javax.swing.*;
@@ -98,6 +98,8 @@ public class Car implements IPrintable, ISimulateable
 
 	public void simulate()
 	{
+		if(fLane.getGlobals().getMap().isRecalcPaths() && fPathFinder != null)
+			fLane.getGlobals().getMap().getPathfactory().createPath(this, fPathFinder.getDestination());
 		move();
 		fHappiness = Math.min(1,fSpeed / fOriginalSpeed);
 	}
@@ -120,6 +122,16 @@ public class Car implements IPrintable, ISimulateable
 
 			}
 		}
+		/*for (Car car : getCrossingCars())
+		{
+			double distance = car.getPosition().distance(this.getPosition());
+			if (distance < 2.5 * car.getLength())
+			{
+				setSpeed(0);
+				caped = true;
+				break;
+			}
+		}*/
 		if (!caped)
 		{
 			if (fSpeed < fOriginalSpeed)
@@ -178,12 +190,12 @@ public class Car implements IPrintable, ISimulateable
 		Vector<Car> toReturn = new Vector<Car>();
 		Vector<Car> cars = fLane.getCars();
 		int index = cars.indexOf(this);
-		if (!(index == 0))
+		if (index > 0)
 		{
 			toReturn.add(cars.get(index - 1));
 			return toReturn;
 		}
-		Collection<Lane> lanes = fLane.getEnd().getLanes();
+		Collection<Lane> lanes = fLane.getEnd().getOutputLanes();
 		for (Lane lane : lanes)
 		{
 			Vector<Car> carsOnLane = lane.getCars();
@@ -194,6 +206,26 @@ public class Car implements IPrintable, ISimulateable
 
 		}
 
+		return toReturn;
+	}
+
+	private Vector<Car> getCrossingCars()
+	{
+		Vector<Car> toReturn = new Vector<Car>();
+		Collection<Lane> lanes = fLane.getEnd().getInputLanes();
+		String compassPoint = fLane.getStart().getSide().getCompassPoint();
+		for (Lane lane : lanes)
+		{
+			if (!lane.equals(fLane) && RightBeforeLeftRule.doesApply(lane, compassPoint))
+			{
+				Vector<Car> carsOnLane = lane.getCars();
+				if (!carsOnLane.isEmpty())
+				{
+					toReturn.addAll(carsOnLane);
+				}
+			}
+
+		}
 		return toReturn;
 	}
 

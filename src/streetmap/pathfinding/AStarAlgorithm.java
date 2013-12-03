@@ -33,7 +33,7 @@ public class AStarAlgorithm extends AbstractPathFinder
 	private SortedNodeList fOpenList;
 	private List<Lane> fClosedList;
 
-	private static HashMap<Integer,LinkedList<Lane>> fPathList = new HashMap<Integer, LinkedList<Lane>>();
+	private static HashMap<String,LinkedList<Lane>> fPathList = new HashMap<String, LinkedList<Lane>>();
 
 	@Override
 	protected boolean createPath(Lane start)
@@ -59,13 +59,13 @@ public class AStarAlgorithm extends AbstractPathFinder
 			if(current.candidate.equals(fEnd))
 			{
 				getPath(current);
-				fPathList.put(fStart.hashCode() + fEnd.hashCode(),fPath);
+				fPathList.put(fStart.hashCode()+"" + fEnd.hashCode(),fPath);
 				return true;
 			}
 
 
 			fClosedList.add(current.candidate);
-			for (Lane lane : current.candidate.getEnd().getLanes())
+			for (Lane lane : current.candidate.getEnd().getOutputLanes())
 			{
 				Candidate neighbour = new Candidate(lane);
 				if(fClosedList.contains(lane))
