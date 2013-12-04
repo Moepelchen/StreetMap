@@ -45,7 +45,6 @@ public class AStarAlgorithm extends AbstractPathFinder
 		}*/
 		fClosedList = new ArrayList<Lane>();
 		fOpenList = new SortedNodeList();
-		Graphics2D g = start.getEnd().getSide().getTile().getMap().getTheGraphics();
         double fromStartToEnd = start.getStart().getPosition().distance(fEnd.getEnd().getPosition());
         Candidate current = new Candidate(start);
         current.fDistanceToGoal = fromStartToEnd;

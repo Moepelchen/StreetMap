@@ -25,7 +25,7 @@ import java.util.Vector;
  * This represents the the whole Street-Map. The map consist of an Array of Tiles.
  * The number of Tiles is determined by fTileSize, fHeight and fWidth
  */
-public class Map extends JPanel implements IPrintable, ISimulateable, ActionListener
+public class Map implements IPrintable, ISimulateable, ActionListener
 {
     /* {author=Ulrich Tewes, version=1.0}*/
     /**
@@ -105,14 +105,11 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
         fEndLanes = new Vector<Lane>();
         generateTiles();
 
-        this.addMouseListener(new MapClickHandler(fGlobals, this));
+       /* this.addMouseListener(new MapClickHandler(fGlobals, this));
         // debug stuff
         this.setBounds(0, 0, fWidth.intValue() + 2 * 5, fHeight.intValue() + 2 * 5);
         this.setPreferredSize(new Dimension(fWidth.intValue() + 2 * 5, fHeight.intValue() + 2 * 5));
-        this.setVisible(true);
-        Timer timer;
-        timer = new Timer(25, this);
-        timer.start();
+        this.setVisible(true);*/
         fHeatMapData = new double[numberOfTilesX][numberOfTilesY];
         for (int i = 0; i < fNumberOfTilesX; i++)
         {
@@ -225,7 +222,17 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
         {
             for (int y = 0; y < fNumberOfTilesY; y++)
             {
-                cache[i][y] = (double) fTiles[i][y].getNumberOfCars() / (double) fMaxNumberOfCarsOnOneTile;
+
+                Tile tile = fTiles[i][y];
+                if (tile != null)
+                {
+                    cache[i][y] = (double) tile.getNumberOfCars() / (double) fMaxNumberOfCarsOnOneTile;
+
+                }
+                else
+                {
+                    System.out.println("tile = " + tile);
+                }
             }
         }
         fHeatMapCollection.add(cache);
@@ -241,7 +248,14 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
             {
                 for (int y = 0; y < fNumberOfTilesY; y++)
                 {
-                    fHeatMapCache[i][y] = fHeatMapCache[i][y] + doubles[i][y] / (double) fMaxNumberOfCarsOnOneTile;
+                    try
+                    {
+                        fHeatMapCache[i][y] = fHeatMapCache[i][y] + doubles[i][y] / (double) fMaxNumberOfCarsOnOneTile;
+                    }
+                    catch (ArrayIndexOutOfBoundsException e)
+                    {
+                        System.out.println("e = " + e);
+                    }
                 }
             }
         }
@@ -293,7 +307,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
     {
         long time = System.currentTimeMillis();
         this.simulate();
-        super.paint(g);
+        //super.paint(g);
         fGraphics.clearRect(0, 0, fWidth.intValue() + 5, fHeight.intValue() + 5);
         clearCarLayer();
         this.print(fGraphics);
@@ -309,20 +323,20 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
             fGraphics.drawImage(fHeatMap.getBufferedImage(), 0, 0, fWidth.intValue(), fHeight.intValue(), null);
             fGraphics.setComposite(composite);
         }
-        g.translate(5, 5);
+        //g.translate(5, 5);
         fGraphics.drawImage(fCarLayerImage, 0, 0, null);
-        g.drawImage(fImage, 0, 0, null);
+        //g.drawImage(fImage, 0, 0, null);
         long takenTime = System.currentTimeMillis() - time;
         double fps = 1000 / takenTime;
-        g.setColor(Color.white);
+        //g.setColor(Color.white);
         double l = Math.round(fCarFlowIndex * 1000) / 1000.0;
-        g.drawString(fps + " fps  " + l + " Carflow", 10, 10);
-        g.drawString(fCurrentNumberOfCars + " #Cars", 10, 30);
+        //g.drawString(fps + " fps  " + l + " Carflow", 10, 10);
+        //g.drawString(fCurrentNumberOfCars + " #Cars", 10, 30);
         fCarData.add(new Double(fCurrentNumberOfCars));
         fFPSData.add(fps);
         fFlowData.add(l);
         Toolkit.getDefaultToolkit().sync();
-        g.dispose();
+        //g.dispose();
         getCarLayerGraphics().dispose();
 
     }
@@ -341,7 +355,7 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
 
     public void actionPerformed(ActionEvent e)
     {
-        repaint();
+       // repaint();
     }
 
     public Tile[][] getTiles()
@@ -393,11 +407,6 @@ public class Map extends JPanel implements IPrintable, ISimulateable, ActionList
     {
         int newLast = fCarFlowData.getLast() + removedCars;
         fCarFlowData.set(fCarFlowData.size() - 1, newLast);
-    }
-
-    public Graphics2D getTheGraphics()
-    {
-        return (Graphics2D) this.getGraphics();
     }
 
 	public boolean isRecalcPaths()

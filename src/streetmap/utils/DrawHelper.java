@@ -1,5 +1,6 @@
 package streetmap.utils;
 
+import org.lwjgl.opengl.GL11;
 import streetmap.car.Car;
 
 import javax.swing.*;
@@ -21,34 +22,23 @@ public class DrawHelper
 
 	public static void drawCar(Car car, Color color)
 	{
-		Graphics2D g = getCarLayerGraphics(car);
-		double scaleX;
-		double scaleY;
-		g.setColor(color);
-		double width = car.getLength();
-		scaleX = width / car.getImage().getImage().getWidth(null);
-		Shape b = new Rectangle();
 
-		ImageIcon icon = car.getImage();//.getScaledInstance(Image.SCALE_DEFAULT,width,width);
-		g.setComposite(AlphaComposite.Src);
-		AffineTransform trans = new AffineTransform();
+        double length = car.getLength()/2;
+
 
 		double x = car.getPosition().getX();
 		double y = car.getPosition().getY();
-		trans.setToRotation(car.getLane().getTrajectory().getAngle(), x, y);
-		trans.translate(x - width / 4, y - width / 4);
-		//trans.shear(width,width);
-		Rectangle2D rect;
-		rect = new Rectangle2D.Double();
 
-		trans.scale(scaleX, scaleX);
 
-		g.fillOval((int) (car.getPosition().getX() - width / 2), (int) (car.getPosition().getY() - width / 2), (int) width, (int) width);
-		/*g.rotate(0,car.getPosition().getX(),car.getPosition().getY());
-		g.drawImage(icon.getImage(), trans,null);
-		g.rotate(-car.getLane().getTrajectory().getAngle(),car.getPosition().getX(),car.getPosition().getY());
-*/
-	}
+        GL11.glColor3d(color.getRed()/126,color.getGreen()/126,color.getBlue()/126);
+        GL11.glBegin(GL11.GL_QUADS);
+        GL11.glVertex2d(x, y);
+        GL11.glVertex2d(x + length, y);
+        GL11.glVertex2d(x + length, y + length);
+        GL11.glVertex2d(x, y + length);
+        GL11.glEnd();
+
+    }
 
 	private static Graphics2D getCarLayerGraphics(Car car)
 	{

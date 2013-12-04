@@ -1,5 +1,7 @@
 package streetmap.gui;
 
+import org.lwjgl.LWJGLException;
+import streetmap.Game;
 import streetmap.SSGlobals;
 import streetmap.map.Map;
 
@@ -32,7 +34,8 @@ public class MainPanel extends JFrame
 	public MainPanel(SSGlobals globals)
 	{
 		this.setLayout(new BorderLayout(5, 5));
-		this.getContentPane().add(new Map(globals));
+		//this.getContentPane().add();
+        new Map(globals);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         fStreetPanel = new StreetPanel(globals);
         fMenuPanel = new MenuPanel(globals);
@@ -48,8 +51,8 @@ public class MainPanel extends JFrame
 
 	}
 
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) throws LWJGLException
+    {
 		SSGlobals globals = null;
 		try
 		{
@@ -60,6 +63,8 @@ public class MainPanel extends JFrame
 			e.printStackTrace();
 		}
 		MainPanel main = new MainPanel(globals);
+        Game game = new Game(globals);
+        game.start();
 
 	}
 
