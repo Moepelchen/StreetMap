@@ -109,7 +109,7 @@ public class Tile implements IPrintable, ISimulateable
 		return fStreet;
 	}
 
-	public void setStreet(Street fStreet)
+	public synchronized void setStreet(Street fStreet)
 	{
 		this.fStreet = fStreet;
 	}

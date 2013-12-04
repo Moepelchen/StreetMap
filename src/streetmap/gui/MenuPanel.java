@@ -35,7 +35,7 @@ public class MenuPanel extends JPanel
 		load.addActionListener(new LoadClickHandler(fGlobals));
         LogPanel cars = new LogPanel(fGlobals.getMap().getCarData(),500);
         LogPanel flow = new LogPanel(fGlobals.getMap().getFlowData(),0.13);
-        LogPanel frames = new LogPanel(fGlobals.getMap().getFrameData());
+        LogPanel frames = new LogPanel(fGlobals.getMap().getFrameData(),60);
 		this.add(load);
         fConfigPanel = new ConfigPanel(glob.getConfig());
         this.add(fConfigPanel);

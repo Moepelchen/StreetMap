@@ -82,7 +82,7 @@ public class StreetPanel extends JPanel implements MouseListener
 		{
 			if (fHandler != null)
 			{
-				fHandler.print((Graphics2D) g);
+				//fHandler.print((Graphics2D) g);
 			}
 		}
 	}

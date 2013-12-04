@@ -1,6 +1,8 @@
 package streetmap.utils;
 
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
 import streetmap.car.Car;
 import streetmap.map.side.Anchor;
 import streetmap.map.side.Side;
@@ -9,10 +11,9 @@ import streetmap.map.street.Street;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
-import java.awt.geom.Rectangle2D;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -41,8 +42,8 @@ public class DrawHelper
 		double y = car.getPosition().getY();
 
 
-        GL11.glColor3d(color.getRed()/126,color.getGreen()/126,color.getBlue()/126);
-        GL11.glBegin(GL11.GL_QUADS);
+		new org.newdawn.slick.Color(color.getRed(),color.getGreen(),color.getBlue(),color.getAlpha()).bind();
+		GL11.glBegin(GL11.GL_QUADS);
         GL11.glVertex2d(x, y);
         GL11.glVertex2d(x + length, y);
         GL11.glVertex2d(x + length, y + length);
@@ -108,10 +109,10 @@ public class DrawHelper
 
 	public static void drawStreet(Graphics2D g, Street street)
 	{
+		String imagePath = street.getGlobals().getStreetConfig().getTemplate(street.getName()).getImagePath();
 		if (street.getImage() == null)
 		{
 
-			String imagePath = street.getGlobals().getStreetConfig().getTemplate(street.getName()).getImagePath();
 			if (imagePath != null)
 			{
 				street.setImage(gImageStore.get(imagePath));
@@ -122,9 +123,36 @@ public class DrawHelper
 				}
 			}
 		}
-		Double tileSize = street.getTile().getWidth();
+		org.newdawn.slick.opengl.Texture streetText = null;
+		try
 
-		g.drawImage(street.getImage(), (int) (street.getTile().getArrayPosition().getX() * tileSize), (int) (street.getTile().getArrayPosition().getY() * tileSize), tileSize.intValue(), tileSize.intValue(), null);
+		{
+			Double tileSize = street.getTile().getWidth();
+			org.newdawn.slick.Color.green.bind();
+			if(imagePath != null)
+			{
+				streetText = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(imagePath));
+				streetText.bind();
+				GL11.glBegin(GL11.GL_QUADS);
+				GL11.glTexCoord2d(0, 0);
+				GL11.glVertex2d(street.getTile().getArrayPosition().getX() * tileSize, street.getTile().getArrayPosition().getY() * tileSize);
+				GL11.glTexCoord2d(1, 0);
+				GL11.glVertex2d(street.getTile().getArrayPosition().getX() * tileSize + tileSize, street.getTile().getArrayPosition().getY() * tileSize);
+				GL11.glTexCoord2d(1, 1);
+				GL11.glVertex2d(street.getTile().getArrayPosition().getX() * tileSize + tileSize, street.getTile().getArrayPosition().getY() * tileSize + tileSize);
+				GL11.glTexCoord2d(0, 1);
+				GL11.glVertex2d(street.getTile().getArrayPosition().getX() * tileSize, street.getTile().getArrayPosition().getY() * tileSize + tileSize);
+				GL11.glEnd();
+			}
+
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
+
+		//g.drawImage(street.getImage(), (int) (street.getTile().getArrayPosition().getX() * tileSize), (int) (street.getTile().getArrayPosition().getY() * tileSize), tileSize.intValue(), tileSize.intValue(), null);
 
 		for (Lane lane : street.getLanes())
 		{

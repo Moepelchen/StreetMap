@@ -1,7 +1,6 @@
 package streetmap.map;
 
 import streetmap.SSGlobals;
-import streetmap.handler.gui.MapClickHandler;
 import streetmap.heatmap.Gradient;
 import streetmap.heatmap.HeatMap;
 import streetmap.interfaces.IPrintable;
@@ -10,7 +9,6 @@ import streetmap.map.street.Lane;
 import streetmap.map.tile.Tile;
 import streetmap.pathfinding.PathFactory;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -161,7 +159,7 @@ public class Map implements IPrintable, ISimulateable, ActionListener
     /**
      * Simulate each tile
      */
-    public void simulate()
+    public synchronized void simulate()
     {
         if (fOccupiedTiles == null)
         {
@@ -276,14 +274,17 @@ public class Map implements IPrintable, ISimulateable, ActionListener
         //drawCars(g);
     }
 
-    private void drawTiles(Graphics2D g)
-    {
+	private void drawTiles(Graphics2D g)
+	{
+		if (fOccupiedTiles != null)
+		{
+			for (Tile tile : fOccupiedTiles)
+			{
+				tile.print(g);
+			}
 
-        for (Tile tile : fOccupiedTiles)
-        {
-            tile.print(g);
-        }
-    }
+		}
+	}
 
     /**
      * Returns the Tile defined by x and y
