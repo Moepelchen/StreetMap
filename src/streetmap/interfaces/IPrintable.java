@@ -11,6 +11,5 @@ import java.awt.*;
  */
 public interface IPrintable
 {
-
 	public void print(Graphics2D g);
 }

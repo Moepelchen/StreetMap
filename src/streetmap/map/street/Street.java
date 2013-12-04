@@ -4,10 +4,9 @@ import streetmap.SSGlobals;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.map.tile.Tile;
+import streetmap.utils.DrawHelper;
 
-import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
 import java.util.Vector;
 
 /**
@@ -49,12 +48,27 @@ public class Street implements IPrintable, ISimulateable
 
     private Image fImage;
 
-    /**
-     * Image Storage
-     */
-    private static final HashMap<String,Image> gImageStore = new HashMap<String, Image>();
+	public Image getImage()
+	{
+		return fImage;
+	}
 
-    /**
+	public void setImage(Image image)
+	{
+		fImage = image;
+	}
+
+	public SSGlobals getGlobals()
+	{
+		return fGlobals;
+	}
+
+	public Tile getTile()
+	{
+		return fTile;
+	}
+
+	/**
 	 * Constructor
 	 *
 	 * @param glob            current globals
@@ -83,31 +97,7 @@ public class Street implements IPrintable, ISimulateable
 
 	public void print(Graphics2D g)
 	{
-
-        if(fImage == null)
-        {
-
-            String imagePath = fGlobals.getStreetConfig().getTemplate(fName).getImagePath();
-            if (imagePath != null)
-            {
-                fImage = gImageStore.get(imagePath);
-                if(fImage == null)
-                {
-                fImage = new ImageIcon(imagePath).getImage();
-                gImageStore.put(imagePath,fImage);
-                }
-            }
-        }
-        Double tileSize = fTile.getWidth();
-
-        g.drawImage(fImage, (int) (fTile.getArrayPosition().getX() * tileSize), (int) (fTile.getArrayPosition().getY() * tileSize), tileSize.intValue(), tileSize.intValue(), null);
-
-
-        for (Lane lane : fLanes)
-		{
-			lane.print(g);
-
-		}
+		DrawHelper.drawStreet(g, this);
 
 	}
 

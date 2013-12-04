@@ -2,6 +2,7 @@ package streetmap.map.side;
 
 import streetmap.interfaces.IPrintable;
 import streetmap.map.street.Lane;
+import streetmap.utils.DrawHelper;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -67,8 +68,7 @@ public class Anchor implements IPrintable
 
     public void print(Graphics2D g)
     {
-
-        g.drawRect((int) getPosition().getX() - 1, (int) getPosition().getY() - 1, 2, 2);
+	    DrawHelper.drawAnchor(g,this);
     }
 
     public void addOutputLane(Lane lane)
