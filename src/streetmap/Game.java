@@ -5,19 +5,16 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import streetmap.interfaces.config.IChangeableConfig;
-import streetmap.map.Map;
 
 /**
  * Created by ulrichtewes on 03.12.13.
  */
 public class Game
 {
-    private final Map fMap;
     SSGlobals fGlobals;
     public Game(SSGlobals globals)
     {
         fGlobals = globals;
-        fMap = globals.getMap();
     }
 
 
@@ -30,11 +27,11 @@ public class Game
 
 	    GL11.glEnable(GL11.GL_TEXTURE_2D);
 
-	    GL11.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	   // GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 	    // enable alpha blending
-	    //GL11.glEnable(GL11.GL_BLEND);
-	    //GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+	 /*   GL11.glEnable(GL11.GL_BLEND);
+	    GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_DST_ALPHA);*/
 
 	    GL11.glViewport(0, 0,config.getWidth().intValue(), config.getHeight().intValue());
 	    GL11.glMatrixMode(GL11.GL_MODELVIEW);
@@ -52,7 +49,7 @@ public class Game
             fGlobals.getMap().simulate();
             fGlobals.getMap().paint(null);
             Display.update();
-            Display.sync(160); // cap fps to 60fps
+            Display.sync(30); // cap fps to 60fps
         }
         Display.destroy();
     }

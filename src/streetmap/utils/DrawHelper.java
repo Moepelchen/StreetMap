@@ -1,19 +1,16 @@
 package streetmap.utils;
 
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.opengl.TextureLoader;
-import org.newdawn.slick.util.ResourceLoader;
+import org.newdawn.slick.opengl.Texture;
 import streetmap.car.Car;
 import streetmap.map.side.Anchor;
 import streetmap.map.side.Side;
 import streetmap.map.street.Lane;
 import streetmap.map.street.Street;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -30,7 +27,7 @@ public class DrawHelper
 	/**
 	 * Image Storage
 	 */
-	private static final HashMap<String, Image> gImageStore = new HashMap<String, Image>();
+	private static final HashMap<String, Texture> gImageStore = new HashMap<String, Texture>();
 
 	public static void drawCar(Car car, Color color)
 	{
@@ -41,14 +38,15 @@ public class DrawHelper
 		double x = car.getPosition().getX();
 		double y = car.getPosition().getY();
 
-
-		new org.newdawn.slick.Color(color.getRed(),color.getGreen(),color.getBlue(),color.getAlpha()).bind();
+		//GL11.glDisable(GL11.GL_BLEND);
+		GL11.glColor3d((double)color.getRed()/255,(double)color.getGreen()/255,(double)color.getBlue()/255);
 		GL11.glBegin(GL11.GL_QUADS);
         GL11.glVertex2d(x, y);
         GL11.glVertex2d(x + length, y);
         GL11.glVertex2d(x + length, y + length);
         GL11.glVertex2d(x, y + length);
         GL11.glEnd();
+		//GL11.glEnable(GL11.GL_BLEND);
 
     }
 
@@ -108,56 +106,56 @@ public class DrawHelper
 	}
 
 	public static void drawStreet(Graphics2D g, Street street)
-	{
-		String imagePath = street.getGlobals().getStreetConfig().getTemplate(street.getName()).getImagePath();
-		if (street.getImage() == null)
 		{
-
-			if (imagePath != null)
+			org.newdawn.slick.opengl.Texture streetText = null;
+			String imagePath = street.getGlobals().getStreetConfig().getTemplate(street.getName()).getImagePath();
+			if (street.getImage() == null)
 			{
-				street.setImage(gImageStore.get(imagePath));
-				if (street.getImage() == null)
+
+				if (imagePath != null)
 				{
-					street.setImage(new ImageIcon(imagePath).getImage());
-					gImageStore.put(imagePath, street.getImage());
+					streetText = gImageStore.get(imagePath);
+					if (streetText == null)
+					{
+
+						/*try
+						{
+							streetText = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(imagePath));
+						}
+						catch (IOException e)
+						{
+							e.printStackTrace();
+						}*/
+						gImageStore.put(imagePath, streetText);
+					}
 				}
 			}
-		}
-		org.newdawn.slick.opengl.Texture streetText = null;
-		try
 
-		{
-			Double tileSize = street.getTile().getWidth();
-			org.newdawn.slick.Color.green.bind();
-			if(imagePath != null)
+				Double tileSize = street.getTile().getWidth();
+				//GL11.glColor3d(1,1,1);
+			/*	if(imagePath != null)
+				{
+
+					streetText.bind();
+					GL11.glBindTexture(0,streetText.getTextureID());
+					GL11.glBegin(GL11.GL_QUADS);
+					GL11.glTexCoord2d(0, 0);
+					GL11.glVertex2d(street.getTile().getArrayPosition().getX() * tileSize, street.getTile().getArrayPosition().getY() * tileSize);
+					GL11.glTexCoord2d(1, 0);
+					GL11.glVertex2d(street.getTile().getArrayPosition().getX() * tileSize + tileSize, street.getTile().getArrayPosition().getY() * tileSize);
+					GL11.glTexCoord2d(1, 1);
+					GL11.glVertex2d(street.getTile().getArrayPosition().getX() * tileSize + tileSize, street.getTile().getArrayPosition().getY() * tileSize + tileSize);
+					GL11.glTexCoord2d(0, 1);
+					GL11.glVertex2d(street.getTile().getArrayPosition().getX() * tileSize, street.getTile().getArrayPosition().getY() * tileSize + tileSize);
+					GL11.glEnd();
+				}*/
+
+			//g.drawImage(street.getImage(), (int) (street.getTile().getArrayPosition().getX() * tileSize), (int) (street.getTile().getArrayPosition().getY() * tileSize), tileSize.intValue(), tileSize.intValue(), null);
+
+			for (Lane lane : street.getLanes())
 			{
-				streetText = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(imagePath));
-				streetText.bind();
-				GL11.glBegin(GL11.GL_QUADS);
-				GL11.glTexCoord2d(0, 0);
-				GL11.glVertex2d(street.getTile().getArrayPosition().getX() * tileSize, street.getTile().getArrayPosition().getY() * tileSize);
-				GL11.glTexCoord2d(1, 0);
-				GL11.glVertex2d(street.getTile().getArrayPosition().getX() * tileSize + tileSize, street.getTile().getArrayPosition().getY() * tileSize);
-				GL11.glTexCoord2d(1, 1);
-				GL11.glVertex2d(street.getTile().getArrayPosition().getX() * tileSize + tileSize, street.getTile().getArrayPosition().getY() * tileSize + tileSize);
-				GL11.glTexCoord2d(0, 1);
-				GL11.glVertex2d(street.getTile().getArrayPosition().getX() * tileSize, street.getTile().getArrayPosition().getY() * tileSize + tileSize);
-				GL11.glEnd();
+				lane.print(g);
+
 			}
-
 		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-
-
-		//g.drawImage(street.getImage(), (int) (street.getTile().getArrayPosition().getX() * tileSize), (int) (street.getTile().getArrayPosition().getY() * tileSize), tileSize.intValue(), tileSize.intValue(), null);
-
-		for (Lane lane : street.getLanes())
-		{
-			lane.print(g);
-
-		}
-	}
 }
