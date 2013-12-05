@@ -8,6 +8,7 @@ import streetmap.interfaces.ISimulateable;
 import streetmap.map.street.Lane;
 import streetmap.map.tile.Tile;
 import streetmap.pathfinding.PathFactory;
+import streetmap.utils.DrawHelper;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -320,8 +321,8 @@ public class Map implements IPrintable, ISimulateable, ActionListener
                             0.75f);
             Composite composite = fGraphics.getComposite();
             fGraphics.setComposite(alpha);
-
-            fGraphics.drawImage(fHeatMap.getBufferedImage(), 0, 0, fWidth.intValue(), fHeight.intValue(), null);
+	        DrawHelper.drawHeatMap(fHeatMap.getBufferedImage());
+            //fGraphics.drawImage(fHeatMap.getBufferedImage(), 0, 0, fWidth.intValue(), fHeight.intValue(), null);
             fGraphics.setComposite(composite);
         }
         //g.translate(5, 5);

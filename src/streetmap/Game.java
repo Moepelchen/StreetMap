@@ -30,8 +30,8 @@ public class Game
 	   // GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 	    // enable alpha blending
-	 /*   GL11.glEnable(GL11.GL_BLEND);
-	    GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_DST_ALPHA);*/
+	    GL11.glEnable(GL11.GL_BLEND);
+	    GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_DST_ALPHA);
 
 	    GL11.glViewport(0, 0,config.getWidth().intValue(), config.getHeight().intValue());
 	    GL11.glMatrixMode(GL11.GL_MODELVIEW);
@@ -40,7 +40,7 @@ public class Game
 	    GL11.glLoadIdentity();
 	    GL11.glOrtho(0, config.getWidth().intValue(), config.getHeight().intValue(), 0, 1, -1);
 	    GL11.glMatrixMode(GL11.GL_MODELVIEW);
-
+	   // glEnable(GL11.GL_DEPTH_TEST);
 	    while (!Display.isCloseRequested())
         {
             // Clear the screen and depth buffer
@@ -48,8 +48,9 @@ public class Game
 
             fGlobals.getMap().simulate();
             fGlobals.getMap().paint(null);
-            Display.update();
-            Display.sync(30); // cap fps to 60fps
+	        GL11.glDisable( GL11.GL_BLEND);
+	        Display.update();
+	        Display.sync(30); // cap fps to 60fps
         }
         Display.destroy();
     }
