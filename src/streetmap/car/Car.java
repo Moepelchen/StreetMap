@@ -175,7 +175,7 @@ public class Car implements IPrintable, ISimulateable
 	public void reset(Lane lane)
 	{
 		fLane = lane;
-		if(fHappiness < 0.5)
+		if(fHappiness < 0.5&& fPathFinder != null)
 	            fLane.getGlobals().getMap().getPathfactory().createPath(this, fPathFinder.getDestination());
 	}
 

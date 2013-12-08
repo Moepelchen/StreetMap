@@ -81,6 +81,10 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
 			{
 				nextLane = fPath.get(currentIndex + 1);
 			}
+            if(nextLane == null)
+            {
+                fGlobals.getMap().getPathfactory().createPath(fCar,fEnd);
+            }
 
 		}
 		return nextLane;

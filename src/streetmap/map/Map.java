@@ -235,7 +235,7 @@ public class Map implements IPrintable, ISimulateable, ActionListener
             }
         }
         fHeatMapCollection.add(cache);
-        if (fHeatMapCollection.size() > 300)
+        if (fHeatMapCollection.size() > 100)
         {
             fHeatMapCollection.remove(0);
         }
@@ -328,7 +328,7 @@ public class Map implements IPrintable, ISimulateable, ActionListener
         //g.translate(5, 5);
         fGraphics.drawImage(fCarLayerImage, 0, 0, null);
         //g.drawImage(fImage, 0, 0, null);
-        long takenTime = System.currentTimeMillis() - time;
+        long takenTime = Math.max(System.currentTimeMillis() - time,1);
         double fps = 1000 / takenTime;
         //g.setColor(Color.white);
         double l = Math.round(fCarFlowIndex * 1000) / 1000.0;

@@ -4,7 +4,7 @@
     <drawanchors>false</drawanchors>
     <drawsides>false</drawsides>
     <drawlanes>false</drawlanes>
-    <width>1400</width>
-    <height>800</height>
+    <width>2000</width>
+    <height>2000</height>
     <tilesize>40</tilesize>
 </JAXBConfig>

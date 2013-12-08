@@ -232,7 +232,7 @@ public class Tile implements IPrintable, ISimulateable
 
 	public void print(Graphics2D g)
 	{
-		if (fGlobals.getConfig().isDrawTiles())
+		if (fGlobals.getConfig().isDrawTiles() && g!= null)
 		{
 			g.setColor(Color.black);
 

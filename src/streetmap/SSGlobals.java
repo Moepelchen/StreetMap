@@ -8,6 +8,7 @@ import streetmap.config.StreetConfig;
 import streetmap.map.Map;
 import streetmap.map.street.StreetFactory;
 
+import java.awt.*;
 import java.io.FileNotFoundException;
 
 /**
@@ -41,6 +42,7 @@ public class SSGlobals
 	 */
 	private Map fMap;
     private MainPanel fMainPanel;
+    private Game fGame;
 
     /**
 	 * Constructor
@@ -54,7 +56,17 @@ public class SSGlobals
 		fStreetFactory = new StreetFactory(this);
 	}
 
-	public IChangeableConfig getConfig()
+    public void setGame(Game fGame)
+    {
+        this.fGame = fGame;
+    }
+
+    public Game getGame()
+    {
+        return fGame;
+    }
+
+    public IChangeableConfig getConfig()
 	{
 		return fConfig;
 	}

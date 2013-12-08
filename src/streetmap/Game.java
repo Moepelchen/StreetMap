@@ -2,22 +2,35 @@ package streetmap;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.vector.Vector2f;
+import streetmap.gui.GLStreetPanel;
 import streetmap.interfaces.config.IChangeableConfig;
+import streetmap.map.tile.Tile;
+import streetmap.xml.jaxb.StreetTemplate;
+
+import java.awt.geom.Point2D;
+import java.util.Collection;
 
 /**
  * Created by ulrichtewes on 03.12.13.
  */
 public class Game
 {
-	private final Player fPLayer;
+    public static final int WIDTH = 1200;
+    public static final int HEIGHT = 1000;
+    private final Player fPLayer;
 	SSGlobals fGlobals;
+    private GLStreetPanel fStreetPanel;
+
     public Game(SSGlobals globals)
     {
         fGlobals = globals;
 	    fPLayer = new Player(0,0);
+        fGlobals.setGame(this);
     }
 
 
@@ -25,7 +38,7 @@ public class Game
     {
 
 	    IChangeableConfig config = fGlobals.getConfig();
-	    Display.setDisplayMode(new DisplayMode(config.getWidth().intValue(), config.getHeight().intValue()));
+	    Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
 	    Display.create();
 
 	    GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -36,44 +49,61 @@ public class Game
 	    GL11.glEnable(GL11.GL_BLEND);
 	    GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_DST_ALPHA);
 
-	    GL11.glViewport(0,0,config.getWidth().intValue(), config.getHeight().intValue());
+	    GL11.glViewport(0,0, WIDTH, HEIGHT);
 	    GL11.glMatrixMode(GL11.GL_MODELVIEW);
 
 	    GL11.glMatrixMode(GL11.GL_PROJECTION);
 	    GL11.glLoadIdentity();
-	    GL11.glOrtho(0, config.getWidth().intValue(), config.getHeight().intValue(), 0, 1, -1);
+	    GL11.glOrtho(0, WIDTH, HEIGHT, 0, 1, -1);
 	    GL11.glMatrixMode(GL11.GL_MODELVIEW);
+        Keyboard.enableRepeatEvents(true);
+
+        fStreetPanel = new GLStreetPanel(fGlobals);
 	   // glEnable(GL11.GL_DEPTH_TEST);
-	    while (!Display.isCloseRequested())
+        while (!Display.isCloseRequested())
         {
-	        GL11.glPopMatrix();
-            // Clear the screen and depth buffer
-	        GL11.glTranslatef(fPLayer.getX(),fPLayer.getY(),0);
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+            // Clear the screen and depth buffer
+            GL11.glPushMatrix();
+            GL11.glTranslatef(fPLayer.getX(), fPLayer.getY(), 0);
 
             fGlobals.getMap().simulate();
             fGlobals.getMap().paint(null);
-	        GL11.glDisable( GL11.GL_BLEND);
-	        Display.update();
-	        Display.sync(30); // cap fps to 60fps
+            GL11.glPopMatrix();
 
-	        processInput();
-	        GL11.glPushMatrix();
+            drawInterface();
+
+            Display.update();
+            Display.sync(30); // cap fps to 60fps
+
+            processInput();
 
         }
         Display.destroy();
     }
 
-	private void processInput()
+    private void drawInterface()
+    {
+      fStreetPanel.draw();
+    }
+
+    private void processInput()
 	{
+        if(Mouse.isButtonDown(0))
+        {
+            System.out.println("mouse left clicked");
+            fStreetPanel.handleClick();
+        }
+
 		while (Keyboard.next()) {
 
-			if (Keyboard.getEventKeyState())
+			if (Keyboard.getEventKeyState() )
 			{
 				if (Keyboard.getEventKey() == Keyboard.KEY_A)
 				{
 					fPLayer.updateX((float) fGlobals.getMap().getTileWidth());
-				}
+                    System.out.println("A KEX PRESSED");
+                }
 				if (Keyboard.getEventKey() == Keyboard.KEY_S)
 				{
 					fPLayer.updateY(-(float) fGlobals.getMap().getTileWidth());
@@ -89,7 +119,7 @@ public class Game
 			}
 			else
 			{
-				if (Keyboard.getEventKey() == Keyboard.KEY_A)
+				/*if (Keyboard.getEventKey() == Keyboard.KEY_A)
 				{
 					fPLayer.setX(0f);
 				}
@@ -104,10 +134,26 @@ public class Game
 				if (Keyboard.getEventKey() == Keyboard.KEY_W)
 				{
 					fPLayer.setY(0f);
-				}
+				}*/
 			}
 		}
 
 	}
 
+    public int getWidth()
+    {
+        return WIDTH;
+    }
+
+    public int getHeight()
+    {
+        return HEIGHT;
+    }
+
+    public Vector2f getTranslatedCoords(int x, int y)
+    {
+        Vector2f toReturn = new Vector2f(x,y);
+        toReturn.translate(-fPLayer.getX(),-fPLayer.getY());
+        return toReturn;
+    }
 }

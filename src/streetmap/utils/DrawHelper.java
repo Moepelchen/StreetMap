@@ -105,12 +105,12 @@ public class DrawHelper
 
 	public static void drawSide(Graphics2D g, Side side)
 	{
-		if (side.getGlobals().getConfig().isDrawSides())
+		if (side.getGlobals().getConfig().isDrawSides()&& g!= null)
 		{
 			g.setColor(Color.red);
 			g.drawRect((int) (side.getPosition().getX()) - 2, (int) side.getPosition().getY() - 2, 5, 5);
 		}
-		if (side.getGlobals().getConfig().isDrawAnchors())
+		if (side.getGlobals().getConfig().isDrawAnchors() && g!= null)
 		{
 			g.setColor(Color.green);
 			side.getAnchorOne().print(g);
