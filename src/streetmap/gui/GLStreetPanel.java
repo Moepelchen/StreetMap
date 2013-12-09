@@ -1,6 +1,5 @@
 package streetmap.gui;
 
-import com.sun.javafx.animation.transition.Position2D;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
@@ -12,7 +11,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import static org.lwjgl.opengl.GL11.glBlendFunc;
-import static org.lwjgl.opengl.GL11.glTexCoord2d;
 import static org.lwjgl.opengl.GL11.glVertex3d;
 
 /**

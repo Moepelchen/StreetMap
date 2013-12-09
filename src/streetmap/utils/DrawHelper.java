@@ -10,12 +10,10 @@ import streetmap.map.street.Lane;
 import streetmap.map.street.Street;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Vector;
 
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
@@ -63,28 +61,6 @@ public class DrawHelper
 		glPopMatrix();
 
     }
-
-	private static Graphics2D getCarLayerGraphics(Car car)
-	{
-		return (Graphics2D) car.getLane().getGlobals().getMap().getCarLayerGraphics();
-	}
-
-	public static void drawFronCars(Car car, Vector<Car> frontCar)
-	{
-		Graphics2D g = getCarLayerGraphics(car);
-		g.setColor(Color.WHITE);
-
-		for (Car car1 : frontCar)
-		{
-			drawLine(g, car.getPosition(), car1.getPosition());
-		}
-
-	}
-
-	private static void drawLine(Graphics2D g, Point2D position, Point2D position1)
-	{
-		g.drawLine((int) position.getX(), (int) position.getY(), (int) position1.getX(), (int) position1.getY());
-	}
 
 	public static void drawAnchor(Graphics2D g, Anchor anchor)
 	{
