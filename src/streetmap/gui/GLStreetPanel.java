@@ -89,11 +89,11 @@ public class GLStreetPanel
         x = (int) (pos.getX() /tileSize);
         y = (int) (pos.getY() /tileSize);
         Tile tile  =fGlobals.getMap().getTile(x,y);
-        if (tile != null && fSelectedTile != null)
-        {
-            fGlobals.getStreetFactory().createStreet(tile,fSelectedTile.getStreet().getName());
-            fGlobals.getMap().handleAddition();
-        }
+	    if (tile != null && fSelectedTile != null)
+	    {
+		    fGlobals.getMap().handleAddition(tile.getStreet());
+		    fGlobals.getStreetFactory().createStreet(tile, fSelectedTile.getStreet().getName());
+	    }
     }
 
     private void handlePanelClick(int x, int y)

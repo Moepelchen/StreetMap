@@ -2,6 +2,7 @@ package streetmap.pathfinding;
 
 import streetmap.car.Car;
 import streetmap.map.street.Lane;
+import streetmap.map.street.Street;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -22,7 +23,13 @@ public class CrappyPathfinder extends AbstractPathFinder
 
 	private HashSet<Integer> fNoGo = new HashSet<Integer>();
 
-    public CrappyPathfinder(Car car)
+	@Override
+	public boolean containsStreet(Street street)
+	{
+		return true;
+	}
+
+	public CrappyPathfinder(Car car)
     {
 		init(car);
     }
@@ -73,14 +80,6 @@ public class CrappyPathfinder extends AbstractPathFinder
 
         return false;
     }
-
-    @Override
-    public void update()
-    {
-       fPath.clear();
-	    createPath(fCar.getLane());
-    }
-
 
 	private void draw(Graphics2D g, Candidate current)
     	{

@@ -9,11 +9,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 import streetmap.gui.GLStreetPanel;
 import streetmap.interfaces.config.IChangeableConfig;
-import streetmap.map.tile.Tile;
-import streetmap.xml.jaxb.StreetTemplate;
-
-import java.awt.geom.Point2D;
-import java.util.Collection;
 
 /**
  * Created by ulrichtewes on 03.12.13.
@@ -22,14 +17,19 @@ public class Game
 {
     public static final int WIDTH = 1200;
     public static final int HEIGHT = 1000;
-    private final Player fPLayer;
+    private final Player fPlayer;
 	SSGlobals fGlobals;
     private GLStreetPanel fStreetPanel;
 
-    public Game(SSGlobals globals)
+	public Player getPlayer()
+	{
+		return fPlayer;
+	}
+
+	public Game(SSGlobals globals)
     {
         fGlobals = globals;
-	    fPLayer = new Player(0,0);
+	    fPlayer = new Player(0,0);
         fGlobals.setGame(this);
     }
 
@@ -65,7 +65,7 @@ public class Game
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
             // Clear the screen and depth buffer
             GL11.glPushMatrix();
-            GL11.glTranslatef(fPLayer.getX(), fPLayer.getY(), 0);
+            GL11.glTranslatef(fPlayer.getX(), fPlayer.getY(), 0);
 
             fGlobals.getMap().simulate();
             fGlobals.getMap().paint(null);
@@ -101,20 +101,20 @@ public class Game
 			{
 				if (Keyboard.getEventKey() == Keyboard.KEY_A)
 				{
-					fPLayer.updateX((float) fGlobals.getMap().getTileWidth());
+					fPlayer.updateX((float) fGlobals.getMap().getTileWidth());
                     System.out.println("A KEX PRESSED");
                 }
 				if (Keyboard.getEventKey() == Keyboard.KEY_S)
 				{
-					fPLayer.updateY(-(float) fGlobals.getMap().getTileWidth());
+					fPlayer.updateY(-(float) fGlobals.getMap().getTileWidth());
 				}
 				if (Keyboard.getEventKey() == Keyboard.KEY_D)
 				{
-					fPLayer.updateX(-(float) fGlobals.getMap().getTileWidth());
+					fPlayer.updateX(-(float) fGlobals.getMap().getTileWidth());
 				}
 				if (Keyboard.getEventKey() == Keyboard.KEY_W)
 				{
-					fPLayer.updateY((float) fGlobals.getMap().getTileWidth());
+					fPlayer.updateY((float) fGlobals.getMap().getTileWidth());
 				}
 			}
 			else
@@ -153,7 +153,7 @@ public class Game
     public Vector2f getTranslatedCoords(int x, int y)
     {
         Vector2f toReturn = new Vector2f(x,y);
-        toReturn.translate(-fPLayer.getX(),-fPLayer.getY());
+        toReturn.translate(-fPlayer.getX(),-fPlayer.getY());
         return toReturn;
     }
 }

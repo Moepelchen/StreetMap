@@ -2,9 +2,9 @@
  * Copyright (C) veenion GmbH 1999-2012.
  */
 
-package streetmap;
+package streetmap.events;
 
-import org.lwjgl.util.vector.Vector2f;
+import streetmap.map.street.Street;
 
 /**
  * Short description in a complete sentence.
@@ -19,38 +19,23 @@ import org.lwjgl.util.vector.Vector2f;
  * @version 1.0
  * @since Release
  */
-public class Player
+public class StreetPlacementEvent extends AbstractEvent
 {
-	private Vector2f fPostion;
-	private float fX;
 
-	public float getX()
+	private final Street fStreet;
+
+	public Street getStreet()
 	{
-		return fPostion.getX();
+		return fStreet;
 	}
 
-	public float getY()
+	public StreetPlacementEvent(Street street)
 	{
-		return fPostion.getY();
+		fStreet = street;
+		fType = IEvent.EVENT_STREET_PLACEMENT;
 	}
 
-	public void setX(float x)
-	{
-		fPostion.setX(x);
-	}
-
-	public void setY(float y)
-	{
-		fPostion.setY(y);
-	}
-
-	public void reset()
-	{
-		setY(0);
-		setX(0);
-	}
-
-	// -----------------------------------------------------
+// -----------------------------------------------------
 // constants
 // -----------------------------------------------------
 // -----------------------------------------------------
@@ -62,23 +47,9 @@ public class Player
 // -----------------------------------------------------
 // constructors
 // -----------------------------------------------------
-	public Player(float x, float y)
-	{
-		fPostion = new Vector2f(x,y);
-	}
 // -----------------------------------------------------
 // methods
 // -----------------------------------------------------
-
-	public void updateX(float x)
-	{
-		fPostion.set(fPostion.getX()+x,fPostion.getY());
-	}
-
-	public void updateY(float y)
-	{
-		fPostion.set(fPostion.getX(),fPostion.getY()+y);
-	}
 // -----------------------------------------------------
 // overwritten methods from superclasses
 // -----------------------------------------------------
@@ -86,4 +57,4 @@ public class Player
 // accessors
 // -----------------------------------------------------
 
-} //Player
+} //StreetPlacementEvent

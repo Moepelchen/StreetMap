@@ -1,6 +1,7 @@
 package streetmap.interfaces;
 
 import streetmap.map.street.Lane;
+import streetmap.map.street.Street;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,7 +14,7 @@ public interface IPathFindingAlgorithm
 {
     Lane getNextLane();
 
-    void update();
-
     Lane getDestination();
+
+	boolean containsStreet(Street street);
 }

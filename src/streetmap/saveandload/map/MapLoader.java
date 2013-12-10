@@ -31,6 +31,7 @@ public class MapLoader extends AbstractLoader
 	{
 		// reset Map
 		glob.getMap().reset();
+		glob.resetPlayer();
 
 		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
@@ -39,7 +40,6 @@ public class MapLoader extends AbstractLoader
 		doc.getDocumentElement().normalize();
 
 		NodeList tileList = doc.getElementsByTagName(ISaveConstants.TILE_TAG);
-		int totalPersons = tileList.getLength();
 		for (int i = 0; i < tileList.getLength(); i++)
 		{
 			Node tile = tileList.item(i);

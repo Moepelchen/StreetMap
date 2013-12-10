@@ -2,9 +2,7 @@
  * Copyright (C) veenion GmbH 1999-2012.
  */
 
-package streetmap;
-
-import org.lwjgl.util.vector.Vector2f;
+package streetmap.events;
 
 /**
  * Short description in a complete sentence.
@@ -19,38 +17,9 @@ import org.lwjgl.util.vector.Vector2f;
  * @version 1.0
  * @since Release
  */
-public class Player
+public interface IEventHandler
 {
-	private Vector2f fPostion;
-	private float fX;
-
-	public float getX()
-	{
-		return fPostion.getX();
-	}
-
-	public float getY()
-	{
-		return fPostion.getY();
-	}
-
-	public void setX(float x)
-	{
-		fPostion.setX(x);
-	}
-
-	public void setY(float y)
-	{
-		fPostion.setY(y);
-	}
-
-	public void reset()
-	{
-		setY(0);
-		setX(0);
-	}
-
-	// -----------------------------------------------------
+// -----------------------------------------------------
 // constants
 // -----------------------------------------------------
 // -----------------------------------------------------
@@ -62,23 +31,10 @@ public class Player
 // -----------------------------------------------------
 // constructors
 // -----------------------------------------------------
-	public Player(float x, float y)
-	{
-		fPostion = new Vector2f(x,y);
-	}
 // -----------------------------------------------------
 // methods
 // -----------------------------------------------------
-
-	public void updateX(float x)
-	{
-		fPostion.set(fPostion.getX()+x,fPostion.getY());
-	}
-
-	public void updateY(float y)
-	{
-		fPostion.set(fPostion.getX(),fPostion.getY()+y);
-	}
+	public void handleEvent(IEvent event);
 // -----------------------------------------------------
 // overwritten methods from superclasses
 // -----------------------------------------------------
@@ -86,4 +42,4 @@ public class Player
 // accessors
 // -----------------------------------------------------
 
-} //Player
+} //IEventHandler

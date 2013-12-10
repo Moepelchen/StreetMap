@@ -2,9 +2,9 @@
  * Copyright (C) veenion GmbH 1999-2012.
  */
 
-package streetmap;
+package streetmap.events;
 
-import org.lwjgl.util.vector.Vector2f;
+import java.util.Vector;
 
 /**
  * Short description in a complete sentence.
@@ -19,65 +19,50 @@ import org.lwjgl.util.vector.Vector2f;
  * @version 1.0
  * @since Release
  */
-public class Player
+public class EventQueue
 {
-	private Vector2f fPostion;
-	private float fX;
-
-	public float getX()
-	{
-		return fPostion.getX();
-	}
-
-	public float getY()
-	{
-		return fPostion.getY();
-	}
-
-	public void setX(float x)
-	{
-		fPostion.setX(x);
-	}
-
-	public void setY(float y)
-	{
-		fPostion.setY(y);
-	}
-
-	public void reset()
-	{
-		setY(0);
-		setX(0);
-	}
-
-	// -----------------------------------------------------
+// -----------------------------------------------------
 // constants
 // -----------------------------------------------------
 // -----------------------------------------------------
 // variables
 // -----------------------------------------------------
+	Vector<IEvent> fStreetEvents;
+
+	public void addEvent(IEvent event)
+	{
+		switch (event.getType())
+		{
+			case IEvent.EVENT_STREET_PLACEMENT:
+				fStreetEvents.add(event);
+				break;
+			default:
+				break;
+		}
+	}
+
+	public Vector<IEvent> getEvents()
+	{
+		return fStreetEvents;
+	}
 // -----------------------------------------------------
 // inner classes
 // -----------------------------------------------------
 // -----------------------------------------------------
 // constructors
 // -----------------------------------------------------
-	public Player(float x, float y)
+
+	public EventQueue()
 	{
-		fPostion = new Vector2f(x,y);
+		fStreetEvents = new Vector<IEvent>();
 	}
 // -----------------------------------------------------
 // methods
 // -----------------------------------------------------
 
-	public void updateX(float x)
+	public void clearEventQueues()
 	{
-		fPostion.set(fPostion.getX()+x,fPostion.getY());
-	}
-
-	public void updateY(float y)
-	{
-		fPostion.set(fPostion.getX(),fPostion.getY()+y);
+		fStreetEvents.clear();
 	}
 // -----------------------------------------------------
 // overwritten methods from superclasses
@@ -86,4 +71,4 @@ public class Player
 // accessors
 // -----------------------------------------------------
 
-} //Player
+} //EventQueue

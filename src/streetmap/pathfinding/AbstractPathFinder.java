@@ -11,7 +11,9 @@ import streetmap.map.street.Lane;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Vector;
 
 /**
  * Short description in a complete sentence.
@@ -33,6 +35,8 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
 	protected Lane fStart;
 	protected Lane fEnd;
     protected SSGlobals fGlobals;
+	private static HashMap<Lane,Vector<Lane>> fNoGo = new HashMap<Lane, Vector<Lane>>();
+
 
 	// -----------------------------------------------------
 // constants
@@ -117,12 +121,23 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
                     fEnd = possibleEndLanes.get(index);
                     if (fEnd != null)
                     {
-                        if (!fEnd.isBlocked() && createPath(fStart))
+
+                        if (existsPath() && createPath(fStart))
                         {
                             break;
                         } else
                         {
-                            fEnd.setIsBlocked(true);
+	                        Vector<Lane> ends = fNoGo.get(fStart);
+	                        if(ends != null)
+	                        {
+		                        ends.add(fEnd);
+	                        }
+	                        else
+	                        {
+		                        Vector<Lane> ends2 = new Vector<Lane>();
+		                        ends2.add(fEnd);
+		                        fNoGo.put(fStart, ends2);
+	                        }
                             possibleEndLanes.remove(index);
                         }
                     }
@@ -131,12 +146,19 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
         }
         else
         {
-            createPath(fStart);
+	        if(!fEnd.isBlocked())
+                createPath(fStart);
         }
         fCar.setPath(this);
     }
 
-    @Override
+	private boolean existsPath()
+	{
+		Vector<Lane> end = fNoGo.get(fStart);
+		return !(end != null && end.contains(fEnd));
+	}
+
+	@Override
     public Lane getDestination()
     {
         return fEnd;
@@ -146,6 +168,11 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
     {
         this.fEnd = end;
     }
+
+	public static void clearNoGo()
+	{
+		fNoGo.clear();
+	}
 
 // -----------------------------------------------------
 // accessors

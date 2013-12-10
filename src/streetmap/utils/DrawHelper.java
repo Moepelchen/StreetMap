@@ -141,9 +141,6 @@ public class DrawHelper
 				}
 			
 				glPopMatrix();
-
-			//g.drawImage(street.getImage(), (int) (street.getTile().getArrayPosition().getX() * tileSize), (int) (street.getTile().getArrayPosition().getY() * tileSize), tileSize.intValue(), tileSize.intValue(), null);
-
 			for (Lane lane : street.getLanes())
 			{
 				lane.print(g);

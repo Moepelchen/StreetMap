@@ -1,9 +1,13 @@
 package streetmap.car;
 
+import streetmap.events.IEvent;
+import streetmap.events.IEventHandler;
+import streetmap.events.StreetPlacementEvent;
 import streetmap.interfaces.IPathFindingAlgorithm;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.map.street.Lane;
+import streetmap.map.street.Street;
 import streetmap.map.street.trajectory.ITrajectory;
 import streetmap.pathfinding.AbstractPathFinder;
 import streetmap.rules.RightBeforeLeftRule;
@@ -18,7 +22,7 @@ import java.util.Vector;
 /**
  * This class represents one car moving on the map
  */
-public class Car implements IPrintable, ISimulateable
+public class Car implements IPrintable, ISimulateable, IEventHandler
 {
 
     public static final int COLOR_HAPPINESS = 120;
@@ -98,8 +102,10 @@ public class Car implements IPrintable, ISimulateable
 
 	public void simulate()
 	{
-		if(fLane.getGlobals().getMap().isRecalcPaths() && fPathFinder != null)
-			fLane.getGlobals().getMap().getPathfactory().createPath(this, fPathFinder.getDestination());
+		for (IEvent event : fLane.getGlobals().getMap().getEvents())
+		{
+			handleEvent(event);
+		}
 		move();
 		fHappiness = Math.min(1,fSpeed / fOriginalSpeed);
 	}
@@ -176,7 +182,12 @@ public class Car implements IPrintable, ISimulateable
 	{
 		fLane = lane;
 		if(fHappiness < 0.5&& fPathFinder != null)
-	            fLane.getGlobals().getMap().getPathfactory().createPath(this, fPathFinder.getDestination());
+	            recalcPath();
+	}
+
+	protected void recalcPath()
+	{
+		fLane.getGlobals().getMap().getPathfactory().createPath(this, fPathFinder.getDestination());
 	}
 
 	public ImageIcon getImage()
@@ -255,4 +266,21 @@ public class Car implements IPrintable, ISimulateable
     {
         fPathFinder = path;
     }
+
+	@Override
+	public void handleEvent(IEvent event)
+	{
+		switch (event.getType())
+		{
+			case IEvent.EVENT_STREET_PLACEMENT:
+				StreetPlacementEvent spEvent = (StreetPlacementEvent) event;
+				Street street = spEvent.getStreet();
+				if(street != null && fPathFinder != null &&fPathFinder.containsStreet(street))
+				{
+					recalcPath();
+				}
+				break;
+			default:
+		}
+	}
 }

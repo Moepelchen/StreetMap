@@ -1,14 +1,12 @@
 package streetmap;
 
-import streetmap.gui.MainPanel;
-import streetmap.interfaces.config.IChangeableConfig;
-import streetmap.interfaces.config.IConfig;
 import streetmap.config.ChangeableConfig;
 import streetmap.config.StreetConfig;
+import streetmap.gui.MainPanel;
+import streetmap.interfaces.config.IChangeableConfig;
 import streetmap.map.Map;
 import streetmap.map.street.StreetFactory;
 
-import java.awt.*;
 import java.io.FileNotFoundException;
 
 /**
@@ -44,7 +42,12 @@ public class SSGlobals
     private MainPanel fMainPanel;
     private Game fGame;
 
-    /**
+	public void resetPlayer()
+	{
+		fGame.getPlayer().reset();
+	}
+
+	/**
 	 * Constructor
 	 *
 	 * @throws FileNotFoundException is thrown when either the config or the streetconfig file is not found
@@ -108,7 +111,7 @@ public class SSGlobals
 
     public void handleLoading()
     {
-        this.getMap().handleAddition();
+        this.getMap().handleAddition(null);
         fMainPanel.update(this);
     }
 }

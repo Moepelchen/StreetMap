@@ -6,6 +6,7 @@ package streetmap.pathfinding;
 
 import streetmap.car.Car;
 import streetmap.map.street.Lane;
+import streetmap.map.street.Street;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -149,17 +150,18 @@ public class AStarAlgorithm extends AbstractPathFinder
 		init(car);
 	}
 
-    @Override
-    public void update()
-    {
-        if(fEnd != null)
-        {
-            fPath.clear();
-            createPath(fCar.getLane());
-        }
-    }
+	@Override
+	public boolean containsStreet(Street street)
+	{
+		for (Lane lane : street.getLanes())
+		{
+			if(fPath.contains(lane))
+				return true;
+		}
+		return false;
+	}
 
-    private class SortedNodeList
+	private class SortedNodeList
 	{
 
 		private ArrayList<Candidate> list = new ArrayList<Candidate>();

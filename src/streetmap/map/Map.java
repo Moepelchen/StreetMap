@@ -1,12 +1,16 @@
 package streetmap.map;
 
 import streetmap.SSGlobals;
+import streetmap.events.*;
+import streetmap.events.EventQueue;
 import streetmap.heatmap.Gradient;
 import streetmap.heatmap.HeatMap;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.map.street.Lane;
+import streetmap.map.street.Street;
 import streetmap.map.tile.Tile;
+import streetmap.pathfinding.AbstractPathFinder;
 import streetmap.pathfinding.PathFactory;
 import streetmap.utils.DrawHelper;
 
@@ -72,7 +76,7 @@ public class Map implements IPrintable, ISimulateable, ActionListener
     private DataStorage2d fFPSData = new DataStorage2d(300);
     private DataStorage2d fFlowData = new DataStorage2d(300);
     private PathFactory fPathFactory;
-	private boolean fRecalcPaths;
+	private streetmap.events.EventQueue fEvents;
 
 	public Vector<Lane> getStartingLanes()
     {
@@ -125,6 +129,7 @@ public class Map implements IPrintable, ISimulateable, ActionListener
         fCarFlowData.add(0);
         fCarFlowIndex = 0;
         fPathFactory = new PathFactory();
+	    fEvents = new EventQueue();
 
     }
 
@@ -207,8 +212,7 @@ public class Map implements IPrintable, ISimulateable, ActionListener
             fCarFlowIndex = fCarFlowIndex + integer;
         }
         fCarFlowIndex = fCarFlowIndex / 300;
-
-	    fRecalcPaths = false;
+		fEvents.clearEventQueues();
     }
 
     private void updateHeatMap()
@@ -392,9 +396,9 @@ public class Map implements IPrintable, ISimulateable, ActionListener
         fCarFlowData.set(fCarFlowData.size() - 1, newLast);
     }
 
-	public boolean isRecalcPaths()
+	public Vector<IEvent> getEvents()
 	{
-		return fRecalcPaths;
+		return fEvents.getEvents();
 	}
 
 	/**
@@ -408,13 +412,14 @@ public class Map implements IPrintable, ISimulateable, ActionListener
 
     }
 
-    public void handleAddition()
-    {
-        fOccupiedTiles = null;
-	    fRecalcPaths = true;
-    }
+	public void handleAddition(Street street)
+	{
+		fOccupiedTiles = null;
+		fEvents.addEvent(new StreetPlacementEvent(street));
+		AbstractPathFinder.clearNoGo();
+	}
 
-    public DataStorage2d getFlowData()
+	public DataStorage2d getFlowData()
     {
         return fFlowData;
     }
