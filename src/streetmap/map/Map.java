@@ -238,7 +238,7 @@ public class Map implements IPrintable, ISimulateable, ActionListener
             }
         }
         fHeatMapCollection.add(cache);
-        if (fHeatMapCollection.size() > 100)
+        if (fHeatMapCollection.size() > 10)
         {
             fHeatMapCollection.remove(0);
         }

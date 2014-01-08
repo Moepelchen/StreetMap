@@ -94,7 +94,7 @@ public class HeatMap extends JPanel
     /**
      * @param data The data to display, must be a complete array (non-ragged)
      * @param useGraphicsYAxis If true, the data will be displayed with the y=0 row at the top of the screen. If false, the data will be displayed with they=0 row at the bottom of the screen.
-     * @param colors A variable of the type Color[]. See also {@link #createMultiGradient} and {@link #createGradient}.
+     * @param colors A variable of the type Color[].
      */
     public HeatMap(double[][] data, boolean useGraphicsYAxis, Color[] colors)
     {

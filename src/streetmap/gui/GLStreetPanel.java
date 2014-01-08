@@ -67,10 +67,7 @@ public class GLStreetPanel
     {
         int x = Mouse.getX();
         int y = Mouse.getY();
-        System.out.println("y = " + y);
-        System.out.println("x = " + x);
-        System.out.println("Mouse.getDY() = " + Mouse.getDY());
-        System.out.println("Mouse.getDX() = " + Mouse.getDX());
+
         if(x < fTileWidth)
         {
             handlePanelClick(x, y);
@@ -99,7 +96,6 @@ public class GLStreetPanel
     private void handlePanelClick(int x, int y)
     {
         int index =fTiles.size()-1- (y/fTileWidth);
-        System.out.println("index = " + index);
         fSelectedTile = fTiles.get(index);
     }
 }

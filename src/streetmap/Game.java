@@ -8,7 +8,10 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 import streetmap.gui.GLStreetPanel;
+import streetmap.gui.MainPanel;
 import streetmap.interfaces.config.IChangeableConfig;
+
+import java.io.FileNotFoundException;
 
 /**
  * Created by ulrichtewes on 03.12.13.
@@ -20,8 +23,10 @@ public class Game
     private final Player fPlayer;
 	SSGlobals fGlobals;
     private GLStreetPanel fStreetPanel;
+    private MouseHandler fMouseHandler;
+    private KeyHandler fKeyboardHandler;
 
-	public Player getPlayer()
+    public Player getPlayer()
 	{
 		return fPlayer;
 	}
@@ -33,6 +38,22 @@ public class Game
         fGlobals.setGame(this);
     }
 
+    public static void main(String[] args) throws LWJGLException
+    {
+        SSGlobals globals = null;
+        try
+        {
+            globals = new SSGlobals();
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        MainPanel main = new MainPanel(globals);
+        Game game = new Game(globals);
+        game.start();
+
+    }
 
     public void start() throws LWJGLException
     {
@@ -58,7 +79,10 @@ public class Game
 	    GL11.glMatrixMode(GL11.GL_MODELVIEW);
         Keyboard.enableRepeatEvents(true);
 
+
         fStreetPanel = new GLStreetPanel(fGlobals);
+        fMouseHandler = new MouseHandler(fGlobals);
+        fKeyboardHandler = new KeyHandler(fGlobals);
 	   // glEnable(GL11.GL_DEPTH_TEST);
         while (!Display.isCloseRequested())
         {
@@ -74,7 +98,7 @@ public class Game
             drawInterface();
 
             Display.update();
-            Display.sync(30); // cap fps to 60fps
+            Display.sync(60); // cap fps to 60fps
 
             processInput();
 
@@ -91,52 +115,10 @@ public class Game
 	{
         if(Mouse.isButtonDown(0))
         {
-            System.out.println("mouse left clicked");
             fStreetPanel.handleClick();
         }
 
-		while (Keyboard.next()) {
-
-			if (Keyboard.getEventKeyState() )
-			{
-				if (Keyboard.getEventKey() == Keyboard.KEY_A)
-				{
-					fPlayer.updateX((float) fGlobals.getMap().getTileWidth());
-                    System.out.println("A KEX PRESSED");
-                }
-				if (Keyboard.getEventKey() == Keyboard.KEY_S)
-				{
-					fPlayer.updateY(-(float) fGlobals.getMap().getTileWidth());
-				}
-				if (Keyboard.getEventKey() == Keyboard.KEY_D)
-				{
-					fPlayer.updateX(-(float) fGlobals.getMap().getTileWidth());
-				}
-				if (Keyboard.getEventKey() == Keyboard.KEY_W)
-				{
-					fPlayer.updateY((float) fGlobals.getMap().getTileWidth());
-				}
-			}
-			else
-			{
-				/*if (Keyboard.getEventKey() == Keyboard.KEY_A)
-				{
-					fPLayer.setX(0f);
-				}
-				if (Keyboard.getEventKey() == Keyboard.KEY_S)
-				{
-					fPLayer.setY(0f);
-				}
-				if (Keyboard.getEventKey() == Keyboard.KEY_D)
-				{
-					fPLayer.setX(0f);
-				}
-				if (Keyboard.getEventKey() == Keyboard.KEY_W)
-				{
-					fPLayer.setY(0f);
-				}*/
-			}
-		}
+		fKeyboardHandler.handleInput();
 
 	}
 

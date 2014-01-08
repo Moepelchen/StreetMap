@@ -22,8 +22,6 @@ import java.io.FileNotFoundException;
  */
 public class MainPanel extends JFrame
 {
-
-    private StreetPanel fStreetPanel;
     private MenuPanel fMenuPanel;
 
     /**
@@ -37,34 +35,14 @@ public class MainPanel extends JFrame
 		//this.getContentPane().add();
         new Map(globals);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        fStreetPanel = new StreetPanel(globals);
         fMenuPanel = new MenuPanel(globals);
 
-
-        this.getContentPane().add(fStreetPanel, BorderLayout.PAGE_END);
         this.getContentPane().add(fMenuPanel, BorderLayout.LINE_END);
 		this.pack();
 		this.setVisible(true);
 
         globals.setMainPanel(this);
 
-
-	}
-
-	public static void main(String[] args) throws LWJGLException
-    {
-		SSGlobals globals = null;
-		try
-		{
-			globals = new SSGlobals();
-		}
-		catch (FileNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-		MainPanel main = new MainPanel(globals);
-        Game game = new Game(globals);
-        game.start();
 
 	}
 

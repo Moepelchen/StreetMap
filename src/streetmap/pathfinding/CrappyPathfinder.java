@@ -21,7 +21,7 @@ import java.util.List;
 public class CrappyPathfinder extends AbstractPathFinder
 {
 
-	private HashSet<Integer> fNoGo = new HashSet<Integer>();
+	private HashSet<Integer> fNoGo = new HashSet<>();
 
 	@Override
 	public boolean containsStreet(Street street)
@@ -43,7 +43,7 @@ public class CrappyPathfinder extends AbstractPathFinder
         }
 	    //draw((Graphics2D)(next.getGlobals().getMap().getGraphics()),new Candidate(next));
         Collection<Lane> candidates = next.getEnd().getOutputLanes();
-        List<Candidate> candidateCollection = new ArrayList<Candidate>();
+        List<Candidate> candidateCollection = new ArrayList<>();
 	    double startEndDistance = fStart.getEnd().getPosition().distance(fEnd.getStart().getPosition());
 	    for (Lane lane : candidates)
         {

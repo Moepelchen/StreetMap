@@ -8,7 +8,6 @@ import streetmap.car.Car;
 import streetmap.map.street.Lane;
 import streetmap.map.street.Street;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,7 +57,7 @@ public class AStarAlgorithm extends AbstractPathFinder
 			//draw(g, current);
 			if(current.candidate.equals(fEnd))
 			{
-				getPath(current);
+				createPath(current);
 				fPathList.put(fStart.hashCode()+"" + fEnd.hashCode(),fPath);
 				return true;
 			}
@@ -68,59 +67,36 @@ public class AStarAlgorithm extends AbstractPathFinder
 			for (Lane lane : current.candidate.getEnd().getOutputLanes())
 			{
 				Candidate neighbour = new Candidate(lane);
-				if(fClosedList.contains(lane))
-					continue;
+                if (!fClosedList.contains(lane))
+                {
 
-			double distanceToStart = current.fDistanceToStart + lane.getTrajectory().getLength();
+                    double distanceToStart = current.fDistanceToStart + lane.getTrajectory().getLength();
 
-				double distanceToEnd = lane.getEnd().getPosition().distance(fEnd.getEnd().getPosition());
+                    double distanceToEnd = lane.getEnd().getPosition().distance(fEnd.getEnd().getPosition());
 
-				double heatMapReading = getHeatMapReading(lane);
-				distanceToStart = distanceToStart + fGlobals.getConfig().getHeatMapModifier()* heatMapReading;
+                    double heatMapReading = getHeatMapReading(lane);
+                    distanceToStart = distanceToStart + fGlobals.getConfig().getHeatMapModifier() * heatMapReading;
 
 
-				if(fOpenList.contains(neighbour) && distanceToStart >= fOpenList.getByLane(neighbour).fDistanceToStart)
-					continue;
+                    if (!fOpenList.contains(neighbour) || distanceToStart < fOpenList.getByLane(neighbour).fDistanceToStart)
+                    {
 
-				neighbour.setPrevious(current);
-				neighbour.setDistanceToStart(distanceToStart);
-				neighbour.fDistanceToGoal = distanceToEnd;
+                        neighbour.setPrevious(current);
+                        neighbour.setDistanceToStart(distanceToStart);
+                        neighbour.fDistanceToGoal = distanceToEnd;
 
-				if (fOpenList.contains(neighbour))
-				{
-					fOpenList.getByLane(neighbour).fDistanceToStart = distanceToStart;
-				}
-				else
-				{
-					fOpenList.add(neighbour);
-
-				}
+                        if (fOpenList.contains(neighbour))
+                        {
+                            fOpenList.getByLane(neighbour).fDistanceToStart = distanceToStart;
+                        } else
+                        {
+                            fOpenList.add(neighbour);
+                        }
+                    }
+                }
 			}
 		}
 		return false;
-	}
-
-	private void draw(Graphics2D g, Candidate current)
-	{
-
-		for (Lane lane : fClosedList)
-		{
-			g.setColor(Color.BLUE);
-			g.drawOval((int) lane.getEnd().getPosition().getX(), (int) lane.getEnd().getPosition().getY(), 5, 5);
-		}
-
-
-		for (Candidate openListLane : fOpenList.getList())
-		{
-			g.setColor(Color.GREEN);
-			g.drawOval((int) openListLane.candidate.getEnd().getPosition().getX(), (int) openListLane.candidate.getEnd().getPosition().getY(), 5, 5);
-		}
-
-		g.setColor(Color.MAGENTA);
-		g.drawOval((int) current.candidate.getEnd().getPosition().getX(), (int) current.candidate.getEnd().getPosition().getY(), 5, 5);
-
-		g.setColor(Color.MAGENTA);
-		g.drawOval((int) fEnd.getEnd().getPosition().getX(), (int) fEnd.getEnd().getPosition().getY(), 5, 5);
 	}
 
 	private double getHeatMapReading(Lane lane)
@@ -136,12 +112,12 @@ public class AStarAlgorithm extends AbstractPathFinder
 
 	}
 
-	private void getPath(Candidate current)
+	private void createPath(Candidate current)
 	{
 		fPath.addFirst(current.candidate);
 		if(current.previous() != null)
 		{
-			getPath(current.previous());
+			createPath(current.previous());
 		}
 	}
 
@@ -153,12 +129,15 @@ public class AStarAlgorithm extends AbstractPathFinder
 	@Override
 	public boolean containsStreet(Street street)
 	{
-		for (Lane lane : street.getLanes())
+        boolean toReturn = false;
+        for (Lane lane : street.getLanes())
 		{
-			if(fPath.contains(lane))
-				return true;
+            if(fPath.contains(lane))
+            {
+               toReturn = true;
+            }
 		}
-		return false;
+		return toReturn;
 	}
 
 	private class SortedNodeList

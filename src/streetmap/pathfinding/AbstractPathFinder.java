@@ -84,6 +84,7 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
 			if (currentIndex >= 0 && currentIndex + 1 < fPath.size() - 1)
 			{
 				nextLane = fPath.get(currentIndex + 1);
+                fPath.remove(currentIndex);
 			}
             if(nextLane == null)
             {
@@ -107,6 +108,7 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
     @Override
     public void run()
     {
+        fCar.setPath(null);
         if(fEnd == null)
         {
             ArrayList<Lane> lanes = new ArrayList<Lane>(fStart.getStreet().getLanes());

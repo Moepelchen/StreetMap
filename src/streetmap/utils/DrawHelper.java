@@ -69,13 +69,12 @@ public class DrawHelper
 
 	public static void drawCurve(Graphics2D g, QuadCurve2D curve)
 	{
-		g.setColor(Color.PINK);
-		g.draw(curve);
+
 	}
 
 	public static void drawStraight(Graphics2D g, Lane lane)
 	{
-		g.drawLine((int) lane.getStart().getPosition().getX(), (int) lane.getStart().getPosition().getY(), (int) lane.getEnd().getPosition().getX(), (int) lane.getEnd().getPosition().getY());
+//		g.drawLine((int) lane.getStart().getPosition().getX(), (int) lane.getStart().getPosition().getY(), (int) lane.getEnd().getPosition().getX(), (int) lane.getEnd().getPosition().getY());
 
 	}
 
