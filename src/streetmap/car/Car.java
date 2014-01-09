@@ -70,7 +70,7 @@ public class Car implements IPrintable, ISimulateable, IEventHandler
 		fPosition = pos;
 		fColor = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()));
 		fImage = carImage;
-		double v = Math.random() + length / 16;
+		double v = Math.random() + length / 4;
 		fSpeed = v;
 		fOriginalSpeed = v;
 		fLane.getGlobals().getMap().getPathfactory().createPath(this);

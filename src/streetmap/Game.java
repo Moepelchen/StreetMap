@@ -1,6 +1,10 @@
 package streetmap;
 
-import org.lwjgl.LWJGLException;
+import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.nulldevice.NullSoundDevice;
+import de.lessvoid.nifty.renderer.lwjgl.input.LwjglInputSystem;
+import de.lessvoid.nifty.renderer.lwjgl.render.LwjglRenderDevice;
+import de.lessvoid.nifty.tools.TimeProvider;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -11,6 +15,7 @@ import streetmap.gui.GLStreetPanel;
 import streetmap.gui.MainPanel;
 import streetmap.interfaces.config.IChangeableConfig;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
 /**
@@ -38,7 +43,7 @@ public class Game
         fGlobals.setGame(this);
     }
 
-    public static void main(String[] args) throws LWJGLException
+    public static void main(String[] args) throws Exception
     {
         SSGlobals globals = null;
         try
@@ -55,7 +60,7 @@ public class Game
 
     }
 
-    public void start() throws LWJGLException
+    public void start() throws Exception
     {
 
 	    IChangeableConfig config = fGlobals.getConfig();
@@ -83,10 +88,21 @@ public class Game
         fStreetPanel = new GLStreetPanel(fGlobals);
         fMouseHandler = new MouseHandler(fGlobals);
         fKeyboardHandler = new KeyHandler(fGlobals);
+
+	    LwjglInputSystem inputSystem = new LwjglInputSystem();
+	    inputSystem.startup();
+
+	    Nifty nifty = new Nifty(new LwjglRenderDevice(),new NullSoundDevice(),inputSystem,new TimeProvider());
+	    File menuDefinitions = new File("./resources/gui/nifty.xml");
+
+		nifty.fromXml(menuDefinitions.getPath(),"debug");
 	   // glEnable(GL11.GL_DEPTH_TEST);
         while (!Display.isCloseRequested())
         {
-            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+	        nifty.update();
+	        nifty.render(true);
+
+            //GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
             // Clear the screen and depth buffer
             GL11.glPushMatrix();
             GL11.glTranslatef(fPlayer.getX(), fPlayer.getY(), 0);
