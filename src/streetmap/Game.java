@@ -30,10 +30,23 @@ public class Game
     private GLStreetPanel fStreetPanel;
     private MouseHandler fMouseHandler;
     private KeyHandler fKeyboardHandler;
+	private boolean fPaused;
 
-    public Player getPlayer()
+	public Nifty getNifty()
+	{
+		return fNifty;
+	}
+
+	private Nifty fNifty;
+
+	public Player getPlayer()
 	{
 		return fPlayer;
+	}
+
+	public boolean isPaused()
+	{
+		return fPaused;
 	}
 
 	public Game(SSGlobals globals)
@@ -60,67 +73,69 @@ public class Game
 
     }
 
-    public void start() throws Exception
-    {
+	public void start() throws Exception
+	{
 
-	    IChangeableConfig config = fGlobals.getConfig();
-	    Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
-	    Display.create();
+		IChangeableConfig config = fGlobals.getConfig();
+		Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
+		Display.create();
 
-	    GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
 
-	   // GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		// GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-	    // enable alpha blending
-	    GL11.glEnable(GL11.GL_BLEND);
-	    GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_DST_ALPHA);
+		// enable alpha blending
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_DST_ALPHA);
 
-	    GL11.glViewport(0,0, WIDTH, HEIGHT);
-	    GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		GL11.glViewport(0, 0, WIDTH, HEIGHT);
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 
-	    GL11.glMatrixMode(GL11.GL_PROJECTION);
-	    GL11.glLoadIdentity();
-	    GL11.glOrtho(0, WIDTH, HEIGHT, 0, 1, -1);
-	    GL11.glMatrixMode(GL11.GL_MODELVIEW);
-        Keyboard.enableRepeatEvents(true);
+		GL11.glMatrixMode(GL11.GL_PROJECTION);
+		GL11.glLoadIdentity();
+		GL11.glOrtho(0, WIDTH, HEIGHT, 0, 1, -1);
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		Keyboard.enableRepeatEvents(true);
 
+		fStreetPanel = new GLStreetPanel(fGlobals);
+		fMouseHandler = new MouseHandler(fGlobals);
+		fKeyboardHandler = new KeyHandler(fGlobals);
 
-        fStreetPanel = new GLStreetPanel(fGlobals);
-        fMouseHandler = new MouseHandler(fGlobals);
-        fKeyboardHandler = new KeyHandler(fGlobals);
+		LwjglInputSystem inputSystem = new LwjglInputSystem();
+		inputSystem.startup();
 
-	    LwjglInputSystem inputSystem = new LwjglInputSystem();
-	    inputSystem.startup();
+		fNifty = new Nifty(new LwjglRenderDevice(), new NullSoundDevice(), inputSystem, new TimeProvider());
+		File menuDefinitions = new File("./resources/gui/nifty.xml");
 
-	    Nifty nifty = new Nifty(new LwjglRenderDevice(),new NullSoundDevice(),inputSystem,new TimeProvider());
-	    File menuDefinitions = new File("./resources/gui/nifty.xml");
+		fNifty.fromXml(menuDefinitions.getPath(), "debug");
+		// glEnable(GL11.GL_DEPTH_TEST);
+		while (!Display.isCloseRequested())
+		{
 
-		nifty.fromXml(menuDefinitions.getPath(),"debug");
-	   // glEnable(GL11.GL_DEPTH_TEST);
-        while (!Display.isCloseRequested())
-        {
-	        nifty.update();
-	        nifty.render(true);
+			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+			// Clear the screen and depth buffer
+			GL11.glPushMatrix();
+			GL11.glTranslatef(fPlayer.getX(), fPlayer.getY(), 0);
 
-            //GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-            // Clear the screen and depth buffer
-            GL11.glPushMatrix();
-            GL11.glTranslatef(fPlayer.getX(), fPlayer.getY(), 0);
+			if (!this.isPaused())
+			{
+				fGlobals.getMap().simulate();
+			}
+			fGlobals.getMap().paint(null);
+			GL11.glPopMatrix();
 
-            fGlobals.getMap().simulate();
-            fGlobals.getMap().paint(null);
-            GL11.glPopMatrix();
+			drawInterface();
+			fNifty.update();
+			fNifty.render(false);
 
-            drawInterface();
+			Display.update();
+			Display.sync(60); // cap fps to 60fps
 
-            Display.update();
-            Display.sync(60); // cap fps to 60fps
+			processInput();
 
-            processInput();
-
-        }
-        Display.destroy();
-    }
+		}
+		Display.destroy();
+	}
 
     private void drawInterface()
     {

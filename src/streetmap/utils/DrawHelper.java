@@ -96,7 +96,7 @@ public class DrawHelper
 
 	public static void drawStreet(Graphics2D g, Street street)
 		{
-			org.newdawn.slick.opengl.Texture streetText = null;
+			Texture streetText = null;
 			String imagePath = street.getGlobals().getStreetConfig().getTemplate(street.getName()).getImagePath();
 			if (street.getImage() == null)
 			{
