@@ -311,25 +311,7 @@ public class Map implements IPrintable, ISimulateable, ActionListener
     public void paint(Graphics g)
     {
         long time = System.currentTimeMillis();
-        this.simulate();
-        //super.paint(g);
-        fGraphics.clearRect(0, 0, fWidth.intValue() + 5, fHeight.intValue() + 5);
         this.print(fGraphics);
-        if (fGlobals.getConfig().isShowHeatMap())
-        {
-            AlphaComposite alpha = AlphaComposite
-                    .getInstance(
-                            AlphaComposite.SRC_OVER,
-                            0.75f);
-            Composite composite = fGraphics.getComposite();
-            fGraphics.setComposite(alpha);
-	        DrawHelper.drawHeatMap(fHeatMap.getBufferedImage());
-            //fGraphics.drawImage(fHeatMap.getBufferedImage(), 0, 0, fWidth.intValue(), fHeight.intValue(), null);
-            fGraphics.setComposite(composite);
-        }
-        //g.translate(5, 5);
-        fGraphics.drawImage(fCarLayerImage, 0, 0, null);
-        //g.drawImage(fImage, 0, 0, null);
         long takenTime = Math.max(System.currentTimeMillis() - time,1);
         double fps = 1000 / takenTime;
         //g.setColor(Color.white);

@@ -13,6 +13,9 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 import streetmap.gui.GLStreetPanel;
 import streetmap.gui.MainPanel;
+import streetmap.gui.controller.GameScreenController;
+import streetmap.gui.controller.MenuScreenController;
+import streetmap.gui.effects.LogPanel;
 import streetmap.interfaces.config.IChangeableConfig;
 
 import java.io.File;
@@ -107,7 +110,13 @@ public class Game
 		fNifty = new Nifty(new LwjglRenderDevice(), new NullSoundDevice(), inputSystem, new TimeProvider());
 		File menuDefinitions = new File("./resources/gui/nifty.xml");
 
-		fNifty.fromXml(menuDefinitions.getPath(), "debug");
+        fNifty.registerScreenController(new GameScreenController(fGlobals));
+        fNifty.registerScreenController(new MenuScreenController(fGlobals));
+        fNifty.registerEffect("carpanel", "streetmap.gui.effects.CarNumberPanel");
+        fNifty.registerEffect("framepanel", "streetmap.gui.effects.FPSPanel");
+        fNifty.registerEffect("flowpanel", "streetmap.gui.effects.FlowDataPanel");
+
+		fNifty.fromXml(menuDefinitions.getPath(), "game");
 		// glEnable(GL11.GL_DEPTH_TEST);
 		while (!Display.isCloseRequested())
 		{
@@ -168,5 +177,15 @@ public class Game
         Vector2f toReturn = new Vector2f(x,y);
         toReturn.translate(-fPlayer.getX(),-fPlayer.getY());
         return toReturn;
+    }
+
+    public void pause()
+    {
+        fPaused = true;
+    }
+
+    public void unPause()
+    {
+        fPaused = false;
     }
 }

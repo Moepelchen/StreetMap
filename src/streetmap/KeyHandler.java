@@ -1,7 +1,10 @@
 package streetmap;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.screen.Screen;
 import org.lwjgl.input.Keyboard;
+import streetmap.gui.ILayerNames;
+import streetmap.gui.IScreenNames;
 
 /**
  * Created by ulrichtewes on 19.12.13.
@@ -30,16 +33,12 @@ public class KeyHandler
 					if(!fDebugShown)
 					{
 						fDebugShown = true;
-						nifty.gotoScreen("debug");
-						nifty.update();
-						nifty.render(false);
+						setLayerVisibility(nifty,fDebugShown);
 					}
 					else
 					{
-						fDebugShown = false;
-						nifty.gotoScreen("game");
-						nifty.update();
-						nifty.render(false);
+                        fDebugShown = false;
+                        setLayerVisibility(nifty,fDebugShown);
 					}
 				}
 
@@ -73,7 +72,19 @@ public class KeyHandler
 		}
 	}
 
-	protected void handleMovementKeyReleased()
+    private void setLayerVisibility(Nifty nifty, boolean debugShown)
+    {
+        Screen current = nifty.getCurrentScreen();
+        if(current.getScreenId().equals(IScreenNames.SCREEN_GAME))
+        {
+            current.findElementByName(ILayerNames.LAYER_DEBUG).setVisible(debugShown);
+            nifty.update();
+            nifty.render(false);
+
+        }
+    }
+
+    protected void handleMovementKeyReleased()
 	{
 		if (Keyboard.getEventKey() == Keyboard.KEY_A)
 		{
