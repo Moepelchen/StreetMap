@@ -124,7 +124,8 @@ public class Game
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 			// Clear the screen and depth buffer
 			GL11.glPushMatrix();
-			GL11.glTranslatef(fPlayer.getX(), fPlayer.getY(), 0);
+            GL11.glScalef(fPlayer.getZoom(),fPlayer.getZoom(),0);
+            GL11.glTranslatef(fPlayer.getX(), fPlayer.getY(), 0);
 
 			if (!this.isPaused())
 			{

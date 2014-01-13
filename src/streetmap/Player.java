@@ -23,8 +23,9 @@ public class Player
 {
 	private Vector2f fPostion;
 	private float fX;
+    private double fZoom = 1;
 
-	public float getX()
+    public float getX()
 	{
 		return fPostion.getX();
 	}
@@ -34,15 +35,25 @@ public class Player
 		return fPostion.getY();
 	}
 
-	public void setX(float x)
+	private void setX(float x)
 	{
-		fPostion.setX(x);
+		fPostion.setX(x*getZoom());
 	}
 
-	public void setY(float y)
+	private void setY(float y)
 	{
-		fPostion.setY(y);
+		fPostion.setY(y*getZoom());
 	}
+
+    public void increaseZoom()
+    {
+        fZoom = fZoom * 1.1;
+    }
+
+    public void decreaseZoom()
+    {
+            fZoom = fZoom /1.1;
+    }
 
 	public void reset()
 	{
@@ -72,13 +83,18 @@ public class Player
 
 	public void updateX(float x)
 	{
-		fPostion.set(fPostion.getX()+x,fPostion.getY());
+		fPostion.set(fPostion.getX()+x/getZoom(),fPostion.getY());
 	}
 
 	public void updateY(float y)
 	{
-		fPostion.set(fPostion.getX(),fPostion.getY()+y);
+		fPostion.set(fPostion.getX(),fPostion.getY()+y/getZoom());
 	}
+
+    public float getZoom()
+    {
+        return (float) fZoom;
+    }
 // -----------------------------------------------------
 // overwritten methods from superclasses
 // -----------------------------------------------------

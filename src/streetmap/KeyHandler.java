@@ -17,8 +17,10 @@ public class KeyHandler
 	private boolean dPressed;
 	private boolean wPressed;
 	private boolean fDebugShown;
+    private boolean ePressed;
+    private boolean qPressed;
 
-	public void handleInput()
+    public void handleInput()
 	{
 		Player player = fGlobals.getGame().getPlayer();
 		while (Keyboard.next())
@@ -27,6 +29,7 @@ public class KeyHandler
 			if (Keyboard.getEventKeyState())
 			{
 				handleMovementKeyPressed();
+
 				if(Keyboard.getEventKey() == Keyboard.KEY_F3)
 				{
 					Nifty nifty = fGlobals.getGame().getNifty();
@@ -41,11 +44,27 @@ public class KeyHandler
                         setLayerVisibility(nifty,fDebugShown);
 					}
 				}
+                if(Keyboard.getEventKey() == Keyboard.KEY_E)
+                {
+                    ePressed = true;
+                }
+                if(Keyboard.getEventKey() == Keyboard.KEY_Q)
+                {
+                    qPressed = true;
+                }
 
 			}
 			else
 			{
 				handleMovementKeyReleased();
+                if(Keyboard.getEventKey() == Keyboard.KEY_E)
+                {
+                    ePressed = false;
+                }
+                if(Keyboard.getEventKey() == Keyboard.KEY_Q)
+                {
+                    qPressed = false;
+                }
 			}
 		}
 
@@ -70,6 +89,15 @@ public class KeyHandler
 			player.updateY(-(float) tileWidth);
 
 		}
+        if(ePressed)
+        {
+            player.increaseZoom();
+        }
+        if(qPressed)
+        {
+            player.decreaseZoom();
+        }
+
 	}
 
     private void setLayerVisibility(Nifty nifty, boolean debugShown)
