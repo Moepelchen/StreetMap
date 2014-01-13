@@ -27,7 +27,6 @@ public abstract class LogPanel implements EffectImpl
     @Override
     public void activate(Nifty nifty, Element element, EffectProperties effectProperties)
     {
-        System.out.println("nifty = " + nifty);
         GameScreenController controller = (GameScreenController) nifty.getCurrentScreen().getScreenController();
         fGlobals = controller.getGlobals();
     }
@@ -64,7 +63,6 @@ public abstract class LogPanel implements EffectImpl
     @Override
     public void deactivate()
     {
-        System.out.println("true = " + true);
     }
 
     public abstract double getMax();

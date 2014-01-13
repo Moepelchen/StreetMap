@@ -5,10 +5,11 @@
 package streetmap.gui.controller;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.input.NiftyInputEvent;
+import de.lessvoid.nifty.screen.KeyInputHandler;
 import de.lessvoid.nifty.screen.Screen;
+import de.lessvoid.nifty.screen.ScreenController;
 import streetmap.SSGlobals;
-import streetmap.gui.ILayerNames;
-import streetmap.gui.IScreenNames;
 
 /**
  * Short description in a complete sentence.
@@ -23,47 +24,12 @@ import streetmap.gui.IScreenNames;
  * @version 1.0
  * @since Release
  */
-public class GameScreenController extends AbstractScreenController
+public abstract class AbstractScreenController implements KeyInputHandler, ScreenController
 {
+	private final SSGlobals fGlobals;
+	protected Nifty fNifty;
 
-    public GameScreenController(SSGlobals globals)
-    {
-	    super(globals);
-    }
-
-	@Override
-	public void bind(Nifty nifty, Screen screen)
-	{
-        fNifty = nifty;
-        Screen current = nifty.getCurrentScreen();
-        if(current.getScreenId().equals(IScreenNames.SCREEN_GAME))
-        {
-            current.findElementByName(ILayerNames.LAYER_DEBUG).setVisible(false);
-            nifty.update();
-            nifty.render(false);
-
-        }
-	}
-
-	@Override
-	protected String getEscapeScreen()
-	{
-		return IScreenNames.SCREEN_MENU;
-	}
-
-	@Override
-	public void onStartScreen()
-	{
-
-	}
-
-	@Override
-	public void onEndScreen()
-	{
-
-	}
-
-// -----------------------------------------------------
+	// -----------------------------------------------------
 // constants
 // -----------------------------------------------------
 // -----------------------------------------------------
@@ -75,14 +41,51 @@ public class GameScreenController extends AbstractScreenController
 // -----------------------------------------------------
 // constructors
 // -----------------------------------------------------
+	public AbstractScreenController(SSGlobals globals)
+	{
+		fGlobals = globals;
+	}
 // -----------------------------------------------------
 // methods
 // -----------------------------------------------------
 // -----------------------------------------------------
 // overwritten methods from superclasses
 // -----------------------------------------------------
+
+	public void bind(Nifty nifty, Screen screen)
+	{
+		fNifty = nifty;
+	}
+
+	@Override
+	public boolean keyEvent(NiftyInputEvent niftyInputEvent)
+	{
+		if(niftyInputEvent != null)
+		{
+			if (niftyInputEvent.equals(NiftyInputEvent.Escape))
+			{
+				fNifty.gotoScreen(getEscapeScreen());
+				return true;
+			}
+		}
+		return false;
+	}
+
+	protected abstract String getEscapeScreen();
+
+
+	public void activateScreen(String name)
+ {
+     fNifty.gotoScreen(name);
+     getGlobals().getGame().pause();
+ }
 // -----------------------------------------------------
 // accessors
 // -----------------------------------------------------
 
-} //GameScreenController
+	public SSGlobals getGlobals()
+    {
+        return fGlobals;
+    }
+
+} //AbstractScreenController

@@ -6,7 +6,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import streetmap.interfaces.save.ISaveConstants;
-import streetmap.saveandload.AbstractLoader;
+import streetmap.saveandload.ILoader;
 import streetmap.SSGlobals;
 import streetmap.map.tile.Tile;
 
@@ -23,7 +23,7 @@ import java.io.IOException;
  * Time: 10:35 AM
  * To change this template use File | Settings | File Templates.
  */
-public class MapLoader extends AbstractLoader
+public class MapLoader implements ILoader
 {
 
 	@Override
