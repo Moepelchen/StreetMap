@@ -1,6 +1,7 @@
 package streetmap;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.input.keyboard.KeyboardInputEvent;
 import de.lessvoid.nifty.screen.Screen;
 import org.lwjgl.input.Keyboard;
 import streetmap.gui.ILayerNames;
@@ -52,6 +53,11 @@ public class KeyHandler
                 {
                     qPressed = true;
                 }
+
+				if(Keyboard.getEventKey() == Keyboard.KEY_ESCAPE)
+				{
+					fGlobals.getGame().getNifty().getCurrentScreen().keyEvent(new KeyboardInputEvent(Keyboard.getEventKey(), Keyboard.getEventCharacter(), Keyboard.getEventKeyState(), false, false));
+				}
 
 			}
 			else

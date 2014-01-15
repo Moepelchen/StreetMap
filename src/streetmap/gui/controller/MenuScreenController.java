@@ -15,6 +15,12 @@ public class MenuScreenController extends AbstractScreenController
 		return IScreenNames.SCREEN_GAME;
 	}
 
+	@Override
+	protected void postScreenActivation()
+	{
+		getGlobals().getGame().unPause();
+	}
+
 	public MenuScreenController(SSGlobals globals)
     {
 	    super(globals);
@@ -28,11 +34,5 @@ public class MenuScreenController extends AbstractScreenController
     public void onEndScreen()
     {
 
-    }
-
-    public void unPause()
-    {
-        getGlobals().getGame().unPause();
-        fNifty.gotoScreen("game");
     }
 }

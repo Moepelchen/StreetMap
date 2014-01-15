@@ -6,6 +6,7 @@
     <JAVADOC />
     <SOURCES>
       <root url="file://$PROJECT_DIR$/lib2" />
+      <root url="file://$USER_HOME$/AppData/Local/Temp/intellijad" />
     </SOURCES>
     <jarDirectory url="file://$PROJECT_DIR$/lib2" recursive="false" />
     <jarDirectory url="file://$PROJECT_DIR$/lib2" recursive="false" type="SOURCES" />

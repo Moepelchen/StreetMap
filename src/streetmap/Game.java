@@ -12,6 +12,7 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 import streetmap.gui.GLStreetPanel;
+import streetmap.gui.IScreenNames;
 import streetmap.gui.MainPanel;
 import streetmap.gui.controller.GameScreenController;
 import streetmap.gui.controller.MenuScreenController;
@@ -151,7 +152,10 @@ public class Game
 			Display.update();
 			Display.sync(60); // cap fps to 60fps
 
-			processInput();
+			if(fNifty.getCurrentScreen().getScreenId().equals(IScreenNames.SCREEN_GAME))
+			{
+				processInput();
+			}
 
 		}
 		Display.destroy();
@@ -169,7 +173,7 @@ public class Game
             fStreetPanel.handleClick();
         }
 
-		//fKeyboardHandler.handleInput();
+		fKeyboardHandler.handleInput();
 
 	}
 

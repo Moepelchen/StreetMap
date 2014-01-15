@@ -275,7 +275,7 @@ public class Car implements IPrintable, ISimulateable, IEventHandler
 			case IEvent.EVENT_STREET_PLACEMENT:
 				StreetPlacementEvent spEvent = (StreetPlacementEvent) event;
 				Street street = spEvent.getStreet();
-				if(street != null && fPathFinder != null &&fPathFinder.containsStreet(street))
+				if(street != null && fPathFinder != null && fPathFinder.containsStreet(street))
 				{
 					recalcPath();
 				}

@@ -52,7 +52,7 @@
                 <panel childLayout="center">
                     <text font="aurulent-sans-16.fnt" color="#ffff"
                           text="Return to Game"/>
-                    <interact onClick="unPause()"/>
+                    <interact onClick="activateScreen(game)"/>
                 </panel>
             </panel>
         </layer>

@@ -5,7 +5,9 @@
 package streetmap.gui.controller;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.input.NiftyInputEvent;
 import de.lessvoid.nifty.screen.Screen;
+import streetmap.KeyHandler;
 import streetmap.SSGlobals;
 import streetmap.gui.ILayerNames;
 import streetmap.gui.IScreenNames;
@@ -26,29 +28,32 @@ import streetmap.gui.IScreenNames;
 public class GameScreenController extends AbstractScreenController
 {
 
-    public GameScreenController(SSGlobals globals)
-    {
-	    super(globals);
-    }
+	private final KeyHandler fKeyHandler;
 
 	@Override
 	public void bind(Nifty nifty, Screen screen)
 	{
-        fNifty = nifty;
-        Screen current = nifty.getCurrentScreen();
-        if(current.getScreenId().equals(IScreenNames.SCREEN_GAME))
-        {
-            current.findElementByName(ILayerNames.LAYER_DEBUG).setVisible(false);
-            nifty.update();
-            nifty.render(false);
+		fNifty = nifty;
+		Screen current = nifty.getCurrentScreen();
+		if (current.getScreenId().equals(IScreenNames.SCREEN_GAME))
+		{
+			current.findElementByName(ILayerNames.LAYER_DEBUG).setVisible(false);
+			nifty.update();
+			nifty.render(false);
 
-        }
+		}
 	}
 
 	@Override
 	protected String getEscapeScreen()
 	{
 		return IScreenNames.SCREEN_MENU;
+	}
+
+	@Override
+	protected void postScreenActivation()
+	{
+		getGlobals().getGame().pause();
 	}
 
 	@Override
@@ -63,7 +68,21 @@ public class GameScreenController extends AbstractScreenController
 
 	}
 
-// -----------------------------------------------------
+	@Override
+	public boolean keyEvent(NiftyInputEvent niftyInputEvent)
+	{
+		fKeyHandler.handleInput();
+
+		return super.keyEvent(niftyInputEvent);
+	}
+
+	public GameScreenController(SSGlobals globals)
+	{
+		super(globals);
+		fKeyHandler = new KeyHandler(globals);
+	}
+
+	// -----------------------------------------------------
 // constants
 // -----------------------------------------------------
 // -----------------------------------------------------

@@ -36,6 +36,12 @@ public class SaveScreenController extends AbstractScreenController
 	}
 
 	@Override
+	protected void postScreenActivation()
+	{
+		// Do nothing
+	}
+
+	@Override
 	public void onStartScreen()
 	{
 		removePreviousFeedback();
