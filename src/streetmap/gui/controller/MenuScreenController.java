@@ -1,37 +1,30 @@
 package streetmap.gui.controller;
 
-import de.lessvoid.nifty.Nifty;
-import de.lessvoid.nifty.screen.Screen;
-import de.lessvoid.nifty.screen.ScreenController;
 import streetmap.SSGlobals;
+import streetmap.gui.IScreenNames;
 
 /**
  * Created by ulrichtewes on 12.01.14.
  */
-public class MenuScreenController implements ScreenController
+public class MenuScreenController extends AbstractScreenController
 {
 
-    private final SSGlobals fGlobals;
-    private Nifty fNifty;
+	@Override
+	protected String getEscapeScreen()
+	{
+		return IScreenNames.SCREEN_GAME;
+	}
 
-    public MenuScreenController(SSGlobals globals)
+	public MenuScreenController(SSGlobals globals)
     {
-        fGlobals = globals;
+	    super(globals);
     }
 
-    @Override
-    public void bind(Nifty nifty, Screen screen)
-    {
-        fNifty = nifty;
-    }
-
-    @Override
     public void onStartScreen()
     {
 
     }
 
-    @Override
     public void onEndScreen()
     {
 
@@ -39,7 +32,7 @@ public class MenuScreenController implements ScreenController
 
     public void unPause()
     {
-        fGlobals.getGame().unPause();
+        getGlobals().getGame().unPause();
         fNifty.gotoScreen("game");
     }
 }

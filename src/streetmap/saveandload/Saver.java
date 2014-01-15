@@ -44,11 +44,12 @@ public class Saver extends AbstractSaver
 // -----------------------------------------------------
 // methods
 // -----------------------------------------------------
-	public void save(SSGlobals globals)
+	public boolean save(SSGlobals globals, String fileName)
 	{
+		boolean couldBeCreated = false;
 		try
 		{
-			File file = new File("./save/" + getSaveFileName() + ".xml");
+			File file = new File("./save/" + fileName + ".xml");
 			if (!file.exists())
 			{
 
@@ -61,18 +62,15 @@ public class Saver extends AbstractSaver
 
 			save(output, globals);
 
+			couldBeCreated = true;
+
 		}
 		catch (IOException e1)
 		{
-			e1.printStackTrace();
+			couldBeCreated = false;
 		}
+		return couldBeCreated;
 	}
-
-	public String getSaveFileName()
-	{
-		return String.valueOf(System.currentTimeMillis());
-	}
-
 	@Override
 	public void save(BufferedWriter output, Object object) throws IOException
 	{

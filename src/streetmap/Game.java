@@ -15,7 +15,8 @@ import streetmap.gui.GLStreetPanel;
 import streetmap.gui.MainPanel;
 import streetmap.gui.controller.GameScreenController;
 import streetmap.gui.controller.MenuScreenController;
-import streetmap.gui.effects.LogPanel;
+import streetmap.gui.controller.SaveScreenController;
+import streetmap.gui.inputmapping.MenuInputMapping;
 import streetmap.interfaces.config.IChangeableConfig;
 
 import java.io.File;
@@ -110,13 +111,22 @@ public class Game
 		fNifty = new Nifty(new LwjglRenderDevice(), new NullSoundDevice(), inputSystem, new TimeProvider());
 		File menuDefinitions = new File("./resources/gui/nifty.xml");
 
-        fNifty.registerScreenController(new GameScreenController(fGlobals));
-        fNifty.registerScreenController(new MenuScreenController(fGlobals));
+		GameScreenController gameScreenController = new GameScreenController(fGlobals);
+		MenuScreenController menuScreenController = new MenuScreenController(fGlobals);
+		SaveScreenController saveScreenController = new SaveScreenController(fGlobals);
+
+
+		fNifty.registerScreenController(gameScreenController);
+		fNifty.registerScreenController(menuScreenController);
+		fNifty.registerScreenController(saveScreenController);
         fNifty.registerEffect("carpanel", "streetmap.gui.effects.CarNumberPanel");
         fNifty.registerEffect("framepanel", "streetmap.gui.effects.FPSPanel");
         fNifty.registerEffect("flowpanel", "streetmap.gui.effects.FlowDataPanel");
 
 		fNifty.fromXml(menuDefinitions.getPath(), "game");
+
+		fNifty.getScreen("game").addKeyboardInputHandler(new MenuInputMapping(), gameScreenController);
+		fNifty.getScreen("menu").addKeyboardInputHandler(new MenuInputMapping(), menuScreenController);
 		// glEnable(GL11.GL_DEPTH_TEST);
 		while (!Display.isCloseRequested())
 		{
@@ -159,7 +169,7 @@ public class Game
             fStreetPanel.handleClick();
         }
 
-		fKeyboardHandler.handleInput();
+		//fKeyboardHandler.handleInput();
 
 	}
 

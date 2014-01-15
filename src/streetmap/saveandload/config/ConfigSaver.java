@@ -39,11 +39,7 @@ public class ConfigSaver extends AbstractSaver
 			}
 			endConfigTag(out);
 		}
-		catch (IllegalAccessException e)
-		{
-			e.printStackTrace();
-		}
-		catch (InvocationTargetException e)
+		catch (IllegalAccessException | InvocationTargetException e)
 		{
 			e.printStackTrace();
 		}
