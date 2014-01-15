@@ -41,7 +41,7 @@ public abstract class LogPanel implements EffectImpl
         ArrayList<Point2D> data = flowData.getData();
         GL11.glPushMatrix();
         GL11.glTranslated(element.getX(), element.getY(), 0);
-        GL11.glBegin(GL11.GL_POINTS);
+        GL11.glBegin(GL11.GL_LINE_LOOP);
         glColor3d((double) color.getRed() / 255, (double) color.getGreen() / 255, (double) color.getBlue() / 255);
         GL11.glVertex2d(0,element.getHeight())  ;
         double max = Math.max(flowData.getMax(), getMax());

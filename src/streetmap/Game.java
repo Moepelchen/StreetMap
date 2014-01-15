@@ -176,7 +176,7 @@ public class Game
     public Vector2f getTranslatedCoords(int x, int y)
     {
         Vector2f toReturn = new Vector2f(x,y);
-        toReturn.translate(-fPlayer.getX(),-fPlayer.getY());
+        toReturn.translate(-fPlayer.getX()*fPlayer.getZoom(),-fPlayer.getY()*fPlayer.getZoom());
         return toReturn;
     }
 

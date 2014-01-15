@@ -82,7 +82,7 @@ public class GLStreetPanel
     {
         y = (int) (fGlobals.getGame().getHeight()-y);
         Vector2f pos = fGlobals.getGame().getTranslatedCoords(x,y);
-        double tileSize = fGlobals.getMap().getTileWidth();
+        double tileSize = fGlobals.getMap().getTileWidth()*fGlobals.getGame().getPlayer().getZoom();
         x = (int) (pos.getX() /tileSize);
         y = (int) (pos.getY() /tileSize);
         Tile tile  =fGlobals.getMap().getTile(x,y);
