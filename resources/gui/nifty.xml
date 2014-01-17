@@ -32,7 +32,7 @@
                    style="border: 1px solid #fff">
                 <text font="aurulent-sans-16.fnt" color="#ffff"
                       text="Menu"/>
-                <interact onClick="activateScreen(menu)"/>
+                <interact onClick="activateScreenAndPause(menu)"/>
             </panel>
         </layer>
     </screen>
@@ -52,7 +52,7 @@
                 <panel childLayout="center">
                     <text font="aurulent-sans-16.fnt" color="#ffff"
                           text="Return to Game"/>
-                    <interact onClick="activateScreen(game)"/>
+                    <interact onClick="activateScreenAndUnpause(game)"/>
                 </panel>
             </panel>
         </layer>

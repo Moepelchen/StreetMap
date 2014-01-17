@@ -64,7 +64,7 @@ public abstract class AbstractScreenController implements KeyInputHandler, Scree
 		{
 			if (niftyInputEvent.equals(NiftyInputEvent.Escape))
 			{
-				activateScreen(getEscapeScreen(),true);
+				activateScreenWithCall(getEscapeScreen(), true);
 				return true;
 			}
 		}
@@ -75,10 +75,22 @@ public abstract class AbstractScreenController implements KeyInputHandler, Scree
 
 	public void activateScreen(String name)
 	{
-		activateScreen(name, false);
+		activateScreenWithCall(name, false);
 	}
 
-	public void activateScreen(String name, boolean callPostAction)
+    public void activateScreenAndPause(String name)
+    {
+        activateScreen(name);
+        fGlobals.getGame().pause();
+    }
+
+    public void activateScreenAndUnPause(String name)
+    {
+        activateScreen(name);
+        fGlobals.getGame().unPause();
+    }
+
+	public void activateScreenWithCall(String name, boolean callPostAction)
  {
      fNifty.gotoScreen(name);
 	 if(callPostAction)
