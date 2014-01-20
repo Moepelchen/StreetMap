@@ -5,10 +5,15 @@
 package streetmap.gui.controller;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.controls.TextField;
+import de.lessvoid.nifty.controls.dynamic.PanelCreator;
+import de.lessvoid.nifty.controls.dynamic.TextCreator;
+import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.input.NiftyInputEvent;
 import de.lessvoid.nifty.screen.KeyInputHandler;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import de.lessvoid.nifty.tools.Color;
 import streetmap.SSGlobals;
 
 /**
@@ -57,6 +62,12 @@ public abstract class AbstractScreenController implements KeyInputHandler, Scree
 		fNifty = nifty;
 	}
 
+    @Override
+    public void onStartScreen()
+    {
+        removeAllPreviousFeedback();
+    }
+
 	@Override
 	public boolean keyEvent(NiftyInputEvent niftyInputEvent)
 	{
@@ -99,7 +110,42 @@ public abstract class AbstractScreenController implements KeyInputHandler, Scree
 	 }
  }
 
-	protected abstract void postScreenActivation();
+    protected void createFeedBack(Screen saveScreen, TextField niftyControl, String text)
+    {
+
+        Element parent = niftyControl.getElement().getParent();
+        removePreviousFeedback(parent);
+        PanelCreator panelCreator = new PanelCreator();
+        panelCreator.setChildLayout("horizontal");
+        panelCreator.setId("feedback");
+        Element panel = panelCreator.create(fNifty, saveScreen, parent);
+        TextCreator textCreator = new TextCreator(text);
+        textCreator.setColor(String.valueOf(Color.WHITE));
+        textCreator.setFont("aurulent-sans-16.fnt");
+        panel.add(textCreator.create(fNifty, saveScreen, panel));
+    }
+
+    private void removePreviousFeedback(Element parent)
+    {
+        removeElement(parent.findElementByName("feedback"));
+    }
+
+    private void removeAllPreviousFeedback()
+    {
+        Element toRemove = fNifty.getCurrentScreen().findElementByName("feedback");
+        removeElement(toRemove);
+    }
+
+    private void removeElement(Element toRemove)
+    {
+        if(toRemove != null)
+        {
+            toRemove.markForRemoval();
+            fNifty.update();
+        }
+    }
+
+    protected abstract void postScreenActivation();
 // -----------------------------------------------------
 // accessors
 // -----------------------------------------------------

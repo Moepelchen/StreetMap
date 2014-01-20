@@ -33,7 +33,7 @@ public class GameScreenController extends AbstractScreenController
 	@Override
 	public void bind(Nifty nifty, Screen screen)
 	{
-		fNifty = nifty;
+		super.bind(nifty,screen);
 		Screen current = nifty.getCurrentScreen();
 		if (current.getScreenId().equals(IScreenNames.SCREEN_GAME))
 		{
@@ -57,12 +57,6 @@ public class GameScreenController extends AbstractScreenController
 	}
 
 	@Override
-	public void onStartScreen()
-	{
-
-	}
-
-	@Override
 	public void onEndScreen()
 	{
 
@@ -81,6 +75,7 @@ public class GameScreenController extends AbstractScreenController
 		super(globals);
 		fKeyHandler = new KeyHandler(globals);
 	}
+
 
 	// -----------------------------------------------------
 // constants

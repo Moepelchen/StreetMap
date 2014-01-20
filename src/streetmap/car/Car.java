@@ -3,7 +3,7 @@ package streetmap.car;
 import streetmap.events.IEvent;
 import streetmap.events.IEventHandler;
 import streetmap.events.StreetPlacementEvent;
-import streetmap.interfaces.IPathFindingAlgorithm;
+import streetmap.pathfinding.IPathFindingAlgorithm;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.map.street.Lane;
@@ -73,7 +73,7 @@ public class Car implements IPrintable, ISimulateable, IEventHandler
 		double v = Math.random() + length / 4;
 		fSpeed = v;
 		fOriginalSpeed = v;
-		fLane.getGlobals().getMap().getPathfactory().createPath(this);
+		fLane.getGlobals().getMap().getPathFactory().createPath(this);
 
 	}
 
@@ -187,7 +187,7 @@ public class Car implements IPrintable, ISimulateable, IEventHandler
 
 	protected void recalcPath()
 	{
-		fLane.getGlobals().getMap().getPathfactory().createPath(this, fPathFinder.getDestination());
+		fLane.getGlobals().getMap().getPathFactory().createPath(this, fPathFinder.getDestination());
 	}
 
 	public ImageIcon getImage()

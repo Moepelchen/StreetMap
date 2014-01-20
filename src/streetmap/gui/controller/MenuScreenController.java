@@ -26,11 +26,6 @@ public class MenuScreenController extends AbstractScreenController
 	    super(globals);
     }
 
-    public void onStartScreen()
-    {
-
-    }
-
     public void onEndScreen()
     {
 

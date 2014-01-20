@@ -16,6 +16,6 @@ public class FPSPanel extends LogPanel
     @Override
     public double getMax()
     {
-        return 100;
+        return 200;
     }
 }

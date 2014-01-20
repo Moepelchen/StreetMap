@@ -41,11 +41,7 @@ public class SaveScreenController extends AbstractScreenController
 		// Do nothing
 	}
 
-	@Override
-	public void onStartScreen()
-	{
-		removePreviousFeedback();
-	}
+
 
 	@Override
 	public void onEndScreen()
@@ -81,30 +77,7 @@ public class SaveScreenController extends AbstractScreenController
 		}
 	}
 
-	protected void createFeedBack(Screen saveScreen, TextField niftyControl, String text)
-	{
 
-		Element parent = niftyControl.getElement().getParent();
-		removePreviousFeedback();
-		PanelCreator panelCreator = new PanelCreator();
-		panelCreator.setChildLayout("horizontal");
-		panelCreator.setId("feedback");
-		Element panel = panelCreator.create(fNifty, saveScreen, parent);
-		TextCreator textCreator = new TextCreator(text);
-		textCreator.setColor(String.valueOf(Color.WHITE));
-		textCreator.setFont("aurulent-sans-16.fnt");
-		panel.add(textCreator.create(fNifty, saveScreen, panel));
-	}
-
-	private void removePreviousFeedback()
-	{
-		Element toRemove = fNifty.getCurrentScreen().findElementByName("feedback");
-		if(toRemove != null)
-		{
-			toRemove.markForRemoval();
-			fNifty.update();
-		}
-	}
 // -----------------------------------------------------
 // constants
 // -----------------------------------------------------

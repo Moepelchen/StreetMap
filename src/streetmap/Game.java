@@ -4,6 +4,7 @@ import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.nulldevice.NullSoundDevice;
 import de.lessvoid.nifty.renderer.lwjgl.input.LwjglInputSystem;
 import de.lessvoid.nifty.renderer.lwjgl.render.LwjglRenderDevice;
+import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.TimeProvider;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -13,12 +14,9 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 import streetmap.gui.GLStreetPanel;
 import streetmap.gui.IScreenNames;
-import streetmap.gui.MainPanel;
-import streetmap.gui.controller.GameScreenController;
-import streetmap.gui.controller.MenuScreenController;
-import streetmap.gui.controller.SaveScreenController;
+import streetmap.gui.controller.*;
 import streetmap.gui.inputmapping.MenuInputMapping;
-import streetmap.interfaces.config.IChangeableConfig;
+import streetmap.map.Map;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,11 +31,10 @@ public class Game
     private final Player fPlayer;
 	SSGlobals fGlobals;
     private GLStreetPanel fStreetPanel;
-    private MouseHandler fMouseHandler;
     private KeyHandler fKeyboardHandler;
 	private boolean fPaused;
 
-	public Nifty getNifty()
+    public Nifty getNifty()
 	{
 		return fNifty;
 	}
@@ -59,6 +56,7 @@ public class Game
         fGlobals = globals;
 	    fPlayer = new Player(0,0);
         fGlobals.setGame(this);
+        new Map(globals);
     }
 
     public static void main(String[] args) throws Exception
@@ -72,7 +70,6 @@ public class Game
         {
             e.printStackTrace();
         }
-        MainPanel main = new MainPanel(globals);
         Game game = new Game(globals);
         game.start();
 
@@ -81,7 +78,6 @@ public class Game
 	public void start() throws Exception
 	{
 
-		IChangeableConfig config = fGlobals.getConfig();
 		Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
 		Display.create();
 
@@ -103,31 +99,10 @@ public class Game
 		Keyboard.enableRepeatEvents(true);
 
 		fStreetPanel = new GLStreetPanel(fGlobals);
-		fMouseHandler = new MouseHandler(fGlobals);
 		fKeyboardHandler = new KeyHandler(fGlobals);
 
-		LwjglInputSystem inputSystem = new LwjglInputSystem();
-		inputSystem.startup();
+        initNifty();
 
-		fNifty = new Nifty(new LwjglRenderDevice(), new NullSoundDevice(), inputSystem, new TimeProvider());
-		File menuDefinitions = new File("./resources/gui/nifty.xml");
-
-		GameScreenController gameScreenController = new GameScreenController(fGlobals);
-		MenuScreenController menuScreenController = new MenuScreenController(fGlobals);
-		SaveScreenController saveScreenController = new SaveScreenController(fGlobals);
-
-
-		fNifty.registerScreenController(gameScreenController);
-		fNifty.registerScreenController(menuScreenController);
-		fNifty.registerScreenController(saveScreenController);
-        fNifty.registerEffect("carpanel", "streetmap.gui.effects.CarNumberPanel");
-        fNifty.registerEffect("framepanel", "streetmap.gui.effects.FPSPanel");
-        fNifty.registerEffect("flowpanel", "streetmap.gui.effects.FlowDataPanel");
-
-		fNifty.fromXml(menuDefinitions.getPath(), "game");
-
-		fNifty.getScreen("game").addKeyboardInputHandler(new MenuInputMapping(), gameScreenController);
-		fNifty.getScreen("menu").addKeyboardInputHandler(new MenuInputMapping(), menuScreenController);
 		// glEnable(GL11.GL_DEPTH_TEST);
 		while (!Display.isCloseRequested())
 		{
@@ -135,14 +110,17 @@ public class Game
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 			// Clear the screen and depth buffer
 			GL11.glPushMatrix();
+            GL11.glTranslated(600, 500,0);
             GL11.glScalef(fPlayer.getZoom(),fPlayer.getZoom(),0);
+            GL11.glTranslated(-600, -500,0);
+
             GL11.glTranslatef(fPlayer.getX(), fPlayer.getY(), 0);
 
 			if (!this.isPaused())
 			{
 				fGlobals.getMap().simulate();
 			}
-			fGlobals.getMap().paint(null);
+			fGlobals.getMap().paint();
 			GL11.glPopMatrix();
 
 			drawInterface();
@@ -159,7 +137,38 @@ public class Game
 
 		}
 		Display.destroy();
+        System.exit(0);
+
 	}
+
+    private void initNifty() throws Exception
+    {
+        LwjglInputSystem inputSystem = new LwjglInputSystem();
+        inputSystem.startup();
+
+        fNifty = new Nifty(new LwjglRenderDevice(), new NullSoundDevice(), inputSystem, new TimeProvider());
+        File menuDefinitions = new File("./resources/gui/nifty.xml");
+
+        GameScreenController gameScreenController = new GameScreenController(fGlobals);
+        MenuScreenController menuScreenController = new MenuScreenController(fGlobals);
+        SaveScreenController saveScreenController = new SaveScreenController(fGlobals);
+        ScreenController loadSCreenController = new LoadScreenController(fGlobals);
+        DebugScreenController debugScreenController = new DebugScreenController(fGlobals);
+
+        fNifty.registerScreenController(debugScreenController);
+        fNifty.registerScreenController(gameScreenController);
+        fNifty.registerScreenController(menuScreenController);
+        fNifty.registerScreenController(saveScreenController);
+        fNifty.registerScreenController(loadSCreenController);
+        fNifty.registerEffect("carpanel", "streetmap.gui.effects.CarNumberPanel");
+        fNifty.registerEffect("framepanel", "streetmap.gui.effects.FPSPanel");
+        fNifty.registerEffect("flowpanel", "streetmap.gui.effects.FlowDataPanel");
+
+        fNifty.fromXml(menuDefinitions.getPath(), "game");
+
+        fNifty.getScreen(IScreenNames.SCREEN_GAME).addKeyboardInputHandler(new MenuInputMapping(), gameScreenController);
+        fNifty.getScreen(IScreenNames.SCREEN_MENU).addKeyboardInputHandler(new MenuInputMapping(), menuScreenController);
+    }
 
     private void drawInterface()
     {

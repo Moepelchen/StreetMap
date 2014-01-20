@@ -29,11 +29,6 @@ public class CrappyPathfinder extends AbstractPathFinder
 		return true;
 	}
 
-	public CrappyPathfinder(Car car)
-    {
-		init(car);
-    }
-
     protected boolean createPath(Lane next)
     {
         fPath.add(next);
@@ -41,7 +36,7 @@ public class CrappyPathfinder extends AbstractPathFinder
         {
             return true;
         }
-	    //draw((Graphics2D)(next.getGlobals().getMap().getGraphics()),new Candidate(next));
+
         Collection<Lane> candidates = next.getEnd().getOutputLanes();
         List<Candidate> candidateCollection = new ArrayList<>();
 	    double startEndDistance = fStart.getEnd().getPosition().distance(fEnd.getStart().getPosition());
@@ -80,13 +75,4 @@ public class CrappyPathfinder extends AbstractPathFinder
 
         return false;
     }
-
-	private void draw(Graphics2D g, Candidate current)
-    	{
-		    for (Lane lane : fPath)
-	    		{
-	    			g.setColor(Color.BLUE);
-	    			g.drawOval((int) lane.getEnd().getPosition().getX(), (int) lane.getEnd().getPosition().getY(), 5, 5);
-	    		}
-    	}
 }

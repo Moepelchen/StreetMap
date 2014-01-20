@@ -5,7 +5,6 @@
 package streetmap.saveandload;
 
 import streetmap.SSGlobals;
-import streetmap.interfaces.save.ISaveConstants;
 import streetmap.saveandload.config.ConfigSaver;
 import streetmap.saveandload.map.MapSaver;
 

@@ -3,7 +3,7 @@ package streetmap.map.street;
 import streetmap.SSGlobals;
 import streetmap.car.Car;
 import streetmap.car.CarFactory;
-import streetmap.interfaces.IPathFindingAlgorithm;
+import streetmap.pathfinding.IPathFindingAlgorithm;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.map.side.Anchor;

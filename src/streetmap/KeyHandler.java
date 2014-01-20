@@ -37,12 +37,12 @@ public class KeyHandler
 					if(!fDebugShown)
 					{
 						fDebugShown = true;
-						setLayerVisibility(nifty,fDebugShown);
+						setLayerVisibility(nifty, true);
 					}
 					else
 					{
                         fDebugShown = false;
-                        setLayerVisibility(nifty,fDebugShown);
+                        setLayerVisibility(nifty, false);
 					}
 				}
                 if(Keyboard.getEventKey() == Keyboard.KEY_E)

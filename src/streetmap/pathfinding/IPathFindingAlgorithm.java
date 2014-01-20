@@ -1,4 +1,4 @@
-package streetmap.interfaces;
+package streetmap.pathfinding;
 
 import streetmap.map.street.Lane;
 import streetmap.map.street.Street;

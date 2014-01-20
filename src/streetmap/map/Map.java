@@ -54,7 +54,6 @@ public class Map implements IPrintable, ISimulateable, ActionListener
      * Image usd for double buffering
      */
     private BufferedImage fImage;
-    private BufferedImage fCarLayerImage;
     /**
      * graphics to draw
      */
@@ -76,9 +75,9 @@ public class Map implements IPrintable, ISimulateable, ActionListener
     private DataStorage2d fFPSData = new DataStorage2d(300);
     private DataStorage2d fFlowData = new DataStorage2d(300);
     private PathFactory fPathFactory;
-	private streetmap.events.EventQueue fEvents;
+    private streetmap.events.EventQueue fEvents;
 
-	public Vector<Lane> getStartingLanes()
+    public Vector<Lane> getStartingLanes()
     {
         return fStartingLanes;
     }
@@ -98,20 +97,14 @@ public class Map implements IPrintable, ISimulateable, ActionListener
         fGlobals.setMap(this);
 
         fImage = new BufferedImage(fWidth.intValue() + 5, fHeight.intValue() + 5, BufferedImage.TYPE_INT_ARGB);
-      //  fCarLayerImage = new BufferedImage(fWidth.intValue() + 5, fHeight.intValue() + 5, BufferedImage.TYPE_INT_ARGB);
+        //  fCarLayerImage = new BufferedImage(fWidth.intValue() + 5, fHeight.intValue() + 5, BufferedImage.TYPE_INT_ARGB);
         fGraphics = (Graphics2D) fImage.getGraphics();
         int numberOfTilesX = (int) (fWidth / fTileSize);
         int numberOfTilesY = (int) (fHeight / fTileSize);
         fTiles = new Tile[numberOfTilesX][numberOfTilesY];
-        fStartingLanes = new Vector<Lane>();
-        fEndLanes = new Vector<Lane>();
+        fStartingLanes = new Vector<>();
+        fEndLanes = new Vector<>();
         generateTiles();
-
-       /* this.addMouseListener(new MapClickHandler(fGlobals, this));
-        // debug stuff
-        this.setBounds(0, 0, fWidth.intValue() + 2 * 5, fHeight.intValue() + 2 * 5);
-        this.setPreferredSize(new Dimension(fWidth.intValue() + 2 * 5, fHeight.intValue() + 2 * 5));
-        this.setVisible(true);*/
         fHeatMapData = new double[numberOfTilesX][numberOfTilesY];
         for (int i = 0; i < fNumberOfTilesX; i++)
         {
@@ -120,16 +113,16 @@ public class Map implements IPrintable, ISimulateable, ActionListener
                 fHeatMapData[i][y] = 0;
             }
         }
-        fHeatMapCollection = new ArrayList<double[][]>();
+        fHeatMapCollection = new ArrayList<>();
         fMaxNumberOfCarsOnOneTile = 1;
 
         fHeatMap = new HeatMap(fHeatMapData, true, Gradient.GRADIENT_HEAT);
         fHeatMapCache = new double[fNumberOfTilesX][fNumberOfTilesY];
-        fCarFlowData = new LinkedList<Integer>();
+        fCarFlowData = new LinkedList<>();
         fCarFlowData.add(0);
         fCarFlowIndex = 0;
         fPathFactory = new PathFactory();
-	    fEvents = new EventQueue();
+        fEvents = new EventQueue();
 
     }
 
@@ -168,7 +161,7 @@ public class Map implements IPrintable, ISimulateable, ActionListener
     {
         if (fOccupiedTiles == null)
         {
-            fOccupiedTiles = new ArrayList<Tile>();
+            fOccupiedTiles = new ArrayList<>();
             for (Tile[] fTile : fTiles)
             {
                 for (Tile tile : fTile)
@@ -212,7 +205,7 @@ public class Map implements IPrintable, ISimulateable, ActionListener
             fCarFlowIndex = fCarFlowIndex + integer;
         }
         fCarFlowIndex = fCarFlowIndex / 300;
-		fEvents.clearEventQueues();
+        fEvents.clearEventQueues();
     }
 
     private void updateHeatMap()
@@ -230,10 +223,6 @@ public class Map implements IPrintable, ISimulateable, ActionListener
                 {
                     cache[i][y] = (double) tile.getNumberOfCars() / (double) fMaxNumberOfCarsOnOneTile;
 
-                }
-                else
-                {
-                    System.out.println("tile = " + tile);
                 }
             }
         }
@@ -253,8 +242,7 @@ public class Map implements IPrintable, ISimulateable, ActionListener
                     try
                     {
                         fHeatMapCache[i][y] = fHeatMapCache[i][y] + doubles[i][y] / (double) fMaxNumberOfCarsOnOneTile;
-                    }
-                    catch (ArrayIndexOutOfBoundsException e)
+                    } catch (ArrayIndexOutOfBoundsException e)
                     {
                         System.out.println("e = " + e);
                     }
@@ -278,17 +266,17 @@ public class Map implements IPrintable, ISimulateable, ActionListener
         //drawCars(g);
     }
 
-	private void drawTiles(Graphics2D g)
-	{
-		if (fOccupiedTiles != null)
-		{
-			for (Tile tile : fOccupiedTiles)
-			{
-				tile.print(g);
-			}
+    private void drawTiles(Graphics2D g)
+    {
+        if (fOccupiedTiles != null)
+        {
+            for (Tile tile : fOccupiedTiles)
+            {
+                tile.print(g);
+            }
 
-		}
-	}
+        }
+    }
 
     /**
      * Returns the Tile defined by x and y
@@ -308,28 +296,23 @@ public class Map implements IPrintable, ISimulateable, ActionListener
         }
     }
 
-    public void paint(Graphics g)
+    public void paint()
     {
         long time = System.currentTimeMillis();
         this.print(fGraphics);
-        long takenTime = Math.max(System.currentTimeMillis() - time,1);
+        long takenTime = Math.max(System.currentTimeMillis() - time, 1);
         double fps = 1000 / takenTime;
-        //g.setColor(Color.white);
         double l = Math.round(fCarFlowIndex * 1000) / 1000.0;
-        //g.drawString(fps + " fps  " + l + " Carflow", 10, 10);
-        //g.drawString(fCurrentNumberOfCars + " #Cars", 10, 30);
-        fCarData.add(new Double(fCurrentNumberOfCars));
+        fCarData.add((double) fCurrentNumberOfCars);
         fFPSData.add(fps);
         fFlowData.add(l);
-        Toolkit.getDefaultToolkit().sync();
-        //g.dispose();
 
     }
 
 
     public void actionPerformed(ActionEvent e)
     {
-       // repaint();
+        // repaint();
     }
 
     public Tile[][] getTiles()
@@ -378,12 +361,12 @@ public class Map implements IPrintable, ISimulateable, ActionListener
         fCarFlowData.set(fCarFlowData.size() - 1, newLast);
     }
 
-	public Vector<IEvent> getEvents()
-	{
-		return fEvents.getEvents();
-	}
+    public Vector<IEvent> getEvents()
+    {
+        return fEvents.getEvents();
+    }
 
-	/**
+    /**
      * Constructor setting everything up
      *
      * @param globals Global settings and parameters
@@ -394,14 +377,14 @@ public class Map implements IPrintable, ISimulateable, ActionListener
 
     }
 
-	public void handleAddition(Street street)
-	{
-		fOccupiedTiles = null;
-		fEvents.addEvent(new StreetPlacementEvent(street));
-		AbstractPathFinder.clearNoGo();
-	}
+    public void handleAddition(Street street)
+    {
+        fOccupiedTiles = null;
+        fEvents.addEvent(new StreetPlacementEvent(street));
+        AbstractPathFinder.clearNoGo();
+    }
 
-	public DataStorage2d getFlowData()
+    public DataStorage2d getFlowData()
     {
         return fFlowData;
     }
@@ -423,7 +406,7 @@ public class Map implements IPrintable, ISimulateable, ActionListener
         return this.getTile(arrayX, arrayY);
     }
 
-    public PathFactory getPathfactory()
+    public PathFactory getPathFactory()
     {
         return fPathFactory;
     }

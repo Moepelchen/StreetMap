@@ -1,4 +1,4 @@
-package streetmap.interfaces.save;
+package streetmap.saveandload;
 
 /**
  * Created by IntelliJ IDEA.

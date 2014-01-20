@@ -6,7 +6,6 @@ package streetmap.pathfinding;
 
 import streetmap.SSGlobals;
 import streetmap.car.Car;
-import streetmap.interfaces.IPathFindingAlgorithm;
 import streetmap.map.street.Lane;
 
 import java.awt.geom.Point2D;
@@ -88,7 +87,7 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
 			}
             if(nextLane == null)
             {
-                fGlobals.getMap().getPathfactory().createPath(fCar,fEnd);
+                fGlobals.getMap().getPathFactory().createPath(fCar,fEnd);
             }
 
 		}

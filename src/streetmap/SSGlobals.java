@@ -2,8 +2,7 @@ package streetmap;
 
 import streetmap.config.ChangeableConfig;
 import streetmap.config.StreetConfig;
-import streetmap.gui.MainPanel;
-import streetmap.interfaces.config.IChangeableConfig;
+import streetmap.config.IChangeableConfig;
 import streetmap.map.Map;
 import streetmap.map.street.StreetFactory;
 
@@ -39,7 +38,6 @@ public class SSGlobals
 	 * the map where the magic happens
 	 */
 	private Map fMap;
-    private MainPanel fMainPanel;
     private Game fGame;
 
 	public void resetPlayer()
@@ -84,16 +82,6 @@ public class SSGlobals
 		return fStreetFactory;
 	}
 
-	public void setSelectedStreetTemplate(String s)
-	{
-		fSelectedStreetTemplate = s;
-	}
-
-	public String getSelectedStreetTemplate()
-	{
-		return fSelectedStreetTemplate;
-	}
-
 	public void setMap(Map map)
 	{
 		this.fMap = map;
@@ -104,14 +92,8 @@ public class SSGlobals
 		return fMap;
 	}
 
-    public void setMainPanel(MainPanel mainPanel)
-    {
-        fMainPanel = mainPanel;
-    }
-
     public void handleLoading()
     {
         this.getMap().handleAddition(null);
-        fMainPanel.update(this);
     }
 }

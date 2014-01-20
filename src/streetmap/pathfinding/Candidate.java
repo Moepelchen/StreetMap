@@ -28,10 +28,9 @@ public class Candidate implements Comparable
         {
             return  +1;
         }
-        else if ((this.fDistanceToGoal + fDistanceToStart) == candidate.fDistanceToGoal+ candidate.fDistanceToStart);
-        {
-            return 0;
-        }
+
+
+        return 0;
 
     }
 

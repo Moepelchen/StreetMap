@@ -21,28 +21,28 @@ import org.lwjgl.util.vector.Vector2f;
  */
 public class Player
 {
-	private Vector2f fPostion;
-	private float fX;
+	private Vector2f fPosition;
+
     private double fZoom = 1;
 
     public float getX()
 	{
-		return fPostion.getX();
+		return fPosition.getX();
 	}
 
 	public float getY()
 	{
-		return fPostion.getY();
+		return fPosition.getY();
 	}
 
 	private void setX(float x)
 	{
-		fPostion.setX(x*getZoom());
+		fPosition.setX(x * getZoom());
 	}
 
 	private void setY(float y)
 	{
-		fPostion.setY(y*getZoom());
+		fPosition.setY(y * getZoom());
 	}
 
     public void increaseZoom()
@@ -75,7 +75,7 @@ public class Player
 // -----------------------------------------------------
 	public Player(float x, float y)
 	{
-		fPostion = new Vector2f(x,y);
+		fPosition = new Vector2f(x,y);
 	}
 // -----------------------------------------------------
 // methods
@@ -83,12 +83,12 @@ public class Player
 
 	public void updateX(float x)
 	{
-		fPostion.set(fPostion.getX()+x/getZoom(),fPostion.getY());
+		fPosition.set(fPosition.getX()+x/getZoom(), fPosition.getY());
 	}
 
 	public void updateY(float y)
 	{
-		fPostion.set(fPostion.getX(),fPostion.getY()+y/getZoom());
+		fPosition.set(fPosition.getX(), fPosition.getY() + y / getZoom());
 	}
 
     public float getZoom()

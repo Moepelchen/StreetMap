@@ -30,21 +30,16 @@ import java.util.List;
  */
 public class AStarAlgorithm extends AbstractPathFinder
 {
-	private SortedNodeList fOpenList;
-	private List<Lane> fClosedList;
 
-	private static HashMap<String,LinkedList<Lane>> fPathList = new HashMap<String, LinkedList<Lane>>();
+    private static HashMap<String,LinkedList<Lane>> fPathList = new HashMap<>();
 
 	@Override
 	protected boolean createPath(Lane start)
 	{
-		/*if(fPathList.get(fStart.hashCode() + fEnd.hashCode()) != null)
-		{
-			fPath = new LinkedList<Lane>(fPathList.get(fStart.hashCode() + fEnd.hashCode()));
-			return true;
-		}*/
-		fClosedList = new ArrayList<Lane>();
-		fOpenList = new SortedNodeList();
+
+
+        List<Lane> fClosedList = new ArrayList<>();
+        SortedNodeList fOpenList = new SortedNodeList();
         double fromStartToEnd = start.getStart().getPosition().distance(fEnd.getEnd().getPosition());
         Candidate current = new Candidate(start);
         current.fDistanceToGoal = fromStartToEnd;
@@ -143,8 +138,8 @@ public class AStarAlgorithm extends AbstractPathFinder
 	private class SortedNodeList
 	{
 
-		private ArrayList<Candidate> list = new ArrayList<Candidate>();
-		private HashMap<Integer, Candidate> hash = new HashMap<Integer, Candidate>();
+		private ArrayList<Candidate> list = new ArrayList<>();
+		private HashMap<Integer, Candidate> hash = new HashMap<>();
 
 		public Candidate getFirst()
 		{
@@ -184,37 +179,10 @@ public class AStarAlgorithm extends AbstractPathFinder
 			return hash.get(n.hashCode());
 		}
 
-		public List<Candidate> getList()
-		{
-			return list;
-		}
-
 		public void sort()
 		{
 			Collections.sort(list);
 		}
 	}
-
-// -----------------------------------------------------
-// constants
-// -----------------------------------------------------
-// -----------------------------------------------------
-// variables
-// -----------------------------------------------------
-// -----------------------------------------------------
-// inner classes
-// -----------------------------------------------------
-// -----------------------------------------------------
-// constructors
-// -----------------------------------------------------
-// -----------------------------------------------------
-// methods
-// -----------------------------------------------------
-// -----------------------------------------------------
-// overwritten methods from superclasses
-// -----------------------------------------------------
-// -----------------------------------------------------
-// accessors
-// -----------------------------------------------------
 
 } //AStarAlgorithm
