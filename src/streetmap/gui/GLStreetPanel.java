@@ -9,6 +9,8 @@ import streetmap.xml.jaxb.StreetTemplate;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glVertex3d;
@@ -27,13 +29,22 @@ public class GLStreetPanel
     {
         fTiles = new ArrayList<Tile>();
         fGlobals = globals;
-        Object[] templates = fGlobals.getStreetConfig().getTemplates().toArray();
-        int numberOfTemplates = templates.length;
+        List<StreetTemplate> templates = new ArrayList<>();
+        templates.add(globals.getStreetConfig().getTemplate("WestEast"));
+
+        templates.add(globals.getStreetConfig().getTemplate("SouthNorth"));
+        for (StreetTemplate streetTemplate : globals.getStreetConfig().getTemplates())
+        {
+            if(streetTemplate.isIsSpecial())
+                templates.add(streetTemplate);
+        }
+
+        int numberOfTemplates = templates.size() ;
         fTileWidth =fGlobals.getGame().getHeight()/numberOfTemplates;
-        for (int i = 0; i < templates.length; i++)
+        for (int i = 0; i < templates.size(); i++)
         {
             Tile tile = new Tile(fGlobals,fGlobals.getMap(),new Point2D.Double(0,i),fTileWidth);
-            tile.setStreet(fGlobals.getStreetFactory().createStreet(tile,((StreetTemplate)templates[i]).getName()));
+            tile.setStreet(fGlobals.getStreetFactory().createStreet(tile, (templates.get(i)).getName()));
             fTiles.add(tile);
         }
     }
@@ -89,7 +100,7 @@ public class GLStreetPanel
 	    if (tile != null && fSelectedTile != null)
 	    {
 		    fGlobals.getMap().handleAddition(tile.getStreet());
-		    fGlobals.getStreetFactory().createStreet(tile, fSelectedTile.getStreet().getName());
+		    fGlobals.getStreetFactory().createStreet(tile, fSelectedTile.getStreet().getName(),true);
 	    }
     }
 

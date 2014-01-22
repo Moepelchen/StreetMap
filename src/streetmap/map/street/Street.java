@@ -82,7 +82,7 @@ public class Street implements IPrintable, ISimulateable
 		fGlobals = glob;
 		fisStartEnd = isStartEndPoint;
 		fTile = tile;
-		fLanes = new Vector<Lane>();
+		fLanes = new Vector<>();
 	}
 
 	public Vector<Lane> getLanes()
