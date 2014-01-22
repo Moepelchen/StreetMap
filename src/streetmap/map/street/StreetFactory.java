@@ -88,13 +88,10 @@ public class StreetFactory
 
         }
         StreetTemplate template = fStreetConfig.getTemplate(streetName);
-	    boolean hasNorthConnection = hasConnections(tile.getNorthSide());
-	    boolean hasEastConnection = hasConnections(tile.getEastSide());
-	    boolean hasSouthConnection = hasConnections(tile.getSouthSide());
-	    boolean hasWestConnection = hasConnections(tile.getWestSide());
+
 	    if (chooseIntelligent && !template.isIsSpecial())
 	    {
-		    template = getStreetTemplate(streetName, hasEastConnection, hasNorthConnection, hasSouthConnection, hasWestConnection);
+		    template = getStreetTemplate(tile,streetName);
 
 	    }
         Street street = null;
@@ -126,16 +123,19 @@ public class StreetFactory
 			if(tile != null && tile.getStreet() != null && tile.getStreet().getLanes().size()>0)
 			{
 				fGlobals.getMap().handleAddition(tile.getStreet());
-				createStreet(tile,streetName,true);
+				createStreet(tile, streetName, true);
 			}
 	}
 
-	private StreetTemplate getStreetTemplate(String streetName, boolean hasEastConnection, boolean hasNorthConnection, boolean hasSouthConnection, boolean hasWestConnection)
+	private StreetTemplate getStreetTemplate(Tile tile,String streetName)
     {
         Collection<StreetTemplate> templateList = fStreetConfig.getTemplates();
 
-
-        List<StreetTemplate> candidates = new ArrayList<>();
+	    boolean hasNorthConnection = hasConnections(tile.getNorthSide());
+	    boolean hasEastConnection = hasConnections(tile.getEastSide());
+	    boolean hasSouthConnection = hasConnections(tile.getSouthSide());
+	    boolean hasWestConnection = hasConnections(tile.getWestSide());
+	    List<StreetTemplate> candidates = new ArrayList<>();
         List<StreetTemplate> bendCandidates = new ArrayList<>();
 
         if (hasNorthConnection || hasEastConnection || hasSouthConnection || hasWestConnection)
