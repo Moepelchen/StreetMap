@@ -18,10 +18,6 @@ import java.util.Vector;
 
 public class Tile implements IPrintable, ISimulateable
 {
-	public static final String COMPASS_POINT_N = "N";
-	public static final String COMPASS_POINT_S = "S";
-	public static final String COMPASS_POINT_W = "W";
-	public static final String COMPASS_POINT_E = "E";
 
 	/**
 	 * ___________+ ___________
@@ -56,42 +52,42 @@ public class Tile implements IPrintable, ISimulateable
 
     public HorizontalSide getNorthSide()
 	{
-		return (HorizontalSide) getSide(COMPASS_POINT_N);
+		return (HorizontalSide) getSide(ICompassPoints.COMPASS_POINT_N);
 	}
 
 	public HorizontalSide getSouthSide()
 	{
-		return (HorizontalSide) getSide(COMPASS_POINT_S);
+		return (HorizontalSide) getSide(ICompassPoints.COMPASS_POINT_S);
 	}
 
 	public VerticalSide getWestSide()
 	{
-		return (VerticalSide) getSide(COMPASS_POINT_W);
+		return (VerticalSide) getSide(ICompassPoints.COMPASS_POINT_W);
 	}
 
 	public VerticalSide getEastSide()
 	{
-		return (VerticalSide) getSide(COMPASS_POINT_E);
+		return (VerticalSide) getSide(ICompassPoints.COMPASS_POINT_E);
 	}
 
 	public Tile getNorthNeighbor()
 	{
-		return fNeighbors.get(COMPASS_POINT_N);
+		return fNeighbors.get(ICompassPoints.COMPASS_POINT_N);
 	}
 
 	public Tile getEastNeighbor()
 	{
-		return fNeighbors.get(COMPASS_POINT_E);
+		return fNeighbors.get(ICompassPoints.COMPASS_POINT_E);
 	}
 
 	public Tile getSouthNeighbor()
 	{
-		return fNeighbors.get(COMPASS_POINT_S);
+		return fNeighbors.get(ICompassPoints.COMPASS_POINT_S);
 	}
 
 	public Tile getWestNeighbor()
 	{
-		return fNeighbors.get(COMPASS_POINT_W);
+		return fNeighbors.get(ICompassPoints.COMPASS_POINT_W);
 	}
 
 	public Point2D getArrayPosition()
@@ -174,10 +170,10 @@ public class Tile implements IPrintable, ISimulateable
 
 		if (map != null)
 		{
-			fNeighbors.put(COMPASS_POINT_N, map.getTile(arrayPosition.getX(), arrayPosition.getY() - 1));
-			fNeighbors.put(COMPASS_POINT_S, map.getTile(arrayPosition.getX(), arrayPosition.getY() + 1));
-			fNeighbors.put(COMPASS_POINT_W, map.getTile(arrayPosition.getX() - 1, arrayPosition.getY()));
-			fNeighbors.put(COMPASS_POINT_E, map.getTile(arrayPosition.getX() + 1, arrayPosition.getY()));
+			fNeighbors.put(ICompassPoints.COMPASS_POINT_N, map.getTile(arrayPosition.getX(), arrayPosition.getY() - 1));
+			fNeighbors.put(ICompassPoints.COMPASS_POINT_S, map.getTile(arrayPosition.getX(), arrayPosition.getY() + 1));
+			fNeighbors.put(ICompassPoints.COMPASS_POINT_W, map.getTile(arrayPosition.getX() - 1, arrayPosition.getY()));
+			fNeighbors.put(ICompassPoints.COMPASS_POINT_E, map.getTile(arrayPosition.getX() + 1, arrayPosition.getY()));
 		}
 		fPosition = new Point2D.Double(fArrayPosition.getX() * fWidth, fArrayPosition.getY() * fWidth);
         if(fMap != null)
@@ -191,41 +187,41 @@ public class Tile implements IPrintable, ISimulateable
 		//North
 		if (getNorthNeighbor() != null && getNorthNeighbor().getSouthSide() != null)
 		{
-			fSides.put(COMPASS_POINT_N, getNorthNeighbor().getSouthSide());
+			fSides.put(ICompassPoints.COMPASS_POINT_N, getNorthNeighbor().getSouthSide());
 		}
 		else
 		{
-			fSides.put(COMPASS_POINT_N, new HorizontalSide(fGlobals, this, new Point2D.Double(fPosition.getX() + fWidth / 2, fPosition.getY()), COMPASS_POINT_N));
+			fSides.put(ICompassPoints.COMPASS_POINT_N, new HorizontalSide(fGlobals, this, new Point2D.Double(fPosition.getX() + fWidth / 2, fPosition.getY()), ICompassPoints.COMPASS_POINT_N));
 		}
 
 		// South
 		if (getSouthNeighbor() != null && getSouthNeighbor().getNorthSide() != null)
 		{
-			fSides.put(COMPASS_POINT_S, getSouthNeighbor().getNorthSide());
+			fSides.put(ICompassPoints.COMPASS_POINT_S, getSouthNeighbor().getNorthSide());
 		}
 		else
 		{
-			fSides.put(COMPASS_POINT_S, new HorizontalSide(fGlobals, this, new Point2D.Double(fPosition.getX() + fWidth / 2, fPosition.getY() + fWidth), COMPASS_POINT_S));
+			fSides.put(ICompassPoints.COMPASS_POINT_S, new HorizontalSide(fGlobals, this, new Point2D.Double(fPosition.getX() + fWidth / 2, fPosition.getY() + fWidth), ICompassPoints.COMPASS_POINT_S));
 		}
 
 		// West
 		if (getWestNeighbor() != null && getWestNeighbor().getEastSide() != null)
 		{
-			fSides.put(COMPASS_POINT_W, getWestNeighbor().getEastSide());
+			fSides.put(ICompassPoints.COMPASS_POINT_W, getWestNeighbor().getEastSide());
 		}
 		else
 		{
-			fSides.put(COMPASS_POINT_W, new VerticalSide(fGlobals, this, new Point2D.Double(fPosition.getX(), fPosition.getY() + fWidth / 2), COMPASS_POINT_W));
+			fSides.put(ICompassPoints.COMPASS_POINT_W, new VerticalSide(fGlobals, this, new Point2D.Double(fPosition.getX(), fPosition.getY() + fWidth / 2), ICompassPoints.COMPASS_POINT_W));
 		}
 
 		// East
 		if (getEastNeighbor() != null && getEastNeighbor().getWestSide() != null)
 		{
-			fSides.put(COMPASS_POINT_E, getEastNeighbor().getWestSide());
+			fSides.put(ICompassPoints.COMPASS_POINT_E, getEastNeighbor().getWestSide());
 		}
 		else
 		{
-			fSides.put(COMPASS_POINT_E, new VerticalSide(fGlobals, this, new Point2D.Double(fPosition.getX() + fWidth, fPosition.getY() + fWidth / 2), COMPASS_POINT_E));
+			fSides.put(ICompassPoints.COMPASS_POINT_E, new VerticalSide(fGlobals, this, new Point2D.Double(fPosition.getX() + fWidth, fPosition.getY() + fWidth / 2), ICompassPoints.COMPASS_POINT_E));
 		}
 
 	}

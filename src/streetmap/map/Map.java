@@ -1,8 +1,9 @@
 package streetmap.map;
 
 import streetmap.SSGlobals;
-import streetmap.events.*;
 import streetmap.events.EventQueue;
+import streetmap.events.IEvent;
+import streetmap.events.StreetPlacementEvent;
 import streetmap.heatmap.Gradient;
 import streetmap.heatmap.HeatMap;
 import streetmap.interfaces.IPrintable;
@@ -12,7 +13,6 @@ import streetmap.map.street.Street;
 import streetmap.map.tile.Tile;
 import streetmap.pathfinding.AbstractPathFinder;
 import streetmap.pathfinding.PathFactory;
-import streetmap.utils.DrawHelper;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

@@ -3,7 +3,7 @@ package streetmap.map.street.trajectory;
 import streetmap.map.street.ILaneTypes;
 import streetmap.car.Car;
 import streetmap.map.street.Lane;
-import streetmap.map.tile.Tile;
+import streetmap.map.tile.ICompassPoints;
 import streetmap.utils.DrawHelper;
 
 import java.awt.*;
@@ -77,8 +77,8 @@ public class StraightTrajectory implements ITrajectory
 		}
 		else
 		{
-			boolean isSouth = fLane.getDirection(fLane.getEnd()).equals(Tile.COMPASS_POINT_S);
-			if (fLane.getDirection(fLane.getEnd()).equals(Tile.COMPASS_POINT_W) || isSouth)
+			boolean isSouth = fLane.getDirection(fLane.getEnd()).equals(ICompassPoints.COMPASS_POINT_S);
+			if (fLane.getDirection(fLane.getEnd()).equals(ICompassPoints.COMPASS_POINT_W) || isSouth)
 			{
 				fDirection = -1;
 
@@ -86,7 +86,7 @@ public class StraightTrajectory implements ITrajectory
 			else
 			{
 				fDirection = +1;
-				if (fLane.getDirection(fLane.getEnd()).equals(Tile.COMPASS_POINT_N))
+				if (fLane.getDirection(fLane.getEnd()).equals(ICompassPoints.COMPASS_POINT_N))
 				{
 					fAngle = fAngle + Math.PI;
 				}

@@ -167,7 +167,7 @@ public class Car implements IPrintable, ISimulateable, IEventHandler
 
 	public double getSpeed()
 	{
-		return (getLane().getGlobals().getConfig().getTileSize() / 50) * fSpeed;
+		return (getLane().getGlobals().getConfig().getTileSize() / 20) * fSpeed;
 	}
 
 	public double getSpeedModifier()

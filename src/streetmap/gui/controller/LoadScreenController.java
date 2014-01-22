@@ -40,7 +40,7 @@ public class LoadScreenController extends AbstractScreenController
     public void onStartScreen()
     {
         super.onStartScreen();
-        ListBox savebox = fNifty.getCurrentScreen().findNiftyControl("loadbox", ListBox.class);
+        ListBox<File> loadBox = getLoadBox();
         File saveDirectory = new File("./save");
         File[] files = saveDirectory.listFiles(new FileFilter()
         {
@@ -53,25 +53,34 @@ public class LoadScreenController extends AbstractScreenController
 
         for (File file : files)
         {
-            savebox.addItem(file);
+            loadBox.addItem(file);
         }
 
     }
 
-    @Override
+	protected ListBox<File> getLoadBox()
+	{
+		return (ListBox<File>)fNifty.getCurrentScreen().findNiftyControl("loadbox", ListBox.class);
+	}
+
+	@Override
     public void onEndScreen()
     {
-
+	    ListBox loadBox = getLoadBox();
+	    if (loadBox != null)
+	    {
+		    loadBox.clear();
+	    }
     }
 
     public void load()
     {
-        ListBox savebox = fNifty.getCurrentScreen().findNiftyControl("loadbox", ListBox.class);
+        ListBox loadBox = getLoadBox();
 
-        List<File> files = savebox.getSelection();
+        List files = loadBox.getSelection();
         if(files.size() == 1)
         {
-            File file = files.get(0);
+            File file = (File) files.get(0);
             if (file != null)
             {
                 MapLoader mapLoader = new MapLoader();

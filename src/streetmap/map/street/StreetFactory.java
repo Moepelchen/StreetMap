@@ -2,8 +2,8 @@ package streetmap.map.street;
 
 import streetmap.SSGlobals;
 import streetmap.config.StreetConfig;
-import streetmap.map.side.HorizontalSide;
 import streetmap.map.side.Side;
+import streetmap.map.tile.ICompassPoints;
 import streetmap.map.tile.Tile;
 import streetmap.xml.jaxb.LaneTemplate;
 import streetmap.xml.jaxb.LaneTemplates;
@@ -50,15 +50,30 @@ public class StreetFactory
         return createStreet(tile, streetName, false);
     }
 
-    /**
+	/**
+	 * Creates a Street with the given Name for the given Tile
+	 *
+	 * @param tile              tile to generate a street for
+	 * @param streetName        Name of the StreetTemplate
+	 * @param chooseIntelligent
+	 * @return
+	 */
+	public Street createStreet(Tile tile, String streetName, boolean chooseIntelligent)
+	{
+		return createStreet(tile, streetName, chooseIntelligent, false);
+	}
+
+	/**
      * Creates a Street with the given Name for the given Tile
      *
-     * @param tile              tile to generate a street for
-     * @param streetName        Name of the StreetTemplate
-     * @param chooseIntelligent
-     * @return
+     *
+	 * @param tile              tile to generate a street for
+	 * @param streetName        Name of the StreetTemplate
+	 * @param chooseIntelligent
+	 * @param propagate
+	 * @return
      */
-    public Street createStreet(Tile tile, String streetName, boolean chooseIntelligent)
+    public Street createStreet(Tile tile, String streetName, boolean chooseIntelligent, boolean propagate)
     {
 
         if (tile.getStreet() != null)
@@ -73,10 +88,15 @@ public class StreetFactory
 
         }
         StreetTemplate template = fStreetConfig.getTemplate(streetName);
-        if (chooseIntelligent && !template.isIsSpecial())
-        {
-            template = getStreetTemplate(tile, streetName);
-        }
+	    boolean hasNorthConnection = hasConnections(tile.getNorthSide());
+	    boolean hasEastConnection = hasConnections(tile.getEastSide());
+	    boolean hasSouthConnection = hasConnections(tile.getSouthSide());
+	    boolean hasWestConnection = hasConnections(tile.getWestSide());
+	    if (chooseIntelligent && !template.isIsSpecial())
+	    {
+		    template = getStreetTemplate(streetName, hasEastConnection, hasNorthConnection, hasSouthConnection, hasWestConnection);
+
+	    }
         Street street = null;
         if (template != null)
         {
@@ -85,85 +105,67 @@ public class StreetFactory
             tile.setStreet(street);
 
         }
+	    if (propagate && street != null)
+	    {
+		    double xCoord = tile.getArrayPosition().getX();
+		    double yCoord = tile.getArrayPosition().getY();
+		    propagate(IStreetNames.SOUTH_NORTH, xCoord, yCoord - 1);
+		    propagate(IStreetNames.WEST_EAST, xCoord - 1, yCoord);
+		    propagate(IStreetNames.WEST_EAST, xCoord + 1, yCoord);
+		    propagate(IStreetNames.SOUTH_NORTH, xCoord, yCoord + 1);
+	    }
+
         return street;
 
     }
 
+	protected void propagate(String streetName, double xCoord, double yCoord)
+	{
 
-    private StreetTemplate getStreetTemplate(Tile tile, String streetName)
+			Tile tile = fGlobals.getMap().getTile(xCoord, yCoord);
+			if(tile != null && tile.getStreet() != null && tile.getStreet().getLanes().size()>0)
+			{
+				fGlobals.getMap().handleAddition(tile.getStreet());
+				createStreet(tile,streetName,true);
+			}
+	}
+
+	private StreetTemplate getStreetTemplate(String streetName, boolean hasEastConnection, boolean hasNorthConnection, boolean hasSouthConnection, boolean hasWestConnection)
     {
         Collection<StreetTemplate> templateList = fStreetConfig.getTemplates();
-        boolean hasNorthConnection = hasConnections(tile.getNorthSide());
-        boolean hasEastConnection = hasConnections(tile.getEastSide());
-        boolean hasSouthConnection = hasConnections(tile.getSouthSide());
-        boolean hasWestConnection = hasConnections(tile.getWestSide());
+
 
         List<StreetTemplate> candidates = new ArrayList<>();
         List<StreetTemplate> bendCandidates = new ArrayList<>();
 
         if (hasNorthConnection || hasEastConnection || hasSouthConnection || hasWestConnection)
         {
-            for (StreetTemplate streetTemplate : templateList)
-            {
-                boolean tempHasEastConnection = false;
+	        for (StreetTemplate streetTemplate : templateList)
+	        {
+		        if (!streetTemplate.isIsSpecial())
+		        {
 
+			        boolean tempHasEastConnection = hasTemplateConnection(streetTemplate, ICompassPoints.COMPASS_POINT_E);
+			        boolean tempHasSouthConnection = hasTemplateConnection(streetTemplate, ICompassPoints.COMPASS_POINT_S);
+			        boolean tempHasWestConnection = hasTemplateConnection(streetTemplate, ICompassPoints.COMPASS_POINT_W);
+			        boolean tempHasNorthConnection = hasTemplateConnection(streetTemplate, ICompassPoints.COMPASS_POINT_N);
 
-                for (LaneTemplate template : streetTemplate.getLaneTemplates().getLaneTemplate())
-                {
-                    if (template.getTo().equals("E") || template.getFrom().equals("E"))
-                    {
-                        tempHasEastConnection = true;
-                    }
-                }
-
-                boolean tempHasSouthConnection = false;
-
-
-                for (LaneTemplate template : streetTemplate.getLaneTemplates().getLaneTemplate())
-                {
-                    if (template.getTo().equals("S") || template.getFrom().equals("S"))
-                    {
-                        tempHasSouthConnection = true;
-                    }
-                }
-
-                boolean tempHasWestConnection = false;
-
-
-                for (LaneTemplate template : streetTemplate.getLaneTemplates().getLaneTemplate())
-                {
-                    if (template.getTo().equals("W") || template.getFrom().equals("W"))
-                    {
-                        tempHasWestConnection = true;
-                    }
-                }
-
-                boolean tempHasNorthConnection = false;
-
-
-                for (LaneTemplate template : streetTemplate.getLaneTemplates().getLaneTemplate())
-                {
-                    if (template.getTo().equals("N") || template.getFrom().equals("N"))
-                    {
-                        tempHasNorthConnection = true;
-                    }
-                }
-
-
-                boolean doesEastFit = doesFit(hasEastConnection, tempHasEastConnection);
-                boolean doesSouthFit = doesFit(hasSouthConnection, tempHasSouthConnection);
-                boolean doesWestFit = doesFit(hasWestConnection, tempHasWestConnection);
-                boolean doesNorthFit = doesFit(hasNorthConnection, tempHasNorthConnection);
-                if (doesEastFit && doesSouthFit && doesWestFit && doesNorthFit)
-                {
-                    if (hasOnlyBends(streetTemplate))
-                    {
-                        bendCandidates.add(streetTemplate);
-                    } else
-                    {
-                        candidates.add(streetTemplate);
-                    }
-                }
+			        boolean doesEastFit = doesFit(hasEastConnection, tempHasEastConnection);
+			        boolean doesSouthFit = doesFit(hasSouthConnection, tempHasSouthConnection);
+			        boolean doesWestFit = doesFit(hasWestConnection, tempHasWestConnection);
+			        boolean doesNorthFit = doesFit(hasNorthConnection, tempHasNorthConnection);
+			        if (doesEastFit && doesSouthFit && doesWestFit && doesNorthFit)
+			        {
+				        if (hasOnlyBends(streetTemplate))
+				        {
+					        bendCandidates.add(streetTemplate);
+				        }
+				        else
+				        {
+					        candidates.add(streetTemplate);
+				        }
+			        }
+		        }
             }
 
         }
@@ -200,7 +202,21 @@ public class StreetFactory
         return fStreetConfig.getTemplate(streetName);
     }
 
-    private boolean hasOnlyBends(StreetTemplate streetTemplate)
+	private boolean hasTemplateConnection(StreetTemplate streetTemplate, String compassPointS)
+	{
+		boolean tempHasSouthConnection = false;
+
+		for (LaneTemplate template : streetTemplate.getLaneTemplates().getLaneTemplate())
+		{
+			if (template.getTo().equals(compassPointS) || template.getFrom().equals(compassPointS))
+			{
+				tempHasSouthConnection = true;
+			}
+		}
+		return tempHasSouthConnection;
+	}
+
+	private boolean hasOnlyBends(StreetTemplate streetTemplate)
     {
         for (LaneTemplate laneTemplate : streetTemplate.getLaneTemplates().getLaneTemplate())
         {
@@ -211,17 +227,6 @@ public class StreetFactory
         }
         return true;
     }
-
-    private boolean hasStartOrEnd(StreetTemplate candidate)
-    {
-        for (LaneTemplate laneTemplate : candidate.getLaneTemplates().getLaneTemplate())
-        {
-            if (laneTemplate.isIsEndPoint() || laneTemplate.isIsStartPoint())
-                return true;
-        }
-        return false;
-    }
-
 
     private boolean doesFit(boolean hasEastConnection, boolean tempHasEastConnection)
     {

@@ -7,14 +7,17 @@ import de.lessvoid.nifty.renderer.lwjgl.render.LwjglRenderDevice;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.TimeProvider;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 import streetmap.gui.GLStreetPanel;
 import streetmap.gui.IScreenNames;
-import streetmap.gui.controller.*;
+import streetmap.gui.controller.DebugScreenController;
+import streetmap.gui.controller.GameScreenController;
+import streetmap.gui.controller.LoadScreenController;
+import streetmap.gui.controller.MenuScreenController;
+import streetmap.gui.controller.SaveScreenController;
 import streetmap.gui.inputmapping.MenuInputMapping;
 import streetmap.map.Map;
 
@@ -33,8 +36,9 @@ public class Game
     private GLStreetPanel fStreetPanel;
     private KeyHandler fKeyboardHandler;
 	private boolean fPaused;
+	private Vector2f fScalePoint;
 
-    public Nifty getNifty()
+	public Nifty getNifty()
 	{
 		return fNifty;
 	}
@@ -51,12 +55,24 @@ public class Game
 		return fPaused;
 	}
 
+	public Vector2f getScalePoint()
+	{
+
+		return fScalePoint;
+	}
+
+	public void setScalePoint(Vector2f scalePoint)
+	{
+		fScalePoint = scalePoint;
+	}
+
 	public Game(SSGlobals globals)
     {
         fGlobals = globals;
 	    fPlayer = new Player(0,0);
         fGlobals.setGame(this);
         new Map(globals);
+	    fScalePoint = new Vector2f(getWidth()/2, getHeight()/2);
     }
 
     public static void main(String[] args) throws Exception
@@ -78,7 +94,7 @@ public class Game
 	public void start() throws Exception
 	{
 
-		Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
+		Display.setDisplayMode(new DisplayMode(getWidth(), getHeight()));
 		Display.create();
 
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -89,12 +105,12 @@ public class Game
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_DST_ALPHA);
 
-		GL11.glViewport(0, 0, WIDTH, HEIGHT);
+		GL11.glViewport(0, 0, getWidth(), getHeight());
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		GL11.glOrtho(0, WIDTH, HEIGHT, 0, 1, -1);
+		GL11.glOrtho(0, getWidth(), getHeight(), 0, 1, -1);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		Keyboard.enableRepeatEvents(true);
 
@@ -110,9 +126,10 @@ public class Game
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 			// Clear the screen and depth buffer
 			GL11.glPushMatrix();
-            GL11.glTranslated(WIDTH/2, HEIGHT/2,0);
+			Vector2f scalePoint = getScalePoint();
+            GL11.glTranslated(scalePoint.getX(), scalePoint.getY(),0);
             GL11.glScalef(fPlayer.getZoom(),fPlayer.getZoom(),0);
-            GL11.glTranslated(-WIDTH/2, -HEIGHT/2,0);
+            GL11.glTranslated(-getScalePoint().getX(), -scalePoint.getY(),0);
 
             GL11.glTranslatef(fPlayer.getX(), fPlayer.getY(), 0);
 
@@ -176,15 +193,13 @@ public class Game
     }
 
     private void processInput()
-	{
-        if(Mouse.isButtonDown(0))
-        {
-            fStreetPanel.handleClick();
-        }
+    {
 
-		fKeyboardHandler.handleInput();
+	    fStreetPanel.handleClick();
 
-	}
+	    fKeyboardHandler.handleInput();
+
+    }
 
     public int getWidth()
     {
@@ -199,7 +214,12 @@ public class Game
     public Vector2f getTranslatedCoords(int x, int y)
     {
         Vector2f toReturn = new Vector2f(x,y);
-        toReturn.translate(-fPlayer.getX()*fPlayer.getZoom(),-fPlayer.getY()*fPlayer.getZoom());
+	    Vector2f translationVec = new Vector2f(-fPlayer.getX(),-fPlayer.getY());
+	    translationVec.translate(getWidth()/2,getHeight()/2);
+	    translationVec.scale(fPlayer.getZoom());
+	    translationVec.translate(-getWidth()/2,-getHeight()/2);
+
+        toReturn.translate(translationVec.getX(),translationVec.getY());
         return toReturn;
     }
 
