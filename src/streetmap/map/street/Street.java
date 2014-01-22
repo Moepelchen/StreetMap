@@ -47,6 +47,7 @@ public class Street implements IPrintable, ISimulateable
      */
 
     private Image fImage;
+	private boolean fSpecial;
 
 	public Image getImage()
 	{
@@ -68,19 +69,24 @@ public class Street implements IPrintable, ISimulateable
 		return fTile;
 	}
 
+	public boolean isSpecial()
+	{
+		return fSpecial;
+	}
+
 	/**
 	 * Constructor
 	 *
 	 * @param glob            current globals
 	 * @param tile            the tile this street is located on
 	 * @param name            name of the streettemplate which was used to construct this street
-	 * @param isStartEndPoint indicates that this street can spawn new cars
+	 * @param isSpecial indicates that this street can spawn new cars
 	 */
-	public Street(SSGlobals glob, Tile tile, String name, boolean isStartEndPoint)
+	public Street(SSGlobals glob, Tile tile, String name, boolean isSpecial)
 	{
 		fName = name;
+		fSpecial = isSpecial;
 		fGlobals = glob;
-		fisStartEnd = isStartEndPoint;
 		fTile = tile;
 		fLanes = new Vector<>();
 	}

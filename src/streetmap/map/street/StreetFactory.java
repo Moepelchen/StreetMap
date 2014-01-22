@@ -97,7 +97,7 @@ public class StreetFactory
         Street street = null;
         if (template != null)
         {
-            street = new Street(fGlobals, tile, template.getName(), false);
+            street = new Street(fGlobals, tile, template.getName(), template.isIsSpecial());
             generateLanes(street, template.getLaneTemplates(), tile);
             tile.setStreet(street);
 
@@ -120,7 +120,7 @@ public class StreetFactory
 	{
 
 			Tile tile = fGlobals.getMap().getTile(xCoord, yCoord);
-			if(tile != null && tile.getStreet() != null && tile.getStreet().getLanes().size()>0)
+			if(tile != null && tile.getStreet() != null && tile.getStreet().getLanes().size()>0 && !tile.getStreet().isSpecial())
 			{
 				fGlobals.getMap().handleAddition(tile.getStreet());
 				createStreet(tile, streetName, true);
@@ -130,11 +130,13 @@ public class StreetFactory
 	private StreetTemplate getStreetTemplate(Tile tile,String streetName)
     {
         Collection<StreetTemplate> templateList = fStreetConfig.getTemplates();
+	    double xCoord = tile.getArrayPosition().getX();
+	    double yCoord = tile.getArrayPosition().getY();
 
-	    boolean hasNorthConnection = hasConnections(tile.getNorthSide());
-	    boolean hasEastConnection = hasConnections(tile.getEastSide());
-	    boolean hasSouthConnection = hasConnections(tile.getSouthSide());
-	    boolean hasWestConnection = hasConnections(tile.getWestSide());
+	    boolean hasNorthConnection = hasNeighbor(xCoord, yCoord - 1);
+	    boolean hasEastConnection =  hasNeighbor(xCoord + 1, yCoord);
+	    boolean hasSouthConnection =  hasNeighbor(xCoord , yCoord+1);
+	    boolean hasWestConnection =  hasNeighbor(xCoord-1, yCoord);
 	    List<StreetTemplate> candidates = new ArrayList<>();
         List<StreetTemplate> bendCandidates = new ArrayList<>();
 
@@ -156,14 +158,9 @@ public class StreetFactory
 			        boolean doesNorthFit = doesFit(hasNorthConnection, tempHasNorthConnection);
 			        if (doesEastFit && doesSouthFit && doesWestFit && doesNorthFit)
 			        {
-				        if (hasOnlyBends(streetTemplate))
-				        {
-					        bendCandidates.add(streetTemplate);
-				        }
-				        else
-				        {
+
 					        candidates.add(streetTemplate);
-				        }
+
 			        }
 		        }
             }
@@ -201,6 +198,12 @@ public class StreetFactory
 
         return fStreetConfig.getTemplate(streetName);
     }
+
+	private boolean hasNeighbor(double xCoord, double v)
+	{
+		Tile tile = fGlobals.getMap().getTile(xCoord, v);
+		return tile != null && tile.getStreet() != null && tile.getLanes().size()>0;
+	}
 
 	private boolean hasTemplateConnection(StreetTemplate streetTemplate, String compassPointS)
 	{
