@@ -6,6 +6,7 @@ import org.lwjgl.util.vector.Vector2f;
 import streetmap.SSGlobals;
 import streetmap.map.street.IStreetNames;
 import streetmap.map.tile.Tile;
+import streetmap.utils.DrawHelper;
 import streetmap.xml.jaxb.StreetTemplate;
 
 import java.awt.geom.Point2D;
@@ -28,12 +29,12 @@ public class GLStreetPanel
 
     public GLStreetPanel(SSGlobals globals)
     {
-        fTiles = new ArrayList<Tile>();
+        fTiles = new ArrayList<>();
         fGlobals = globals;
         List<StreetTemplate> templates = new ArrayList<>();
         templates.add(globals.getStreetConfig().getTemplate(IStreetNames.WEST_EAST));
-
         templates.add(globals.getStreetConfig().getTemplate(IStreetNames.SOUTH_NORTH));
+
         for (StreetTemplate streetTemplate : globals.getStreetConfig().getTemplates())
         {
             if(streetTemplate.isIsSpecial())
@@ -54,7 +55,8 @@ public class GLStreetPanel
     {
         for (Tile tile : fTiles)
         {
-            tile.print(null);
+
+            DrawHelper.drawStreet(null,tile.getStreet(),true);
             if(fSelectedStreet != null && tile.getStreet().getName().equals(fSelectedStreet))
             {
                 GL11.glColor4d(0,1,0,0.5);
@@ -85,7 +87,7 @@ public class GLStreetPanel
 
 			if (x < fTileWidth)
 			{
-				handlePanelClick(x, y);
+				handlePanelClick(y);
 			}
 			else
 			{
@@ -119,7 +121,7 @@ public class GLStreetPanel
 
 	private void handleMapClick(int x, int y)
     {
-        y = (int) (fGlobals.getGame().getHeight()-y);
+        y = fGlobals.getGame().getHeight()-y;
         Vector2f pos = fGlobals.getGame().getTranslatedCoords(x,y);
         double tileSize = fGlobals.getMap().getTileWidth()*fGlobals.getGame().getPlayer().getZoom();
         x = (int) (pos.getX() /tileSize);
@@ -132,7 +134,7 @@ public class GLStreetPanel
 	    }
     }
 
-    private void handlePanelClick(int x, int y)
+    private void handlePanelClick(int y)
     {
         int index =fTiles.size()-1- (y/fTileWidth);
         fSelectedStreet = fTiles.get(index).getStreet().getName();

@@ -94,11 +94,21 @@ public class DrawHelper
 		}
 	}
 
-	public static void drawStreet(Graphics2D g, Street street)
+    public static void drawStreet(Graphics2D g, Street street)
+    {
+        drawStreet(g, street, false);
+    }
+
+    public static void drawStreet(Graphics2D g, Street street, boolean forMenu)
 		{
 			Texture streetText = null;
-			String imagePath = street.getGlobals().getStreetConfig().getTemplate(street.getName()).getImagePath();
-			if (street.getImage() == null)
+			String imagePath;
+            if (forMenu)
+            {
+               imagePath = street.getMenuImagePath();
+            } else
+                imagePath = street.getImagePath();
+            if (street.getImage() == null)
 			{
 
 				if (imagePath != null)
@@ -129,11 +139,11 @@ public class DrawHelper
 					glBegin(GL_QUADS);
 					glTexCoord2d(0, 0);
 					glVertex3d(street.getTile().getArrayPosition().getX() * tileSize, street.getTile().getArrayPosition().getY() * tileSize, 0);
-					glTexCoord2d(0.65, 0);
+					glTexCoord2d(0.64, 0);
 					glVertex3d(street.getTile().getArrayPosition().getX() * tileSize + tileSize, street.getTile().getArrayPosition().getY() * tileSize, 0);
-					glTexCoord2d(0.65, 0.65);
+					glTexCoord2d(0.64, 0.64);
 					glVertex3d(street.getTile().getArrayPosition().getX() * tileSize + tileSize, street.getTile().getArrayPosition().getY() * tileSize + tileSize, 0);
-					glTexCoord2d(0, 0.65);
+					glTexCoord2d(0, 0.64);
 					glVertex3d(street.getTile().getArrayPosition().getX() * tileSize, street.getTile().getArrayPosition().getY() * tileSize + tileSize, 0);
 					glEnd();
 					glBindTexture(GL_TEXTURE_2D,0);

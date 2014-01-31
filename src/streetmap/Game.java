@@ -78,6 +78,9 @@ public class Game
     public static void main(String[] args) throws Exception
     {
         SSGlobals globals = null;
+        System.out.println(new File("./").getAbsoluteFile());
+        System.out.println(System.getProperty("java.library.path"));
+
         try
         {
             globals = new SSGlobals();

@@ -1,0 +1,1 @@
+java -Djava.library.path=./resources/native/windows -jar Streetmap.jar

@@ -1,0 +1,18 @@
+<component name="ArtifactManager">
+  <artifact name="Streetmap:jar">
+    <output-path>$PROJECT_DIR$/../artifacts/Streetmap_jar</output-path>
+    <properties id="ant-preprocessing">
+      <options enabled="true" />
+    </properties>
+    <root id="root">
+      <element id="archive" name="Streetmap.jar">
+        <element id="module-output" name="Streetmap" />
+      </element>
+      <element id="library" level="project" name="lib3" />
+      <element id="library" level="project" name="jaxb" />
+      <element id="directory" name="resources">
+        <element id="dir-copy" path="$PROJECT_DIR$/resources" />
+      </element>
+    </root>
+  </artifact>
+</component>

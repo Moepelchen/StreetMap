@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Class-Path: lzma.jar lwjgl.jar jinput.jar flanagan.jar jaxb-api.jar ja
+ xb-xjc.jar jaxb-impl.jar activation.jar jaxb1-impl.jar lwjgl_test.jar
+  lwjgl_util.jar slick-util.jar lwjgl-debug.jar nifty-1.3.3.jar xpp3-1
+ .1.4c.jar eventbus-1.4.jar asm-debug-all.jar jsr173_1.0_api.jar nifty
+ -html-1.3.3.jar lwjgl_util_applet.jar AppleJavaExtensions.jar nifty-s
+ tyle-black-1.3.3.jar commons-collections4-4.0.jar nifty-lwjgl-rendere
+ r-1.3.3.jar nifty-default-controls-1.3.3.jar nifty-openal-soundsystem
+ -1.3.3.jar nifty-lwjgl-renderer-1.3.3-javadoc.jar lzma.jar lwjgl.jar 
+ jinput.jar flanagan.jar jaxb-api.jar jaxb-xjc.jar jaxb-impl.jar activ
+ ation.jar jaxb1-impl.jar lwjgl_test.jar lwjgl_util.jar slick-util.jar
+  lwjgl-debug.jar nifty-1.3.3.jar xpp3-1.1.4c.jar eventbus-1.4.jar asm
+ -debug-all.jar jsr173_1.0_api.jar nifty-html-1.3.3.jar lwjgl_util_app
+ let.jar AppleJavaExtensions.jar nifty-style-black-1.3.3.jar commons-c
+ ollections4-4.0.jar nifty-lwjgl-renderer-1.3.3.jar nifty-default-cont
+ rols-1.3.3.jar nifty-openal-soundsystem-1.3.3.jar nifty-lwjgl-rendere
+ r-1.3.3-javadoc.jar lzma.jar lwjgl.jar jinput.jar flanagan.jar jaxb-a
+ pi.jar jaxb-xjc.jar jaxb-impl.jar activation.jar jaxb1-impl.jar lwjgl
+ _test.jar lwjgl_util.jar slick-util.jar lwjgl-debug.jar nifty-1.3.3.j
+ ar xpp3-1.1.4c.jar eventbus-1.4.jar asm-debug-all.jar jsr173_1.0_api.
+ jar nifty-html-1.3.3.jar lwjgl_util_applet.jar AppleJavaExtensions.ja
+ r nifty-style-black-1.3.3.jar commons-collections4-4.0.jar nifty-lwjg
+ l-renderer-1.3.3.jar nifty-default-controls-1.3.3.jar nifty-openal-so
+ undsystem-1.3.3.jar nifty-lwjgl-renderer-1.3.3-javadoc.jar
+Main-Class: streetmap.Game
+

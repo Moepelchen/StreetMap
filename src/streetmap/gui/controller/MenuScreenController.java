@@ -2,6 +2,7 @@ package streetmap.gui.controller;
 
 import streetmap.SSGlobals;
 import streetmap.gui.IScreenNames;
+import streetmap.map.Map;
 
 /**
  * Created by ulrichtewes on 12.01.14.
@@ -29,5 +30,11 @@ public class MenuScreenController extends AbstractScreenController
     public void onEndScreen()
     {
 
+    }
+
+    public void newGame()
+    {
+        getGlobals().setMap(new Map(getGlobals()));
+        activateScreenAndUnPause(IScreenNames.SCREEN_GAME);
     }
 }

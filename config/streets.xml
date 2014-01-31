@@ -299,6 +299,7 @@
 
     <StreetTemplate>
         <name>DeleteStreet</name>
+        <menuImage>./images/streets/bulldozer.png</menuImage>
         <isSpecial>true</isSpecial>
         <LaneTemplates>
         </LaneTemplates>

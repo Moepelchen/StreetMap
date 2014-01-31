@@ -5,6 +5,7 @@ import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.map.tile.Tile;
 import streetmap.utils.DrawHelper;
+import streetmap.xml.jaxb.StreetTemplate;
 
 import java.awt.*;
 import java.util.Vector;
@@ -140,5 +141,22 @@ public class Street implements IPrintable, ISimulateable
     public int getNumberOfCars()
     {
         return fNumberOfCars;
+    }
+
+    public String getImagePath()
+    {
+
+        return fGlobals.getStreetConfig().getTemplate(getName()).getImagePath();
+    }
+
+    public String getMenuImagePath()
+    {
+        StreetTemplate template = getGlobals().getStreetConfig().getTemplate(getName());
+        String imagePath = template.getMenuImage();
+        if (imagePath == null)
+        {
+            imagePath = getImagePath();
+        }
+        return imagePath;
     }
 }
