@@ -1,5 +1,5 @@
 /*
- * Copyright (C) veenion GmbH 1999-2012.
+ * Copyright (C) Ulrich Tewes GmbH 2010-2014.
  */
 
 package streetmap.saveandload;
