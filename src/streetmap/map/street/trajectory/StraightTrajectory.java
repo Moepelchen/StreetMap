@@ -50,48 +50,30 @@ public class StraightTrajectory implements ITrajectory
 		{
 			fA = INT;
 		}
-		double angle = Math.abs(Math.atan2(deltaY, deltaX));
-		fAngle = angle;
-		if (lane.getType() == ILaneTypes.BEND)
+
+		boolean isSouth = fLane.getDirection(fLane.getEnd()).equals(ICompassPoints.COMPASS_POINT_S);
+		boolean isWest = fLane.getDirection(fLane.getEnd()).equals(ICompassPoints.COMPASS_POINT_W);
+		boolean isEast = fLane.getDirection(fLane.getEnd()).equals(ICompassPoints.COMPASS_POINT_E);
+		fDirection = +1;
+		if (isWest)
 		{
-
-			if (angle >= Math.PI / 2 && angle <= Math.PI * 6 / 4)
-			{
-				fDirection = -1;
-				if (fA > 0)
-				{
-					fAngle = fAngle + Math.PI / 2;
-				}
-			}
-			else
-			{
-				fDirection = +1;
-				if (fA < 0)
-				{
-					fAngle = fAngle - Math.PI / 2;
-				}
-			}
-
+			fAngle = Math.PI;
+			fDirection = -1;
+		}
+		else if (isEast)
+		{
+			fAngle = 0;
+		}
+		else if (isSouth)
+		{
+			fAngle = 3 * Math.PI / 4;
+			fDirection = -1;
 		}
 		else
 		{
-			boolean isSouth = fLane.getDirection(fLane.getEnd()).equals(ICompassPoints.COMPASS_POINT_S);
-			if (fLane.getDirection(fLane.getEnd()).equals(ICompassPoints.COMPASS_POINT_W) || isSouth)
-			{
-				fDirection = -1;
-
-			}
-			else
-			{
-				fDirection = +1;
-				if (fLane.getDirection(fLane.getEnd()).equals(ICompassPoints.COMPASS_POINT_N))
-				{
-					fAngle = fAngle + Math.PI;
-				}
-
-			}
-
+			fAngle = Math.PI / 4;
 		}
+
 
 	}
 
