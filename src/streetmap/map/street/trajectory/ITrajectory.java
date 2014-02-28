@@ -1,9 +1,8 @@
 package streetmap.map.street.trajectory;
 
-import streetmap.map.street.Lane;
 import streetmap.car.Car;
+import streetmap.map.street.Lane;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 
 /**
@@ -19,7 +18,7 @@ public interface ITrajectory
 
 	double getAngle();
 
-	void print(Graphics2D g);
+	void print();
 
 	/**
 	 * determines whether the car is still on this lane

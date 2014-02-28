@@ -1,6 +1,6 @@
 package streetmap.heatmap;
 
-import java.awt.Color;
+import java.awt.*;
 
 /**
  *

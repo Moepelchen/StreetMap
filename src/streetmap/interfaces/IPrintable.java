@@ -1,7 +1,5 @@
 package streetmap.interfaces;
 
-import java.awt.*;
-
 /**
  * Created by IntelliJ IDEA.
  * User: ulrich.tewes
@@ -11,5 +9,5 @@ import java.awt.*;
  */
 public interface IPrintable
 {
-	public void print(Graphics2D g);
+	public void print();
 }

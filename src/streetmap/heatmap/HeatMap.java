@@ -1,10 +1,9 @@
 package streetmap.heatmap;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
-
-import javax.swing.*;
 
 /**
  *

@@ -1,16 +1,15 @@
 package streetmap.map.tile;
 
+import streetmap.SSGlobals;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
-import streetmap.SSGlobals;
-import streetmap.map.side.HorizontalSide;
-import streetmap.map.street.Lane;
 import streetmap.map.Map;
+import streetmap.map.side.HorizontalSide;
 import streetmap.map.side.Side;
-import streetmap.map.street.Street;
 import streetmap.map.side.VerticalSide;
+import streetmap.map.street.Lane;
+import streetmap.map.street.Street;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
@@ -226,23 +225,19 @@ public class Tile implements IPrintable, ISimulateable
 
 	}
 
-	public void print(Graphics2D g)
+	public void print()
 	{
-		if (fGlobals.getConfig().isDrawTiles() && g!= null)
-		{
-			g.setColor(Color.black);
+		//TODO draw tiles
 
-			g.drawRect((int) fPosition.getX(), (int) fPosition.getY(), (int) fWidth, (int) fWidth);
-		}
 		if (fStreet != null)
 		{
-			fStreet.print(g);
+			fStreet.print();
 		}
 
 
 		for (String s : fSides.keySet())
 		{
-			fSides.get(s).print(g);
+			fSides.get(s).print();
 		}
 
 	}

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) veenion GmbH 1999-2012.
+ * Copyright (C) Ulrich Tewes   2010-2012.
  */
 
 package streetmap.pathfinding;
@@ -34,7 +34,7 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
 	protected Lane fStart;
 	protected Lane fEnd;
     protected SSGlobals fGlobals;
-	private static HashMap<Lane,Vector<Lane>> fNoGo = new HashMap<Lane, Vector<Lane>>();
+	private static HashMap<Lane,Vector<Lane>> fNoGo = new HashMap<>();
 
 
 	// -----------------------------------------------------
@@ -49,7 +49,7 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
 // -----------------------------------------------------
 // constructors
 // -----------------------------------------------------
-	public void AbstractPathFinder(Car car)
+	public AbstractPathFinder(Car car)
 	{
 		init(car);
 	}
@@ -57,7 +57,7 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
 	protected void init(Car car)
 	{
         fGlobals = car.getLane().getGlobals();
-		fPath = new LinkedList<Lane>();
+		fPath = new LinkedList<>();
 		fCar = car;
 		fStart = car.getLane();
         fEnd = null;
@@ -110,8 +110,8 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
 
         if(fEnd == null)
         {
-            ArrayList<Lane> lanes = new ArrayList<Lane>(fStart.getStreet().getLanes());
-            ArrayList<Lane> possibleEndLanes = new ArrayList<Lane>(fStart.getGlobals().getMap().getEndLanes());
+            ArrayList<Lane> lanes = new ArrayList<>(fStart.getStreet().getLanes());
+            ArrayList<Lane> possibleEndLanes = new ArrayList<>(fStart.getGlobals().getMap().getEndLanes());
             possibleEndLanes.removeAll(lanes);
 
             if (possibleEndLanes.size() > 0)
@@ -135,7 +135,7 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
 	                        }
 	                        else
 	                        {
-		                        Vector<Lane> ends2 = new Vector<Lane>();
+		                        Vector<Lane> ends2 = new Vector<>();
 		                        ends2.add(fEnd);
 		                        fNoGo.put(fStart, ends2);
 	                        }

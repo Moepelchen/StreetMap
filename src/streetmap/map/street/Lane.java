@@ -3,15 +3,14 @@ package streetmap.map.street;
 import streetmap.SSGlobals;
 import streetmap.car.Car;
 import streetmap.car.CarFactory;
-import streetmap.pathfinding.IPathFindingAlgorithm;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.map.side.Anchor;
 import streetmap.map.street.trajectory.BendTrajectory;
 import streetmap.map.street.trajectory.ITrajectory;
 import streetmap.map.street.trajectory.StraightTrajectory;
+import streetmap.pathfinding.IPathFindingAlgorithm;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -87,20 +86,20 @@ public class Lane implements IPrintable, ISimulateable
 
 	}
 
-	public void print(Graphics2D g)
+	public void print()
 	{
 		if (fGlobals.getConfig().isDrawLanes())
 		{
-			fTrajectory.print(g);
+			fTrajectory.print();
 		}
-		drawCars(g);
+		drawCars();
 	}
 
-	private void drawCars(Graphics2D g)
+	private void drawCars()
 	{
 		for (Car fCar : fCars)
 		{
-			fCar.print(g);
+			fCar.print();
 		}
 	}
 
@@ -108,7 +107,7 @@ public class Lane implements IPrintable, ISimulateable
 	{
 		Vector<Car> toRemoveCars = new Vector<Car>();
 
-		if (this.getEnd().getRandomLane() != null &&Math.random() < 0.5 && this.isStartLane() && fCars.size() < 4 && fGlobals.getMap().getCurrentNumberOfCars() < fGlobals.getConfig().getMaximumNumOfCars())
+		if (this.getEnd().getRandomLane() != null && Math.random() < getCarGenerationModifier() && this.isStartLane() && fCars.size() < 4 && fGlobals.getMap().getCurrentNumberOfCars() < fGlobals.getConfig().getMaximumNumOfCars())
 		{
 			Car car = CarFactory.createCar(getGlobals(), this, fStartAnchor.getPosition());
 			fCars.add(car);
@@ -158,7 +157,17 @@ public class Lane implements IPrintable, ISimulateable
 		fCars.removeAll(toRemoveCars);
 	}
 
-	private void addCar(Car fCar)
+    private double getCarGenerationModifier()
+    {
+        double base = 0.015;
+        if(fGlobals.getTimeHandler().isDay())
+        {
+            base = base+0.1;
+        }
+        return base;
+    }
+
+    private void addCar(Car fCar)
 	{
 		fCar.setPosition(fStartAnchor.getPosition());
 		fCar.reset(this);

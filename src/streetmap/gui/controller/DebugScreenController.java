@@ -1,6 +1,5 @@
 package streetmap.gui.controller;
 
-import de.lessvoid.nifty.controls.NiftyControl;
 import de.lessvoid.nifty.controls.TextField;
 import streetmap.SSGlobals;
 

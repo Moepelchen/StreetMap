@@ -1,12 +1,10 @@
 package streetmap.map.street.trajectory;
 
-import streetmap.map.street.ILaneTypes;
 import streetmap.car.Car;
+import streetmap.map.street.ILaneTypes;
 import streetmap.map.street.Lane;
 import streetmap.map.tile.ICompassPoints;
-import streetmap.utils.DrawHelper;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 
 /**
@@ -123,9 +121,8 @@ public class StraightTrajectory implements ITrajectory
 	}
 
 	@Override
-	public void print(Graphics2D g)
+	public void print()
 	{
-		DrawHelper.drawStraight(g, this.fLane);
 	}
 
 	/**

@@ -1,10 +1,12 @@
 package streetmap;
 
 import streetmap.config.ChangeableConfig;
-import streetmap.config.StreetConfig;
 import streetmap.config.IChangeableConfig;
+import streetmap.config.StreetConfig;
 import streetmap.map.Map;
 import streetmap.map.street.StreetFactory;
+import streetmap.timehandling.ITimeHandler;
+import streetmap.timehandling.TimeHandler;
 
 import java.io.FileNotFoundException;
 
@@ -38,7 +40,12 @@ public class SSGlobals
 	 * the map where the magic happens
 	 */
 	private Map fMap;
+    /**
+     * Current game beeing played
+     */
     private Game fGame;
+
+    private TimeHandler fTimeHandler;
 
 	public void resetPlayer()
 	{
@@ -55,6 +62,7 @@ public class SSGlobals
 		fConfig = new ChangeableConfig(this);
 		fStreetConfig = new StreetConfig(this);
 		fStreetFactory = new StreetFactory(this);
+        fTimeHandler = new TimeHandler();
 	}
 
     public void setGame(Game fGame)
@@ -95,5 +103,10 @@ public class SSGlobals
     public void handleLoading()
     {
         this.getMap().handleAddition(null);
+    }
+
+    public ITimeHandler getTimeHandler()
+    {
+        return fTimeHandler;
     }
 }

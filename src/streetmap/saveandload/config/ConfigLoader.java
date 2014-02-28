@@ -5,12 +5,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import streetmap.config.IChangeableConfig;
-import streetmap.saveandload.ISaveConstants;
-import streetmap.saveandload.ILoader;
 import streetmap.SSGlobals;
-import streetmap.utils.ReflectionUtils;
 import streetmap.config.Config;
+import streetmap.config.IChangeableConfig;
+import streetmap.saveandload.ILoader;
+import streetmap.saveandload.ISaveConstants;
+import streetmap.utils.ReflectionUtils;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

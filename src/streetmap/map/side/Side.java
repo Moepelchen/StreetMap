@@ -5,7 +5,6 @@ import streetmap.interfaces.IPrintable;
 import streetmap.map.tile.Tile;
 import streetmap.utils.DrawHelper;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 
 public abstract class Side implements IPrintable
@@ -57,10 +56,10 @@ public abstract class Side implements IPrintable
 		// empty on purpose
 	}
 
-	public void print(Graphics2D g)
+	public void print()
 	{
 
-		DrawHelper.drawSide(g,this);
+		DrawHelper.drawSide(this);
 
 	}
 

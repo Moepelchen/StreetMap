@@ -1,15 +1,11 @@
 /*
- * Copyright (C) veenion GmbH 1999-2012.
+ * Copyright (C) Ulrich Tewes   2010-2012.
  */
 
 package streetmap.gui.controller;
 
 import de.lessvoid.nifty.controls.TextField;
-import de.lessvoid.nifty.controls.dynamic.PanelCreator;
-import de.lessvoid.nifty.controls.dynamic.TextCreator;
-import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
-import de.lessvoid.nifty.tools.Color;
 import streetmap.SSGlobals;
 import streetmap.gui.IScreenNames;
 import streetmap.saveandload.Saver;

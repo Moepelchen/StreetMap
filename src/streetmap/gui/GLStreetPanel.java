@@ -56,7 +56,7 @@ public class GLStreetPanel
         for (Tile tile : fTiles)
         {
 
-            DrawHelper.drawStreet(null,tile.getStreet(),true);
+            DrawHelper.drawStreet(tile.getStreet(),true);
             if(fSelectedStreet != null && tile.getStreet().getName().equals(fSelectedStreet))
             {
                 GL11.glColor4d(0,1,0,0.5);

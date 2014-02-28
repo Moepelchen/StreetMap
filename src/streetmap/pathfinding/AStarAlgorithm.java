@@ -1,5 +1,5 @@
 /*
- * Copyright (C) veenion GmbH 1999-2012.
+ * Copyright (C) Ulrich Tewes   2010-2012.
  */
 
 package streetmap.pathfinding;
@@ -9,11 +9,7 @@ import streetmap.map.street.Lane;
 import streetmap.map.street.Street;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Short description in a complete sentence.
@@ -118,7 +114,7 @@ public class AStarAlgorithm extends AbstractPathFinder
 
 	public AStarAlgorithm(Car car)
 	{
-		init(car);
+        super(car);
 	}
 
 	@Override

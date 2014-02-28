@@ -1,11 +1,11 @@
 /*
- * Copyright (C) veenion GmbH 1999-2012.
+ * Copyright (C) Ulrich Tewes   2010-2012.
  */
 
 package streetmap.car;
 
-import streetmap.map.street.Lane;
 import streetmap.SSGlobals;
+import streetmap.map.street.Lane;
 
 import javax.swing.*;
 import java.awt.geom.Point2D;

@@ -1,9 +1,9 @@
 package streetmap.saveandload.map;
 
-import streetmap.saveandload.ISaveConstants;
 import streetmap.map.Map;
 import streetmap.map.tile.Tile;
 import streetmap.saveandload.AbstractSaver;
+import streetmap.saveandload.ISaveConstants;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

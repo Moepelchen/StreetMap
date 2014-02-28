@@ -102,9 +102,9 @@ public class Street implements IPrintable, ISimulateable
 		this.fLanes = fLanes;
 	}
 
-	public void print(Graphics2D g)
+	public void print()
 	{
-		DrawHelper.drawStreet(g, this);
+		DrawHelper.drawStreet(this);
 
 	}
 

@@ -10,21 +10,11 @@ import streetmap.map.street.Lane;
 import streetmap.map.street.Street;
 
 import java.awt.*;
-import java.awt.geom.QuadCurve2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
 
-import static org.lwjgl.opengl.GL11.GL_QUADS;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.glBegin;
-import static org.lwjgl.opengl.GL11.glBindTexture;
-import static org.lwjgl.opengl.GL11.glColor3d;
-import static org.lwjgl.opengl.GL11.glEnd;
-import static org.lwjgl.opengl.GL11.glPopMatrix;
-import static org.lwjgl.opengl.GL11.glPushMatrix;
-import static org.lwjgl.opengl.GL11.glTexCoord2d;
-import static org.lwjgl.opengl.GL11.glVertex3d;
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -62,44 +52,20 @@ public class DrawHelper
 
     }
 
-	public static void drawAnchor(Graphics2D g, Anchor anchor)
+	public static void drawAnchor(Anchor anchor)
 	{
-		g.drawRect((int) anchor.getPosition().getX() - 1, (int) anchor.getPosition().getY() - 1, 2, 2);
 	}
 
-	public static void drawCurve(Graphics2D g, QuadCurve2D curve)
+	public static void drawSide(Side side)
 	{
-
 	}
 
-	public static void drawStraight(Graphics2D g, Lane lane)
-	{
-//		g.drawLine((int) lane.getStart().getPosition().getX(), (int) lane.getStart().getPosition().getY(), (int) lane.getEnd().getPosition().getX(), (int) lane.getEnd().getPosition().getY());
-
-	}
-
-	public static void drawSide(Graphics2D g, Side side)
-	{
-		if (side.getGlobals().getConfig().isDrawSides()&& g!= null)
-		{
-			g.setColor(Color.red);
-			g.drawRect((int) (side.getPosition().getX()) - 2, (int) side.getPosition().getY() - 2, 5, 5);
-		}
-		if (side.getGlobals().getConfig().isDrawAnchors() && g!= null)
-		{
-			g.setColor(Color.green);
-			side.getAnchorOne().print(g);
-			g.setColor(Color.MAGENTA);
-			side.getAnchorTwo().print(g);
-		}
-	}
-
-    public static void drawStreet(Graphics2D g, Street street)
+    public static void drawStreet(Street street)
     {
-        drawStreet(g, street, false);
+        drawStreet(street, false);
     }
 
-    public static void drawStreet(Graphics2D g, Street street, boolean forMenu)
+    public static void drawStreet(Street street, boolean forMenu)
 		{
 			Texture streetText = null;
 			String imagePath;
@@ -130,29 +96,34 @@ public class DrawHelper
 				}
 			}
 
-				Double tileSize = street.getTile().getWidth();
+				float tileSize = (float) street.getTile().getWidth();
 				glPushMatrix();
 				glColor3d(1, 1, 1);
 				if(imagePath != null)
 				{
-					glBindTexture(GL_TEXTURE_2D,streetText.getTextureID());
-					glBegin(GL_QUADS);
-					glTexCoord2d(0, 0);
-					glVertex3d(street.getTile().getArrayPosition().getX() * tileSize, street.getTile().getArrayPosition().getY() * tileSize, 0);
-					glTexCoord2d(0.64, 0);
-					glVertex3d(street.getTile().getArrayPosition().getX() * tileSize + tileSize, street.getTile().getArrayPosition().getY() * tileSize, 0);
-					glTexCoord2d(0.64, 0.64);
-					glVertex3d(street.getTile().getArrayPosition().getX() * tileSize + tileSize, street.getTile().getArrayPosition().getY() * tileSize + tileSize, 0);
-					glTexCoord2d(0, 0.64);
-					glVertex3d(street.getTile().getArrayPosition().getX() * tileSize, street.getTile().getArrayPosition().getY() * tileSize + tileSize, 0);
-					glEnd();
+                    float y = (float) (street.getTile().getArrayPosition().getY() * tileSize);
+                    float x = (float) (street.getTile().getArrayPosition().getX() * tileSize);
+                    if (streetText != null)
+                    {
+                        glBindTexture(GL_TEXTURE_2D,streetText.getTextureID());
+                    }
+                    glBegin(GL_QUADS);
+                    glTexCoord2f(0.0F, 0.0F);
+                    glVertex3f(x, y, 0);
+                    glTexCoord2f(1.0F, 0.0F);
+                    glVertex3f(x + tileSize, y, 0);
+                    glTexCoord2f(1.0F, 1.0F);
+                    glVertex3f(x + tileSize, y + tileSize, 0);
+                    glTexCoord2f(0.0F, 1.0F);
+                    glVertex3f(x, y + tileSize, 0);
+                    glEnd();
 					glBindTexture(GL_TEXTURE_2D,0);
 				}
 			
 				glPopMatrix();
 			for (Lane lane : street.getLanes())
 			{
-				lane.print(g);
+				lane.print();
 
 			}
 		}

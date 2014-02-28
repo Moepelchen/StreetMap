@@ -4,12 +4,7 @@ import streetmap.car.Car;
 import streetmap.map.street.Lane;
 import streetmap.map.street.Street;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,7 +18,12 @@ public class CrappyPathfinder extends AbstractPathFinder
 
 	private HashSet<Integer> fNoGo = new HashSet<>();
 
-	@Override
+    public CrappyPathfinder(Car car)
+    {
+        super(car);
+    }
+
+    @Override
 	public boolean containsStreet(Street street)
 	{
 		return true;

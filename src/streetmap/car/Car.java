@@ -3,13 +3,13 @@ package streetmap.car;
 import streetmap.events.IEvent;
 import streetmap.events.IEventHandler;
 import streetmap.events.StreetPlacementEvent;
-import streetmap.pathfinding.IPathFindingAlgorithm;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.map.street.Lane;
 import streetmap.map.street.Street;
 import streetmap.map.street.trajectory.ITrajectory;
 import streetmap.pathfinding.AbstractPathFinder;
+import streetmap.pathfinding.IPathFindingAlgorithm;
 import streetmap.rules.RightBeforeLeftRule;
 import streetmap.utils.DrawHelper;
 
@@ -77,7 +77,7 @@ public class Car implements IPrintable, ISimulateable, IEventHandler
 
 	}
 
-	public void print(Graphics2D g)
+	public void print()
 	{
 
 		try

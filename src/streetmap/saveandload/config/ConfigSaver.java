@@ -2,8 +2,8 @@ package streetmap.saveandload.config;
 
 import streetmap.config.Config;
 import streetmap.config.IConfig;
-import streetmap.saveandload.ISaveConstants;
 import streetmap.saveandload.AbstractSaver;
+import streetmap.saveandload.ISaveConstants;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

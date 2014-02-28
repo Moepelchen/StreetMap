@@ -256,23 +256,22 @@ public class Map implements IPrintable, ISimulateable, ActionListener
     /**
      * print each tile
      *
-     * @param g current Graphics2D object
      */
-    public void print(Graphics2D g)
+    public void print()
     {
 
-        drawTiles(g);
+        drawTiles();
 
         //drawCars(g);
     }
 
-    private void drawTiles(Graphics2D g)
+    private void drawTiles()
     {
         if (fOccupiedTiles != null)
         {
             for (Tile tile : fOccupiedTiles)
             {
-                tile.print(g);
+                tile.print();
             }
 
         }
@@ -299,7 +298,7 @@ public class Map implements IPrintable, ISimulateable, ActionListener
     public void paint()
     {
         long time = System.currentTimeMillis();
-        this.print(fGraphics);
+        this.print();
         long takenTime = Math.max(System.currentTimeMillis() - time, 1);
         double fps = 1000 / takenTime;
         double l = Math.round(fCarFlowIndex * 1000) / 1000.0;
