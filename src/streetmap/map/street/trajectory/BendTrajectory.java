@@ -2,9 +2,7 @@ package streetmap.map.street.trajectory;
 
 import streetmap.car.Car;
 import streetmap.map.street.Lane;
-import streetmap.utils.DrawHelper;
 
-import java.awt.*;
 import java.awt.geom.FlatteningPathIterator;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
@@ -100,9 +98,8 @@ public class BendTrajectory implements ITrajectory
 	}
 
 	@Override
-	public void print(Graphics2D g)
+	public void print()
 	{
-		DrawHelper.drawCurve(g, this.fCurve);
 	}
 
 	/**
