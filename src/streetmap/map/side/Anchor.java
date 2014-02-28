@@ -79,9 +79,10 @@ public class Anchor implements IPrintable
     public Lane getRandomLane()
     {
         int index = (int) (Math.floor(fOutputLanes.size() * Math.random()));
+		if (fOutputLanes.size() > index)
+		{
 
-        for (Lane lane : fOutputLanes)
-        {
+			Lane lane = fOutputLanes.get(index);
             if (!lane.isBlocked())
             {
                 return lane;
