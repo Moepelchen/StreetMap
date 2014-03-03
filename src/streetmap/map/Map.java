@@ -297,6 +297,7 @@ public class Map implements IPrintable, ISimulateable, ActionListener
 
     public void paint()
     {
+
         long time = System.currentTimeMillis();
         this.print();
         long takenTime = Math.max(System.currentTimeMillis() - time, 1);

@@ -66,12 +66,12 @@ public class StraightTrajectory implements ITrajectory
 		}
 		else if (isSouth)
 		{
-			fAngle = 3 * Math.PI / 4;
+			fAngle =  Math.PI / 2;
 			fDirection = -1;
 		}
 		else
 		{
-			fAngle = Math.PI / 4;
+			fAngle = 3*Math.PI / 2;
 		}
 
 
@@ -97,7 +97,7 @@ public class StraightTrajectory implements ITrajectory
 		return newPos;
 	}
 
-	public double getAngle()
+	public double getAngle(Car car)
 	{
 		return fAngle;
 	}

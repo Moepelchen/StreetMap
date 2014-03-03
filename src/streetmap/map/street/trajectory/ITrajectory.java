@@ -16,7 +16,7 @@ public interface ITrajectory
 {
 	public Point2D calculatePosition(Point2D pos, double speed);
 
-	double getAngle();
+	double getAngle(Car car);
 
 	void print();
 

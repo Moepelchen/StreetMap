@@ -92,8 +92,37 @@ public class BendTrajectory implements ITrajectory
 	}
 
 	@Override
-	public double getAngle()
+	public double getAngle(Car car)
 	{
+       /* PathIterator p = fCurve.getPathIterator(null);
+        FlatteningPathIterator f = new FlatteningPathIterator(p, reduceCarSpeed(speed));
+        while (!f.isDone())
+        {
+            float[] pts = new float[6];
+            switch (f.currentSegment(pts))
+            {
+                case PathIterator.SEG_MOVETO:
+                case PathIterator.SEG_LINETO:
+                    Point2D point = new Point2D.Float(pts[0], pts[1]);
+                    if (point.distance(pos) == 0)
+                    {
+                        f.next();
+                        if (!f.isDone())
+                        {
+                            pts = new float[6];
+                            f.currentSegment(pts);
+                            return new Point2D.Float(pts[0], pts[1]);
+                        }
+                        else
+                        {
+                            return new Point2D.Double(-1, -1);
+                        }
+                    }
+
+            }
+            f.next();
+        }*/
+
 		return 0;
 	}
 

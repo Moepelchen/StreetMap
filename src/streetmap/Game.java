@@ -16,6 +16,7 @@ import streetmap.gui.IScreenNames;
 import streetmap.gui.controller.*;
 import streetmap.gui.inputmapping.MenuInputMapping;
 import streetmap.map.Map;
+import streetmap.utils.TextureCache;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -89,6 +90,8 @@ public class Game
 	public void start() throws Exception
 	{
 
+         /*PixelFormat pixelFormat = new PixelFormat();
+       ContextAttribs contextAtrributes = new ContextAttribs(3, 2).withProfileCore(true).withForwardCompatible(true);*/
 		Display.setDisplayMode(new DisplayMode(getWidth(), getHeight()));
 		Display.create();
 
@@ -113,7 +116,6 @@ public class Game
 		fKeyboardHandler = new KeyHandler(fGlobals);
 
         initNifty();
-
 		// glEnable(GL11.GL_DEPTH_TEST);
 		while (!Display.isCloseRequested())
 		{
@@ -149,7 +151,8 @@ public class Game
 			}
 
 		}
-		Display.destroy();
+        TextureCache.releaseTextures();
+        Display.destroy();
         System.exit(0);
 
 	}
