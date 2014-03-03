@@ -50,7 +50,7 @@ public abstract class LogPanel implements EffectImpl
             GL11.glVertex2d(point2D.getX(),element.getHeight() - y);
 
         }
-           GL11.glVertex2d(Math.min(element.getWidth(), (int) data.get(data.size() - 1).getX()), element.getHeight());
+        GL11.glVertex2d(Math.min(element.getWidth(), (int) data.get(data.size() - 1).getX()), element.getHeight());
 
         GL11.glEnd();
         GL11.glPopMatrix();
