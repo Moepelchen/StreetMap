@@ -31,6 +31,14 @@
                     <onActive name="flowpanel" post="true"/>
                 </effect>
             </panel>
+            <panel valign="bottom" align="right" childLayout="center" id="cars" height="100" width="300"
+                   backgroundColor="#0010ff">
+                <text font="aurulent-sans-16.fnt" color="#ffff"
+                      text="Paths requested"/>
+                <effect>
+                    <onActive name="pathpanel" post="true"/>
+                </effect>
+            </panel>
         </layer>
         <layer id="game_layer" childLayout="vertical" align="right">
             <panel align="right" width="200" height="50" childLayout="center" backgroundColor="#3973FF"

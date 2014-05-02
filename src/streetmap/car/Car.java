@@ -255,7 +255,7 @@ public class
 	public void reset(Lane lane)
 	{
 		fLane = lane;
-		if(fHappiness < 0.5&& fPathFinder != null)
+		if(fHappiness < 0.10&& fPathFinder != null)
 	            recalcPath();
 	}
 

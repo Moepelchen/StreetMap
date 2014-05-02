@@ -128,16 +128,19 @@ public class GLStreetPanel
 			{
 				handlePanelClick(y);
 			}
-
-			y = fGlobals.getGame().getHeight() - y;
-			Vector2f pos = fGlobals.getGame().getTranslatedCoords(x, y);
-
-			float zoom = fGlobals.getGame().getPlayer().getZoom();
-			if(fFirstClicked == null)
+			else
 			{
-				fFirstClicked = new Point2D.Double(pos.getX()/zoom,pos.getY()/zoom);
+
+				y = fGlobals.getGame().getHeight() - y;
+				Vector2f pos = fGlobals.getGame().getTranslatedCoords(x, y);
+
+				float zoom = fGlobals.getGame().getPlayer().getZoom();
+				if (fFirstClicked == null)
+				{
+					fFirstClicked = new Point2D.Double(pos.getX() / zoom, pos.getY() / zoom);
+				}
+				fCurrentClick = new Point2D.Double(pos.getX() / zoom, pos.getY() / zoom);
 			}
-			fCurrentClick = new Point2D.Double(pos.getX()/zoom,pos.getY()/zoom);
 		}
 		else
 		{

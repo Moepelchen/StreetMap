@@ -14,7 +14,11 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 import streetmap.gui.GLStreetPanel;
 import streetmap.gui.IScreenNames;
-import streetmap.gui.controller.*;
+import streetmap.gui.controller.DebugScreenController;
+import streetmap.gui.controller.GameScreenController;
+import streetmap.gui.controller.LoadScreenController;
+import streetmap.gui.controller.MenuScreenController;
+import streetmap.gui.controller.SaveScreenController;
 import streetmap.gui.inputmapping.MenuInputMapping;
 import streetmap.map.DataStorage2d;
 import streetmap.map.Map;
@@ -47,6 +51,7 @@ public class Game
     long lastFPS;
 
     private DataStorage2d fFPSData = new DataStorage2d(300);
+	private DataStorage2d fPathData = new DataStorage2d(300);
 
     public Nifty getNifty()
 	{
@@ -69,6 +74,11 @@ public class Game
 	{
 
 		return fScalePoint;
+	}
+
+	public DataStorage2d getPathData()
+	{
+		return fPathData;
 	}
 
 	public Game(SSGlobals globals)
@@ -150,7 +160,11 @@ public class Game
 
 			if (!this.isPaused())
 			{
+				fGlobals.getMap().getPathFactory().reset();
 				fGlobals.getMap().simulate();
+				int pathsRequested = fGlobals.getMap().getPathFactory().getPathsRequested();
+
+				fPathData.add((double) pathsRequested);
 			}
 			fGlobals.getMap().paint();
 			GL11.glPopMatrix();
@@ -232,7 +246,8 @@ public class Game
         fNifty.registerScreenController(loadScreenController);
         fNifty.registerEffect("carpanel", "streetmap.gui.effects.CarNumberPanel");
         fNifty.registerEffect("framepanel", "streetmap.gui.effects.FPSPanel");
-        fNifty.registerEffect("flowpanel", "streetmap.gui.effects.FlowDataPanel");
+	    fNifty.registerEffect("flowpanel", "streetmap.gui.effects.FlowDataPanel");
+	    fNifty.registerEffect("pathpanel", "streetmap.gui.effects.PathDataPanel");
 
         fNifty.fromXml(menuDefinitions.getPath(), "game");
 
