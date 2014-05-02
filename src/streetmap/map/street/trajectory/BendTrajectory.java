@@ -19,7 +19,8 @@ import java.awt.geom.QuadCurve2D;
 public class BendTrajectory implements ITrajectory
 {
 
-	private double fStartX;
+    private boolean fisSideWays;
+    private double fStartX;
 	private double fEndX;
 	private double fStartY;
 	private Lane fLane;
@@ -27,6 +28,7 @@ public class BendTrajectory implements ITrajectory
 	private boolean isBackWard;
 	private final QuadCurve2D fCurve;
 	private double fLength;
+    private boolean fIsUpward;
 
 	public BendTrajectory(Lane lane)
 	{
@@ -44,6 +46,13 @@ public class BendTrajectory implements ITrajectory
 			x = fEndX;
 			y = fStartY;
 		}
+
+        if(lane.getTo().equals("N") || lane.getFrom().equals("S"))
+            fIsUpward = true;
+
+        if(lane.getTo().equals("W")|| lane.getTo().equals("E"))
+            fisSideWays = true;
+
 		fCurve = new QuadCurve2D.Double(fStartX, fStartY, x, y, fEndX, fEndY);
 
 	}
@@ -112,11 +121,12 @@ public class BendTrajectory implements ITrajectory
 							Point2D nextPoint = new Point2D.Float(pts[0], pts[1]);
 							double m = (pos.getY() - nextPoint.getY()) / (pos.getX() - nextPoint.getX());
 							double angle = Math.atan(m);
-							if (!isBackWard)
-							{
-								angle = angle + Math.PI;
-							}
-							return angle;
+                            if(angle <0)
+                                angle = angle +Math.PI;
+
+                            if(fIsUpward)
+                                angle = angle + Math.PI;
+                            return angle;
 						}
 
 					}
@@ -125,7 +135,10 @@ public class BendTrajectory implements ITrajectory
 			f.next();
 		}
 
-		return 0;
+        double defaultAngle = Math.PI / 2;
+        if(fisSideWays)
+            defaultAngle = 0;
+        return defaultAngle;
 	}
 
 	@Override

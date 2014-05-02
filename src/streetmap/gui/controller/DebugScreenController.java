@@ -2,6 +2,7 @@ package streetmap.gui.controller;
 
 import de.lessvoid.nifty.controls.TextField;
 import streetmap.SSGlobals;
+import streetmap.gui.IScreenNames;
 
 /**
  * Created by ulrichtewes on 19.01.14.
@@ -16,7 +17,7 @@ public class DebugScreenController extends AbstractScreenController
     @Override
     protected String getEscapeScreen()
     {
-        return null;
+        return IScreenNames.SCREEN_MENU;
     }
 
     @Override

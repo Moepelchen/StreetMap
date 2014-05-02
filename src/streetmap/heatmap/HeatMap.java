@@ -111,7 +111,7 @@ public class HeatMap extends JPanel
         // this is the expensive function that draws the data plot into a 
         // BufferedImage. The data plot is then cheaply drawn to the screen when
         // needed, saving us a lot of time in the end.
-        drawData();
+        //drawData();
     }
 
     /**
@@ -334,7 +334,7 @@ public class HeatMap extends JPanel
         {
             updateDataColors();
 
-            drawData();
+            //drawData();
 
             repaint();
         }
@@ -488,11 +488,11 @@ public class HeatMap extends JPanel
             }
         }
 
-        updateDataColors();
+        //updateDataColors();
         
-        drawData();
+        //drawData();
 
-        repaint();
+        //repaint();
     }
     
     /**
@@ -554,7 +554,7 @@ public class HeatMap extends JPanel
         {
             // Ideally, we only to call drawData in the constructor, or if we
             // change the data or gradients. We include this just to be safe.
-            drawData();
+            //drawData();
         }
         
         // The data plot itself is drawn with 1 pixel per data point, and the

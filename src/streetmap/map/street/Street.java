@@ -105,6 +105,10 @@ public class Street implements IPrintable, ISimulateable
 	public void print()
 	{
 		DrawHelper.drawStreet(this);
+      /*  for (Lane lane : this.getLanes())
+        {
+            lane.print();
+        }*/
 
 	}
 

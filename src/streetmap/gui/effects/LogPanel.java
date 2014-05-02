@@ -43,14 +43,18 @@ public abstract class LogPanel implements EffectImpl
         GL11.glBegin(GL11.GL_LINE_LOOP);
         glColor3d((double) color.getRed() / 255, (double) color.getGreen() / 255, (double) color.getBlue() / 255);
         GL11.glVertex2d(0,element.getHeight())  ;
-        double max = Math.max(flowData.getMax(), getMax());
-        for (Point2D point2D : data)
+        if(!data.isEmpty())
         {
-            double y = (point2D.getY()/max)*element.getHeight();
-            GL11.glVertex2d(point2D.getX(),element.getHeight() - y);
+            double max = Math.max(flowData.getMax(), getMax());
 
+            for (Point2D point2D : data)
+            {
+                double y = (point2D.getY()/max)*element.getHeight();
+                GL11.glVertex2d(point2D.getX(),element.getHeight() - y);
+
+            }
+            GL11.glVertex2d(Math.min(element.getWidth(), (int) data.get(data.size() - 1).getX()), element.getHeight());
         }
-        GL11.glVertex2d(Math.min(element.getWidth(), (int) data.get(data.size() - 1).getX()), element.getHeight());
 
         GL11.glEnd();
         GL11.glPopMatrix();

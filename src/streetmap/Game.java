@@ -6,6 +6,7 @@ import de.lessvoid.nifty.renderer.lwjgl.input.LwjglInputSystem;
 import de.lessvoid.nifty.renderer.lwjgl.render.LwjglRenderDevice;
 import de.lessvoid.nifty.renderer.lwjgl.time.LWJGLTimeProvider;
 import de.lessvoid.nifty.screen.ScreenController;
+import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -15,6 +16,7 @@ import streetmap.gui.GLStreetPanel;
 import streetmap.gui.IScreenNames;
 import streetmap.gui.controller.*;
 import streetmap.gui.inputmapping.MenuInputMapping;
+import streetmap.map.DataStorage2d;
 import streetmap.map.Map;
 import streetmap.utils.TextureCache;
 
@@ -27,8 +29,8 @@ import java.io.FileNotFoundException;
  */
 public class Game
 {
-    public static final int WIDTH = 1200;
-    public static final int HEIGHT = 1000;
+    public static final int WIDTH = 1280;
+    public static final int HEIGHT = 1024;
     private final Player fPlayer;
 	SSGlobals fGlobals;
     private GLStreetPanel fStreetPanel;
@@ -36,7 +38,17 @@ public class Game
 	private boolean fPaused;
 	private Vector2f fScalePoint;
 
-	public Nifty getNifty()
+    /** time at last frame */
+    long lastFrame;
+
+    /** frames per second */
+    int fps;
+    /** last fps time */
+    long lastFPS;
+
+    private DataStorage2d fFPSData = new DataStorage2d(300);
+
+    public Nifty getNifty()
 	{
 		return fNifty;
 	}
@@ -116,10 +128,15 @@ public class Game
 		fKeyboardHandler = new KeyHandler(fGlobals);
 
         initNifty();
+        getDelta(); // call once before loop to initialise lastFrame
+        lastFPS = getTime(); // call before loop to initialise fps timer
+
 		// glEnable(GL11.GL_DEPTH_TEST);
 		while (!Display.isCloseRequested())
 		{
+            int delta = getDelta();
 
+            updateFPS();
             fGlobals.getTimeHandler().tickTime();
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 			// Clear the screen and depth buffer
@@ -145,7 +162,8 @@ public class Game
 			Display.update();
 			Display.sync(60); // cap fps to 60fps
 
-			if(fNifty.getCurrentScreen().getScreenId().equals(IScreenNames.SCREEN_GAME))
+            String screenId = fNifty.getCurrentScreen().getScreenId();
+            if(fNifty.getCurrentScreen() != null && screenId != null &&screenId.equals(IScreenNames.SCREEN_GAME))
 			{
 				processInput();
 			}
@@ -156,6 +174,42 @@ public class Game
         System.exit(0);
 
 	}
+    /**
+     * Calculate how many milliseconds have passed
+     * since last frame.
+     *
+     * @return milliseconds passed since last frame
+     */
+    public int getDelta() {
+        long time = getTime();
+        int delta = (int) (time - lastFrame);
+        lastFrame = time;
+
+        return delta;
+    }
+
+    /**
+     * Get the accurate system time
+     *
+     * @return The system time in milliseconds
+     */
+    public long getTime() {
+        return (Sys.getTime() * 1000) / Sys.getTimerResolution();
+    }
+
+    /**
+     * Calculate the FPS and set it in the title bar
+     */
+    public void updateFPS() {
+        if (getTime() - lastFPS > 1000) {
+            Display.setTitle("FPS: " + fps);
+            fFPSData.add((double) fps);
+            fps = 0;
+            lastFPS += 1000;
+
+        }
+        fps++;
+    }
 
     private void initNifty() throws Exception
     {
@@ -230,5 +284,10 @@ public class Game
     public void unPause()
     {
         fPaused = false;
+    }
+
+    public DataStorage2d getFrameData()
+    {
+        return fFPSData;
     }
 }

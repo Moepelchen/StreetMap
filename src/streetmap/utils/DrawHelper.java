@@ -3,7 +3,6 @@ package streetmap.utils;
 import streetmap.car.Car;
 import streetmap.map.side.Anchor;
 import streetmap.map.side.Side;
-import streetmap.map.street.Lane;
 import streetmap.map.street.Street;
 
 import java.awt.*;
@@ -125,11 +124,7 @@ public class DrawHelper
         }
 
         glPopMatrix();
-        for (Lane lane : street.getLanes())
-        {
-            lane.print();
 
-        }
     }
 
     public static void drawHeatMap(BufferedImage image)

@@ -227,7 +227,6 @@ public class Tile implements IPrintable, ISimulateable
 
 	public void print()
 	{
-		//TODO draw tiles
 
 		if (fStreet != null)
 		{

@@ -10,7 +10,7 @@ public class FPSPanel extends LogPanel
 
     protected DataStorage2d getData()
     {
-        return fGlobals.getMap().getFrameData();
+        return fGlobals.getGame().getFrameData();
     }
 
     @Override

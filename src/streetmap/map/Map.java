@@ -14,11 +14,9 @@ import streetmap.map.tile.Tile;
 import streetmap.pathfinding.AbstractPathFinder;
 import streetmap.pathfinding.PathFactory;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Vector;
@@ -50,21 +48,15 @@ public class Map implements IPrintable, ISimulateable, ActionListener
      * Globals containing the different configurations
      */
     private SSGlobals fGlobals;
-    /**
-     * Image usd for double buffering
-     */
-    private BufferedImage fImage;
+
     /**
      * graphics to draw
      */
-    private Graphics2D fGraphics;
-    private double[][] fHeatMapCache;
     private Vector<Lane> fStartingLanes;
     private Vector<Lane> fEndLanes;
     private int fMaxNumberOfCarsOnOneTile = 0;
     private int fCurrentNumberOfCars = 0;
     private double[][] fHeatMapData;
-    private java.util.List<double[][]> fHeatMapCollection;
     private HeatMap fHeatMap;
     private int fNumberOfTilesX;
     private int fNumberOfTilesY;
@@ -72,7 +64,6 @@ public class Map implements IPrintable, ISimulateable, ActionListener
     private double fCarFlowIndex;
     private ArrayList<Tile> fOccupiedTiles;
     private DataStorage2d fCarData = new DataStorage2d(300);
-    private DataStorage2d fFPSData = new DataStorage2d(300);
     private DataStorage2d fFlowData = new DataStorage2d(300);
     private PathFactory fPathFactory;
     private streetmap.events.EventQueue fEvents;
@@ -96,9 +87,6 @@ public class Map implements IPrintable, ISimulateable, ActionListener
         fGlobals = globals;
         fGlobals.setMap(this);
 
-        fImage = new BufferedImage(fWidth.intValue() + 5, fHeight.intValue() + 5, BufferedImage.TYPE_INT_ARGB);
-        //  fCarLayerImage = new BufferedImage(fWidth.intValue() + 5, fHeight.intValue() + 5, BufferedImage.TYPE_INT_ARGB);
-        fGraphics = (Graphics2D) fImage.getGraphics();
         int numberOfTilesX = (int) (fWidth / fTileSize);
         int numberOfTilesY = (int) (fHeight / fTileSize);
         fTiles = new Tile[numberOfTilesX][numberOfTilesY];
@@ -113,11 +101,9 @@ public class Map implements IPrintable, ISimulateable, ActionListener
                 fHeatMapData[i][y] = 0;
             }
         }
-        fHeatMapCollection = new ArrayList<>();
         fMaxNumberOfCarsOnOneTile = 1;
 
         fHeatMap = new HeatMap(fHeatMapData, true, Gradient.GRADIENT_HEAT);
-        fHeatMapCache = new double[fNumberOfTilesX][fNumberOfTilesY];
         fCarFlowData = new LinkedList<>();
         fCarFlowData.add(0);
         fCarFlowIndex = 0;
@@ -211,46 +197,15 @@ public class Map implements IPrintable, ISimulateable, ActionListener
     private void updateHeatMap()
     {
 
-        double[][] cache = new double[fNumberOfTilesX][fNumberOfTilesY];
-
-        for (int i = 0; i < fNumberOfTilesX; i++)
+        for (Tile fOccupiedTile : fOccupiedTiles)
         {
-            for (int y = 0; y < fNumberOfTilesY; y++)
-            {
-
-                Tile tile = fTiles[i][y];
-                if (tile != null)
-                {
-                    cache[i][y] = (double) tile.getNumberOfCars() / (double) fMaxNumberOfCarsOnOneTile;
-
-                }
-            }
+            Point2D arrayPos = fOccupiedTile.getArrayPosition();
+            int x = (int) arrayPos.getX();
+            int y = (int) arrayPos.getY();
+            fHeatMapData[x][y] = fHeatMapData[x][y] - fHeatMapData[x][y]/10;
+            fHeatMapData[x][y] = ((double) fOccupiedTile.getNumberOfCars() / (double) fMaxNumberOfCarsOnOneTile)/10;
         }
-        fHeatMapCollection.add(cache);
-        if (fHeatMapCollection.size() > 10)
-        {
-            fHeatMapCollection.remove(0);
-        }
-
-        fHeatMapCache = new double[fNumberOfTilesX][fNumberOfTilesY];
-        for (double[][] doubles : fHeatMapCollection)
-        {
-            for (int i = 0; i < fNumberOfTilesX; i++)
-            {
-                for (int y = 0; y < fNumberOfTilesY; y++)
-                {
-                    try
-                    {
-                        fHeatMapCache[i][y] = fHeatMapCache[i][y] + doubles[i][y] / (double) fMaxNumberOfCarsOnOneTile;
-                    } catch (ArrayIndexOutOfBoundsException e)
-                    {
-                        System.out.println("e = " + e);
-                    }
-                }
-            }
-        }
-
-        fHeatMap.updateData(fHeatMapCache, true);
+        fHeatMap.updateData(fHeatMapData, true);
     }
 
     /**
@@ -272,8 +227,15 @@ public class Map implements IPrintable, ISimulateable, ActionListener
             for (Tile tile : fOccupiedTiles)
             {
                 tile.print();
-            }
 
+            }
+            for (Tile fOccupiedTile : fOccupiedTiles)
+            {
+                for (Lane occupiedTile : fOccupiedTile.getLanes())
+                {
+                    occupiedTile.print();
+                }
+            }
         }
     }
 
@@ -298,13 +260,9 @@ public class Map implements IPrintable, ISimulateable, ActionListener
     public void paint()
     {
 
-        long time = System.currentTimeMillis();
         this.print();
-        long takenTime = Math.max(System.currentTimeMillis() - time, 1);
-        double fps = 1000 / takenTime;
         double l = Math.round(fCarFlowIndex * 1000) / 1000.0;
         fCarData.add((double) fCurrentNumberOfCars);
-        fFPSData.add(fps);
         fFlowData.add(l);
 
     }
@@ -352,7 +310,7 @@ public class Map implements IPrintable, ISimulateable, ActionListener
 
     public double getHeatMapReading(Point2D point)
     {
-        return fHeatMapCache[((int) point.getX())][((int) point.getY())];
+        return fHeatMapData[((int) point.getX())][((int) point.getY())];
     }
 
     public void addCarFlowData(int removedCars)
@@ -394,11 +352,6 @@ public class Map implements IPrintable, ISimulateable, ActionListener
         return fCarData;
     }
 
-    public DataStorage2d getFrameData()
-    {
-        return fFPSData;
-    }
-
     public Tile getTile(Point2D point)
     {
         double arrayX = (int) (point.getX() / fGlobals.getConfig().getTileSize());
@@ -409,5 +362,10 @@ public class Map implements IPrintable, ISimulateable, ActionListener
     public PathFactory getPathFactory()
     {
         return fPathFactory;
+    }
+
+    public void release()
+    {
+        fPathFactory.release();
     }
 }

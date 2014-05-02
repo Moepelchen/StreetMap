@@ -81,8 +81,8 @@ public class Lane implements IPrintable, ISimulateable
 	{
         fStreet = street;
 		fGlobals = glob;
-		fCars = new Vector<Car>();
-		fDirections = new HashMap<Anchor, String>();
+		fCars = new Vector<>();
+		fDirections = new HashMap<>();
 
 	}
 

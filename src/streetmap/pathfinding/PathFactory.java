@@ -31,4 +31,9 @@ public class PathFactory extends Thread
         alog.setEnd(destination);
         fExecutor.execute(alog);
     }
+
+    public void release()
+    {
+        fExecutor.shutdown();
+    }
 }
