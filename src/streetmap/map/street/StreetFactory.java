@@ -138,7 +138,6 @@ public class StreetFactory
 	    boolean hasSouthConnection =  hasNeighbor(xCoord , yCoord+1);
 	    boolean hasWestConnection =  hasNeighbor(xCoord-1, yCoord);
 	    List<StreetTemplate> candidates = new ArrayList<>();
-        List<StreetTemplate> bendCandidates = new ArrayList<>();
 
         if (hasNorthConnection || hasEastConnection || hasSouthConnection || hasWestConnection)
         {
@@ -158,9 +157,7 @@ public class StreetFactory
 			        boolean doesNorthFit = doesFit(hasNorthConnection, tempHasNorthConnection);
 			        if (doesEastFit && doesSouthFit && doesWestFit && doesNorthFit)
 			        {
-
 					        candidates.add(streetTemplate);
-
 			        }
 		        }
             }
@@ -178,18 +175,7 @@ public class StreetFactory
             }
 
         }
-        if (bestMatch == null)
-        {
-            for (StreetTemplate bendCandidate : bendCandidates)
-            {
-                int size = bendCandidate.getLaneTemplates().getLaneTemplate().size();
-                if (size < minCon && size >= 2 && !bendCandidate.isIsSpecial())
-                {
-                    minCon = size;
-                    bestMatch = bendCandidate;
-                }
-            }
-        }
+
 
         if (bestMatch != null)
         {

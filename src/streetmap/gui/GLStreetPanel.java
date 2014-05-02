@@ -3,12 +3,14 @@ package streetmap.gui;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
+import streetmap.Player;
 import streetmap.SSGlobals;
 import streetmap.map.street.IStreetNames;
 import streetmap.map.tile.Tile;
 import streetmap.utils.DrawHelper;
 import streetmap.xml.jaxb.StreetTemplate;
 
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +27,10 @@ public class GLStreetPanel
     private final ArrayList<Tile> fTiles;
     private final int fTileWidth;
     private String fSelectedStreet;
-	private Point2D fPreviousClick;
+	private Point2D fFirstClicked;
+	private Point2D fCurrentClick;
 
-    public GLStreetPanel(SSGlobals globals)
+	public GLStreetPanel(SSGlobals globals)
     {
         fTiles = new ArrayList<>();
         fGlobals = globals;
@@ -75,6 +78,42 @@ public class GLStreetPanel
             }
 
         }
+	    if (fFirstClicked != null && fCurrentClick != null && fSelectedStreet != null)
+	    {
+		    Line2D line = new Line2D.Double(fFirstClicked, fCurrentClick);
+		    Tile[][] tiles = fGlobals.getMap().getTiles();
+		    for (Tile[] tile : tiles)
+		    {
+			    for (Tile tile1 : tile)
+			    {
+				    if (line.intersects(tile1.getRect()))
+				    {
+					    GL11.glPushMatrix();
+					    Vector2f scalePoint = fGlobals.getGame().getScalePoint();
+					    GL11.glTranslated(scalePoint.getX(), scalePoint.getY(), 0);
+					    Player fPlayer = fGlobals.getGame().getPlayer();
+					    GL11.glScalef(fPlayer.getZoom(), fPlayer.getZoom(), 0);
+					    GL11.glTranslated(-scalePoint.getX(), -scalePoint.getY(), 0);
+
+					    GL11.glTranslatef(fPlayer.getX(), fPlayer.getY(), 0);
+					    GL11.glColor4d(0, 1, 0, 0.5);
+					    glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+					    GL11.glBegin(GL11.GL_QUADS);
+					    {
+						    glVertex3d(tile1.getArrayPosition().getX() * tile1.getWidth(), tile1.getArrayPosition().getY() * tile1.getWidth(), 0);
+
+						    glVertex3d(tile1.getArrayPosition().getX() * tile1.getWidth() + tile1.getWidth(), tile1.getArrayPosition().getY() * tile1.getWidth(), 0);
+
+						    glVertex3d(tile1.getArrayPosition().getX() * tile1.getWidth() + tile1.getWidth(), tile1.getArrayPosition().getY() * tile1.getWidth() + tile1.getWidth(), 0);
+
+						    glVertex3d(tile1.getArrayPosition().getX() * tile1.getWidth(), tile1.getArrayPosition().getY() * tile1.getWidth() + tile1.getWidth(), 0);
+					    }
+					    GL11.glEnd();
+					    GL11.glPopMatrix();
+				    }
+			    }
+		    }
+	    }
     }
 
 	public void handleClick()
@@ -89,24 +128,48 @@ public class GLStreetPanel
 			{
 				handlePanelClick(y);
 			}
-			else
+
+			y = fGlobals.getGame().getHeight() - y;
+			Vector2f pos = fGlobals.getGame().getTranslatedCoords(x, y);
+
+			float zoom = fGlobals.getGame().getPlayer().getZoom();
+			if(fFirstClicked == null)
 			{
-				handleMapClick(x, y);
+				fFirstClicked = new Point2D.Double(pos.getX()/zoom,pos.getY()/zoom);
 			}
-			fPreviousClick = new Point2D.Double(x,y);
+			fCurrentClick = new Point2D.Double(pos.getX()/zoom,pos.getY()/zoom);
 		}
 		else
-			fPreviousClick = null;
+		{
+			if (fFirstClicked != null && fCurrentClick != null && fSelectedStreet != null)
+			{
+				Line2D line = new Line2D.Double(fFirstClicked, fCurrentClick);
+				Tile[][] tiles = fGlobals.getMap().getTiles();
+				for (Tile[] tile : tiles)
+				{
+					for (Tile tile1 : tile)
+					{
+						if (line.intersects(tile1.getRect()))
+						{
+							fGlobals.getMap().handleAddition(tile1.getStreet());
+						    fGlobals.getStreetFactory().createStreet(tile1, fSelectedStreet,true,true);
+						}
+					}
+				}
+			}
+			fFirstClicked = null;
+			fCurrentClick = null;
+		}
 
 	}
 
 	private String getSelected(int x, int y)
 	{
 
-		if(fSelectedStreet != null &&!fGlobals.getStreetConfig().getTemplate(fSelectedStreet).isIsSpecial() && fPreviousClick != null)
+		if(fSelectedStreet != null &&!fGlobals.getStreetConfig().getTemplate(fSelectedStreet).isIsSpecial() && fCurrentClick != null)
 		{
-			double distY = Math.abs(fPreviousClick.getX() -x);
-			double distX = Math.abs(fPreviousClick.getY()-y);
+			double distY = Math.abs(fCurrentClick.getX()-x);
+			double distX = Math.abs(fCurrentClick.getY()-y);
 			if(distY >0 || distX >0)
 			{
 				if(distY > distX)
@@ -118,21 +181,6 @@ public class GLStreetPanel
 
 		return fSelectedStreet;
 	}
-
-	private void handleMapClick(int x, int y)
-    {
-        y = fGlobals.getGame().getHeight()-y;
-        Vector2f pos = fGlobals.getGame().getTranslatedCoords(x,y);
-        double tileSize = fGlobals.getMap().getTileWidth()*fGlobals.getGame().getPlayer().getZoom();
-        x = (int) (pos.getX() /tileSize);
-        y = (int) (pos.getY() /tileSize);
-        Tile tile  =fGlobals.getMap().getTile(x,y);
-	    if (tile != null && fSelectedStreet != null)
-	    {
-		    fGlobals.getMap().handleAddition(tile.getStreet());
-		    fGlobals.getStreetFactory().createStreet(tile, fSelectedStreet,true,true);
-	    }
-    }
 
     private void handlePanelClick(int y)
     {
