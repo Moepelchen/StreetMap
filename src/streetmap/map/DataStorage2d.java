@@ -18,10 +18,21 @@ public class DataStorage2d
 
     private Double fMax;
 
-    public DataStorage2d(int i)
+	public Double getCurrent()
+	{
+		int index = getData().size() - 1;
+		if(index >= 0)
+		{
+			return getData().get(index).getY();
+		}
+		else
+			return 0d;
+	}
+
+	public DataStorage2d(int i)
     {
         fSize = i;
-        fData = new ArrayList<Double>();
+        fData = new ArrayList<>();
     }
 
     public void add(Double i)
@@ -36,7 +47,7 @@ public class DataStorage2d
     public ArrayList<Point2D> getData()
     {
         fMax = 0.0;
-        ArrayList<Point2D> toReturn = new ArrayList<Point2D>();
+        ArrayList<Point2D> toReturn = new ArrayList<>();
         for (int i =0; i<fData.size();i++)
         {
             Double y = fData.get(i);
