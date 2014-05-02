@@ -140,7 +140,12 @@ public class Map implements IPrintable, ISimulateable, ActionListener
         return fCurrentNumberOfCars;
     }
 
-    /**
+	public int getMaxNumberOfCarsOnOneTile()
+	{
+		return fMaxNumberOfCarsOnOneTile;
+	}
+
+	/**
      * Simulate each tile
      */
     public synchronized void simulate()
@@ -202,10 +207,11 @@ public class Map implements IPrintable, ISimulateable, ActionListener
             Point2D arrayPos = fOccupiedTile.getArrayPosition();
             int x = (int) arrayPos.getX();
             int y = (int) arrayPos.getY();
-            fHeatMapData[x][y] = fHeatMapData[x][y] - fHeatMapData[x][y]/10;
-            fHeatMapData[x][y] = ((double) fOccupiedTile.getNumberOfCars() / (double) fMaxNumberOfCarsOnOneTile)/10;
+            fHeatMapData[x][y] = fHeatMapData[x][y] - fHeatMapData[x][y]/100d;
+            fHeatMapData[x][y] = fHeatMapData[x][y]+((double) fOccupiedTile.getNumberOfCars() / (double) fMaxNumberOfCarsOnOneTile)/100d;
+
         }
-        fHeatMap.updateData(fHeatMapData, true);
+       // fHeatMap.updateData(fHeatMapData, true);
     }
 
     /**

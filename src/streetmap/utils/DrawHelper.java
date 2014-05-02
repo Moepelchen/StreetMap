@@ -1,5 +1,6 @@
 package streetmap.utils;
 
+import org.lwjgl.opengl.GL11;
 import streetmap.car.Car;
 import streetmap.map.side.Anchor;
 import streetmap.map.side.Side;
@@ -8,7 +9,20 @@ import streetmap.map.street.Street;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_QUADS;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
+import static org.lwjgl.opengl.GL11.glColor3d;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glPushMatrix;
+import static org.lwjgl.opengl.GL11.glRotated;
+import static org.lwjgl.opengl.GL11.glTexCoord2f;
+import static org.lwjgl.opengl.GL11.glTranslated;
+import static org.lwjgl.opengl.GL11.glVertex2f;
+import static org.lwjgl.opengl.GL11.glVertex3f;
 
 /**
  * Created by IntelliJ IDEA.
@@ -103,27 +117,52 @@ public class DrawHelper
 
 
         float tileSize = (float) street.getTile().getWidth();
-        glPushMatrix();
-        glColor3d(1, 1, 1);
-        if (imagePath != null)
-        {
-            float y = (float) (street.getTile().getArrayPosition().getY() * tileSize);
-            float x = (float) (street.getTile().getArrayPosition().getX() * tileSize);
-            glBindTexture(GL_TEXTURE_2D, textureId);
-            glBegin(GL_QUADS);
-            glTexCoord2f(0.0F, 0.0F);
-            glVertex3f(x, y, 0);
-            glTexCoord2f(1.0F, 0.0F);
-            glVertex3f(x + tileSize, y, 0);
-            glTexCoord2f(1.0F, 1.0F);
-            glVertex3f(x + tileSize, y + tileSize, 0);
-            glTexCoord2f(0.0F, 1.0F);
-            glVertex3f(x, y + tileSize, 0);
-            glEnd();
-            glBindTexture(GL_TEXTURE_2D, 0);
-        }
+	    glPushMatrix();
+	           glColor3d(1, 1, 1);
+	           if (imagePath != null)
+	           {
+	               float y = (float) (street.getTile().getArrayPosition().getY() * tileSize);
+	               float x = (float) (street.getTile().getArrayPosition().getX() * tileSize);
+	               glBindTexture(GL_TEXTURE_2D, textureId);
+	               glBegin(GL_QUADS);
+	               glTexCoord2f(0.0F, 0.0F);
+	               glVertex3f(x, y, 0);
+	               glTexCoord2f(1.0F, 0.0F);
+	               glVertex3f(x + tileSize, y, 0);
+	               glTexCoord2f(1.0F, 1.0F);
+	               glVertex3f(x + tileSize, y + tileSize, 0);
+	               glTexCoord2f(0.0F, 1.0F);
+	               glVertex3f(x, y + tileSize, 0);
+	               glEnd();
+	               glBindTexture(GL_TEXTURE_2D, 0);
+	           }
+	   	    glColor3d(1,1,1);
 
-        glPopMatrix();
+	           glPopMatrix();
+
+	    glPushMatrix();
+	    glColor3d(street.getGlobals().getMap().getHeatMapReading(street.getTile().getArrayPosition()) * 1, 0, 0);
+	    GL11.glColor4d(1, 0, 0,street.getGlobals().getMap().getHeatMapReading(street.getTile().getArrayPosition()) * 1);
+	    glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+	    if (imagePath != null)
+	    {
+		    float y = (float) (street.getTile().getArrayPosition().getY() * tileSize);
+		    float x = (float) (street.getTile().getArrayPosition().getX() * tileSize);
+		    glBegin(GL_QUADS);
+
+		    glVertex3f(x, y, 0);
+
+		    glVertex3f(x + tileSize, y, 0);
+
+		    glVertex3f(x + tileSize, y + tileSize, 0);
+
+		    glVertex3f(x, y + tileSize, 0);
+		    glEnd();
+
+	    }
+	    glColor3d(1, 1, 1);
+
+	    glPopMatrix();
 
     }
 

@@ -261,7 +261,7 @@ public class
 
 	protected void recalcPath()
 	{
-		//fLane.getGlobals().getMap().getPathFactory().createPath(this, fPathFinder.getDestination());
+		fLane.getGlobals().getMap().getPathFactory().createPath(this, fPathFinder.getDestination());
 	}
 
 	public String getImagePath()
