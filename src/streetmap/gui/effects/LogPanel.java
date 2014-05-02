@@ -7,6 +7,9 @@ import de.lessvoid.nifty.effects.Falloff;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.render.NiftyRenderEngine;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.font.effects.ColorEffect;
 import streetmap.SSGlobals;
 import streetmap.gui.controller.GameScreenController;
 import streetmap.map.DataStorage2d;
@@ -23,12 +26,25 @@ import static org.lwjgl.opengl.GL11.glColor3d;
 public abstract class LogPanel implements EffectImpl
 {
     protected SSGlobals fGlobals;
+	private UnicodeFont font;
 
-    @Override
+	@Override
     public void activate(Nifty nifty, Element element, EffectProperties effectProperties)
     {
         GameScreenController controller = (GameScreenController) nifty.getCurrentScreen().getScreenController();
         fGlobals = controller.getGlobals();
+	    Font awtFont = new Font("Arial", Font.BOLD, 18);
+	    font = new UnicodeFont(awtFont);
+	    font.getEffects().add(new ColorEffect(java.awt.Color.white));
+	    font.addAsciiGlyphs();
+	    try
+	    {
+		    font.loadGlyphs();
+	    }
+	    catch (SlickException ex)
+	    {
+		    // Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+	    }
     }
 
     @Override
@@ -54,6 +70,9 @@ public abstract class LogPanel implements EffectImpl
 
         GL11.glEnd();
         GL11.glPopMatrix();
+
+	    font.drawString(element.getX(), element.getY(), String.valueOf(getData().getCurrent()));
+
     }
 
     protected abstract DataStorage2d getData();
