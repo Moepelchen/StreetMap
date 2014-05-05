@@ -29,4 +29,6 @@ public interface IChangeableConfig extends IConfig
     void setMaximumNumOfCars(Integer numberOfCars);
 
     void setShowHeatMap(boolean toSet);
+
+	void setSimulateNightCycle(boolean toSet);
 }

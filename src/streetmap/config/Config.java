@@ -38,8 +38,9 @@ public class Config implements IConfig
     protected double fHeatMapModifier;
     protected int fNumberOfCars;
     protected boolean fShowHeatMap;
+	protected boolean fSimulateNightCycle;
 
-    public Config(SSGlobals glob) throws FileNotFoundException
+	public Config(SSGlobals glob) throws FileNotFoundException
 	{
 		fCarImages = new Vector<ImageIcon>();
 		try
@@ -137,7 +138,26 @@ public class Config implements IConfig
         return fShowHeatMap;
     }
 
-    public boolean isDrawTiles()
+	@Override
+	public boolean isSimulateNightCycle()
+	{
+		return fSimulateNightCycle;
+	}
+
+	@Override
+	public float getMaximumCarSpeed()
+	{
+		return (float) (getCarLength()/4);
+	}
+
+	@Override
+	public float getCarLength()
+	{
+
+		return (float) (getTileSize()/4);
+	}
+
+	public boolean isDrawTiles()
 	{
 		return fConfig.isDrawtiles();
 	}

@@ -159,10 +159,10 @@ public class Lane implements IPrintable, ISimulateable
 
     private double getCarGenerationModifier()
     {
-        double base = 0.015;
-        if(fGlobals.getTimeHandler().isDay())
+        double base = 0.115;
+        if(!fGlobals.getTimeHandler().isDay()&& getGlobals().getConfig().isSimulateNightCycle())
         {
-            base = base+0.1;
+            base = base-0.1;
         }
         return base;
     }

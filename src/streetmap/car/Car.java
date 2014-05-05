@@ -97,7 +97,7 @@ public class
         fPosition = pos;
         fColor = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()));
         fImagePath = carImagePath;
-        double v = Math.random() + length / 4;
+        double v = Math.random() + lane.getGlobals().getConfig().getMaximumCarSpeed();
         fSpeed = v;
         fOriginalSpeed = v;
         fLane.getGlobals().getMap().getPathFactory().createPath(this);
@@ -255,7 +255,7 @@ public class
 	public void reset(Lane lane)
 	{
 		fLane = lane;
-		if(fHappiness < 0.10&& fPathFinder != null)
+		if(fHappiness < 0.10&& fPathFinder != null && Math.random() >0.10)
 	            recalcPath();
 	}
 

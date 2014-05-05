@@ -33,4 +33,10 @@ public interface IConfig
     Integer getMaximumNumOfCars();
 
     boolean isShowHeatMap();
+
+	boolean isSimulateNightCycle();
+
+	float getMaximumCarSpeed();
+
+	float getCarLength();
 }

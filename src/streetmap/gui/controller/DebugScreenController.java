@@ -1,5 +1,6 @@
 package streetmap.gui.controller;
 
+import de.lessvoid.nifty.controls.CheckBox;
 import de.lessvoid.nifty.controls.TextField;
 import streetmap.SSGlobals;
 import streetmap.gui.IScreenNames;
@@ -46,6 +47,11 @@ public class DebugScreenController extends AbstractScreenController
         return fNifty.getCurrentScreen().findNiftyControl("numOfCars", TextField.class);
     }
 
+	private CheckBox getSimulateNightCycle()
+	{
+		return fNifty.getCurrentScreen().findNiftyControl("night",CheckBox.class);
+	}
+
     @Override
     public void onEndScreen()
     {
@@ -56,6 +62,7 @@ public class DebugScreenController extends AbstractScreenController
     {
         String heatInput = getHeatModInput().getDisplayedText();
         String numOfCarsInput = getNumOfCarsInput().getDisplayedText();
+	    boolean nightCycle = getSimulateNightCycle().isChecked();
         try
         {
             getGlobals().getConfig().setHeatMapModifier(Double.parseDouble(heatInput));
@@ -70,6 +77,8 @@ public class DebugScreenController extends AbstractScreenController
         {
             createFeedBack(fNifty.getCurrentScreen(), getNumOfCarsInput(), "Please enter a number!");
         }
+
+	    getGlobals().getConfig().setSimulateNightCycle(nightCycle);
 
 
     }

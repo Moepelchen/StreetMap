@@ -17,9 +17,7 @@ import java.io.FileNotFoundException;
  */
 public class ChangeableConfig extends Config implements IChangeableConfig
 {
-
-
-    /**
+	/**
 	 * Constructor  for setting up a ChangeableConfig
 	 *
 	 * @param glob current globals
@@ -89,4 +87,10 @@ public class ChangeableConfig extends Config implements IChangeableConfig
     {
         fShowHeatMap = toSet;
     }
+
+	@Override
+	public void setSimulateNightCycle(boolean toSet)
+	{
+		fSimulateNightCycle = toSet;
+	}
 }

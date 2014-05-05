@@ -55,7 +55,7 @@ public class CarFactory
 		ImageIcon carImage = getCarImage(globals);
 
 
-		return new Car(lane, pos, "./images/cars/car.png", (float) (globals.getConfig().getTileSize() / 4));
+		return new Car(lane, pos, "./images/cars/car.png", globals.getConfig().getCarLength());
 	}
 
 	public static ImageIcon getCarImage(SSGlobals globals)

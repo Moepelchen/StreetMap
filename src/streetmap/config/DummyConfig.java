@@ -78,7 +78,25 @@ public class DummyConfig implements IConfig
         return false;
     }
 
-    public String getStreetPath()
+	@Override
+	public boolean isSimulateNightCycle()
+	{
+		return false;
+	}
+
+	@Override
+	public float getMaximumCarSpeed()
+	{
+		return 0;
+	}
+
+	@Override
+	public float getCarLength()
+	{
+		return 0;
+	}
+
+	public String getStreetPath()
 	{
 		return "/home/shifter/workspace/StreetMap/config/Streets/";
 	}
