@@ -9,7 +9,11 @@ import streetmap.map.street.Lane;
 import streetmap.map.street.Street;
 
 import java.awt.geom.Point2D;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.TreeSet;
 
 /**
  * Short description in a complete sentence.
@@ -42,14 +46,13 @@ public class AStarAlgorithm extends AbstractPathFinder
         fOpenList.add(current);
         while (fOpenList.size() != 0)
 		{
-			fOpenList.sort();
 			current = fOpenList.getFirst();
 			fOpenList.remove(current);
 			//draw(g, current);
 			if(current.candidate.equals(fEnd))
 			{
 				createPath(current);
-				fPathList.put(fStart.hashCode()+"" + fEnd.hashCode(),fPath);
+				//fPathList.put(fStart.hashCode()+"" + fEnd.hashCode(),fPath);
 				return true;
 			}
 
@@ -78,7 +81,8 @@ public class AStarAlgorithm extends AbstractPathFinder
 
                         if (fOpenList.contains(neighbour))
                         {
-                            fOpenList.getByLane(neighbour).fDistanceToStart = distanceToStart;
+                            fOpenList.remove(neighbour);
+	                        fOpenList.add(neighbour);
                         } else
                         {
                             fOpenList.add(neighbour);
@@ -134,12 +138,12 @@ public class AStarAlgorithm extends AbstractPathFinder
 	private class SortedNodeList
 	{
 
-		private ArrayList<Candidate> list = new ArrayList<>();
+		private TreeSet<Candidate> list = new TreeSet<>();
 		private HashMap<Integer, Candidate> hash = new HashMap<>();
 
 		public Candidate getFirst()
 		{
-			return list.get(0);
+			return list.first();
 		}
 
 		public void clear()
@@ -167,17 +171,12 @@ public class AStarAlgorithm extends AbstractPathFinder
 
 		public boolean contains(Candidate n)
 		{
-			return hash.get(n.hashCode()) != null;
+			return hash.containsKey(n.hashCode());
 		}
 
 		public Candidate getByLane(Candidate n)
 		{
 			return hash.get(n.hashCode());
-		}
-
-		public void sort()
-		{
-			Collections.sort(list);
 		}
 	}
 
