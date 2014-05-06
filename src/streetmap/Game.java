@@ -160,7 +160,6 @@ public class Game
 
 			if (!this.isPaused())
 			{
-				fGlobals.getMap().getPathFactory().reset();
 				fGlobals.getMap().simulate();
 				int pathsRequested = fGlobals.getMap().getPathFactory().getPathsRequested();
 

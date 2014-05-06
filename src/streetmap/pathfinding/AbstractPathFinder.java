@@ -85,7 +85,7 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
 				nextLane = fPath.get(currentIndex + 1);
                 fPath.remove(currentIndex);
 			}
-            if(nextLane == null)
+            if(nextLane == null && fPath.size() !=1)
             {
                 fGlobals.getMap().getPathFactory().createPath(fCar,fEnd);
             }
@@ -147,16 +147,17 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
         }
         else
         {
-	        if(existsPath())
-            {
-                boolean existsPath =createPath(fStart);
-            }
-            else
-            {
-
-                fGlobals.getMap().getPathFactory().createPath(fCar);
-            }
+	        fCar.setHasRequestedPath(false);
+	        if (existsPath())
+	        {
+		       createPath(fCar.getLane());
+	        }
+	        else
+	        {
+		        fGlobals.getMap().getPathFactory().createPath(fCar);
+	        }
         }
+	    fCar.setHasRequestedPath(false);
         fCar.setPath(this);
     }
 

@@ -34,8 +34,9 @@ public class
 
     public static final int COLOR_HAPPINESS = 120;
     private int fIndicesCount;
+	private boolean fHasRequestedPath;
 
-    public int getVBOId2()
+	public int getVBOId2()
     {
         return fVBOId2;
     }
@@ -89,8 +90,17 @@ public class
 		return fLane;
 	}
 
+	public void setHasRequestedPath(boolean hasRequestedPath)
+	{
+		fHasRequestedPath = hasRequestedPath;
+	}
 
-    public Car(Lane lane, Point2D pos, String carImagePath, float length)
+	public boolean hasRequestedPath()
+	{
+		return fHasRequestedPath;
+	}
+
+	public Car(Lane lane, Point2D pos, String carImagePath, float length)
     {
         fLength = length;
         fLane = lane;
@@ -256,12 +266,12 @@ public class
 	{
 		fLane = lane;
 		if(fHappiness < 0.10&& fPathFinder != null && Math.random() >0.10)
-	            recalcPath();
+	            recalcPath(fPathFinder.getDestination());
 	}
 
-	protected void recalcPath()
+	protected void recalcPath(Lane destination)
 	{
-		fLane.getGlobals().getMap().getPathFactory().createPath(this, fPathFinder.getDestination());
+		fLane.getGlobals().getMap().getPathFactory().createPath(this, destination);
 	}
 
 	public String getImagePath()
@@ -349,13 +359,15 @@ public class
             case IEvent.EVENT_STREET_PLACEMENT:
                 StreetPlacementEvent spEvent = (StreetPlacementEvent) event;
                 Street street = spEvent.getStreet();
-                if (street != null && fPathFinder != null && fPathFinder.getDestination().getStreet() != null && fPathFinder.getDestination().getStreet().equals(street))
-                {
-                    fLane.getGlobals().getMap().getPathFactory().createPath(this);
-                } else if (street != null && fPathFinder != null && fPathFinder.containsStreet(street))
-                {
-                    recalcPath();
-                }
+	            boolean canRecalc = street != null && fPathFinder != null;
+	            if (canRecalc && fPathFinder.getDestination()!= null &&fPathFinder.getDestination().getStreet() != null && fPathFinder.getDestination().getStreet().equals(street))
+	            {
+		            recalcPath(null);
+	            }
+	            else if (canRecalc && fPathFinder.containsStreet(street))
+	            {
+		            recalcPath(fPathFinder.getDestination());
+	            }
                 break;
             default:
         }

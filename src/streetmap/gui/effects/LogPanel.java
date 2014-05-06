@@ -76,6 +76,7 @@ public abstract class LogPanel implements EffectImpl
         GL11.glPopMatrix();
 
 	    font.drawString(element.getX(), element.getY(), String.valueOf(getData().getCurrent()));
+	    font.drawString(element.getX(), element.getY()+30, String.valueOf(getData().getMax()));
 
     }
 

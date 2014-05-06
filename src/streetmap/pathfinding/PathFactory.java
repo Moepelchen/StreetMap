@@ -3,8 +3,11 @@ package streetmap.pathfinding;
 import streetmap.car.Car;
 import streetmap.map.street.Lane;
 
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by ulrichtewes on 01.12.13.
@@ -13,36 +16,52 @@ public class PathFactory extends Thread
 {
 
     private final ExecutorService fExecutor;
+	private final ArrayBlockingQueue<Runnable> fWorkQueue;
 
 	public int getPathsRequested()
 	{
-		return fPathsRequested;
+		return fWorkQueue.size();
 	}
 
-	public void reset()
-	{
-		fPathsRequested = 0;
-	}
-
-	private int fPathsRequested;
     public PathFactory()
     {
-        fExecutor = Executors.newFixedThreadPool(10);
+
+	    final Semaphore semaphore = new Semaphore(200);//or however you want max queued at any given moment
+	    fWorkQueue = new ArrayBlockingQueue<Runnable>(210);
+	    fExecutor= new ThreadPoolExecutor(4,4,1000, TimeUnit.MILLISECONDS, fWorkQueue){
+	          public void execute(Runnable r){
+		          try
+		          {
+			          semaphore.acquire();
+		          }
+		          catch (InterruptedException e)
+		          {
+			          e.printStackTrace();
+		          }
+		          super.execute(r);
+	          }
+	          public void afterExecute(Runnable r, Throwable t){
+	             semaphore.release();
+	             super.afterExecute(r,t);
+	          }
+	    };
     }
 
     public void createPath(Car car)
     {
-	    fPathsRequested++;
-        AStarAlgorithm alog = new AStarAlgorithm(car);
-        fExecutor.execute(alog);
+	   createPath(car,null);
     }
 
     public void createPath(Car car, Lane destination)
     {
-	    fPathsRequested++;
-        AStarAlgorithm alog = new AStarAlgorithm(car);
-        alog.setEnd(destination);
-        fExecutor.execute(alog);
+	    if(!car.hasRequestedPath())
+	    {
+		    car.setHasRequestedPath(true);
+
+		    AStarAlgorithm algo = new AStarAlgorithm(car);
+		    algo.setEnd(destination);
+		    fExecutor.execute(algo);
+	    }
     }
 
     public void release()
