@@ -341,22 +341,25 @@ public class
         fPathFinder = path;
     }
 
-	@Override
-	public void handleEvent(IEvent event)
-	{
-		switch (event.getType())
-		{
-			case IEvent.EVENT_STREET_PLACEMENT:
-				StreetPlacementEvent spEvent = (StreetPlacementEvent) event;
-				Street street = spEvent.getStreet();
-				if(street != null && fPathFinder != null && fPathFinder.containsStreet(street))
-				{
-					recalcPath();
-				}
-				break;
-			default:
-		}
-	}
+    @Override
+    public void handleEvent(IEvent event)
+    {
+        switch (event.getType())
+        {
+            case IEvent.EVENT_STREET_PLACEMENT:
+                StreetPlacementEvent spEvent = (StreetPlacementEvent) event;
+                Street street = spEvent.getStreet();
+                if (street != null && fPathFinder != null && fPathFinder.getDestination().getStreet() != null && fPathFinder.getDestination().getStreet().equals(street))
+                {
+                    fLane.getGlobals().getMap().getPathFactory().createPath(this);
+                } else if (street != null && fPathFinder != null && fPathFinder.containsStreet(street))
+                {
+                    recalcPath();
+                }
+                break;
+            default:
+        }
+    }
 
     public int getIndicesCount()
     {

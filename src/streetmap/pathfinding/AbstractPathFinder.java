@@ -80,7 +80,7 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
 			Lane current = fCar.getLane();
 			int currentIndex = fPath.indexOf(current);
 
-			if (currentIndex >= 0 && currentIndex + 1 < fPath.size() - 1)
+			if (currentIndex >= 0 && currentIndex + 1 < fPath.size() )
 			{
 				nextLane = fPath.get(currentIndex + 1);
                 fPath.remove(currentIndex);
@@ -147,8 +147,15 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
         }
         else
         {
-	        if(!fEnd.isBlocked())
-                createPath(fStart);
+	        if(existsPath())
+            {
+                boolean existsPath =createPath(fStart);
+            }
+            else
+            {
+
+                fGlobals.getMap().getPathFactory().createPath(fCar);
+            }
         }
         fCar.setPath(this);
     }

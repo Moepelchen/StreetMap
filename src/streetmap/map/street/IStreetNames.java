@@ -19,9 +19,10 @@ package streetmap.map.street;
  */
 public class IStreetNames
 {
-// -----------------------------------------------------
+    // -----------------------------------------------------
 // constants
 // -----------------------------------------------------
+    public static final String DELETE_STREET = "DeleteStreet";
 	public static String SOUTH_NORTH = "SouthNorth";
 	public  static String WEST_EAST = "WestEast";
 // -----------------------------------------------------
