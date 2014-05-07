@@ -202,6 +202,8 @@ public class Map implements IPrintable, ISimulateable, ActionListener
     private void updateHeatMap()
     {
 
+	    double max = Double.MIN_VALUE;
+	    double min = Double.MAX_VALUE;
         for (Tile fOccupiedTile : fOccupiedTiles)
         {
             Point2D arrayPos = fOccupiedTile.getArrayPosition();
@@ -209,8 +211,22 @@ public class Map implements IPrintable, ISimulateable, ActionListener
             int y = (int) arrayPos.getY();
             fHeatMapData[x][y] = fHeatMapData[x][y] - fHeatMapData[x][y]/100d;
             fHeatMapData[x][y] = fHeatMapData[x][y]+((double) fOccupiedTile.getNumberOfCars() / (double) fMaxNumberOfCarsOnOneTile)/100d;
-
+			if(fHeatMapData[x][y] > max)
+				max = fHeatMapData[x][y];
+	        else if(fHeatMapData[x][y] <= min)
+	        min = fHeatMapData[x][y];
         }
+	    if(max >0)
+	    {
+		    for (int i = 0; i < fHeatMapData.length; i++)
+		    {
+			    for (int j = 0; j < fHeatMapData[i].length; j++)
+			    {
+				    fHeatMapData[i][j] = (fHeatMapData[i][j]-min)/max;
+			    }
+		    }
+
+	    }
        // fHeatMap.updateData(fHeatMapData, true);
     }
 

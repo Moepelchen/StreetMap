@@ -6,8 +6,8 @@ import streetmap.car.CarFactory;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.map.side.Anchor;
+import streetmap.map.street.trajectory.BendTrajectory;
 import streetmap.map.street.trajectory.ITrajectory;
-import streetmap.map.street.trajectory.QuickBendTrajectory;
 import streetmap.map.street.trajectory.StraightTrajectory;
 import streetmap.pathfinding.IPathFindingAlgorithm;
 
@@ -217,7 +217,7 @@ public class Lane implements IPrintable, ISimulateable
 		//fTrajectory = new StraightTrajectory(this);
 		if (getType() == ILaneTypes.BEND)
 		{
-			fTrajectory = new QuickBendTrajectory(this);
+			fTrajectory = new BendTrajectory(this);
 		}
 		else
 		{

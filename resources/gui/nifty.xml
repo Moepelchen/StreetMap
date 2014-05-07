@@ -31,8 +31,8 @@
                     <onActive name="flowpanel" post="true"/>
                 </effect>
             </panel>
-            <panel valign="bottom" align="right" childLayout="center" id="cars" height="100" width="300"
-                   backgroundColor="#0010ff">
+            <panel valign="bottom" align="right" childLayout="center" id="paths" height="100" width="300"
+                   backgroundColor="#ff691017">
                 <text font="aurulent-sans-16.fnt" color="#ffff"
                       text="Paths requested"/>
                 <effect>
