@@ -44,6 +44,7 @@ public class GameScreenController extends AbstractScreenController
 		}
 	}
 
+
 	@Override
 	protected String getEscapeScreen()
 	{

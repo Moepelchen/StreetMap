@@ -58,7 +58,7 @@ public class PathFactory extends Thread
 	    {
 		    car.setHasRequestedPath(true);
 
-		    AStarAlgorithm algo = new AStarAlgorithm(car);
+		    IPathFindingAlgorithm algo = new AStarAlgorithm(car);
 		    algo.setEnd(destination);
 		    fExecutor.execute(algo);
 	    }

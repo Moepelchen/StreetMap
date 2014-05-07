@@ -31,21 +31,26 @@ public class KeyHandler
 			{
 				handleMovementKeyPressed();
 
-				if(Keyboard.getEventKey() == Keyboard.KEY_F3)
+				if (Keyboard.getEventKey() == Keyboard.KEY_F3)
 				{
 					Nifty nifty = fGlobals.getGame().getNifty();
-					if(!fDebugShown)
+					if (!fDebugShown)
 					{
 						fDebugShown = true;
 						setLayerVisibility(nifty, true);
 					}
 					else
 					{
-                        fDebugShown = false;
-                        setLayerVisibility(nifty, false);
+						fDebugShown = false;
+						setLayerVisibility(nifty, false);
 					}
 				}
-                if(Keyboard.getEventKey() == Keyboard.KEY_E)
+
+				if (Keyboard.getEventKey() == Keyboard.KEY_F1)
+				{
+					fGlobals.getConfig().setShowHeatMap(!fGlobals.getConfig().isShowHeatMap());
+				}
+				if(Keyboard.getEventKey() == Keyboard.KEY_E)
                 {
                     ePressed = true;
                 }

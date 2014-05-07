@@ -10,11 +10,13 @@ import streetmap.map.street.Street;
  * Time: 22:43
  * To change this template use File | Settings | File Templates.
  */
-public interface IPathFindingAlgorithm
+public interface IPathFindingAlgorithm extends Runnable
 {
     Lane getNextLane();
 
     Lane getDestination();
 
 	boolean containsStreet(Street street);
+
+	void setEnd(Lane destination);
 }

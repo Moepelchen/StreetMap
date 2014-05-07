@@ -118,7 +118,7 @@ public class DrawHelper
 
 	    float tileSize = (float) street.getTile().getWidth();
 	    glPushMatrix();
-	    if(!forMenu)
+	    if(!forMenu && street.getGlobals().getConfig().isShowHeatMap())
 	    {
 		    GL11.glBlendFunc(GL11.GL_ONE,GL11.GL_ONE_MINUS_SRC_ALPHA);
 		    double heatMapReading = street.getGlobals().getMap().getHeatMapReading(street.getTile().getArrayPosition());

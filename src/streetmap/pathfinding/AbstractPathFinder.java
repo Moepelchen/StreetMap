@@ -118,7 +118,7 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
             {
                 while (possibleEndLanes.size() > 0)
                 {
-                    int index = (int) (Math.random() * possibleEndLanes.size());
+                    int index = (int) (Math.floor(Math.random() * (possibleEndLanes.size())));
                     fEnd = possibleEndLanes.get(index);
                     if (fEnd != null)
                     {
@@ -129,11 +129,11 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
                         } else
                         {
 	                        Vector<Lane> ends = fNoGo.get(fStart);
-	                        if(ends != null)
+	                        if(ends != null && !ends.contains(fEnd))
 	                        {
 		                        ends.add(fEnd);
 	                        }
-	                        else
+	                        else if(ends == null)
 	                        {
 		                        Vector<Lane> ends2 = new Vector<>();
 		                        ends2.add(fEnd);
