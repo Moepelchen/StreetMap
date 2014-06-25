@@ -164,7 +164,7 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
 	private boolean existsPath()
 	{
 		Vector<Lane> end = fNoGo.get(fStart);
-		return !(end != null && end.contains(fEnd));
+		return !(end != null && end.contains(fEnd)) &&!fEnd.getStart().getInputLanes().isEmpty();
 	}
 
 	@Override
