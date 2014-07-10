@@ -8,6 +8,7 @@ import streetmap.utils.DrawHelper;
 import streetmap.xml.jaxb.StreetTemplate;
 
 import java.awt.*;
+import java.util.HashMap;
 import java.util.Vector;
 
 /**
@@ -17,6 +18,7 @@ import java.util.Vector;
 public class Street implements IPrintable, ISimulateable
 {
 
+	private final HashMap<String, Vector<Lane>> fCrossing;
 	/**
 	 * lanes this street consists of
 	 */
@@ -90,6 +92,7 @@ public class Street implements IPrintable, ISimulateable
 		fGlobals = glob;
 		fTile = tile;
 		fLanes = new Vector<>();
+		fCrossing = new HashMap<>();
 	}
 
 	public Vector<Lane> getLanes()
@@ -97,19 +100,9 @@ public class Street implements IPrintable, ISimulateable
 		return fLanes;
 	}
 
-	public void setLanes(Vector<Lane> fLanes)
-	{
-		this.fLanes = fLanes;
-	}
-
 	public void print()
 	{
 		DrawHelper.drawStreet(this);
-      /*  for (Lane lane : this.getLanes())
-        {
-            lane.print();
-        }*/
-
 	}
 
 	public void simulate()
@@ -125,6 +118,28 @@ public class Street implements IPrintable, ISimulateable
 	public void addLane(Lane lane)
 	{
 		fLanes.add(lane);
+		fCrossing.clear();
+		for (Lane lane1 : fLanes)
+		{
+			for (Lane lane2 : fLanes)
+			{
+				if(!lane1.equals(lane2) &&lane1.crosses(lane2) && lane2.hasPrio(lane1))
+				{
+					String key = lane1.getFrom() + lane1.getTo();
+					Vector<Lane> crossingLanes = fCrossing.get(key);
+					if(crossingLanes != null)
+					{
+						crossingLanes.add(lane2);
+					}
+					else
+					{
+						crossingLanes = new Vector<>();
+						crossingLanes.add(lane2);
+						fCrossing.put(key,crossingLanes);
+					}
+				}
+			}
+		}
 	}
 
 	public String toString()

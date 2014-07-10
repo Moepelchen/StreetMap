@@ -15,7 +15,6 @@ import streetmap.map.street.Street;
 import streetmap.map.street.trajectory.ITrajectory;
 import streetmap.pathfinding.AbstractPathFinder;
 import streetmap.pathfinding.IPathFindingAlgorithm;
-import streetmap.rules.RightBeforeLeftRule;
 import streetmap.utils.DrawHelper;
 
 import java.awt.*;
@@ -282,7 +281,7 @@ public class
 	private Vector<Car> getFrontCars()
 	{
 
-		Vector<Car> toReturn = new Vector<Car>();
+		Vector<Car> toReturn = new Vector<>();
 		Vector<Car> cars = fLane.getCars();
 		int index = cars.indexOf(this);
 		if (index > 0)
@@ -291,6 +290,7 @@ public class
 			return toReturn;
 		}
 		Collection<Lane> lanes = fLane.getEnd().getOutputLanes();
+		lanes.addAll(fLane.getStart().getOutputLanes());
 		for (Lane lane : lanes)
 		{
 			Vector<Car> carsOnLane = lane.getCars();
@@ -301,26 +301,6 @@ public class
 
 		}
 
-		return toReturn;
-	}
-
-	private Vector<Car> getCrossingCars()
-	{
-		Vector<Car> toReturn = new Vector<Car>();
-		Collection<Lane> lanes = fLane.getEnd().getInputLanes();
-		String compassPoint = fLane.getStart().getSide().getCompassPoint();
-		for (Lane lane : lanes)
-		{
-			if (!lane.equals(fLane) && RightBeforeLeftRule.doesApply(lane, compassPoint))
-			{
-				Vector<Car> carsOnLane = lane.getCars();
-				if (!carsOnLane.isEmpty())
-				{
-					toReturn.addAll(carsOnLane);
-				}
-			}
-
-		}
 		return toReturn;
 	}
 

@@ -10,6 +10,7 @@ import streetmap.map.street.trajectory.BendTrajectory;
 import streetmap.map.street.trajectory.ITrajectory;
 import streetmap.map.street.trajectory.StraightTrajectory;
 import streetmap.pathfinding.IPathFindingAlgorithm;
+import streetmap.rules.RightBeforeLeftRule;
 
 import java.util.HashMap;
 import java.util.Vector;
@@ -55,9 +56,9 @@ public class Lane implements IPrintable, ISimulateable
 		return fMinY;
 	}
 
-	public boolean isEndLane()
-	{
-		return isEnd;
+				public boolean isEndLane()
+				{
+					return isEnd;
 	}
 
 	public void setIsEndLane(boolean end)
@@ -75,7 +76,52 @@ public class Lane implements IPrintable, ISimulateable
 		isStart = start;
 	}
 
+	public boolean crosses(Lane lane2)
+	{
+		return RightBeforeLeftRule.crosses(this,lane2);
 
+	}
+
+	public boolean hasPrio(Lane lane1)
+	{
+		if (this.isRightTurn())
+		{
+			return true;
+		}
+		if (this.isLeftTurn())
+		{
+			return false;
+		}
+		if(this.comesFromTheLeft(lane1))
+		{
+			return false;
+		}
+		if(this.comesFromTheRight(lane1))
+			{
+				return true;
+			}
+		return false;
+	}
+
+	private boolean comesFromTheRight(Lane lane1)
+	{
+		return RightBeforeLeftRule.comesFromTheRight(this.getFrom(), this.getTo(),lane1.getFrom(),lane1.getTo());
+	}
+
+	private boolean comesFromTheLeft(Lane lane1)
+	{
+		return RightBeforeLeftRule.comesFromTheLeft(this.getFrom(), this.getTo(),lane1.getFrom(),lane1.getTo());
+	}
+
+	private boolean isLeftTurn()
+	{
+		return RightBeforeLeftRule.isLeftTurn(this.getFrom(), this.getTo());
+	}
+
+	private boolean isRightTurn()
+	{
+		return RightBeforeLeftRule.isRightTurn(this.getFrom(),this.getTo());
+	}
 
 	public Lane(SSGlobals glob, Street street)
 	{
