@@ -39,4 +39,6 @@ public interface IConfig
 	float getMaximumCarSpeed();
 
 	float getCarLength();
+
+    boolean isShowCars();
 }

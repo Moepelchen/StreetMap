@@ -10,7 +10,6 @@ import streetmap.map.street.trajectory.BendTrajectory;
 import streetmap.map.street.trajectory.ITrajectory;
 import streetmap.map.street.trajectory.StraightTrajectory;
 import streetmap.pathfinding.IPathFindingAlgorithm;
-import streetmap.rules.RightBeforeLeftRule;
 
 import java.util.HashMap;
 import java.util.Vector;
@@ -56,9 +55,9 @@ public class Lane implements IPrintable, ISimulateable
 		return fMinY;
 	}
 
-				public boolean isEndLane()
-				{
-					return isEnd;
+	public boolean isEndLane()
+	{
+		return isEnd;
 	}
 
 	public void setIsEndLane(boolean end)
@@ -76,52 +75,7 @@ public class Lane implements IPrintable, ISimulateable
 		isStart = start;
 	}
 
-	public boolean crosses(Lane lane2)
-	{
-		return RightBeforeLeftRule.crosses(this,lane2);
 
-	}
-
-	public boolean hasPrio(Lane lane1)
-	{
-		if (this.isRightTurn())
-		{
-			return true;
-		}
-		if (this.isLeftTurn())
-		{
-			return false;
-		}
-		if(this.comesFromTheLeft(lane1))
-		{
-			return false;
-		}
-		if(this.comesFromTheRight(lane1))
-			{
-				return true;
-			}
-		return false;
-	}
-
-	private boolean comesFromTheRight(Lane lane1)
-	{
-		return RightBeforeLeftRule.comesFromTheRight(this.getFrom(), this.getTo(),lane1.getFrom(),lane1.getTo());
-	}
-
-	private boolean comesFromTheLeft(Lane lane1)
-	{
-		return RightBeforeLeftRule.comesFromTheLeft(this.getFrom(), this.getTo(),lane1.getFrom(),lane1.getTo());
-	}
-
-	private boolean isLeftTurn()
-	{
-		return RightBeforeLeftRule.isLeftTurn(this.getFrom(), this.getTo());
-	}
-
-	private boolean isRightTurn()
-	{
-		return RightBeforeLeftRule.isRightTurn(this.getFrom(),this.getTo());
-	}
 
 	public Lane(SSGlobals glob, Street street)
 	{
@@ -153,7 +107,7 @@ public class Lane implements IPrintable, ISimulateable
 	{
 		Vector<Car> toRemoveCars = new Vector<Car>();
 
-		if (this.getEnd().getRandomLane() != null && Math.random() < getCarGenerationModifier() && this.isStartLane() && fCars.size() < 4 && fGlobals.getMap().getCurrentNumberOfCars() < fGlobals.getConfig().getMaximumNumOfCars())
+		if (this.getEnd().getRandomLane() != null && Math.random() < getCarGenerationModifier() && this.isStartLane() && fCars.size() < 2 && fGlobals.getMap().getCurrentNumberOfCars() < fGlobals.getConfig().getMaximumNumOfCars())
 		{
 			Car car = CarFactory.createCar(getGlobals(), this, fStartAnchor.getPosition());
 			fCars.add(car);
@@ -161,16 +115,27 @@ public class Lane implements IPrintable, ISimulateable
 		}
 		for (Car fCar : fCars)
 		{
-			fCar.simulate();
-			if (!fTrajectory.carOnLane(fCar, this))
+            boolean reachedGoal = false;
+            fCar.simulate();
+            IPathFindingAlgorithm pathFinder1 = fCar.getPathFinder();
+            if(pathFinder1 != null)
+            {
+                Lane destination = pathFinder1.getDestination();
+                if(destination != null)
+                reachedGoal = this.equals(destination);
+            }
+            if(reachedGoal){
+                toRemoveCars.add(fCar);
+                getGlobals().getMap().addCarFlowData(1);
+            }
+            if (!fTrajectory.carOnLane(fCar, this) && !reachedGoal)
 			{
 				toRemoveCars.add(fCar);
 
                 Lane nexLane = null;
-                IPathFindingAlgorithm pathFinder = fCar.getPathFinder();
-                if (pathFinder != null)
+                if (pathFinder1 != null)
                 {
-                    nexLane = pathFinder.getNextLane();
+                    nexLane = pathFinder1.getNextLane();
                 }
                 if (nexLane == null)
                 {

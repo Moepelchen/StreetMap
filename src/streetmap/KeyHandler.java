@@ -46,10 +46,14 @@ public class KeyHandler
 					}
 				}
 
-				if (Keyboard.getEventKey() == Keyboard.KEY_F1)
-				{
-					fGlobals.getConfig().setShowHeatMap(!fGlobals.getConfig().isShowHeatMap());
-				}
+                if (Keyboard.getEventKey() == Keyboard.KEY_F1)
+                {
+                    fGlobals.getConfig().setShowHeatMap(!fGlobals.getConfig().isShowHeatMap());
+                }
+                if (Keyboard.getEventKey() == Keyboard.KEY_F2)
+                {
+                    fGlobals.getConfig().setShowCars(!fGlobals.getConfig().isShowCars());
+                }
 				if(Keyboard.getEventKey() == Keyboard.KEY_E)
                 {
                     ePressed = true;

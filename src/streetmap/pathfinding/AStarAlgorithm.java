@@ -9,11 +9,7 @@ import streetmap.map.street.Lane;
 import streetmap.map.street.Street;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Short description in a complete sentence.
@@ -61,7 +57,7 @@ public class AStarAlgorithm extends AbstractPathFinder
 			for (Lane lane : current.candidate.getEnd().getOutputLanes())
 			{
 				Candidate neighbour = new Candidate(lane);
-                if (!fClosedList.contains(lane))
+                if (!fClosedList.contains(lane) && existsPath(lane))
                 {
 
                     double distanceToStart = current.fDistanceToStart + lane.getTrajectory().getLength();

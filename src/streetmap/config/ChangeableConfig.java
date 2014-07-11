@@ -93,4 +93,10 @@ public class ChangeableConfig extends Config implements IChangeableConfig
 	{
 		fSimulateNightCycle = toSet;
 	}
+
+    @Override
+    public void setShowCars(boolean b)
+    {
+        fShowCars = b;
+    }
 }

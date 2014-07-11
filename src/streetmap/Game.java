@@ -14,11 +14,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 import streetmap.gui.GLStreetPanel;
 import streetmap.gui.IScreenNames;
-import streetmap.gui.controller.DebugScreenController;
-import streetmap.gui.controller.GameScreenController;
-import streetmap.gui.controller.LoadScreenController;
-import streetmap.gui.controller.MenuScreenController;
-import streetmap.gui.controller.SaveScreenController;
+import streetmap.gui.controller.*;
 import streetmap.gui.inputmapping.MenuInputMapping;
 import streetmap.map.DataStorage2d;
 import streetmap.map.Map;
@@ -34,7 +30,7 @@ import java.io.FileNotFoundException;
 public class Game
 {
     public static final int WIDTH = 1280;
-    public static final int HEIGHT = 1024;
+    public static final int HEIGHT = 680;
     private final Player fPlayer;
 	SSGlobals fGlobals;
     private GLStreetPanel fStreetPanel;

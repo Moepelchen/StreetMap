@@ -96,7 +96,13 @@ public class DummyConfig implements IConfig
 		return 0;
 	}
 
-	public String getStreetPath()
+    @Override
+    public boolean isShowCars()
+    {
+        return false;
+    }
+
+    public String getStreetPath()
 	{
 		return "/home/shifter/workspace/StreetMap/config/Streets/";
 	}

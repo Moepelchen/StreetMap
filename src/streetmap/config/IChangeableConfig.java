@@ -31,4 +31,6 @@ public interface IChangeableConfig extends IConfig
     void setShowHeatMap(boolean toSet);
 
 	void setSimulateNightCycle(boolean toSet);
+
+    void setShowCars(boolean b);
 }

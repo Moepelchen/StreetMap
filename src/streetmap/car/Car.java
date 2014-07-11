@@ -162,22 +162,25 @@ public class
 
     public void print()
 	{
+if(fLane.getGlobals().getConfig().isShowCars())
+{
+    try
+    {
+        int red = Math.min((int) (COLOR_HAPPINESS * (1 - fHappiness)), COLOR_HAPPINESS);
+        int green = 0;
+        if(fHappiness == 1)
+        {
+            green = Math.min((int) (COLOR_HAPPINESS * (fHappiness)), COLOR_HAPPINESS);
+        }
+        Color color = new Color(red, green, 0);
+        DrawHelper.drawCar(this, fColor);
+    }
+    catch (IllegalArgumentException e)
+    {
+        e.printStackTrace();
+    }
 
-		try
-		{
-			int red = Math.min((int) (COLOR_HAPPINESS * (1 - fHappiness)), COLOR_HAPPINESS);
-			int green = 0;
-			if(fHappiness == 1)
-			{
-				green = Math.min((int) (COLOR_HAPPINESS * (fHappiness)), COLOR_HAPPINESS);
-			}
-			Color color = new Color(red, green, 0);
-			DrawHelper.drawCar(this, fColor);
-		}
-		catch (IllegalArgumentException e)
-		{
-			e.printStackTrace();
-		}
+}
 
 		//DrawHelper.drawFronCars(this, getFrontCars());
 
@@ -290,7 +293,7 @@ public class
 			return toReturn;
 		}
 		Collection<Lane> lanes = fLane.getEnd().getOutputLanes();
-		lanes.addAll(fLane.getStart().getOutputLanes());
+		//lanes.addAll(fLane.getStart().getOutputLanes());
 		for (Lane lane : lanes)
 		{
 			Vector<Car> carsOnLane = lane.getCars();

@@ -11,6 +11,7 @@ import streetmap.interfaces.ISimulateable;
 import streetmap.map.street.Lane;
 import streetmap.map.street.Street;
 import streetmap.map.tile.Tile;
+import streetmap.pathfinding.AbstractPathFinder;
 import streetmap.pathfinding.PathFactory;
 
 import java.awt.event.ActionEvent;
@@ -360,7 +361,7 @@ public class Map implements IPrintable, ISimulateable, ActionListener
     {
         fOccupiedTiles = null;
         fEvents.addEvent(new StreetPlacementEvent(street));
-       // AbstractPathFinder.clearNoGo();
+        AbstractPathFinder.clearNoGo();
     }
 
     public DataStorage2d getFlowData()

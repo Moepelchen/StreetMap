@@ -62,7 +62,10 @@ public class BendTrajectory implements ITrajectory
 	{
 
 		PathIterator p = fCurve.getPathIterator(null);
-		FlatteningPathIterator f = new FlatteningPathIterator(p, reduceCarSpeed(speed));
+        double reduceSpeed = reduceCarSpeed(speed);
+        if(reduceSpeed < 0.01)
+            return pos;
+        FlatteningPathIterator f = new FlatteningPathIterator(p, reduceSpeed);
 		while (!f.isDone())
 		{
 			float[] pts = new float[6];

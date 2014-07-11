@@ -281,7 +281,8 @@ public class StreetFactory
                 if (lane.isStartLane())
                 {
                     tile.getMap().addStart(lane);
-                } else if (lane.isEndLane())
+                }
+                if (lane.isEndLane())
                 {
 
                     tile.getMap().addEnd(lane);

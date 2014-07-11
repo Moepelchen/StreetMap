@@ -3,11 +3,7 @@ package streetmap.pathfinding;
 import streetmap.car.Car;
 import streetmap.map.street.Lane;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * Created by ulrichtewes on 01.12.13.
@@ -27,7 +23,7 @@ public class PathFactory extends Thread
     {
 
 	    final Semaphore semaphore = new Semaphore(200);//or however you want max queued at any given moment
-	    fWorkQueue = new ArrayBlockingQueue<Runnable>(210);
+	    fWorkQueue = new ArrayBlockingQueue<>(210);
 	    fExecutor= new ThreadPoolExecutor(4,4,1000, TimeUnit.MILLISECONDS, fWorkQueue){
 	          public void execute(Runnable r){
 		          try

@@ -337,11 +337,13 @@
         <LaneTemplates>
             <LaneTemplate>
                 <isEndPoint>true</isEndPoint>
+                <isStartPoint>true</isStartPoint>
                 <from>N</from>
                 <to>S</to>
             </LaneTemplate>
             <LaneTemplate>
                 <isStartPoint>true</isStartPoint>
+                <isEndPoint>true</isEndPoint>
                 <from>S</from>
                 <to>N</to>
             </LaneTemplate>
@@ -355,13 +357,15 @@
         <isStartEndPoint>true</isStartEndPoint>
         <LaneTemplates>
             <LaneTemplate>
-
+                <isEndPoint>true</isEndPoint>
                 <isStartPoint>true</isStartPoint>
                 <from>N</from>
                 <to>S</to>
             </LaneTemplate>
             <LaneTemplate>
                 <isEndPoint>true</isEndPoint>
+                <isStartPoint>true</isStartPoint>
+
                 <from>S</from>
                 <to>N</to>
             </LaneTemplate>
@@ -377,11 +381,14 @@
         <LaneTemplates>
             <LaneTemplate>
                 <isEndPoint>true</isEndPoint>
+                <isStartPoint>true</isStartPoint>
+
                 <from>W</from>
                 <to>E</to>
             </LaneTemplate>
             <LaneTemplate>
                 <isStartPoint>true</isStartPoint>
+                <isEndPoint>true</isEndPoint>
                 <from>E</from>
                 <to>W</to>
             </LaneTemplate>
@@ -396,11 +403,12 @@
         <LaneTemplates>
             <LaneTemplate>
                 <isStartPoint>true</isStartPoint>
+                <isEndPoint>true</isEndPoint>
                 <from>W</from>
                 <to>E</to>
             </LaneTemplate>
             <LaneTemplate>
-
+                <isStartPoint>true</isStartPoint>
                 <isEndPoint>true</isEndPoint>
                 <from>E</from>
                 <to>W</to>

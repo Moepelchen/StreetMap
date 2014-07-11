@@ -10,19 +10,7 @@ import streetmap.map.street.Street;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static org.lwjgl.opengl.GL11.GL_QUADS;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.glBegin;
-import static org.lwjgl.opengl.GL11.glBindTexture;
-import static org.lwjgl.opengl.GL11.glColor3d;
-import static org.lwjgl.opengl.GL11.glEnd;
-import static org.lwjgl.opengl.GL11.glPopMatrix;
-import static org.lwjgl.opengl.GL11.glPushMatrix;
-import static org.lwjgl.opengl.GL11.glRotated;
-import static org.lwjgl.opengl.GL11.glTexCoord2f;
-import static org.lwjgl.opengl.GL11.glTranslated;
-import static org.lwjgl.opengl.GL11.glVertex2f;
-import static org.lwjgl.opengl.GL11.glVertex3f;
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -122,7 +110,7 @@ public class DrawHelper
 	    {
 		    GL11.glBlendFunc(GL11.GL_ONE,GL11.GL_ONE_MINUS_SRC_ALPHA);
 		    double heatMapReading = street.getGlobals().getMap().getHeatMapReading(street.getTile().getArrayPosition());
-		    Color color = Gradient.GRADIENT_HOT[(int)Math.floor(heatMapReading * (Gradient.GRADIENT_HOT.length-1))];
+		    Color color = Gradient.GRADIENT_RAINBOW[(int)Math.floor(heatMapReading * (Gradient.GRADIENT_HOT.length-1))];
 		    GL11.glColor4d(((double)color.getRed())/255,((double)color.getGreen())/255, ((double)color.getBlue())/255,0.5);
 	    }
 	    else
