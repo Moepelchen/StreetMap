@@ -104,7 +104,7 @@ public class QuickBendTrajectory implements ITrajectory
 	private void initCurve()
 	{
 		PathIterator p = fCurve.getPathIterator(null);
-		FlatteningPathIterator f = new FlatteningPathIterator(p, fLane.getGlobals().getConfig().getMaximumCarSpeed() / 40);
+		FlatteningPathIterator f = new FlatteningPathIterator(p, fLane.getGlobals().getConfig().getMaximumCarSpeed() / 200);
 		while (!f.isDone())
 		{
 			float[] pts = new float[6];
@@ -127,9 +127,26 @@ public class QuickBendTrajectory implements ITrajectory
 		int currentIndex = fPointCache.indexOf(pos);
 		if (currentIndex >= 0)
 		{
-			if (fPointCache.size() - 1 >= currentIndex + 1)
+			int points = 1;
+			double perc = speed/fLane.getGlobals().getConfig().getMaximumCarSpeed();
+			if(perc <= 0.1)
 			{
-				nextPoint = fPointCache.get(currentIndex + 1);
+				points = 0;
+			}
+			else if(points <=0.4)
+			{
+				points = 1;
+			}
+			else if(points <=0.7)
+			{
+				points = 2;
+			}
+			else
+				points = 3;
+
+			if (fPointCache.size() - 1 >= currentIndex + points)
+			{
+				nextPoint = fPointCache.get(currentIndex + points);
 				return nextPoint;
 			}
 		}

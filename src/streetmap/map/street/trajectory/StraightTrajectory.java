@@ -84,14 +84,14 @@ public class StraightTrajectory implements ITrajectory
 		{
 			speed = speed / 2;
 		}
-		double x = pos.getX() + fDirection * speed;
+		double x = pos.getX() + fDirection * speed*2.5;
 		if (fA != INT)
 		{
 			newPos.setLocation(x, fA * x + fB);
 		}
 		else if (fA == INT)
 		{
-			newPos.setLocation(pos.getX(), pos.getY() - fDirection * speed);
+			newPos.setLocation(pos.getX(), pos.getY() - fDirection * speed*2.5);
 		}
 
 		return newPos;

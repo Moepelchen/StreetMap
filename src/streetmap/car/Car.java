@@ -106,7 +106,7 @@ public class
         fPosition = pos;
         fColor = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()));
         fImagePath = carImagePath;
-        double v = Math.random() + lane.getGlobals().getConfig().getMaximumCarSpeed();
+        double v = Math.max(Math.random(),0.25) * lane.getGlobals().getConfig().getMaximumCarSpeed();
         fSpeed = v;
         fOriginalSpeed = v;
         fLane.getGlobals().getMap().getPathFactory().createPath(this);
