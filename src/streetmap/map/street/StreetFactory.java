@@ -80,7 +80,6 @@ public class StreetFactory
         {
             for (Lane lane : tile.getStreet().getLanes())
             {
-                tile.getMap().removeStart(lane);
                 tile.getMap().removeEnd(lane);
                 lane.getStart().removeOutputLane(lane);
                 lane.getEnd().removeInputLane(lane);
@@ -278,10 +277,6 @@ public class StreetFactory
             street.addLane(lane);
             if (tile.getMap() != null)
             {
-                if (lane.isStartLane())
-                {
-                    tile.getMap().addStart(lane);
-                }
                 if (lane.isEndLane())
                 {
 

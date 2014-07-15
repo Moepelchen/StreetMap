@@ -4,8 +4,6 @@ import streetmap.SSGlobals;
 import streetmap.events.EventQueue;
 import streetmap.events.IEvent;
 import streetmap.events.StreetPlacementEvent;
-import streetmap.heatmap.Gradient;
-import streetmap.heatmap.HeatMap;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.map.street.Lane;
@@ -52,12 +50,10 @@ public class Map implements IPrintable, ISimulateable, ActionListener
     /**
      * graphics to draw
      */
-    private Vector<Lane> fStartingLanes;
     private Vector<Lane> fEndLanes;
     private int fMaxNumberOfCarsOnOneTile = 0;
     private int fCurrentNumberOfCars = 0;
     private double[][] fHeatMapData;
-    private HeatMap fHeatMap;
     private int fNumberOfTilesX;
     private int fNumberOfTilesY;
     private LinkedList<Integer> fCarFlowData;
@@ -67,12 +63,6 @@ public class Map implements IPrintable, ISimulateable, ActionListener
     private DataStorage2d fFlowData = new DataStorage2d(300);
     private PathFactory fPathFactory;
     private streetmap.events.EventQueue fEvents;
-
-    public Vector<Lane> getStartingLanes()
-    {
-        return fStartingLanes;
-    }
-
     public Vector<Lane> getEndLanes()
     {
         return fEndLanes;
@@ -90,7 +80,6 @@ public class Map implements IPrintable, ISimulateable, ActionListener
         int numberOfTilesX = (int) (fWidth / fTileSize);
         int numberOfTilesY = (int) (fHeight / fTileSize);
         fTiles = new Tile[numberOfTilesX][numberOfTilesY];
-        fStartingLanes = new Vector<>();
         fEndLanes = new Vector<>();
         generateTiles();
         fHeatMapData = new double[numberOfTilesX][numberOfTilesY];
@@ -102,8 +91,6 @@ public class Map implements IPrintable, ISimulateable, ActionListener
             }
         }
         fMaxNumberOfCarsOnOneTile = 1;
-
-        fHeatMap = new HeatMap(fHeatMapData, true, Gradient.GRADIENT_HEAT);
         fCarFlowData = new LinkedList<>();
         fCarFlowData.add(0);
         fCarFlowIndex = 0;
@@ -139,11 +126,6 @@ public class Map implements IPrintable, ISimulateable, ActionListener
     {
         return fCurrentNumberOfCars;
     }
-
-	public int getMaxNumberOfCarsOnOneTile()
-	{
-		return fMaxNumberOfCarsOnOneTile;
-	}
 
 	/**
      * Simulate each tile
@@ -209,7 +191,7 @@ public class Map implements IPrintable, ISimulateable, ActionListener
             Point2D arrayPos = fOccupiedTile.getArrayPosition();
             int x = (int) arrayPos.getX();
             int y = (int) arrayPos.getY();
-            fHeatMapData[x][y] = fHeatMapData[x][y] - fHeatMapData[x][y]/100d;
+            fHeatMapData[x][y] = Math.max(fHeatMapData[x][y] - fHeatMapData[x][y]/100d,0);
             fHeatMapData[x][y] = fHeatMapData[x][y]+((double) fOccupiedTile.getNumberOfCars() / (double) fMaxNumberOfCarsOnOneTile)/100d;
 			if(fHeatMapData[x][y] > max)
 				max = fHeatMapData[x][y];
@@ -222,7 +204,7 @@ public class Map implements IPrintable, ISimulateable, ActionListener
 		    {
 			    for (int j = 0; j < fHeatMapData[i].length; j++)
 			    {
-				    fHeatMapData[i][j] = (fHeatMapData[i][j]-min)/max;
+				    fHeatMapData[i][j] = Math.max((fHeatMapData[i][j]-min)/max,0);
 			    }
 		    }
 
@@ -305,16 +287,6 @@ public class Map implements IPrintable, ISimulateable, ActionListener
         init(fGlobals);
     }
 
-    public void removeStart(Lane lane)
-    {
-        fStartingLanes.remove(lane);
-    }
-
-    public void addStart(Lane lane)
-    {
-        fStartingLanes.add(lane);
-    }
-
     public void removeEnd(Lane lane)
     {
         fEndLanes.remove(lane);
@@ -372,13 +344,6 @@ public class Map implements IPrintable, ISimulateable, ActionListener
     public DataStorage2d getCarData()
     {
         return fCarData;
-    }
-
-    public Tile getTile(Point2D point)
-    {
-        double arrayX = (int) (point.getX() / fGlobals.getConfig().getTileSize());
-        double arrayY = (int) (point.getY() / fGlobals.getConfig().getTileSize());
-        return this.getTile(arrayX, arrayY);
     }
 
     public PathFactory getPathFactory()

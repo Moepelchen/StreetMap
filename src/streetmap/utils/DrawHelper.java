@@ -8,9 +8,20 @@ import streetmap.map.side.Side;
 import streetmap.map.street.Street;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_QUADS;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL11.glColor3d;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glPushMatrix;
+import static org.lwjgl.opengl.GL11.glRotated;
+import static org.lwjgl.opengl.GL11.glTexCoord2f;
+import static org.lwjgl.opengl.GL11.glTranslated;
+import static org.lwjgl.opengl.GL11.glVertex2f;
+import static org.lwjgl.opengl.GL11.glVertex3f;
 
 /**
  * Created by IntelliJ IDEA.
@@ -141,10 +152,5 @@ public class DrawHelper
 	    glPopMatrix();
 
 
-    }
-
-    public static void drawHeatMap(BufferedImage image)
-    {
-        // TODO
     }
 }

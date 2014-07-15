@@ -140,8 +140,6 @@ public class Game
 		// glEnable(GL11.GL_DEPTH_TEST);
 		while (!Display.isCloseRequested())
 		{
-            int delta = getDelta();
-
             updateFPS();
             fGlobals.getTimeHandler().tickTime();
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
@@ -169,7 +167,7 @@ public class Game
 			fNifty.render(false);
 
 			Display.update();
-			Display.sync(120); // cap fps to 60fps
+			Display.sync(60); // cap fps to 60fps
 
             String screenId = fNifty.getCurrentScreen().getScreenId();
             if(fNifty.getCurrentScreen() != null && screenId != null &&screenId.equals(IScreenNames.SCREEN_GAME))
