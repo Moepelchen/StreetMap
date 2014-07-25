@@ -41,7 +41,7 @@ public abstract class LogPanel implements EffectImpl
 	    {
 		    font.loadGlyphs();
 	    }
-	    catch (SlickException ex)
+	    catch (SlickException | IllegalStateException ex)
 	    {
 		    // Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
 	    }

@@ -10,6 +10,7 @@ import de.lessvoid.nifty.controls.dynamic.PanelCreator;
 import de.lessvoid.nifty.controls.dynamic.TextCreator;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.input.NiftyInputEvent;
+import de.lessvoid.nifty.input.NiftyStandardInputEvent;
 import de.lessvoid.nifty.screen.KeyInputHandler;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
@@ -73,7 +74,7 @@ public abstract class AbstractScreenController implements KeyInputHandler, Scree
 	{
 		if(niftyInputEvent != null)
 		{
-			if (niftyInputEvent.equals(NiftyInputEvent.Escape))
+			if (niftyInputEvent.equals(NiftyStandardInputEvent.Escape))
 			{
 				activateScreenWithCall(getEscapeScreen(), true);
 				return true;

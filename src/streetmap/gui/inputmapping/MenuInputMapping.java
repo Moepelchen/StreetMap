@@ -4,7 +4,7 @@
 
 package streetmap.gui.inputmapping;
 
-import de.lessvoid.nifty.input.NiftyInputEvent;
+import de.lessvoid.nifty.input.NiftyStandardInputEvent;
 import de.lessvoid.nifty.input.keyboard.KeyboardInputEvent;
 
 /**
@@ -28,11 +28,11 @@ public class MenuInputMapping extends de.lessvoid.nifty.input.mapping.MenuInputM
 // -----------------------------------------------------
 
 	@Override
-	public NiftyInputEvent convert(KeyboardInputEvent inputEvent)
+	public NiftyStandardInputEvent convert(KeyboardInputEvent inputEvent)
 	{
 		if(inputEvent.getKey() == KeyboardInputEvent.KEY_ESCAPE && inputEvent.isKeyDown())
 		{
-			return NiftyInputEvent.Escape;
+			return NiftyStandardInputEvent.Escape;
 		}
 
 		return super.convert(inputEvent);

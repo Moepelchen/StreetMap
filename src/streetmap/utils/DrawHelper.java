@@ -1,27 +1,11 @@
 package streetmap.utils;
 
-import org.lwjgl.opengl.GL11;
 import streetmap.car.Car;
-import streetmap.heatmap.Gradient;
 import streetmap.map.side.Anchor;
 import streetmap.map.side.Side;
 import streetmap.map.street.Street;
 
 import java.awt.*;
-
-import static org.lwjgl.opengl.GL11.GL_QUADS;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.glBegin;
-import static org.lwjgl.opengl.GL11.glBindTexture;
-import static org.lwjgl.opengl.GL11.glColor3d;
-import static org.lwjgl.opengl.GL11.glEnd;
-import static org.lwjgl.opengl.GL11.glPopMatrix;
-import static org.lwjgl.opengl.GL11.glPushMatrix;
-import static org.lwjgl.opengl.GL11.glRotated;
-import static org.lwjgl.opengl.GL11.glTexCoord2f;
-import static org.lwjgl.opengl.GL11.glTranslated;
-import static org.lwjgl.opengl.GL11.glVertex2f;
-import static org.lwjgl.opengl.GL11.glVertex3f;
 
 /**
  * Created by IntelliJ IDEA.
@@ -40,7 +24,7 @@ public class DrawHelper
     public static void drawCar(Car car, Color color)
     {
 
-        float length = (float) (car.getLength() / 1);
+     /*   float length = (float) (car.getLength() / 1);
 
         float x = (float) (car.getPosition().getX() - length / 2);
         float y = (float) (car.getPosition().getY() - length / 2);
@@ -71,7 +55,7 @@ public class DrawHelper
         glVertex2f(length+x, y);
         glEnd();
         glPopMatrix();
-        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindTexture(GL_TEXTURE_2D, 0);*/
 
        /* GL30.glBindVertexArray(car.getVAOId());
         GL20.glEnableVertexAttribArray(0);
@@ -101,7 +85,7 @@ public class DrawHelper
 
     public static void drawStreet(Street street, boolean forMenu)
     {
-        int textureId = 0;
+      /*  int textureId = 0;
         String imagePath;
         if (forMenu)
         {
@@ -151,6 +135,6 @@ public class DrawHelper
 
 	    glPopMatrix();
 
-
+*/
     }
 }

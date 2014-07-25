@@ -2,19 +2,28 @@ package streetmap;
 
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.nulldevice.NullSoundDevice;
+import de.lessvoid.nifty.render.batch.BatchRenderConfiguration;
+import de.lessvoid.nifty.render.batch.BatchRenderDevice;
+import de.lessvoid.nifty.render.batch.spi.BatchRenderBackend;
 import de.lessvoid.nifty.renderer.lwjgl.input.LwjglInputSystem;
-import de.lessvoid.nifty.renderer.lwjgl.render.LwjglRenderDevice;
+import de.lessvoid.nifty.renderer.lwjgl.render.LwjglBatchRenderBackendCoreProfileFactory;
 import de.lessvoid.nifty.renderer.lwjgl.time.LWJGLTimeProvider;
 import de.lessvoid.nifty.screen.ScreenController;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.vector.Vector2f;
 import streetmap.gui.GLStreetPanel;
 import streetmap.gui.IScreenNames;
-import streetmap.gui.controller.*;
+import streetmap.gui.controller.DebugScreenController;
+import streetmap.gui.controller.GameScreenController;
+import streetmap.gui.controller.LoadScreenController;
+import streetmap.gui.controller.MenuScreenController;
+import streetmap.gui.controller.SaveScreenController;
 import streetmap.gui.inputmapping.MenuInputMapping;
 import streetmap.map.DataStorage2d;
 import streetmap.map.Map;
@@ -110,8 +119,12 @@ public class Game
 
          /*PixelFormat pixelFormat = new PixelFormat();
        ContextAttribs contextAtrributes = new ContextAttribs(3, 2).withProfileCore(true).withForwardCompatible(true);*/
+		PixelFormat pixelFormat = new PixelFormat();
+
+		ContextAttribs contextAtrributes = new ContextAttribs(3, 2).withProfileCore(true);
+
 		Display.setDisplayMode(new DisplayMode(getWidth(), getHeight()));
-		Display.create();
+		Display.create(pixelFormat, contextAtrributes);
 
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 
@@ -122,12 +135,7 @@ public class Game
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_DST_ALPHA);
 
 		GL11.glViewport(0, 0, getWidth(), getHeight());
-		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 
-		GL11.glMatrixMode(GL11.GL_PROJECTION);
-		GL11.glLoadIdentity();
-		GL11.glOrtho(0, getWidth(), getHeight(), 0, 1, -1);
-		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		Keyboard.enableRepeatEvents(true);
 
 		fStreetPanel = new GLStreetPanel(fGlobals);
@@ -144,13 +152,7 @@ public class Game
             fGlobals.getTimeHandler().tickTime();
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 			// Clear the screen and depth buffer
-			GL11.glPushMatrix();
 			Vector2f scalePoint = getScalePoint();
-            GL11.glTranslated(scalePoint.getX(), scalePoint.getY(),0);
-            GL11.glScalef(fPlayer.getZoom(),fPlayer.getZoom(),0);
-            GL11.glTranslated(-getScalePoint().getX(), -scalePoint.getY(),0);
-
-            GL11.glTranslatef(fPlayer.getX(), fPlayer.getY(), 0);
 
 			if (!this.isPaused())
 			{
@@ -160,7 +162,6 @@ public class Game
 				fPathData.add((double) pathsRequested);
 			}
 			fGlobals.getMap().paint();
-			GL11.glPopMatrix();
 
 			drawInterface();
 			fNifty.update();
@@ -222,8 +223,10 @@ public class Game
     {
         LwjglInputSystem inputSystem = new LwjglInputSystem();
         inputSystem.startup();
-
-        fNifty = new Nifty(new LwjglRenderDevice(), new NullSoundDevice(), inputSystem, new LWJGLTimeProvider());
+		BatchRenderBackend renderBackend = LwjglBatchRenderBackendCoreProfileFactory.create();
+	    BatchRenderConfiguration config = new BatchRenderConfiguration();
+	    BatchRenderDevice renderDevice = new BatchRenderDevice(renderBackend,config);
+        fNifty = new Nifty(renderDevice, new NullSoundDevice(), inputSystem, new LWJGLTimeProvider());
         File menuDefinitions = new File("./resources/gui/nifty.xml");
 
         GameScreenController gameScreenController = new GameScreenController(fGlobals);
