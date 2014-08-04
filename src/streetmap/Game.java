@@ -9,6 +9,7 @@ import de.lessvoid.nifty.renderer.lwjgl.input.LwjglInputSystem;
 import de.lessvoid.nifty.renderer.lwjgl.render.LwjglBatchRenderBackendCoreProfileFactory;
 import de.lessvoid.nifty.renderer.lwjgl.time.LWJGLTimeProvider;
 import de.lessvoid.nifty.screen.ScreenController;
+import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.ContextAttribs;
@@ -117,24 +118,31 @@ public class Game
 	public void start() throws Exception
 	{
 
-         /*PixelFormat pixelFormat = new PixelFormat();
-       ContextAttribs contextAtrributes = new ContextAttribs(3, 2).withProfileCore(true).withForwardCompatible(true);*/
-		PixelFormat pixelFormat = new PixelFormat();
+		// Setup an OpenGL context with API version 3.2
+		try
+		{
+			PixelFormat pixelFormat = new PixelFormat();
+			ContextAttribs contextAtrributes = new ContextAttribs(3, 2)
+					.withProfileCore(true)
+					.withForwardCompatible(true);
 
-		ContextAttribs contextAtrributes = new ContextAttribs(3, 2).withProfileCore(true);
+			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
+			Display.setTitle("Game");
+			Display.create(pixelFormat, contextAtrributes);
 
-		Display.setDisplayMode(new DisplayMode(getWidth(), getHeight()));
-		Display.create(pixelFormat, contextAtrributes);
+			GL11.glViewport(0, 0, getWidth(), getHeight());
+		}
+		catch (LWJGLException e)
+		{
+			e.printStackTrace();
+			System.exit(-1);
+		}
 
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		// Setup an XNA like background color
+		GL11.glClearColor(0.4f, 0.6f, 0.9f, 0f);
 
-		// GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-		// enable alpha blending
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_DST_ALPHA);
-
-		GL11.glViewport(0, 0, getWidth(), getHeight());
+     // Map the internal OpenGL coordinate system to the entire screen
+     GL11.glViewport(0, 0, WIDTH, HEIGHT);
 
 		Keyboard.enableRepeatEvents(true);
 
@@ -150,7 +158,7 @@ public class Game
 		{
             updateFPS();
             fGlobals.getTimeHandler().tickTime();
-			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 			// Clear the screen and depth buffer
 			Vector2f scalePoint = getScalePoint();
 

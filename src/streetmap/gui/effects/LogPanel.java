@@ -6,7 +6,6 @@ import de.lessvoid.nifty.effects.EffectProperties;
 import de.lessvoid.nifty.effects.Falloff;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.render.NiftyRenderEngine;
-import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
@@ -15,10 +14,6 @@ import streetmap.gui.controller.GameScreenController;
 import streetmap.map.DataStorage2d;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-
-import static org.lwjgl.opengl.GL11.glColor3d;
 
 /**
  * Created by ulrichtewes on 12.01.14.
@@ -50,7 +45,7 @@ public abstract class LogPanel implements EffectImpl
     @Override
     public void execute(Element element, float v, Falloff falloff, NiftyRenderEngine niftyRenderEngine)
     {
-        Color color = Color.WHITE;
+      /*  Color color = Color.WHITE;
 
         DataStorage2d flowData = getData();
         ArrayList<Point2D> data = flowData.getData();
@@ -76,7 +71,7 @@ public abstract class LogPanel implements EffectImpl
         GL11.glPopMatrix();
 
 	    font.drawString(element.getX(), element.getY(), String.valueOf(getData().getCurrent()));
-	    font.drawString(element.getX(), element.getY()+30, String.valueOf(getData().getMax()));
+	    font.drawString(element.getX(), element.getY()+30, String.valueOf(getData().getMax()));*/
 
     }
 

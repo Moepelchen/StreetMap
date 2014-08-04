@@ -28,30 +28,31 @@ import java.util.Vector;
  * This class represents one car moving on the map
  */
 public class
-        Car implements IPrintable, ISimulateable, IEventHandler
+		Car implements IPrintable, ISimulateable, IEventHandler
 {
 
-    public static final int COLOR_HAPPINESS = 120;
-    private int fIndicesCount;
+	public static final int COLOR_HAPPINESS = 120;
+	private int fIndicesCount;
 	private boolean fHasRequestedPath;
 
 	public int getVBOId2()
-    {
-        return fVBOId2;
-    }
+	{
+		return fVBOId2;
+	}
 
-    public int getVBOId()
-    {
-        return fVBOId;
-    }
+	private int fVBOId2;
 
-    public int getVAOId()
-    {
-        return fVAOId;
-    }
+	public int getVBOId()
+	{
+		return fVBOId;
+	}
 
-    private int fVBOId2;
-    /**
+	public int getVAOId()
+	{
+		return fVAOId;
+	}
+
+	/**
 	 * Current position
 	 */
 	private Point2D fPosition;
@@ -68,13 +69,13 @@ public class
 	private String fImagePath;
 	private double fSpeed;
 	private final double fOriginalSpeed;
-	private double fLength;
+	private float fLength;
 	private double fHappiness;
-    private IPathFindingAlgorithm fPathFinder;
-    private int fVBOId = 0;
-    private int fVAOId = 0;
+	private IPathFindingAlgorithm fPathFinder;
+	private int fVBOId = 0;
+	private int fVAOId = 0;
 
-    public Point2D getPosition()
+	public Point2D getPosition()
 	{
 		return fPosition;
 	}
@@ -100,87 +101,94 @@ public class
 	}
 
 	public Car(Lane lane, Point2D pos, String carImagePath, float length)
-    {
-        fLength = length;
-        fLane = lane;
-        fPosition = pos;
-        fColor = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()));
-        fImagePath = carImagePath;
-        double v = Math.max(Math.random(),0.25) * lane.getGlobals().getConfig().getMaximumCarSpeed();
-        fSpeed = v;
-        fOriginalSpeed = v;
-        fLane.getGlobals().getMap().getPathFactory().createPath(this);
-        //initBuffers(length);
-    }
+	{
+		fLength = length;
+		fLane = lane;
+		fPosition = pos;
+		fColor = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()));
+		fImagePath = carImagePath;
+		double v = Math.max(Math.random(), 0.25) * lane.getGlobals().getConfig().getMaximumCarSpeed();
+		fSpeed = v;
+		fOriginalSpeed = v;
+		fLane.getGlobals().getMap().getPathFactory().createPath(this);
+		initBuffers(length);
+	}
+
+
 
     private void initBuffers(float length)
     {
         float x = (float) (this.getPosition().getX() - length / 2);
         float y = (float) (this.getPosition().getY() - length / 2);
-        float[] vertices = {x, y, 0,
-                x + length, y, 0,
-                x + length, y + length, 0,
-                x, y + length};
+	    float[] vertices = {
+			    x, y, 0,
+			    x + length, y, 0,
+			    x + length, y + length, 0,
+			    x, y + length,
+	    };
+
+
         FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(vertices.length);
         verticesBuffer.put(vertices);
         verticesBuffer.flip();
 
-        byte[] indices = {0, 1, 2, 2, 3, 0};
-        fIndicesCount = indices.length;
-        ByteBuffer indicesBuffer = BufferUtils.createByteBuffer(fIndicesCount);
-        indicesBuffer.put(indices);
-        indicesBuffer.flip();
+		// OpenGL expects to draw vertices in counter clockwise order by default
+		byte[] indices = {
+				2, 3, 0,
+				0, 1, 2
+		};
+		fIndicesCount = indices.length;
+		ByteBuffer indicesBuffer = BufferUtils.createByteBuffer(fIndicesCount);
+		indicesBuffer.put(indices);
+		indicesBuffer.flip();
 
-        fVAOId = GL30.glGenVertexArrays();
-        GL30.glBindVertexArray(fVAOId);
+		// Create a new Vertex Array Object in memory and select it (bind)
+		// A VAO can have up to 16 attributes (VBO's) assigned to it by default
+		fVAOId = GL30.glGenVertexArrays();
+		GL30.glBindVertexArray(fVAOId);
 
-        fVBOId = GL15.glGenBuffers();
-        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, fVBOId);
-        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, verticesBuffer, GL15.GL_STATIC_DRAW);
+		// Create a new Vertex Buffer Object in memory and select it (bind)
+		// A VBO is a collection of Vectors which in this case resemble the location of each vertex.
+		fVBOId = GL15.glGenBuffers();
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, fVBOId);
+		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, verticesBuffer, GL15.GL_STATIC_DRAW);
+		// Put the VBO in the attributes list at index 0
+		GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0);
+		// Deselect (bind to 0) the VBO
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 
-        // Put the VBO in the attributes list at index 0
+		// Deselect (bind to 0) the VAO
+		GL30.glBindVertexArray(0);
 
-        GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0);
+	    fVBOId2 = GL15.glGenBuffers();
+	    		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, fVBOId2);
+	    		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL15.GL_STREAM_DRAW);
+	    // Deselect (bind to 0) the VBO
+	    		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+	}
 
-        // Deselect (bind to 0) the VBO
-
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
-
-
-        // Deselect (bind to 0) the VAO
-
-        GL30.glBindVertexArray(0);
-
-        // Create a new VBO for the indices and select it (bind)
-        fVBOId2 = GL15.glGenBuffers();
-        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, fVBOId2);
-        GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL15.GL_STATIC_DRAW);
-
-        // Deselect (bind to 0) the VBO
-        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
-    }
-
-    public void print()
+	public void print()
 	{
-if(fLane.getGlobals().getConfig().isShowCars())
-{
-    try
-    {
-        int red = Math.min((int) (COLOR_HAPPINESS * (1 - fHappiness)), COLOR_HAPPINESS);
-        int green = 0;
-        if(fHappiness == 1)
-        {
-            green = Math.min((int) (COLOR_HAPPINESS * (fHappiness)), COLOR_HAPPINESS);
-        }
-        Color color = new Color(red, green, 0);
-        DrawHelper.drawCar(this, fColor);
-    }
-    catch (IllegalArgumentException e)
-    {
-        e.printStackTrace();
-    }
+		if (fLane.getGlobals().getConfig().isShowCars())
+		{
+			try
+			{
+				int red = Math.min((int) (COLOR_HAPPINESS * (1 - fHappiness)), COLOR_HAPPINESS);
+				int green = 0;
+				if (fHappiness == 1)
+				{
+					green = Math.min((int) (COLOR_HAPPINESS * (fHappiness)), COLOR_HAPPINESS);
+				}
+				Color color = new Color(red, green, 0);
+				//initBuffers(getLength());
+				DrawHelper.drawCar(this, fColor);
+			}
+			catch (IllegalArgumentException e)
+			{
+				e.printStackTrace();
+			}
 
-}
+		}
 
 		//DrawHelper.drawFronCars(this, getFrontCars());
 
@@ -193,7 +201,29 @@ if(fLane.getGlobals().getConfig().isShowCars())
 			handleEvent(event);
 		}
 		move();
-		fHappiness = Math.min(1,fSpeed / fOriginalSpeed);
+		updateVertices();
+		fHappiness = Math.min(1, fSpeed / fOriginalSpeed);
+	}
+
+	private void updateVertices()
+	{
+		float x = (float) (this.getPosition().getX() - fLength / 2);
+		float y = (float) (this.getPosition().getY() - fLength / 2);
+		float[] vertices = {
+				x, y, 0,
+				x + fLength, y, 0,
+				x + fLength, y + fLength, 0,
+				x, y + fLength,
+		};
+		FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(vertices.length);
+		verticesBuffer.put(vertices);
+		verticesBuffer.flip();
+
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, getVBOId());
+
+		GL15.glBufferSubData(GL15.GL_ARRAY_BUFFER, 0,verticesBuffer);
+		// Put the VBO in the attributes list at index 0
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 	}
 
 	/**
@@ -231,7 +261,7 @@ if(fLane.getGlobals().getConfig().isShowCars())
 				double delta = fOriginalSpeed - fSpeed;
 				double inc = delta / 10;
 				fSpeed = fSpeed + inc;
-				if(fSpeed > fOriginalSpeed)
+				if (fSpeed > fOriginalSpeed)
 				{
 					fSpeed = fOriginalSpeed;
 				}
@@ -267,8 +297,10 @@ if(fLane.getGlobals().getConfig().isShowCars())
 	public void reset(Lane lane)
 	{
 		fLane = lane;
-		if(fHappiness < 0.10&& fPathFinder != null && Math.random() >0.10)
-	            recalcPath(fPathFinder.getDestination());
+		if (fHappiness < 0.10 && fPathFinder != null && Math.random() > 0.10)
+		{
+			recalcPath(fPathFinder.getDestination());
+		}
 	}
 
 	protected void recalcPath(Lane destination)
@@ -307,7 +339,7 @@ if(fLane.getGlobals().getConfig().isShowCars())
 		return toReturn;
 	}
 
-	public double getLength()
+	public float getLength()
 	{
 		return fLength;
 	}
@@ -324,40 +356,65 @@ if(fLane.getGlobals().getConfig().isShowCars())
 		}
 	}
 
-    public IPathFindingAlgorithm getPathFinder()
-    {
-        return fPathFinder;
-    }
+	public IPathFindingAlgorithm getPathFinder()
+	{
+		return fPathFinder;
+	}
 
-    public void setPath(AbstractPathFinder path)
-    {
-        fPathFinder = path;
-    }
+	public void setPath(AbstractPathFinder path)
+	{
+		fPathFinder = path;
+	}
 
-    @Override
-    public void handleEvent(IEvent event)
-    {
-        switch (event.getType())
-        {
-            case IEvent.EVENT_STREET_PLACEMENT:
-                StreetPlacementEvent spEvent = (StreetPlacementEvent) event;
-                Street street = spEvent.getStreet();
-	            boolean canRecalc = street != null && fPathFinder != null;
-	            if (canRecalc && fPathFinder.getDestination()!= null &&fPathFinder.getDestination().getStreet() != null && fPathFinder.getDestination().getStreet().equals(street))
-	            {
-		            recalcPath(null);
-	            }
-	            else if (canRecalc && fPathFinder.containsStreet(street))
-	            {
-		            recalcPath(fPathFinder.getDestination());
-	            }
-                break;
-            default:
-        }
-    }
+	@Override
+	public void handleEvent(IEvent event)
+	{
+		switch (event.getType())
+		{
+			case IEvent.EVENT_STREET_PLACEMENT:
+				StreetPlacementEvent spEvent = (StreetPlacementEvent) event;
+				Street street = spEvent.getStreet();
+				boolean canRecalc = street != null && fPathFinder != null;
+				if (canRecalc && fPathFinder.getDestination() != null && fPathFinder.getDestination().getStreet() != null && fPathFinder.getDestination().getStreet().equals(street))
+				{
+					recalcPath(null);
+				}
+				else if (canRecalc && fPathFinder.containsStreet(street))
+				{
+					recalcPath(fPathFinder.getDestination());
+				}
+				break;
+			default:
+		}
+	}
 
-    public int getIndicesCount()
-    {
-        return fIndicesCount;
-    }
+	public int getIndicesCount()
+	{
+		return fIndicesCount;
+	}
+
+	public void release()
+	{
+		// Select the VAO
+		GL30.glBindVertexArray(fVAOId);
+
+		// Disable the VBO index from the VAO attributes list
+		GL20.glDisableVertexAttribArray(0);
+		GL20.glDisableVertexAttribArray(1);
+
+		// Delete the vertex VBO
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+		GL15.glDeleteBuffers(fVBOId);
+
+		// Delete the index VBO
+		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+		GL15.glDeleteBuffers(fVBOId2);
+
+		// Delete the VAO
+		GL30.glBindVertexArray(0);
+		GL30.glDeleteVertexArrays(fVAOId);
+
+	}
 }
+
+

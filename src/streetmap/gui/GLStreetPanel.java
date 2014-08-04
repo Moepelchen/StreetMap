@@ -63,7 +63,7 @@ public class GLStreetPanel
             DrawHelper.drawStreet(tile.getStreet(), true);
             if (fSelectedStreet != null && tile.getStreet().getName().equals(fSelectedStreet))
             {
-                GL11.glColor4d(0, 1, 0, 0.5);
+               /* GL11.glColor4d(0, 1, 0, 0.5);
                 glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 GL11.glBegin(GL11.GL_QUADS);
                 {
@@ -75,7 +75,7 @@ public class GLStreetPanel
 
                     glVertex3d(tile.getArrayPosition().getX() * fTileWidth, tile.getArrayPosition().getY() * fTileWidth + fTileWidth, 0);
                 }
-                GL11.glEnd();
+                GL11.glEnd();*/
             }
 
         }

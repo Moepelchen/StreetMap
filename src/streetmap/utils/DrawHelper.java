@@ -1,5 +1,9 @@
 package streetmap.utils;
 
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL15;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
 import streetmap.car.Car;
 import streetmap.map.side.Anchor;
 import streetmap.map.side.Side;
@@ -24,48 +28,20 @@ public class DrawHelper
     public static void drawCar(Car car, Color color)
     {
 
-     /*   float length = (float) (car.getLength() / 1);
+   // Bind to the VAO that has all the information about the vertices
+   GL30.glBindVertexArray(car.getVAOId());
+   GL20.glEnableVertexAttribArray(0);
 
-        float x = (float) (car.getPosition().getX() - length / 2);
-        float y = (float) (car.getPosition().getY() - length / 2);
+   // Bind to the index VBO that has all the information about the order of the vertices
+   GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, car.getVBOId2());
 
-	    GL11.glBlendFunc(GL11.GL_ONE,GL11.GL_ONE_MINUS_SRC_ALPHA);
+   // Draw the vertices
+   GL11.glDrawElements(GL11.GL_TRIANGLES, car.getIndicesCount(), GL11.GL_UNSIGNED_BYTE, 0);
 
-        glBindTexture(GL_TEXTURE_2D, TextureCache.getTextureId(car.getImagePath()));
-        glPushMatrix();
-
-
-        double angle = car.getLane().getTrajectory().getAngle(car);
-        //glTranslated(length/2,length/2,0);
-        glTranslated(car.getPosition().getX(), car.getPosition().getY(), 0);
-        glRotated(Math.toDegrees(angle), 0, 0, 1);
-        glTranslated(-car.getPosition().getX(),-car.getPosition().getY(),0);
-
-
-
-        glColor3d((double) color.getRed() / 255, (double) color.getGreen() / 255, (double) color.getBlue() / 255);
-        glBegin(GL_QUADS);
-        glTexCoord2f(0.0F, 0.0F);
-        glVertex2f(x, y);
-        glTexCoord2f(0, 1.0F);
-        glVertex2f(x, y+length);
-        glTexCoord2f(1.0F, 1.0F);
-        glVertex2f(x+length,y+length);
-        glTexCoord2f(1.0F, 0.0F);
-        glVertex2f(length+x, y);
-        glEnd();
-        glPopMatrix();
-        glBindTexture(GL_TEXTURE_2D, 0);*/
-
-       /* GL30.glBindVertexArray(car.getVAOId());
-        GL20.glEnableVertexAttribArray(0);
-        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, car.getVBOId2());
-        GL11.glDrawElements(GL11.GL_TRIANGLES,car.getIndicesCount(),GL11.GL_UNSIGNED_BYTE,0);
-        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER,0);
-        GL20.glDisableVertexAttribArray(0);
-        GL30.glBindVertexArray(0);*/
-
-
+   // Put everything back to default (deselect)
+   GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+   GL20.glDisableVertexAttribArray(0);
+   GL30.glBindVertexArray(0);
     }
 
     public static void drawAnchor(Anchor anchor)

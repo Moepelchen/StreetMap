@@ -161,6 +161,7 @@ public class Lane implements IPrintable, ISimulateable
 					else
 					{
 						getGlobals().getMap().addCarFlowData(1);
+						//fCar.release();
 					}
 				}
 			}
