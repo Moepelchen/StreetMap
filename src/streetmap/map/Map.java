@@ -1,6 +1,9 @@
 package streetmap.map;
 
 import streetmap.SSGlobals;
+import streetmap.car.Car;
+import streetmap.car.CarRenderBuffer;
+import streetmap.car.RenderStuff;
 import streetmap.events.EventQueue;
 import streetmap.events.IEvent;
 import streetmap.events.StreetPlacementEvent;
@@ -11,12 +14,14 @@ import streetmap.map.street.Street;
 import streetmap.map.tile.Tile;
 import streetmap.pathfinding.AbstractPathFinder;
 import streetmap.pathfinding.PathFactory;
+import streetmap.utils.DrawHelper;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -233,13 +238,19 @@ public class Map implements IPrintable, ISimulateable, ActionListener
                 tile.print();
 
             }
-            for (Tile fOccupiedTile : fOccupiedTiles)
+	        List<Car> cars = new ArrayList<>();
+	        for (Tile fOccupiedTile : fOccupiedTiles)
             {
-                for (Lane occupiedTile : fOccupiedTile.getLanes())
+	            for (Lane lane : fOccupiedTile.getLanes())
                 {
-                    occupiedTile.print();
+	                lane.print();
+	                cars.addAll(lane.getCars());
+
                 }
             }
+	        RenderStuff stuff = CarRenderBuffer.initBuffers(cars);
+	        DrawHelper.drawCar(stuff);
+	        stuff.release();
         }
     }
 

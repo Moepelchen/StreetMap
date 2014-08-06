@@ -92,20 +92,11 @@ public class Lane implements IPrintable, ISimulateable
 		{
 			fTrajectory.print();
 		}
-		drawCars();
-	}
-
-	private void drawCars()
-	{
-		for (Car fCar : fCars)
-		{
-			fCar.print();
-		}
 	}
 
 	public void simulate()
 	{
-		Vector<Car> toRemoveCars = new Vector<Car>();
+		Vector<Car> toRemoveCars = new Vector<>();
 
 		if (this.getEnd().getRandomLane() != null && Math.random() < getCarGenerationModifier() && this.isStartLane() && fCars.size() < 2 && fGlobals.getMap().getCurrentNumberOfCars() < fGlobals.getConfig().getMaximumNumOfCars())
 		{
@@ -121,8 +112,10 @@ public class Lane implements IPrintable, ISimulateable
             if(pathFinder1 != null)
             {
                 Lane destination = pathFinder1.getDestination();
-                if(destination != null)
-                reachedGoal = this.equals(destination);
+	            if (destination != null)
+	            {
+		            reachedGoal = this.equals(destination);
+	            }
             }
             if(reachedGoal){
                 toRemoveCars.add(fCar);
@@ -161,7 +154,6 @@ public class Lane implements IPrintable, ISimulateable
 					else
 					{
 						getGlobals().getMap().addCarFlowData(1);
-						//fCar.release();
 					}
 				}
 			}

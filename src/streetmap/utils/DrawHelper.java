@@ -4,12 +4,10 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
-import streetmap.car.Car;
+import streetmap.car.RenderStuff;
 import streetmap.map.side.Anchor;
 import streetmap.map.side.Side;
 import streetmap.map.street.Street;
-
-import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,23 +23,23 @@ public class DrawHelper
      * Image Storage
      */
 
-    public static void drawCar(Car car, Color color)
+    public static void drawCar(RenderStuff car)
     {
 
-   // Bind to the VAO that has all the information about the vertices
-   GL30.glBindVertexArray(car.getVAOId());
-   GL20.glEnableVertexAttribArray(0);
+	    // Bind to the VAO that has all the information about the vertices
+	    GL30.glBindVertexArray(car.getFVAOId());
+	    GL20.glEnableVertexAttribArray(0);
 
-   // Bind to the index VBO that has all the information about the order of the vertices
-   GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, car.getVBOId2());
+	    // Bind to the index VBO that has all the information about the order of the vertices
+	    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, car.getFVBOId2());
 
-   // Draw the vertices
-   GL11.glDrawElements(GL11.GL_TRIANGLES, car.getIndicesCount(), GL11.GL_UNSIGNED_BYTE, 0);
+	    // Draw the vertices
+	    GL11.glDrawElements(GL11.GL_TRIANGLES, car.getFIndicesCount(), GL11.GL_UNSIGNED_INT, 0);
 
-   // Put everything back to default (deselect)
-   GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
-   GL20.glDisableVertexAttribArray(0);
-   GL30.glBindVertexArray(0);
+	    // Put everything back to default (deselect)
+	    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+	    GL20.glDisableVertexAttribArray(0);
+	    GL30.glBindVertexArray(0);
     }
 
     public static void drawAnchor(Anchor anchor)

@@ -176,7 +176,7 @@ public class Game
 			fNifty.render(false);
 
 			Display.update();
-			Display.sync(60); // cap fps to 60fps
+			//Display.sync(60); // cap fps to 60fps
 
             String screenId = fNifty.getCurrentScreen().getScreenId();
             if(fNifty.getCurrentScreen() != null && screenId != null &&screenId.equals(IScreenNames.SCREEN_GAME))

@@ -1,10 +1,5 @@
 package streetmap.car;
 
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
 import streetmap.events.IEvent;
 import streetmap.events.IEventHandler;
 import streetmap.events.StreetPlacementEvent;
@@ -15,12 +10,9 @@ import streetmap.map.street.Street;
 import streetmap.map.street.trajectory.ITrajectory;
 import streetmap.pathfinding.AbstractPathFinder;
 import streetmap.pathfinding.IPathFindingAlgorithm;
-import streetmap.utils.DrawHelper;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
 import java.util.Collection;
 import java.util.Vector;
 
@@ -32,25 +24,7 @@ public class
 {
 
 	public static final int COLOR_HAPPINESS = 120;
-	private int fIndicesCount;
 	private boolean fHasRequestedPath;
-
-	public int getVBOId2()
-	{
-		return fVBOId2;
-	}
-
-	private int fVBOId2;
-
-	public int getVBOId()
-	{
-		return fVBOId;
-	}
-
-	public int getVAOId()
-	{
-		return fVAOId;
-	}
 
 	/**
 	 * Current position
@@ -72,8 +46,6 @@ public class
 	private float fLength;
 	private double fHappiness;
 	private IPathFindingAlgorithm fPathFinder;
-	private int fVBOId = 0;
-	private int fVAOId = 0;
 
 	public Point2D getPosition()
 	{
@@ -111,86 +83,10 @@ public class
 		fSpeed = v;
 		fOriginalSpeed = v;
 		fLane.getGlobals().getMap().getPathFactory().createPath(this);
-		initBuffers(length);
-	}
-
-
-
-    private void initBuffers(float length)
-    {
-        float x = (float) (this.getPosition().getX() - length / 2);
-        float y = (float) (this.getPosition().getY() - length / 2);
-	    float[] vertices = {
-			    x, y, 0,
-			    x + length, y, 0,
-			    x + length, y + length, 0,
-			    x, y + length,
-	    };
-
-
-        FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(vertices.length);
-        verticesBuffer.put(vertices);
-        verticesBuffer.flip();
-
-		// OpenGL expects to draw vertices in counter clockwise order by default
-		byte[] indices = {
-				2, 3, 0,
-				0, 1, 2
-		};
-		fIndicesCount = indices.length;
-		ByteBuffer indicesBuffer = BufferUtils.createByteBuffer(fIndicesCount);
-		indicesBuffer.put(indices);
-		indicesBuffer.flip();
-
-		// Create a new Vertex Array Object in memory and select it (bind)
-		// A VAO can have up to 16 attributes (VBO's) assigned to it by default
-		fVAOId = GL30.glGenVertexArrays();
-		GL30.glBindVertexArray(fVAOId);
-
-		// Create a new Vertex Buffer Object in memory and select it (bind)
-		// A VBO is a collection of Vectors which in this case resemble the location of each vertex.
-		fVBOId = GL15.glGenBuffers();
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, fVBOId);
-		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, verticesBuffer, GL15.GL_STATIC_DRAW);
-		// Put the VBO in the attributes list at index 0
-		GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0);
-		// Deselect (bind to 0) the VBO
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
-
-		// Deselect (bind to 0) the VAO
-		GL30.glBindVertexArray(0);
-
-	    fVBOId2 = GL15.glGenBuffers();
-	    		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, fVBOId2);
-	    		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL15.GL_STREAM_DRAW);
-	    // Deselect (bind to 0) the VBO
-	    		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
 	public void print()
 	{
-		if (fLane.getGlobals().getConfig().isShowCars())
-		{
-			try
-			{
-				int red = Math.min((int) (COLOR_HAPPINESS * (1 - fHappiness)), COLOR_HAPPINESS);
-				int green = 0;
-				if (fHappiness == 1)
-				{
-					green = Math.min((int) (COLOR_HAPPINESS * (fHappiness)), COLOR_HAPPINESS);
-				}
-				Color color = new Color(red, green, 0);
-				//initBuffers(getLength());
-				DrawHelper.drawCar(this, fColor);
-			}
-			catch (IllegalArgumentException e)
-			{
-				e.printStackTrace();
-			}
-
-		}
-
-		//DrawHelper.drawFronCars(this, getFrontCars());
 
 	}
 
@@ -201,29 +97,7 @@ public class
 			handleEvent(event);
 		}
 		move();
-		updateVertices();
 		fHappiness = Math.min(1, fSpeed / fOriginalSpeed);
-	}
-
-	private void updateVertices()
-	{
-		float x = (float) (this.getPosition().getX() - fLength / 2);
-		float y = (float) (this.getPosition().getY() - fLength / 2);
-		float[] vertices = {
-				x, y, 0,
-				x + fLength, y, 0,
-				x + fLength, y + fLength, 0,
-				x, y + fLength,
-		};
-		FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(vertices.length);
-		verticesBuffer.put(vertices);
-		verticesBuffer.flip();
-
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, getVBOId());
-
-		GL15.glBufferSubData(GL15.GL_ARRAY_BUFFER, 0,verticesBuffer);
-		// Put the VBO in the attributes list at index 0
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 	}
 
 	/**
@@ -386,34 +260,6 @@ public class
 				break;
 			default:
 		}
-	}
-
-	public int getIndicesCount()
-	{
-		return fIndicesCount;
-	}
-
-	public void release()
-	{
-		// Select the VAO
-		GL30.glBindVertexArray(fVAOId);
-
-		// Disable the VBO index from the VAO attributes list
-		GL20.glDisableVertexAttribArray(0);
-		GL20.glDisableVertexAttribArray(1);
-
-		// Delete the vertex VBO
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
-		GL15.glDeleteBuffers(fVBOId);
-
-		// Delete the index VBO
-		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
-		GL15.glDeleteBuffers(fVBOId2);
-
-		// Delete the VAO
-		GL30.glBindVertexArray(0);
-		GL30.glDeleteVertexArrays(fVAOId);
-
 	}
 }
 
