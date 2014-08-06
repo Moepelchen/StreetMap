@@ -64,7 +64,7 @@ public class ConfigLoader implements ILoader
 						{
 							String value = item.getTextContent();
 							int beginIndex = 3;
-							if (method.getReturnType().equals(boolean.class)||method.getReturnType().equals(Boolean.class) )
+							if (method.getReturnType().equals(boolean.class) || method.getReturnType().equals(Boolean.class))
 							{
 								beginIndex = 2;
 							}
@@ -79,8 +79,8 @@ public class ConfigLoader implements ILoader
 							}
 							catch (NoSuchMethodException e)
 							{
-                                System.out.println("e = " + e);
-                            }
+								System.out.println("e = " + e);
+							}
 						}
 					}
 				}

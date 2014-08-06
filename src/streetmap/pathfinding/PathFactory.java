@@ -11,7 +11,7 @@ import java.util.concurrent.*;
 public class PathFactory extends Thread
 {
 
-    private final ExecutorService fExecutor;
+	private final ExecutorService fExecutor;
 	private final ArrayBlockingQueue<Runnable> fWorkQueue;
 
 	public int getPathsRequested()
@@ -19,49 +19,53 @@ public class PathFactory extends Thread
 		return fWorkQueue.size();
 	}
 
-    public PathFactory()
-    {
+	public PathFactory()
+	{
 
-	    final Semaphore semaphore = new Semaphore(200);//or however you want max queued at any given moment
-	    fWorkQueue = new ArrayBlockingQueue<>(210);
-	    fExecutor= new ThreadPoolExecutor(4,4,1000, TimeUnit.MILLISECONDS, fWorkQueue){
-	          public void execute(Runnable r){
-		          try
-		          {
-			          semaphore.acquire();
-		          }
-		          catch (InterruptedException e)
-		          {
-			          e.printStackTrace();
-		          }
-		          super.execute(r);
-	          }
-	          public void afterExecute(Runnable r, Throwable t){
-	             semaphore.release();
-	             super.afterExecute(r,t);
-	          }
-	    };
-    }
+		final Semaphore semaphore = new Semaphore(200);//or however you want max queued at any given moment
+		fWorkQueue = new ArrayBlockingQueue<>(210);
+		fExecutor = new ThreadPoolExecutor(4, 4, 1000, TimeUnit.MILLISECONDS, fWorkQueue)
+		{
+			public void execute(Runnable r)
+			{
+				try
+				{
+					semaphore.acquire();
+				}
+				catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
+				super.execute(r);
+			}
 
-    public void createPath(Car car)
-    {
-	   createPath(car,null);
-    }
+			public void afterExecute(Runnable r, Throwable t)
+			{
+				semaphore.release();
+				super.afterExecute(r, t);
+			}
+		};
+	}
 
-    public void createPath(Car car, Lane destination)
-    {
-	    if(!car.hasRequestedPath())
-	    {
-		    car.setHasRequestedPath(true);
+	public void createPath(Car car)
+	{
+		createPath(car, null);
+	}
 
-		    IPathFindingAlgorithm algo = new AStarAlgorithm(car);
-		    algo.setEnd(destination);
-		    fExecutor.execute(algo);
-	    }
-    }
+	public void createPath(Car car, Lane destination)
+	{
+		if (!car.hasRequestedPath())
+		{
+			car.setHasRequestedPath(true);
 
-    public void release()
-    {
-        fExecutor.shutdown();
-    }
+			IPathFindingAlgorithm algo = new AStarAlgorithm(car);
+			algo.setEnd(destination);
+			fExecutor.execute(algo);
+		}
+	}
+
+	public void release()
+	{
+		fExecutor.shutdown();
+	}
 }

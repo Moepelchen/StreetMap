@@ -11,48 +11,48 @@ import static junit.framework.Assert.assertEquals;
 public class TimeHandlerTest
 {
 
-    private ITimeHandler fTimeHandler;
+	private ITimeHandler fTimeHandler;
 
-    @Before
-    public void setUp()
-    {
-        fTimeHandler = new TimeHandler();
-    }
+	@Before
+	public void setUp()
+	{
+		fTimeHandler = new TimeHandler();
+	}
 
-    @Test
-    public void testTickHour()
-    {
-        for (int i = 0; i < 360; i++)
-        {
-            fTimeHandler.tickTime();
+	@Test
+	public void testTickHour()
+	{
+		for (int i = 0; i < 360; i++)
+		{
+			fTimeHandler.tickTime();
 
-        }
-        assertEquals(13,fTimeHandler.getHourOfDay());
-    }
+		}
+		assertEquals(13, fTimeHandler.getHourOfDay());
+	}
 
-    @Test
-    public void testTickDay()
-    {
-        for (int i = 0; i < 360*24; i++)
-        {
-            fTimeHandler.tickTime();
-        }
-        assertEquals(12,fTimeHandler.getHourOfDay());
-        assertEquals(1,fTimeHandler.getDay());
+	@Test
+	public void testTickDay()
+	{
+		for (int i = 0; i < 360 * 24; i++)
+		{
+			fTimeHandler.tickTime();
+		}
+		assertEquals(12, fTimeHandler.getHourOfDay());
+		assertEquals(1, fTimeHandler.getDay());
 
-    }
+	}
 
-    @Test
-    public void testTickYear()
-    {
-        for (int i = 0; i < 360*24*365; i++)
-        {
-            fTimeHandler.tickTime();
-        }
-        assertEquals(12,fTimeHandler.getHourOfDay());
-        assertEquals(0,fTimeHandler.getDay());
-        assertEquals(1,fTimeHandler.getYear());
+	@Test
+	public void testTickYear()
+	{
+		for (int i = 0; i < 360 * 24 * 365; i++)
+		{
+			fTimeHandler.tickTime();
+		}
+		assertEquals(12, fTimeHandler.getHourOfDay());
+		assertEquals(0, fTimeHandler.getDay());
+		assertEquals(1, fTimeHandler.getYear());
 
-    }
+	}
 
 }

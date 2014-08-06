@@ -1,9 +1,7 @@
 package streetmap.gui;
 
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
-import streetmap.Player;
 import streetmap.SSGlobals;
 import streetmap.map.street.IStreetNames;
 import streetmap.map.tile.Tile;
@@ -15,9 +13,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.lwjgl.opengl.GL11.glBlendFunc;
-import static org.lwjgl.opengl.GL11.glVertex3d;
 
 /**
  * Created by ulrichtewes on 07.12.13.
@@ -90,7 +85,7 @@ public class GLStreetPanel
 
             for (Tile intersectionTile : intersectionTiles)
             {
-                GL11.glPushMatrix();
+              /*  GL11.glPushMatrix();
                 Vector2f scalePoint = fGlobals.getGame().getScalePoint();
                 GL11.glTranslated(scalePoint.getX(), scalePoint.getY(), 0);
                 Player fPlayer = fGlobals.getGame().getPlayer();
@@ -111,7 +106,7 @@ public class GLStreetPanel
                     glVertex3d(intersectionTile.getArrayPosition().getX() * intersectionTile.getWidth(), intersectionTile.getArrayPosition().getY() * intersectionTile.getWidth() + intersectionTile.getWidth(), 0);
                 }
                 GL11.glEnd();
-                GL11.glPopMatrix();
+                GL11.glPopMatrix();*/
             }
         }
     }
@@ -237,5 +232,7 @@ public class GLStreetPanel
     {
         int index = fTiles.size() - 1 - (y / fTileWidth);
         fSelectedStreet = fTiles.get(index).getStreet().getName();
+	    System.out.println("fSelectedStreet = " + fSelectedStreet);
+
     }
 }

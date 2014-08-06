@@ -8,6 +8,7 @@ import streetmap.utils.DrawHelper;
 import streetmap.xml.jaxb.StreetTemplate;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.Vector;
 
 /**
@@ -110,6 +111,24 @@ public class Street implements IPrintable, ISimulateable
             lane.print();
         }*/
 
+	}
+
+	@Override
+	public Point2D getPosition()
+	{
+		return getTile().getPosition();
+	}
+
+	@Override
+	public float getLength()
+	{
+		return (float) getTile().getWidth();
+	}
+
+	@Override
+	public double getAngle()
+	{
+		return 0;
 	}
 
 	public void simulate()

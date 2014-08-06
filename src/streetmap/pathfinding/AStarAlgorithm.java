@@ -27,64 +27,62 @@ import java.util.*;
 public class AStarAlgorithm extends AbstractPathFinder
 {
 
-    private static HashMap<String,LinkedList<Lane>> fPathList = new HashMap<>();
+	private static HashMap<String, LinkedList<Lane>> fPathList = new HashMap<>();
 
 	@Override
 	protected boolean createPath(Lane start)
 	{
 
-
-        List<Lane> fClosedList = new ArrayList<>();
-        SortedNodeList fOpenList = new SortedNodeList();
-        double fromStartToEnd = start.getStart().getPosition().distance(fEnd.getEnd().getPosition());
-        Candidate current = new Candidate(start);
-        current.fDistanceToGoal = fromStartToEnd;
-        fOpenList.add(current);
-        while (fOpenList.size() != 0)
+		List<Lane> fClosedList = new ArrayList<>();
+		SortedNodeList fOpenList = new SortedNodeList();
+		double fromStartToEnd = start.getStart().getPosition().distance(fEnd.getEnd().getPosition());
+		Candidate current = new Candidate(start);
+		current.fDistanceToGoal = fromStartToEnd;
+		fOpenList.add(current);
+		while (fOpenList.size() != 0)
 		{
 			current = fOpenList.getFirst();
 			fOpenList.remove(current);
 			//draw(g, current);
-			if(current.candidate.equals(fEnd))
+			if (current.candidate.equals(fEnd))
 			{
 				createPath(current);
 				//fPathList.put(fStart.hashCode()+"" + fEnd.hashCode(),fPath);
 				return true;
 			}
 
-
 			fClosedList.add(current.candidate);
 			for (Lane lane : current.candidate.getEnd().getOutputLanes())
 			{
 				Candidate neighbour = new Candidate(lane);
-                if (!fClosedList.contains(lane) && existsPath(lane))
-                {
+				if (!fClosedList.contains(lane) && existsPath(lane))
+				{
 
-                    double distanceToStart = current.fDistanceToStart + lane.getTrajectory().getLength();
+					double distanceToStart = current.fDistanceToStart + lane.getTrajectory().getLength();
 
-                    double distanceToEnd = lane.getEnd().getPosition().distance(fEnd.getEnd().getPosition());
+					double distanceToEnd = lane.getEnd().getPosition().distance(fEnd.getEnd().getPosition());
 
-                    double heatMapReading = getHeatMapReading(lane);
-                    distanceToStart = distanceToStart + fGlobals.getConfig().getHeatMapModifier() * heatMapReading;
+					double heatMapReading = getHeatMapReading(lane);
+					distanceToStart = distanceToStart + fGlobals.getConfig().getHeatMapModifier() * heatMapReading;
 
+					if (!fOpenList.contains(neighbour) || distanceToStart < fOpenList.getByLane(neighbour).fDistanceToStart)
+					{
 
-                    if (!fOpenList.contains(neighbour) || distanceToStart < fOpenList.getByLane(neighbour).fDistanceToStart)
-                    {
+						neighbour.setPrevious(current);
+						neighbour.setDistanceToStart(distanceToStart);
+						neighbour.fDistanceToGoal = distanceToEnd;
 
-                        neighbour.setPrevious(current);
-                        neighbour.setDistanceToStart(distanceToStart);
-                        neighbour.fDistanceToGoal = distanceToEnd;
-
-                        if (fOpenList.contains(neighbour))
-                        {
-                            fOpenList.remove(neighbour);
-	                        fOpenList.add(neighbour);
-                        } else
-                        {
-                            fOpenList.add(neighbour);
-                        }
-                    }
-                }
+						if (fOpenList.contains(neighbour))
+						{
+							fOpenList.remove(neighbour);
+							fOpenList.add(neighbour);
+						}
+						else
+						{
+							fOpenList.add(neighbour);
+						}
+					}
+				}
 			}
 		}
 		return false;
@@ -92,21 +90,21 @@ public class AStarAlgorithm extends AbstractPathFinder
 
 	private double getHeatMapReading(Lane lane)
 	{
-		double heatMapReading= 0;
+		double heatMapReading = 0;
 		Lane random = lane.getEnd().getRandomLane();
-		if(random != null)
+		if (random != null)
 		{
-		Point2D arrayPosition = random.getEnd().getSide().getTile().getArrayPosition();
-		heatMapReading = fGlobals.getMap().getHeatMapReading(arrayPosition);
+			Point2D arrayPosition = random.getEnd().getSide().getTile().getArrayPosition();
+			heatMapReading = fGlobals.getMap().getHeatMapReading(arrayPosition);
 		}
-		return heatMapReading * Math.min(1,lane.getCars().size());
+		return heatMapReading * Math.min(1, lane.getCars().size());
 
 	}
 
 	private void createPath(Candidate current)
 	{
 		fPath.addFirst(current.candidate);
-		if(current.previous() != null)
+		if (current.previous() != null)
 		{
 			createPath(current.previous());
 		}
@@ -114,19 +112,19 @@ public class AStarAlgorithm extends AbstractPathFinder
 
 	public AStarAlgorithm(Car car)
 	{
-        super(car);
+		super(car);
 	}
 
 	@Override
 	public boolean containsStreet(Street street)
 	{
-        boolean toReturn = false;
-        for (Lane lane : street.getLanes())
+		boolean toReturn = false;
+		for (Lane lane : street.getLanes())
 		{
-            if(fPath.contains(lane))
-            {
-               toReturn = true;
-            }
+			if (fPath.contains(lane))
+			{
+				toReturn = true;
+			}
 		}
 		return toReturn;
 	}

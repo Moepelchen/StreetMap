@@ -33,9 +33,8 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
 	protected Car fCar;
 	protected Lane fStart;
 	protected Lane fEnd;
-    protected SSGlobals fGlobals;
-	private static HashMap<Lane,Vector<Lane>> fNoGo = new HashMap<>();
-
+	protected SSGlobals fGlobals;
+	private static HashMap<Lane, Vector<Lane>> fNoGo = new HashMap<>();
 
 	// -----------------------------------------------------
 // constants
@@ -56,11 +55,11 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
 
 	protected void init(Car car)
 	{
-        fGlobals = car.getLane().getGlobals();
+		fGlobals = car.getLane().getGlobals();
 		fPath = new LinkedList<>();
 		fCar = car;
 		fStart = car.getLane();
-        fEnd = null;
+		fEnd = null;
 	}
 
 	protected abstract boolean createPath(Lane start);
@@ -80,15 +79,15 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
 			Lane current = fCar.getLane();
 			int currentIndex = fPath.indexOf(current);
 
-			if (currentIndex >= 0 && currentIndex + 1 < fPath.size() )
+			if (currentIndex >= 0 && currentIndex + 1 < fPath.size())
 			{
 				nextLane = fPath.get(currentIndex + 1);
-                fPath.remove(currentIndex);
+				fPath.remove(currentIndex);
 			}
-            if(nextLane == null && fPath.size() !=1)
-            {
-                fGlobals.getMap().getPathFactory().createPath(fCar,fEnd);
-            }
+			if (nextLane == null && fPath.size() != 1)
+			{
+				fGlobals.getMap().getPathFactory().createPath(fCar, fEnd);
+			}
 
 		}
 		return nextLane;
@@ -98,90 +97,90 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
 	{
 		double heatMapReading;
 		Point2D arrayPosition = randomLane.getEnd().getSide().getTile().getArrayPosition();
-		heatMapReading = cand.getCars().size()*cand.getEnd().getSide().getGlobals().getMap().getHeatMapReading(arrayPosition);
-		heatMapReading = (lane.getEnd().getPosition().distance(fEnd.getStart().getPosition()) / startEndDistance) *heatMapReading;
+		heatMapReading = cand.getCars().size() * cand.getEnd().getSide().getGlobals().getMap().getHeatMapReading(arrayPosition);
+		heatMapReading = (lane.getEnd().getPosition().distance(fEnd.getStart().getPosition()) / startEndDistance) * heatMapReading;
 		return heatMapReading;
 	}
 
+	@Override
+	public void run()
+	{
 
-    @Override
-    public void run()
-    {
+		if (fEnd == null)
+		{
+			ArrayList<Lane> lanes = new ArrayList<>(fStart.getStreet().getLanes());
+			ArrayList<Lane> possibleEndLanes = new ArrayList<>(fStart.getGlobals().getMap().getEndLanes());
+			possibleEndLanes.removeAll(lanes);
 
-        if(fEnd == null)
-        {
-            ArrayList<Lane> lanes = new ArrayList<>(fStart.getStreet().getLanes());
-            ArrayList<Lane> possibleEndLanes = new ArrayList<>(fStart.getGlobals().getMap().getEndLanes());
-            possibleEndLanes.removeAll(lanes);
+			if (possibleEndLanes.size() > 0)
+			{
+				while (possibleEndLanes.size() > 0)
+				{
+					int index = (int) (Math.floor(Math.random() * (possibleEndLanes.size())));
+					fEnd = possibleEndLanes.get(index);
+					if (fEnd != null)
+					{
 
-            if (possibleEndLanes.size() > 0)
-            {
-                while (possibleEndLanes.size() > 0)
-                {
-                    int index = (int) (Math.floor(Math.random() * (possibleEndLanes.size())));
-                    fEnd = possibleEndLanes.get(index);
-                    if (fEnd != null)
-                    {
-
-                        if (existsPath() && createPath(fStart))
-                        {
-                            break;
-                        } else
-                        {
-	                        Vector<Lane> ends = fNoGo.get(fStart);
-	                        if(ends != null && !ends.contains(fEnd))
-	                        {
-		                        ends.add(fEnd);
-	                        }
-	                        else if(ends == null)
-	                        {
-		                        Vector<Lane> ends2 = new Vector<>();
-		                        ends2.add(fEnd);
-		                        fNoGo.put(fStart, ends2);
-	                        }
-                            possibleEndLanes.remove(index);
-                        }
-                    }
-                }
-            }
-        }
-        else
-        {
-	        fCar.setHasRequestedPath(false);
-	        if (existsPath())
-	        {
-		       createPath(fCar.getLane());
-	        }
-	        else
-	        {
-		        fGlobals.getMap().getPathFactory().createPath(fCar);
-	        }
-        }
-	    fCar.setHasRequestedPath(false);
-        fCar.setPath(this);
-    }
+						if (existsPath() && createPath(fStart))
+						{
+							break;
+						}
+						else
+						{
+							Vector<Lane> ends = fNoGo.get(fStart);
+							if (ends != null && !ends.contains(fEnd))
+							{
+								ends.add(fEnd);
+							}
+							else if (ends == null)
+							{
+								Vector<Lane> ends2 = new Vector<>();
+								ends2.add(fEnd);
+								fNoGo.put(fStart, ends2);
+							}
+							possibleEndLanes.remove(index);
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			fCar.setHasRequestedPath(false);
+			if (existsPath())
+			{
+				createPath(fCar.getLane());
+			}
+			else
+			{
+				fGlobals.getMap().getPathFactory().createPath(fCar);
+			}
+		}
+		fCar.setHasRequestedPath(false);
+		fCar.setPath(this);
+	}
 
 	private boolean existsPath()
 	{
-        return existsPath(fStart);
+		return existsPath(fStart);
 	}
 
-    protected boolean existsPath(Lane lane)
-    {
-        Vector<Lane> end = fNoGo.get(lane);
-        return !(end != null && end.contains(fEnd))&& !fEnd.getStart().getInputLanes().isEmpty();
-    }
+	protected boolean existsPath(Lane lane)
+	{
+		Vector<Lane> end = fNoGo.get(lane);
+		return !(end != null && end.contains(fEnd)) && !fEnd.getStart().getInputLanes().isEmpty();
+	}
 
-    @Override
-    public Lane getDestination()
-    {
-        return fEnd;
-    }
+	@Override
+	public Lane getDestination()
+	{
+		return fEnd;
+	}
 
-    public void setEnd(Lane end)
-    {
-        this.fEnd = end;
-    }
+	public void setEnd(Lane end)
+	{
+		this.fEnd = end;
+	}
 
 	public static void clearNoGo()
 	{

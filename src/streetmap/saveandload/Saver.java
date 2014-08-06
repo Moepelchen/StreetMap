@@ -70,6 +70,7 @@ public class Saver extends AbstractSaver
 		}
 		return couldBeCreated;
 	}
+
 	@Override
 	public void save(BufferedWriter output, Object object) throws IOException
 	{

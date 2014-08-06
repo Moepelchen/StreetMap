@@ -11,28 +11,28 @@ import streetmap.map.street.Lane;
  */
 public class Candidate implements Comparable
 {
-    public Lane candidate;
-    public double fDistanceToGoal = 0;
+	public Lane candidate;
+	public double fDistanceToGoal = 0;
 	private Candidate fPrevious;
 	public double fDistanceToStart = 0;
 
 	@Override
-    public int compareTo(Object o)
-    {
-        Candidate candidate = (Candidate) o;
-        if((this.fDistanceToGoal + fDistanceToStart) < (candidate.fDistanceToGoal+ candidate.fDistanceToStart))
-        {
-            return -1;
+	public int compareTo(Object o)
+	{
+		Candidate candidate = (Candidate) o;
+		if ((this.fDistanceToGoal + fDistanceToStart) < (candidate.fDistanceToGoal + candidate.fDistanceToStart))
+		{
+			return -1;
 
-        }else if ((this.fDistanceToGoal + fDistanceToStart) > candidate.fDistanceToGoal+ candidate.fDistanceToStart)
-        {
-            return  +1;
-        }
+		}
+		else if ((this.fDistanceToGoal + fDistanceToStart) > candidate.fDistanceToGoal + candidate.fDistanceToStart)
+		{
+			return +1;
+		}
 
+		return 0;
 
-        return 0;
-
-    }
+	}
 
 	public Candidate previous()
 	{

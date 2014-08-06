@@ -12,9 +12,9 @@ import streetmap.map.street.Street;
  */
 public interface IPathFindingAlgorithm extends Runnable
 {
-    Lane getNextLane();
+	Lane getNextLane();
 
-    Lane getDestination();
+	Lane getDestination();
 
 	boolean containsStreet(Street street);
 

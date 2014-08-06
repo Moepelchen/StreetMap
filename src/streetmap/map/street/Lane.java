@@ -11,6 +11,7 @@ import streetmap.map.street.trajectory.QuickBendTrajectory;
 import streetmap.map.street.trajectory.StraightTrajectory;
 import streetmap.pathfinding.IPathFindingAlgorithm;
 
+import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -92,6 +93,24 @@ public class Lane implements IPrintable, ISimulateable
 		{
 			fTrajectory.print();
 		}
+	}
+
+	@Override
+	public Point2D getPosition()
+	{
+		return null;
+	}
+
+	@Override
+	public float getLength()
+	{
+		return 0;
+	}
+
+	@Override
+	public double getAngle()
+	{
+		return 0;
 	}
 
 	public void simulate()

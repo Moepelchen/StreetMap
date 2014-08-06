@@ -16,8 +16,11 @@ import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.PixelFormat;
+import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.vector.Vector2f;
+import streetmap.car.CarRenderBuffer;
 import streetmap.gui.GLStreetPanel;
 import streetmap.gui.IScreenNames;
 import streetmap.gui.controller.DebugScreenController;
@@ -39,27 +42,52 @@ import java.io.FileNotFoundException;
  */
 public class Game
 {
-    public static final int WIDTH = 1280;
-    public static final int HEIGHT = 680;
-    private final Player fPlayer;
+	public static final int WIDTH = 1280;
+	public static final int HEIGHT = 680;
+	private final Player fPlayer;
 	SSGlobals fGlobals;
-    private GLStreetPanel fStreetPanel;
-    private KeyHandler fKeyboardHandler;
+	private GLStreetPanel fStreetPanel;
+	private KeyHandler fKeyboardHandler;
 	private boolean fPaused;
 	private Vector2f fScalePoint;
 
-    /** time at last frame */
-    long lastFrame;
+	/**
+	 * time at last frame
+	 */
+	long lastFrame;
 
-    /** frames per second */
-    int fps;
-    /** last fps time */
-    long lastFPS;
+	/**
+	 * frames per second
+	 */
+	int fps;
+	/**
+	 * last fps time
+	 */
+	long lastFPS;
 
-    private DataStorage2d fFPSData = new DataStorage2d(300);
+	private DataStorage2d fFPSData = new DataStorage2d(300);
 	private DataStorage2d fPathData = new DataStorage2d(300);
+	private int fFSID;
 
-    public Nifty getNifty()
+	public int getFSID()
+	{
+		return fFSID;
+	}
+
+	public int getVSID()
+	{
+		return fVSID;
+	}
+
+	public int getPID()
+	{
+		return fPID;
+	}
+
+	private int fVSID;
+	private int fPID;
+
+	public Nifty getNifty()
 	{
 		return fNifty;
 	}
@@ -88,32 +116,32 @@ public class Game
 	}
 
 	public Game(SSGlobals globals)
-    {
-        fGlobals = globals;
-	    fPlayer = new Player(0,0);
-        fGlobals.setGame(this);
-        new Map(globals);
-	    fScalePoint = new Vector2f(getWidth()/2, getHeight()/2);
-    }
+	{
+		fGlobals = globals;
+		fPlayer = new Player(0, 0);
+		fGlobals.setGame(this);
+		new Map(globals);
+		fScalePoint = new Vector2f(getWidth() / 2, getHeight() / 2);
+	}
 
-    public static void main(String[] args) throws Exception
-    {
-        SSGlobals globals = null;
-        System.out.println(new File("./").getAbsoluteFile());
-        System.out.println(System.getProperty("java.library.path"));
+	public static void main(String[] args) throws Exception
+	{
+		SSGlobals globals = null;
+		System.out.println(new File("./").getAbsoluteFile());
+		System.out.println(System.getProperty("java.library.path"));
 
-        try
-        {
-            globals = new SSGlobals();
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-        Game game = new Game(globals);
-        game.start();
+		try
+		{
+			globals = new SSGlobals();
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		Game game = new Game(globals);
+		game.start();
 
-    }
+	}
 
 	public void start() throws Exception
 	{
@@ -137,27 +165,29 @@ public class Game
 			e.printStackTrace();
 			System.exit(-1);
 		}
+		setupShaders();
 
 		// Setup an XNA like background color
 		GL11.glClearColor(0.4f, 0.6f, 0.9f, 0f);
 
-     // Map the internal OpenGL coordinate system to the entire screen
-     GL11.glViewport(0, 0, WIDTH, HEIGHT);
+		// Map the internal OpenGL coordinate system to the entire screen
+		GL11.glViewport(0, 0, WIDTH, HEIGHT);
 
 		Keyboard.enableRepeatEvents(true);
 
 		fStreetPanel = new GLStreetPanel(fGlobals);
 		fKeyboardHandler = new KeyHandler(fGlobals);
 
-        initNifty();
-        getDelta(); // call once before loop to initialise lastFrame
-        lastFPS = getTime(); // call before loop to initialise fps timer
+		initNifty();
+		getDelta(); // call once before loop to initialise lastFrame
+		lastFPS = getTime(); // call before loop to initialise fps timer
 
 		// glEnable(GL11.GL_DEPTH_TEST);
 		while (!Display.isCloseRequested())
 		{
-            updateFPS();
-            fGlobals.getTimeHandler().tickTime();
+			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+			updateFPS();
+			fGlobals.getTimeHandler().tickTime();
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 			// Clear the screen and depth buffer
 			Vector2f scalePoint = getScalePoint();
@@ -178,135 +208,166 @@ public class Game
 			Display.update();
 			//Display.sync(60); // cap fps to 60fps
 
-            String screenId = fNifty.getCurrentScreen().getScreenId();
-            if(fNifty.getCurrentScreen() != null && screenId != null &&screenId.equals(IScreenNames.SCREEN_GAME))
+			String screenId = fNifty.getCurrentScreen().getScreenId();
+			if (fNifty.getCurrentScreen() != null && screenId != null && screenId.equals(IScreenNames.SCREEN_GAME))
 			{
 				processInput();
 			}
 
 		}
-        TextureCache.releaseTextures();
-        Display.destroy();
-        System.exit(0);
+		TextureCache.releaseTextures();
+		Display.destroy();
+		System.exit(0);
 
 	}
-    /**
-     * Calculate how many milliseconds have passed
-     * since last frame.
-     *
-     * @return milliseconds passed since last frame
-     */
-    public int getDelta() {
-        long time = getTime();
-        int delta = (int) (time - lastFrame);
-        lastFrame = time;
 
-        return delta;
-    }
+	private void setupShaders()
+	{
+		int errorCheckValue = GL11.glGetError();
+		// Load the vertex shader
+		fVSID = CarRenderBuffer.loadShader("F:\\WorkspaceGIT\\StreetMap\\config\\shaders\\vertex.glsl", GL20.GL_VERTEX_SHADER);
+		// Load the fragment shader
+		fFSID = CarRenderBuffer.loadShader("F:\\WorkspaceGIT\\StreetMap\\config\\shaders\\fragment.glsl", GL20.GL_FRAGMENT_SHADER);
+		// Create a new shader program that links both shaders
+		fPID = GL20.glCreateProgram();
+		GL20.glAttachShader(fPID, fVSID);
+		GL20.glAttachShader(fPID, fFSID);
 
-    /**
-     * Get the accurate system time
-     *
-     * @return The system time in milliseconds
-     */
-    public long getTime() {
-        return (Sys.getTime() * 1000) / Sys.getTimerResolution();
-    }
+		// Position information will be attribute 0
+		GL20.glBindAttribLocation(fPID, 0, "in_Position");
+		// Color information will be attribute 1
+		GL20.glBindAttribLocation(fPID, 1, "in_Color");
 
-    /**
-     * Calculate the FPS and set it in the title bar
-     */
-    public void updateFPS() {
-        if (getTime() - lastFPS > 1000) {
-            Display.setTitle("FPS: " + fps);
-            fFPSData.add((double) fps);
-            fps = 0;
-            lastFPS += 1000;
+		GL20.glLinkProgram(fPID);
+		GL20.glValidateProgram(fPID);
+		errorCheckValue = GL11.glGetError();
+		if (errorCheckValue != GL11.GL_NO_ERROR) {
+		System.out.println("ERROR - Could not create the shaders:" + GLU.gluErrorString(errorCheckValue));
+		System.exit(-1);
+		}
+	}
 
-        }
-        fps++;
-    }
+	/**
+	 * Calculate how many milliseconds have passed
+	 * since last frame.
+	 *
+	 * @return milliseconds passed since last frame
+	 */
+	public int getDelta()
+	{
+		long time = getTime();
+		int delta = (int) (time - lastFrame);
+		lastFrame = time;
 
-    private void initNifty() throws Exception
-    {
-        LwjglInputSystem inputSystem = new LwjglInputSystem();
-        inputSystem.startup();
+		return delta;
+	}
+
+	/**
+	 * Get the accurate system time
+	 *
+	 * @return The system time in milliseconds
+	 */
+	public long getTime()
+	{
+		return (Sys.getTime() * 1000) / Sys.getTimerResolution();
+	}
+
+	/**
+	 * Calculate the FPS and set it in the title bar
+	 */
+	public void updateFPS()
+	{
+		if (getTime() - lastFPS > 1000)
+		{
+			Display.setTitle("FPS: " + fps);
+			fFPSData.add((double) fps);
+			fps = 0;
+			lastFPS += 1000;
+
+		}
+		fps++;
+	}
+
+	private void initNifty() throws Exception
+	{
+		LwjglInputSystem inputSystem = new LwjglInputSystem();
+		inputSystem.startup();
 		BatchRenderBackend renderBackend = LwjglBatchRenderBackendCoreProfileFactory.create();
-	    BatchRenderConfiguration config = new BatchRenderConfiguration();
-	    BatchRenderDevice renderDevice = new BatchRenderDevice(renderBackend,config);
-        fNifty = new Nifty(renderDevice, new NullSoundDevice(), inputSystem, new LWJGLTimeProvider());
-        File menuDefinitions = new File("./resources/gui/nifty.xml");
+		BatchRenderConfiguration config = new BatchRenderConfiguration();
+		BatchRenderDevice renderDevice = new BatchRenderDevice(renderBackend, config);
+		fNifty = new Nifty(renderDevice, new NullSoundDevice(), inputSystem, new LWJGLTimeProvider());
+		File menuDefinitions = new File("./resources/gui/nifty.xml");
 
-        GameScreenController gameScreenController = new GameScreenController(fGlobals);
-        MenuScreenController menuScreenController = new MenuScreenController(fGlobals);
-        SaveScreenController saveScreenController = new SaveScreenController(fGlobals);
-        ScreenController loadScreenController = new LoadScreenController(fGlobals);
-        DebugScreenController debugScreenController = new DebugScreenController(fGlobals);
+		GameScreenController gameScreenController = new GameScreenController(fGlobals);
+		MenuScreenController menuScreenController = new MenuScreenController(fGlobals);
+		SaveScreenController saveScreenController = new SaveScreenController(fGlobals);
+		ScreenController loadScreenController = new LoadScreenController(fGlobals);
+		DebugScreenController debugScreenController = new DebugScreenController(fGlobals);
 
-        fNifty.registerScreenController(debugScreenController);
-        fNifty.registerScreenController(gameScreenController);
-        fNifty.registerScreenController(menuScreenController);
-        fNifty.registerScreenController(saveScreenController);
-        fNifty.registerScreenController(loadScreenController);
-        fNifty.registerEffect("carpanel", "streetmap.gui.effects.CarNumberPanel");
-        fNifty.registerEffect("framepanel", "streetmap.gui.effects.FPSPanel");
-	    fNifty.registerEffect("flowpanel", "streetmap.gui.effects.FlowDataPanel");
-	    fNifty.registerEffect("pathpanel", "streetmap.gui.effects.PathDataPanel");
+		fNifty.registerScreenController(debugScreenController);
+		fNifty.registerScreenController(gameScreenController);
+		fNifty.registerScreenController(menuScreenController);
+		fNifty.registerScreenController(saveScreenController);
+		fNifty.registerScreenController(loadScreenController);
+		fNifty.registerEffect("carpanel", "streetmap.gui.effects.CarNumberPanel");
+		fNifty.registerEffect("framepanel", "streetmap.gui.effects.FPSPanel");
+		fNifty.registerEffect("flowpanel", "streetmap.gui.effects.FlowDataPanel");
+		fNifty.registerEffect("pathpanel", "streetmap.gui.effects.PathDataPanel");
 
-        fNifty.fromXml(menuDefinitions.getPath(), "game");
+		fNifty.fromXml(menuDefinitions.getPath(), "game");
 
-        fNifty.getScreen(IScreenNames.SCREEN_GAME).addKeyboardInputHandler(new MenuInputMapping(), gameScreenController);
-        fNifty.getScreen(IScreenNames.SCREEN_MENU).addKeyboardInputHandler(new MenuInputMapping(), menuScreenController);
-    }
+		fNifty.getScreen(IScreenNames.SCREEN_GAME).addKeyboardInputHandler(new MenuInputMapping(), gameScreenController);
+		fNifty.getScreen(IScreenNames.SCREEN_MENU).addKeyboardInputHandler(new MenuInputMapping(), menuScreenController);
+	}
 
-    private void drawInterface()
-    {
-      fStreetPanel.draw();
-    }
+	private void drawInterface()
+	{
+		fStreetPanel.draw();
+	}
 
-    private void processInput()
-    {
+	private void processInput()
+	{
 
-	    fStreetPanel.handleClick();
+		fStreetPanel.handleClick();
 
-	    fKeyboardHandler.handleInput();
+		fKeyboardHandler.handleInput();
 
-    }
+	}
 
-    public int getWidth()
-    {
-        return WIDTH;
-    }
+	public int getWidth()
+	{
+		return WIDTH;
+	}
 
-    public int getHeight()
-    {
-        return HEIGHT;
-    }
+	public int getHeight()
+	{
+		return HEIGHT;
+	}
 
-    public Vector2f getTranslatedCoords(int x, int y)
-    {
-        Vector2f toReturn = new Vector2f(x,y);
-	    Vector2f translationVec = new Vector2f(-fPlayer.getX(),-fPlayer.getY());
-	    translationVec.translate(getWidth()/2,getHeight()/2);
-	    translationVec.scale(fPlayer.getZoom());
-	    translationVec.translate(-getWidth()/2,-getHeight()/2);
+	public Vector2f getTranslatedCoords(int x, int y)
+	{
+		Vector2f toReturn = new Vector2f(x, y);
+		Vector2f translationVec = new Vector2f(-fPlayer.getX(), -fPlayer.getY());
+		translationVec.translate(getWidth() / 2, getHeight() / 2);
+		translationVec.scale(fPlayer.getZoom());
+		translationVec.translate(-getWidth() / 2, -getHeight() / 2);
 
-        toReturn.translate(translationVec.getX(),translationVec.getY());
-        return toReturn;
-    }
+		toReturn.translate(translationVec.getX(), translationVec.getY());
+		return toReturn;
+	}
 
-    public void pause()
-    {
-        fPaused = true;
-    }
+	public void pause()
+	{
+		fPaused = true;
+	}
 
-    public void unPause()
-    {
-        fPaused = false;
-    }
+	public void unPause()
+	{
+		fPaused = false;
+	}
 
-    public DataStorage2d getFrameData()
-    {
-        return fFPSData;
-    }
+	public DataStorage2d getFrameData()
+	{
+		return fFPSData;
+	}
 }

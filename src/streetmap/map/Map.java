@@ -1,7 +1,6 @@
 package streetmap.map;
 
 import streetmap.SSGlobals;
-import streetmap.car.Car;
 import streetmap.car.CarRenderBuffer;
 import streetmap.car.RenderStuff;
 import streetmap.events.EventQueue;
@@ -28,7 +27,7 @@ import java.util.Vector;
  * This represents the the whole Street-Map. The map consist of an Array of Tiles.
  * The number of Tiles is determined by fTileSize, fHeight and fWidth
  */
-public class Map implements IPrintable, ISimulateable, ActionListener
+public class Map implements ISimulateable, ActionListener
 {
     /* {author=Ulrich Tewes, version=1.0}*/
     /**
@@ -238,7 +237,7 @@ public class Map implements IPrintable, ISimulateable, ActionListener
                 tile.print();
 
             }
-	        List<Car> cars = new ArrayList<>();
+	        List<IPrintable> cars = new ArrayList<>();
 	        for (Tile fOccupiedTile : fOccupiedTiles)
             {
 	            for (Lane lane : fOccupiedTile.getLanes())
@@ -248,7 +247,7 @@ public class Map implements IPrintable, ISimulateable, ActionListener
 
                 }
             }
-	        RenderStuff stuff = CarRenderBuffer.initBuffers(cars);
+	        RenderStuff stuff = CarRenderBuffer.initBuffers(fGlobals,cars);
 	        DrawHelper.drawCar(stuff);
 	        stuff.release();
         }

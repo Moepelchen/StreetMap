@@ -49,52 +49,52 @@ public class MapSaver extends AbstractSaver
 
 	private static void beginTilesTag(BufferedWriter output) throws IOException
 	{
-		writeStartTag(ISaveConstants.TILES_TAG,output);
+		writeStartTag(ISaveConstants.TILES_TAG, output);
 	}
 
 	private static void endTilesTag(BufferedWriter output) throws IOException
 	{
-		writeEndTag(ISaveConstants.END_TILES_TAG,output);
+		writeEndTag(ISaveConstants.END_TILES_TAG, output);
 	}
 
 	private static void beginStreetTag(BufferedWriter output) throws IOException
 	{
-		writeStartTag(ISaveConstants.STREET_TAG,output);
+		writeStartTag(ISaveConstants.STREET_TAG, output);
 	}
 
 	private static void endStreetTag(BufferedWriter output) throws IOException
 	{
-		writeEndTag(ISaveConstants.STREET_TAG,output);
+		writeEndTag(ISaveConstants.STREET_TAG, output);
 	}
 
 	private static void beginXPosTag(BufferedWriter output) throws IOException
 	{
-		writeStartTag(ISaveConstants.XPOS_TAG,output);
+		writeStartTag(ISaveConstants.XPOS_TAG, output);
 	}
 
 	private static void beginYPosTag(BufferedWriter output) throws IOException
 	{
-		writeStartTag(ISaveConstants.YPOS_TAG,output);
+		writeStartTag(ISaveConstants.YPOS_TAG, output);
 	}
 
 	private static void endYPosTag(BufferedWriter output) throws IOException
 	{
-		writeEndTag(ISaveConstants.END_YPOS_TAG,output);
+		writeEndTag(ISaveConstants.END_YPOS_TAG, output);
 	}
 
 	private static void endXPosTag(BufferedWriter output) throws IOException
 	{
-		writeEndTag(ISaveConstants.END_XPOS_TAG,output);
+		writeEndTag(ISaveConstants.END_XPOS_TAG, output);
 	}
 
 	private static void writeEndTileTag(BufferedWriter output) throws IOException
 	{
-		writeEndTag(ISaveConstants.END_TILE_TAG,output);
+		writeEndTag(ISaveConstants.END_TILE_TAG, output);
 	}
 
 	private static void beginTileTag(BufferedWriter output) throws IOException
 	{
 
-		writeStartTag(ISaveConstants.TILE_TAG,output);
+		writeStartTag(ISaveConstants.TILE_TAG, output);
 	}
 }

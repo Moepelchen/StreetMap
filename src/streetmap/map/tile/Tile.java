@@ -1,7 +1,6 @@
 package streetmap.map.tile;
 
 import streetmap.SSGlobals;
-import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.map.Map;
 import streetmap.map.side.HorizontalSide;
@@ -15,7 +14,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Vector;
 
-public class Tile implements IPrintable, ISimulateable
+public class Tile implements ISimulateable
 {
 
 	/**
@@ -145,6 +144,11 @@ public class Tile implements IPrintable, ISimulateable
 
 	private double fWidth;
 
+	public Point2D getPosition()
+	{
+		return fPosition;
+	}
+
 	public Tile(SSGlobals globals, Map map, Point2D arrayPosition, double width)
 	{
 		fWidth = width;
@@ -161,8 +165,8 @@ public class Tile implements IPrintable, ISimulateable
 	private void init(SSGlobals globals, Map map, Point2D arrayPosition)
 	{
 		fArrayPosition = arrayPosition;
-		fSides = new HashMap<String, Side>(4);
-		fNeighbors = new HashMap<String, Tile>(4);
+		fSides = new HashMap<>(4);
+		fNeighbors = new HashMap<>(4);
 		fSidesGenerated = false;
 		fGlobals = globals;
 		fMap = map;
@@ -227,19 +231,12 @@ public class Tile implements IPrintable, ISimulateable
 
 	public void print()
 	{
-
 		if (fStreet != null)
 		{
 			fStreet.print();
 		}
-
-
-		for (String s : fSides.keySet())
-		{
-			fSides.get(s).print();
-		}
-
 	}
+
 
 	public void simulate()
 	{

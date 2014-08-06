@@ -53,10 +53,11 @@
             inputMappingPre="streetmap.gui.inputmapping.MenuInputMapping">
         <layer childLayout="center">
             <panel backgroundColor="#ff1330" childLayout="vertical">
-               <panel childLayout="center">
-                   <text font="aurulent-sans-16.fnt" color="#ffff"
-                         text="New Game"/>
-                   <interact onClick="newGame()"/>               </panel>
+                <panel childLayout="center">
+                    <text font="aurulent-sans-16.fnt" color="#ffff"
+                          text="New Game"/>
+                    <interact onClick="newGame()"/>
+                </panel>
                 <panel childLayout="center">
                     <text font="aurulent-sans-16.fnt" color="#ffff"
                           text="Save"/>

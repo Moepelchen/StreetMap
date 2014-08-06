@@ -1,13 +1,11 @@
 package streetmap.map.side;
 
 import streetmap.SSGlobals;
-import streetmap.interfaces.IPrintable;
 import streetmap.map.tile.Tile;
-import streetmap.utils.DrawHelper;
 
 import java.awt.geom.Point2D;
 
-public abstract class Side implements IPrintable
+public abstract class Side
 {
 
 	protected Anchor fAnchorOne;
@@ -54,13 +52,6 @@ public abstract class Side implements IPrintable
 	public void setAnchors()
 	{
 		// empty on purpose
-	}
-
-	public void print()
-	{
-
-		DrawHelper.drawSide(this);
-
 	}
 
 	public boolean isHorizontal()

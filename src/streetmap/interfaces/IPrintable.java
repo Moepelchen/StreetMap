@@ -1,5 +1,7 @@
 package streetmap.interfaces;
 
+import java.awt.geom.Point2D;
+
 /**
  * Created by IntelliJ IDEA.
  * User: ulrich.tewes
@@ -10,4 +12,10 @@ package streetmap.interfaces;
 public interface IPrintable
 {
 	public void print();
+
+	Point2D getPosition();
+
+	float getLength();
+
+	double getAngle();
 }

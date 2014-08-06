@@ -218,6 +218,12 @@ public class
 		return fLength;
 	}
 
+	@Override
+	public double getAngle()
+	{
+		return getLane().getTrajectory().getAngle(this);
+	}
+
 	public void setSpeed(double speed)
 	{
 		if (speed < 0)

@@ -29,7 +29,7 @@ public class MapLoader implements ILoader
 	@Override
 	public boolean load(File file, SSGlobals glob) throws ParserConfigurationException, IOException, SAXException
 	{
-        glob.getMap().release();
+		glob.getMap().release();
 		// reset Map
 		glob.getMap().reset();
 		glob.resetPlayer();
