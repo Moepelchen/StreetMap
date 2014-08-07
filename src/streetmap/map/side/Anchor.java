@@ -1,6 +1,5 @@
 package streetmap.map.side;
 
-import streetmap.interfaces.IPrintable;
 import streetmap.map.street.Lane;
 import streetmap.utils.DrawHelper;
 
@@ -13,7 +12,7 @@ import java.util.Collection;
  * currently each Side as two Anchors, this might be changed
  * in future releases
  */
-public class Anchor implements IPrintable
+public class Anchor
 {
     public Side getSide()
     {

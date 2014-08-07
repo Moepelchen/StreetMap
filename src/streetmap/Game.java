@@ -12,29 +12,26 @@ import de.lessvoid.nifty.screen.ScreenController;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.ContextAttribs;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.PixelFormat;
+import org.lwjgl.opengl.*;
 import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.vector.Vector2f;
+import org.xml.sax.SAXException;
 import streetmap.car.CarRenderBuffer;
 import streetmap.gui.GLStreetPanel;
 import streetmap.gui.IScreenNames;
-import streetmap.gui.controller.DebugScreenController;
-import streetmap.gui.controller.GameScreenController;
-import streetmap.gui.controller.LoadScreenController;
-import streetmap.gui.controller.MenuScreenController;
-import streetmap.gui.controller.SaveScreenController;
+import streetmap.gui.controller.*;
 import streetmap.gui.inputmapping.MenuInputMapping;
 import streetmap.map.DataStorage2d;
 import streetmap.map.Map;
+import streetmap.saveandload.config.ConfigLoader;
+import streetmap.saveandload.map.MapLoader;
 import streetmap.utils.TextureCache;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Copyright Ulrich Tewes
@@ -150,9 +147,9 @@ public class Game
 		try
 		{
 			PixelFormat pixelFormat = new PixelFormat();
-			ContextAttribs contextAtrributes = new ContextAttribs(3, 2)
-					.withProfileCore(true)
-					.withForwardCompatible(true);
+            ContextAttribs contextAtrributes = new ContextAttribs(3, 2)
+                    .withForwardCompatible(true)
+                    .withProfileCore(true);
 
 			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
 			Display.setTitle("Game");
@@ -165,14 +162,14 @@ public class Game
 			e.printStackTrace();
 			System.exit(-1);
 		}
-		setupShaders();
+
 
 		// Setup an XNA like background color
 		GL11.glClearColor(0.4f, 0.6f, 0.9f, 0f);
 
 		// Map the internal OpenGL coordinate system to the entire screen
 		GL11.glViewport(0, 0, WIDTH, HEIGHT);
-
+        setupShaders();
 		Keyboard.enableRepeatEvents(true);
 
 		fStreetPanel = new GLStreetPanel(fGlobals);
@@ -183,12 +180,25 @@ public class Game
 		lastFPS = getTime(); // call before loop to initialise fps timer
 
 		// glEnable(GL11.GL_DEPTH_TEST);
+        MapLoader mapLoader = new MapLoader();
+        ConfigLoader configLoader = new ConfigLoader();
+        try
+        {
+            File file = new File("/Users/ulrichtewes/Documents/Programming/workspace/Streetmap/StreetMap/save/1111.xml");
+            configLoader.load(file, fGlobals);
+            mapLoader.load(file, fGlobals);
+
+            fGlobals.handleLoading();
+        }
+        catch (ParserConfigurationException | InvocationTargetException | IllegalAccessException | NoSuchMethodException | SAXException | IOException e1)
+        {
+            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 		while (!Display.isCloseRequested())
 		{
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 			updateFPS();
 			fGlobals.getTimeHandler().tickTime();
-			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 			// Clear the screen and depth buffer
 			Vector2f scalePoint = getScalePoint();
 
@@ -204,9 +214,8 @@ public class Game
 			drawInterface();
 			fNifty.update();
 			fNifty.render(false);
-
 			Display.update();
-			//Display.sync(60); // cap fps to 60fps
+			Display.sync(60); // cap fps to 60fps
 
 			String screenId = fNifty.getCurrentScreen().getScreenId();
 			if (fNifty.getCurrentScreen() != null && screenId != null && screenId.equals(IScreenNames.SCREEN_GAME))
@@ -221,31 +230,34 @@ public class Game
 
 	}
 
-	private void setupShaders()
-	{
-		int errorCheckValue = GL11.glGetError();
-		// Load the vertex shader
-		fVSID = CarRenderBuffer.loadShader("F:\\WorkspaceGIT\\StreetMap\\config\\shaders\\vertex.glsl", GL20.GL_VERTEX_SHADER);
-		// Load the fragment shader
-		fFSID = CarRenderBuffer.loadShader("F:\\WorkspaceGIT\\StreetMap\\config\\shaders\\fragment.glsl", GL20.GL_FRAGMENT_SHADER);
-		// Create a new shader program that links both shaders
-		fPID = GL20.glCreateProgram();
-		GL20.glAttachShader(fPID, fVSID);
-		GL20.glAttachShader(fPID, fFSID);
+    private void setupShaders()
+    {
+        int errorCheckValue = GL11.glGetError();
 
-		// Position information will be attribute 0
-		GL20.glBindAttribLocation(fPID, 0, "in_Position");
-		// Color information will be attribute 1
-		GL20.glBindAttribLocation(fPID, 1, "in_Color");
 
-		GL20.glLinkProgram(fPID);
-		GL20.glValidateProgram(fPID);
-		errorCheckValue = GL11.glGetError();
-		if (errorCheckValue != GL11.GL_NO_ERROR) {
-		System.out.println("ERROR - Could not create the shaders:" + GLU.gluErrorString(errorCheckValue));
-		System.exit(-1);
-		}
-	}
+        fVSID = CarRenderBuffer.loadShader("/Users/ulrichtewes/Documents/Programming/workspace/Streetmap/StreetMap/config/shaders/vertex.glsl", GL20.GL_VERTEX_SHADER);
+        // Load the fragment shader
+        fFSID = CarRenderBuffer.loadShader("/Users/ulrichtewes/Documents/Programming/workspace/Streetmap/StreetMap/config/shaders/fragment.glsl", GL20.GL_FRAGMENT_SHADER);
+// Create a new shader program that links both shaders
+        fPID = GL20.glCreateProgram();
+        GL20.glAttachShader(fPID, fVSID);
+        GL20.glAttachShader(fPID, fFSID);
+
+// Position information will be attribute 0
+        GL20.glBindAttribLocation(fPID, 0, "in_Position");
+// Color information will be attribute 1
+        GL20.glBindAttribLocation(fPID, 1, "in_Color");
+
+        GL20.glLinkProgram(fPID);
+        GL20.glValidateProgram(fPID);
+
+        errorCheckValue = GL11.glGetError();
+        if (errorCheckValue != GL11.GL_NO_ERROR)
+        {
+            System.out.println("ERROR - Could not create the shaders:" + GLU.gluErrorString(errorCheckValue));
+            System.exit(-1);
+        }
+    }
 
 	/**
 	 * Calculate how many milliseconds have passed

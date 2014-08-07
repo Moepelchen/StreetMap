@@ -248,9 +248,12 @@ public class Map implements ISimulateable, ActionListener
                 }
             }
 	        RenderStuff stuff = CarRenderBuffer.initBuffers(fGlobals,cars);
-	        DrawHelper.drawCar(stuff);
-	        stuff.release();
-        }
+            if(stuff != null)
+            {
+                DrawHelper.drawCar(stuff);
+                stuff.release();
+            }
+         }
     }
 
     /**

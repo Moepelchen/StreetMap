@@ -5,7 +5,6 @@
 package streetmap.car;
 
 import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
 /**
@@ -73,10 +72,6 @@ public class RenderStuff
 		// Select the VAO
 		GL30.glBindVertexArray(fFVAOId);
 
-		// Disable the VBO index from the VAO attributes list
-		GL20.glDisableVertexAttribArray(0);
-		GL20.glDisableVertexAttribArray(1);
-
 		// Delete the vertex VBO
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 		GL15.glDeleteBuffers(fFVBOId);
@@ -96,7 +91,7 @@ public class RenderStuff
 
 	public int getPID()
 	{
-		return 0;
+		return fPID;
 	}
 
 	public void setPID(int PID)

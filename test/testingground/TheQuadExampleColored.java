@@ -2,21 +2,15 @@ package testingground;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.ContextAttribs;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
-import org.lwjgl.opengl.PixelFormat;
+import org.lwjgl.opengl.*;
 import org.lwjgl.util.glu.GLU;
+import streetmap.car.CarRenderBuffer;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 public class TheQuadExampleColored
 {
@@ -46,8 +40,8 @@ public class TheQuadExampleColored
 // Initialize OpenGL (Display)
 		this.setupOpenGL();
 
-		this.setupQuad();
 		this.setupShaders();
+        this.setupQuad();
 
 		while (!Display.isCloseRequested())
 		{
@@ -117,12 +111,12 @@ public class TheQuadExampleColored
 		colorsBuffer.flip();
 
 // OpenGL expects to draw vertices in counter clockwise order by default
-		byte[] indices = {
+		int[] indices = {
 				0, 1, 2,
 				2, 3, 0
 		};
 		indicesCount = indices.length;
-		ByteBuffer indicesBuffer = BufferUtils.createByteBuffer(indicesCount);
+		IntBuffer indicesBuffer = BufferUtils.createIntBuffer(indicesCount);
 		indicesBuffer.put(indices);
 		indicesBuffer.flip();
 
@@ -158,11 +152,10 @@ public class TheQuadExampleColored
 	{
 		int errorCheckValue = GL11.glGetError();
 
-// Load the vertex shader
-		vsId = this.loadShader("F:\\WorkspaceGIT\\StreetMap\\config\\shaders\\vertex.glsl", GL20.GL_VERTEX_SHADER);
-// Load the fragment shader
-		fsId = this.loadShader("F:\\WorkspaceGIT\\StreetMap\\config\\shaders\\fragment.glsl", GL20.GL_FRAGMENT_SHADER);
 
+        vsId = CarRenderBuffer.loadShader("/Users/ulrichtewes/Documents/Programming/workspace/Streetmap/StreetMap/config/shaders/vertex.glsl", GL20.GL_VERTEX_SHADER);
+        // Load the fragment shader
+        fsId = CarRenderBuffer.loadShader("/Users/ulrichtewes/Documents/Programming/workspace/Streetmap/StreetMap/config/shaders/fragment.glsl", GL20.GL_FRAGMENT_SHADER);
 // Create a new shader program that links both shaders
 		pId = GL20.glCreateProgram();
 		GL20.glAttachShader(pId, vsId);
@@ -188,7 +181,7 @@ public class TheQuadExampleColored
 	{
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
-		GL20.glUseProgram(pId);
+		//GL20.glUseProgram(pId);
 
 // Bind to the VAO that has all the information about the vertices
 		GL30.glBindVertexArray(vaoId);
@@ -199,14 +192,14 @@ public class TheQuadExampleColored
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vboiId);
 
 // Draw the vertices
-		GL11.glDrawElements(GL11.GL_TRIANGLES, indicesCount, GL11.GL_UNSIGNED_BYTE, 0);
+		GL11.glDrawElements(GL11.GL_TRIANGLES, indicesCount, GL11.GL_UNSIGNED_INT, 0);
 
 // Put everything back to default (deselect)
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
 		GL30.glBindVertexArray(0);
-		GL20.glUseProgram(0);
+		//GL20.glUseProgram(0);
 	}
 
 	public void destroyOpenGL()
