@@ -23,7 +23,7 @@ public class
 		Car implements IPrintable, ISimulateable, IEventHandler
 {
 
-	public static final int COLOR_HAPPINESS = 120;
+	public static final int COLOR_HAPPINESS = 255;
 	private boolean fHasRequestedPath;
 
 	/**
@@ -227,7 +227,13 @@ public class
 	@Override
 	public org.lwjgl.util.Color getColor()
 	{
-		return fColor;
+        int red = Math.min((int) (COLOR_HAPPINESS * (1 - fHappiness)), COLOR_HAPPINESS);
+        int green = 0;
+
+        green = Math.min((int) (COLOR_HAPPINESS * (fHappiness)), COLOR_HAPPINESS);
+
+        Color color = new Color(red, green, 0);
+		return color;
 	}
 
 	public void setSpeed(double speed)

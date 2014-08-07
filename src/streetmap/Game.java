@@ -12,35 +12,20 @@ import de.lessvoid.nifty.screen.ScreenController;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.ContextAttribs;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.PixelFormat;
+import org.lwjgl.opengl.*;
 import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.vector.Vector2f;
-import org.xml.sax.SAXException;
 import streetmap.car.CarRenderBuffer;
 import streetmap.gui.GLStreetPanel;
 import streetmap.gui.IScreenNames;
-import streetmap.gui.controller.DebugScreenController;
-import streetmap.gui.controller.GameScreenController;
-import streetmap.gui.controller.LoadScreenController;
-import streetmap.gui.controller.MenuScreenController;
-import streetmap.gui.controller.SaveScreenController;
+import streetmap.gui.controller.*;
 import streetmap.gui.inputmapping.MenuInputMapping;
 import streetmap.map.DataStorage2d;
 import streetmap.map.Map;
-import streetmap.saveandload.config.ConfigLoader;
-import streetmap.saveandload.map.MapLoader;
 import streetmap.utils.TextureCache;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Copyright Ulrich Tewes
@@ -194,20 +179,7 @@ public class Game
 		lastFPS = getTime(); // call before loop to initialise fps timer
 
 		// glEnable(GL11.GL_DEPTH_TEST);
-        MapLoader mapLoader = new MapLoader();
-        ConfigLoader configLoader = new ConfigLoader();
-        try
-        {
-            File file = new File("./save/lane.xml");
-            configLoader.load(file, fGlobals);
-            mapLoader.load(file, fGlobals);
 
-            fGlobals.handleLoading();
-        }
-        catch (ParserConfigurationException | InvocationTargetException | IllegalAccessException | NoSuchMethodException | SAXException | IOException e1)
-        {
-            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
 		while (!Display.isCloseRequested())
 		{
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
@@ -276,19 +248,9 @@ public class Game
         GL20.glBindAttribLocation(fPID, 1, "in_Color");
 
         GL20.glLinkProgram(fPID);
-	    int status = GL20.glGetProgrami(fPID,GL20.GL_LINK_STATUS);
-	    if(status == GL11.GL_FALSE)
-	    {
-		    System.out.println("PROGRAM NOT LINKED!");
-		    System.exit(-1);
-	    }
+
 	    GL20.glValidateProgram(fPID);
-	    status = GL20.glGetProgrami(fPID, GL20.GL_VALIDATE_STATUS);
-	    if (status == GL11.GL_FALSE)
-	    {
-		    System.out.println("PROGRAM NOT VALID!");
-		    System.exit(-1);
-	    }
+
 
         errorCheckValue = GL11.glGetError();
         if (errorCheckValue != GL11.GL_NO_ERROR)
