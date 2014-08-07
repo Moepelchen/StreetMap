@@ -44,149 +44,158 @@ public class CarRenderBuffer
 
 	public static RenderStuff initBuffers(SSGlobals globals, List<IPrintable> cars)
 	{
-        RenderStuff stuff = null;
-        if(cars.size() >0)
-        {
-        stuff = new RenderStuff();
+		RenderStuff stuff = null;
+		if (cars.size() > 0)
+		{
+			stuff = new RenderStuff();
+
+			float[] vertices = new float[cars.size() * 16];
+
+			// OpenGL expects to draw vertices in counter clockwise order by default
+			int[] indices = new int[cars.size() * 6];
+			float[] colors = new float[cars.size() * 16];
+
+			float length;
+			for (int i = 0; i < cars.size(); i++)
+			{
+				IPrintable car = cars.get(i);
+				Point2D position = car.getPosition();
+				int height = globals.getGame().getHeight();
+				int width = globals.getGame().getWidth();
+				float x = (float) (position.getX());
+				float y = (float) (position.getY());
+				length = car.getLength();
+
+				int offset = 16 * i;
+				double rotation = car.getAngle();
+
+				org.lwjgl.util.Color color = car.getColor();
+
+				colors[offset] = (float)(color.getRed()) /255;
+				colors[1 + offset] =(float)(color.getGreen())/255;
+				colors[2 + offset] = (float)(color.getBlue())/255;
+				colors[3 + offset] = (float)(color.getAlpha())/255;
+
+				colors[4 + offset] = (float) (color.getRed()) / 255;
+				colors[5 + offset] = (float) (color.getGreen()) / 255;
+				colors[6 + offset] = (float) (color.getBlue()) / 255;
+				colors[7 + offset] = (float)(color.getAlpha())/255;
+
+				colors[8 + offset] = (float) (color.getRed()) / 255;
+				colors[9 + offset] = (float) (color.getGreen()) / 255;
+				colors[10 + offset] = (float) (color.getBlue()) / 255;
+				colors[11 + offset] = (float)(color.getAlpha())/255;
+
+				colors[12 + offset] = (float) (color.getRed()) / 255;
+				colors[13+ offset] = (float) (color.getGreen()) / 255;
+				colors[14 + offset] = (float) (color.getBlue()) / 255;
+				colors[15 + offset] = (float)(color.getAlpha())/255;
 
 
-            float[] vertices = new float[cars.size() * 16];
+				Matrix4f transMat = new Matrix4f();
 
-            // OpenGL expects to draw vertices in counter clockwise order by default
-            int[] indices = new int[cars.size() * 6];
-            float[] colors = new float[cars.size() * 16];
+				transMat.rotate((float) rotation, new Vector3f(0, 0, 1));
 
-            float length;
-            for (int i = 0; i < cars.size(); i++)
-            {
-                IPrintable car = cars.get(i);
-                Point2D position = car.getPosition();
-                float x = (float) position.getX();
-                float y = (float) position.getY();
-                length = car.getLength();
+				Vector4f pos1 = new Vector4f(0, 0, 0, 0);
+				Vector4f pos2 = new Vector4f(0 + length, 0, 0, 0);
+				Vector4f pos3 = new Vector4f(0 + length, 0 + length, 0, 0);
+				Vector4f pos4 = new Vector4f(0, 0 + length, 0, 0);
 
-                int offset = 16 * i;
-                double rotation = car.getAngle();
+				Matrix4f.transform(transMat, pos1, pos1);
+				Matrix4f.transform(transMat, pos2, pos2);
+				Matrix4f.transform(transMat, pos3, pos3);
+				Matrix4f.transform(transMat, pos4, pos4);
 
-                colors[offset] = 1f;
-                colors[1 + offset] = 0f;
-                colors[2 + offset] = 0f;
-                colors[3 + offset] = 1f;
+				pos1 = scale(x, y, pos1, height, width);
+				pos2 = scale(x, y, pos2, height, width);
+				pos3 = scale(x, y, pos3, height, width);
+				pos4 = scale(x, y, pos4, height, width);
 
-                colors[4 + offset] = 0f;
-                colors[5 + offset] = 1f;
-                colors[6 + offset] = 0f;
-                colors[7 + offset] = 1f;
+				vertices[offset] = pos1.getX();
+				vertices[1 + offset] = pos1.getY();
+				vertices[2 + offset] = 0;
+				vertices[3 + offset] = 1f;
 
-                colors[8 + offset] = 0f;
-                colors[9 + offset] = 0f;
-                colors[10 + offset] = 1f;
-                colors[11 + offset] = 1f;
+				vertices[4 + offset] = pos2.getX();
+				vertices[5 + offset] = pos2.getY();
+				vertices[6 + offset] = 0;
+				vertices[7 + offset] = 1f;
 
-                colors[12 + offset] = 1f;
-                colors[13 + offset] = 1f;
-                colors[14 + offset] = 1f;
-                colors[15 + offset] = 1f;
+				vertices[8 + offset] = pos3.getX();
+				vertices[9 + offset] = pos3.getY();
+				vertices[10 + offset] = 0;
+				vertices[11 + offset] = 1f;
 
-                Matrix4f transMat = new Matrix4f();
+				vertices[12 + offset] = pos4.getX();
+				vertices[13 + offset] = pos4.getY();
+				vertices[14 + offset] = 0;
+				vertices[15 + offset] = 1f;
 
-                transMat.rotate((float) rotation, new Vector3f(0, 0, 1));
+				int verticesOffset = 4 * i;
+				int indiciesOffset = 6 * i;
+				indices[indiciesOffset] = (verticesOffset);
+				indices[1 + indiciesOffset] = (1 + verticesOffset);
+				indices[2 + indiciesOffset] = (2 + verticesOffset);
+				indices[3 + indiciesOffset] = (2 + verticesOffset);
+				indices[4 + indiciesOffset] = (3 + verticesOffset);
+				indices[5 + indiciesOffset] = (verticesOffset);
 
-                Vector4f pos1 = new Vector4f(0, 0, 0, 0);
-                Vector4f pos2 = new Vector4f(0 + length, 0, 0, 0);
-                Vector4f pos3 = new Vector4f(0 + length, 0 + length, 0, 0);
-                Vector4f pos4 = new Vector4f(0, 0 + length, 0, 0);
+			}
 
-                Matrix4f.transform(transMat, pos1, pos1);
-                Matrix4f.transform(transMat, pos2, pos2);
-                Matrix4f.transform(transMat, pos3, pos3);
-                Matrix4f.transform(transMat, pos4, pos4);
+			FloatBuffer colorsBuffer = BufferUtils.createFloatBuffer(colors.length);
+			colorsBuffer.put(colors);
+			colorsBuffer.flip();
 
-                pos1.translate(x, y, 0, 0);
-                pos2.translate(x, y, 0, 0);
-                pos3.translate(x, y, 0, 0);
-                pos4.translate(x, y, 0, 0);
+			FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(vertices.length);
+			verticesBuffer.put(vertices);
+			verticesBuffer.flip();
 
-                vertices[offset] = pos1.getX();
-                vertices[1 + offset] = pos1.getY();
-                vertices[2 + offset] = 0;
-                vertices[3 + offset] = 1f;
+			int fIndicesCount = indices.length;
+			IntBuffer indicesBuffer = BufferUtils.createIntBuffer(fIndicesCount);
+			indicesBuffer.put(indices);
+			indicesBuffer.flip();
 
-                vertices[4 + offset] = pos2.getX();
-                vertices[5 + offset] = pos2.getY();
-                vertices[6 + offset] = 0;
-                vertices[7 + offset] = 1f;
+			// Create a new Vertex Array Object in memory and select it (bind)
+			// A VAO can have up to 16 attributes (VBO's) assigned to it by default
+			int fVAOId = GL30.glGenVertexArrays();
+			GL30.glBindVertexArray(fVAOId);
 
+			// Create a new Vertex Buffer Object in memory and select it (bind)
+			// A VBO is a collection of Vectors which in this case resemble the location of each vertex.
+			int fVBOId = GL15.glGenBuffers();
+			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, fVBOId);
+			GL15.glBufferData(GL15.GL_ARRAY_BUFFER, verticesBuffer, GL15.GL_STATIC_DRAW);
+			// Put the VBO in the attributes list at index 0
+			GL20.glVertexAttribPointer(0, 4, GL11.GL_FLOAT, false, 0, 0);
+			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 
-                vertices[8 + offset] = pos3.getX();
-                vertices[9 + offset] = pos3.getY();
-                vertices[10 + offset] = 0;
-                vertices[11 + offset] = 1f;
+			// Create a new VBO for the indices and select it (bind) - COLORS
+			int vbocId = GL15.glGenBuffers();
+			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbocId);
+			GL15.glBufferData(GL15.GL_ARRAY_BUFFER, colorsBuffer, GL15.GL_STATIC_DRAW);
+			GL20.glVertexAttribPointer(1, 4, GL11.GL_FLOAT, false, 0, 0);
+			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 
-                vertices[12 + offset] = pos4.getX();
-                vertices[13 + offset] = pos4.getY();
-                vertices[14 + offset] = 0;
-                vertices[15 + offset] = 1f;
+			// Deselect (bind to 0) the VAO
+			GL30.glBindVertexArray(0);
 
+			int fVBOId2 = GL15.glGenBuffers();
+			GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, fVBOId2);
+			GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL15.GL_STATIC_DRAW);
+			// Deselect (bind to 0) the VBO
+			GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
 
-                int verticesOffset = 4 * i;
-                int indiciesOffset = 6 * i;
-                indices[indiciesOffset] = (verticesOffset);
-                indices[1 + indiciesOffset] = (1 + verticesOffset);
-                indices[2 + indiciesOffset] = (2 + verticesOffset);
-                indices[3 + indiciesOffset] = (2 + verticesOffset);
-                indices[4 + indiciesOffset] = (3 + verticesOffset);
-                indices[5 + indiciesOffset] = (verticesOffset);
-
-            }
-
-            FloatBuffer colorsBuffer = BufferUtils.createFloatBuffer(colors.length);
-            colorsBuffer.put(colors);
-            colorsBuffer.flip();
-
-            FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(vertices.length);
-            verticesBuffer.put(vertices);
-            verticesBuffer.flip();
-
-            int fIndicesCount = indices.length;
-            IntBuffer indicesBuffer = BufferUtils.createIntBuffer(fIndicesCount);
-            indicesBuffer.put(indices);
-            indicesBuffer.flip();
-
-            // Create a new Vertex Array Object in memory and select it (bind)
-            // A VAO can have up to 16 attributes (VBO's) assigned to it by default
-            int fVAOId = GL30.glGenVertexArrays();
-            GL30.glBindVertexArray(fVAOId);
-
-            // Create a new Vertex Buffer Object in memory and select it (bind)
-            // A VBO is a collection of Vectors which in this case resemble the location of each vertex.
-            int fVBOId = GL15.glGenBuffers();
-            GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, fVBOId);
-            GL15.glBufferData(GL15.GL_ARRAY_BUFFER, verticesBuffer, GL15.GL_STATIC_DRAW);
-            // Put the VBO in the attributes list at index 0
-            GL20.glVertexAttribPointer(0, 4, GL11.GL_FLOAT, false, 0, 0);
-            GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
-
-            // Create a new VBO for the indices and select it (bind) - COLORS
-            int vbocId = GL15.glGenBuffers();
-            GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbocId);
-            GL15.glBufferData(GL15.GL_ARRAY_BUFFER, colorsBuffer, GL15.GL_STATIC_DRAW);
-            GL20.glVertexAttribPointer(1, 4, GL11.GL_FLOAT, false, 0, 0);
-            GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
-
-            // Deselect (bind to 0) the VAO
-            GL30.glBindVertexArray(0);
-
-            int fVBOId2 = GL15.glGenBuffers();
-            GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, fVBOId2);
-            GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL15.GL_STATIC_DRAW);
-            // Deselect (bind to 0) the VBO
-            GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
-
-            stuff.setPID(globals.getGame().getPID());
-            stuff.init(fVAOId, fVBOId, fVBOId2, fIndicesCount, vbocId);
-        }
+			stuff.setPID(globals.getGame().getPID());
+			stuff.init(fVAOId, fVBOId, fVBOId2, fIndicesCount, vbocId);
+		}
 		return stuff;
+	}
+
+	private static Vector4f scale(float x, float y, Vector4f pos1, float height, float width)
+	{
+		Vector4f translate = pos1.translate(x, y, 0, 0);
+		pos1.set(pos1.getX() / width, pos1.getY() / height);
+		return translate;
 	}
 
 	public static int loadShader(String filename, int type)
@@ -214,6 +223,13 @@ public class CarRenderBuffer
 		shaderID = GL20.glCreateShader(type);
 		GL20.glShaderSource(shaderID, shaderSource);
 		GL20.glCompileShader(shaderID);
+
+		int status = GL20.glGetShaderi(shaderID, GL20.GL_COMPILE_STATUS);
+		if (status == GL11.GL_FALSE)
+		{
+			System.out.println("Shader not compiled!");
+			System.exit(-1);
+		}
 
 		return shaderID;
 	}

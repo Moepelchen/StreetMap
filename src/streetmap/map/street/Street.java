@@ -131,6 +131,12 @@ public class Street implements IPrintable, ISimulateable
 		return 0;
 	}
 
+	@Override
+	public org.lwjgl.util.Color getColor()
+	{
+		return null;
+	}
+
 	public void simulate()
 	{
         fNumberOfCars = 0;

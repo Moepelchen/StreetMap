@@ -153,9 +153,9 @@ public class TheQuadExampleColored
 		int errorCheckValue = GL11.glGetError();
 
 
-        vsId = CarRenderBuffer.loadShader("/Users/ulrichtewes/Documents/Programming/workspace/Streetmap/StreetMap/config/shaders/vertex.glsl", GL20.GL_VERTEX_SHADER);
+        vsId = CarRenderBuffer.loadShader("./config/shaders/vertex.glsl", GL20.GL_VERTEX_SHADER);
         // Load the fragment shader
-        fsId = CarRenderBuffer.loadShader("/Users/ulrichtewes/Documents/Programming/workspace/Streetmap/StreetMap/config/shaders/fragment.glsl", GL20.GL_FRAGMENT_SHADER);
+        fsId = CarRenderBuffer.loadShader("./config/shaders/fragment.glsl", GL20.GL_FRAGMENT_SHADER);
 // Create a new shader program that links both shaders
 		pId = GL20.glCreateProgram();
 		GL20.glAttachShader(pId, vsId);
@@ -167,7 +167,19 @@ public class TheQuadExampleColored
 		GL20.glBindAttribLocation(pId, 1, "in_Color");
 
 		GL20.glLinkProgram(pId);
+		int status = GL20.glGetProgrami(pId,GL20.GL_LINK_STATUS);
+	    if(status == GL11.GL_FALSE)
+	    {
+		    System.out.println("PROGRAM NOT LINKED!");
+		    System.exit(-1);
+	    }
 		GL20.glValidateProgram(pId);
+		status = GL20.glGetProgrami(pId,GL20.GL_VALIDATE_STATUS);
+	    if(status == GL11.GL_FALSE)
+	    {
+		    System.out.println("PROGRAM NOT VALID!");
+		    System.exit(-1);
+	    }
 
 		errorCheckValue = GL11.glGetError();
 		if (errorCheckValue != GL11.GL_NO_ERROR)
@@ -181,7 +193,7 @@ public class TheQuadExampleColored
 	{
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
-		//GL20.glUseProgram(pId);
+		GL20.glUseProgram(pId);
 
 // Bind to the VAO that has all the information about the vertices
 		GL30.glBindVertexArray(vaoId);
@@ -199,7 +211,7 @@ public class TheQuadExampleColored
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
 		GL30.glBindVertexArray(0);
-		//GL20.glUseProgram(0);
+		GL20.glUseProgram(0);
 	}
 
 	public void destroyOpenGL()

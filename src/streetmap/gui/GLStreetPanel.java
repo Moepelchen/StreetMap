@@ -214,8 +214,8 @@ public class GLStreetPanel
 
         if (fSelectedStreet != null && !fGlobals.getStreetConfig().getTemplate(fSelectedStreet).isIsSpecial() && fCurrentClick != null)
         {
-            double distY = Math.abs(fCurrentClick.getX() - x);
-            double distX = Math.abs(fCurrentClick.getY() - y);
+            double distY = Math.abs(fCurrentClick.getX()/fGlobals.getGame().getWidth());
+            double distX = Math.abs(fCurrentClick.getY()/fGlobals.getGame().getHeight());
             if (distY > 0 || distX > 0)
             {
                 if (distY > distX)

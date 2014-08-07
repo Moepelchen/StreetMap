@@ -1,5 +1,6 @@
 package streetmap.car;
 
+import org.lwjgl.util.Color;
 import streetmap.events.IEvent;
 import streetmap.events.IEventHandler;
 import streetmap.events.StreetPlacementEvent;
@@ -11,7 +12,6 @@ import streetmap.map.street.trajectory.ITrajectory;
 import streetmap.pathfinding.AbstractPathFinder;
 import streetmap.pathfinding.IPathFindingAlgorithm;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Collection;
 import java.util.Vector;
@@ -77,7 +77,7 @@ public class
 		fLength = length;
 		fLane = lane;
 		fPosition = pos;
-		fColor = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()));
+		fColor = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()),255);
 		fImagePath = carImagePath;
 		double v = Math.max(Math.random(), 0.25) * lane.getGlobals().getConfig().getMaximumCarSpeed();
 		fSpeed = v;
@@ -222,6 +222,12 @@ public class
 	public double getAngle()
 	{
 		return getLane().getTrajectory().getAngle(this);
+	}
+
+	@Override
+	public org.lwjgl.util.Color getColor()
+	{
+		return fColor;
 	}
 
 	public void setSpeed(double speed)

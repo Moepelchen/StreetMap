@@ -25,7 +25,7 @@ public class DrawHelper
 
     public static void drawCar(RenderStuff car)
     {
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+
 
         GL20.glUseProgram(car.getPID());
 

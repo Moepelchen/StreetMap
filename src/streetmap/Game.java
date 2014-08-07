@@ -12,14 +12,23 @@ import de.lessvoid.nifty.screen.ScreenController;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.*;
+import org.lwjgl.opengl.ContextAttribs;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.vector.Vector2f;
 import org.xml.sax.SAXException;
 import streetmap.car.CarRenderBuffer;
 import streetmap.gui.GLStreetPanel;
 import streetmap.gui.IScreenNames;
-import streetmap.gui.controller.*;
+import streetmap.gui.controller.DebugScreenController;
+import streetmap.gui.controller.GameScreenController;
+import streetmap.gui.controller.LoadScreenController;
+import streetmap.gui.controller.MenuScreenController;
+import streetmap.gui.controller.SaveScreenController;
 import streetmap.gui.inputmapping.MenuInputMapping;
 import streetmap.map.DataStorage2d;
 import streetmap.map.Map;
@@ -65,6 +74,11 @@ public class Game
 	private DataStorage2d fFPSData = new DataStorage2d(300);
 	private DataStorage2d fPathData = new DataStorage2d(300);
 	private int fFSID;
+	private int indicesCount;
+	private int vaoId;
+	private int vboId;
+	private int vbocId;
+	private int vboiId;
 
 	public int getFSID()
 	{
@@ -184,7 +198,7 @@ public class Game
         ConfigLoader configLoader = new ConfigLoader();
         try
         {
-            File file = new File("/Users/ulrichtewes/Documents/Programming/workspace/Streetmap/StreetMap/save/1111.xml");
+            File file = new File("./save/lane.xml");
             configLoader.load(file, fGlobals);
             mapLoader.load(file, fGlobals);
 
@@ -225,23 +239,36 @@ public class Game
 
 		}
 		TextureCache.releaseTextures();
+		release();
 		Display.destroy();
 		System.exit(0);
 
 	}
 
-    private void setupShaders()
+	private void release()
+	{
+		// Delete the shaders
+		GL20.glUseProgram(0);
+		GL20.glDetachShader(fPID, fVSID);
+		GL20.glDetachShader(fPID, fFSID);
+
+		GL20.glDeleteShader(fVSID);
+		GL20.glDeleteShader(fFSID);
+		GL20.glDeleteProgram(fPID);
+	}
+
+	private void setupShaders()
     {
         int errorCheckValue = GL11.glGetError();
 
 
-        fVSID = CarRenderBuffer.loadShader("/Users/ulrichtewes/Documents/Programming/workspace/Streetmap/StreetMap/config/shaders/vertex.glsl", GL20.GL_VERTEX_SHADER);
-        // Load the fragment shader
-        fFSID = CarRenderBuffer.loadShader("/Users/ulrichtewes/Documents/Programming/workspace/Streetmap/StreetMap/config/shaders/fragment.glsl", GL20.GL_FRAGMENT_SHADER);
+	    fPID = GL20.glCreateProgram();
+	    fVSID = CarRenderBuffer.loadShader("./config/shaders/vertex.glsl", GL20.GL_VERTEX_SHADER);
+	    // Load the fragment shader
+	    fFSID = CarRenderBuffer.loadShader("./config/shaders/fragment.glsl", GL20.GL_FRAGMENT_SHADER);
 // Create a new shader program that links both shaders
-        fPID = GL20.glCreateProgram();
-        GL20.glAttachShader(fPID, fVSID);
-        GL20.glAttachShader(fPID, fFSID);
+	    GL20.glAttachShader(fPID, fVSID);
+	    GL20.glAttachShader(fPID, fFSID);
 
 // Position information will be attribute 0
         GL20.glBindAttribLocation(fPID, 0, "in_Position");
@@ -249,7 +276,19 @@ public class Game
         GL20.glBindAttribLocation(fPID, 1, "in_Color");
 
         GL20.glLinkProgram(fPID);
-        GL20.glValidateProgram(fPID);
+	    int status = GL20.glGetProgrami(fPID,GL20.GL_LINK_STATUS);
+	    if(status == GL11.GL_FALSE)
+	    {
+		    System.out.println("PROGRAM NOT LINKED!");
+		    System.exit(-1);
+	    }
+	    GL20.glValidateProgram(fPID);
+	    status = GL20.glGetProgrami(fPID, GL20.GL_VALIDATE_STATUS);
+	    if (status == GL11.GL_FALSE)
+	    {
+		    System.out.println("PROGRAM NOT VALID!");
+		    System.exit(-1);
+	    }
 
         errorCheckValue = GL11.glGetError();
         if (errorCheckValue != GL11.GL_NO_ERROR)
