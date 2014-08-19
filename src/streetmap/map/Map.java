@@ -250,7 +250,7 @@ public class Map implements ISimulateable, ActionListener
 	        RenderStuff stuff = PrintableRenderBuffer.initBuffers(fGlobals, placeables);
 	        RenderStuff stuff2 = PrintableRenderBuffer.initBuffers(fGlobals, cars);
 
-	        if (stuff != null )
+	        if (stuff != null && stuff2 != null)
 	        {
 		        GL11.glEnable(GL11.GL_BLEND);
 		        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);

@@ -234,7 +234,7 @@ public class
         green = Math.min((int) (COLOR_HAPPINESS * (fHappiness)), COLOR_HAPPINESS);
 
         Color color = new Color(red, green, 0);
-		return color;
+		return fColor;
 	}
 
 	public void setSpeed(double speed)

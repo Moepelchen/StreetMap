@@ -60,8 +60,8 @@ public class PrintableRenderBuffer
 			{
 				IPrintable printable = printables.get(i);
 				Point2D position = printable.getPosition();
-				float height = globals.getGame().getHeight()/4;
-				float width = globals.getGame().getWidth()/4;
+				float height = globals.getGame().getHeight()/2;
+				float width = globals.getGame().getWidth()/2;
 				float x = (float) (position.getX());
 				float y = (float) (position.getY());
 				length = printable.getLength();
@@ -165,7 +165,7 @@ public class PrintableRenderBuffer
 	private static Vector4f scale(float x, float y, Vector4f pos1, float height, float width)
 	{
 		Vector4f translate = pos1.translate(x, y, 0, 0);
-		pos1.set(pos1.getX() / width-1.5f, pos1.getY() / height-1.5f);
+		pos1.set(pos1.getX() / width-1f, pos1.getY() / height-1.25f);
 		return translate;
 	}
 
