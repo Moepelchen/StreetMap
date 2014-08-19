@@ -4,7 +4,7 @@
 
 package streetmap.events;
 
-import streetmap.map.street.Street;
+import streetmap.map.street.IPlaceable;
 
 /**
  * Short description in a complete sentence.
@@ -19,19 +19,19 @@ import streetmap.map.street.Street;
  * @version 1.0
  * @since Release
  */
-public class StreetPlacementEvent extends AbstractEvent
+public class PlacementEvent extends AbstractEvent
 {
 
-	private final Street fStreet;
+	private final IPlaceable fPlaceable;
 
-	public Street getStreet()
+	public IPlaceable getPlaceable()
 	{
-		return fStreet;
+		return fPlaceable;
 	}
 
-	public StreetPlacementEvent(Street street)
+	public PlacementEvent(IPlaceable placeable)
 	{
-		fStreet = street;
+		fPlaceable = placeable;
 		fType = IEvent.EVENT_STREET_PLACEMENT;
 	}
 

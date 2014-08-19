@@ -1,7 +1,5 @@
 package streetmap.interfaces;
 
-import org.lwjgl.util.Color;
-
 import java.awt.geom.Point2D;
 
 /**
@@ -21,5 +19,5 @@ public interface IPrintable
 
 	double getAngle();
 
-	Color getColor();
+	org.lwjgl.util.ReadableColor getColor();
 }

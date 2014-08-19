@@ -45,7 +45,7 @@ public class GLStreetPanel
         for (int i = 0; i < templates.size(); i++)
         {
             Tile tile = new Tile(fGlobals, fGlobals.getMap(), new Point2D.Double(0, i), fTileWidth);
-            tile.setStreet(fGlobals.getStreetFactory().createStreet(tile, (templates.get(i)).getName()));
+            tile.setPlaceable(fGlobals.getStreetFactory().createStreet(tile, (templates.get(i)).getName()));
             fTiles.add(tile);
         }
     }
@@ -55,8 +55,8 @@ public class GLStreetPanel
         for (Tile tile : fTiles)
         {
 
-            DrawHelper.drawStreet(tile.getStreet(), true);
-            if (fSelectedStreet != null && tile.getStreet().getName().equals(fSelectedStreet))
+            DrawHelper.drawPlaceable(tile.getPlaceable(), true);
+            if (fSelectedStreet != null && tile.getPlaceable().getName().equals(fSelectedStreet))
             {
                /* GL11.glColor4d(0, 1, 0, 0.5);
                 glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -198,7 +198,7 @@ public class GLStreetPanel
 
                 for (Tile intersectionTile : intersectionTiles)
                 {
-                    fGlobals.getMap().handleAddition(intersectionTile.getStreet());
+                    fGlobals.getMap().handleAddition(intersectionTile.getPlaceable());
                     fGlobals.getStreetFactory().createStreet(intersectionTile, fSelectedStreet, true, true);
                 }
 
@@ -231,7 +231,7 @@ public class GLStreetPanel
     private void handlePanelClick(int y)
     {
         int index = fTiles.size() - 1 - (y / fTileWidth);
-        fSelectedStreet = fTiles.get(index).getStreet().getName();
+        fSelectedStreet = fTiles.get(index).getPlaceable().getName();
 	    System.out.println("fSelectedStreet = " + fSelectedStreet);
 
     }

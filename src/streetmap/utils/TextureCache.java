@@ -1,14 +1,14 @@
 package streetmap.utils;
 
-import org.newdawn.slick.opengl.Texture;
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.TextureLoader;
-import org.newdawn.slick.util.ResourceLoader;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.MissingResourceException;
-
-import static org.lwjgl.opengl.GL11.GL_NEAREST;
 
 /**
  * Copyright Ulrich Tewes
@@ -16,41 +16,53 @@ import static org.lwjgl.opengl.GL11.GL_NEAREST;
  */
 public class TextureCache
 {
-    private static final HashMap<String, Texture> gImageStore = new HashMap<>();
+	private static final HashMap<String, Integer> gImageStore = new HashMap<>();
+
+	public static int getTextureId(String path) throws MissingResourceException
+	{
+
+		Integer texId = 0;
+		if (path != null)
+		{
+			texId = gImageStore.get(path);
+			if (texId == null)
+			{
+				ByteBuffer buf = null;
+				int tWidth = 0;
+				int tHeight = 0;
+
+				try
+				{
+					// Open the PNG file as an InputStream
+					InputStream in = new FileInputStream(path);
+					// Link the PNG decoder to this stream
+					texId = TextureLoader.getTexture("RGBA", in,true).getTextureID();
+					in.close();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+					System.exit(-1);
+				}
 
 
-    public static int getTextureId(String path) throws MissingResourceException
-    {
-        Texture texture = null;
-        if (path != null)
-        {
-            texture = gImageStore.get(path);
-            if (texture == null)
-            {
-                try
-                {
-                    texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(path), GL_NEAREST);
-                } catch (IOException e)
-                {
-                    throw new MissingResourceException("Texture with the path '" + path+"' could not be found", TextureCache.class.toString(),path);
-                }
 
-                gImageStore.put(path, texture);
-            }
-        }
-        if (texture == null)
-        {
-            throw new MissingResourceException("Texture with the path '" + path+"' could not be found", TextureCache.class.toString(),path);
-        }
+				gImageStore.put(path, texId);
+			}
+		}
+		if (texId == null || texId == 0)
+		{
+			throw new MissingResourceException("Texture with the path '" + path + "' could not be found", TextureCache.class.toString(), path);
+		}
 
-        return texture.getTextureID();
-    }
+		return texId;
+	}
 
-    public static void releaseTextures()
-    {
-        for (String s : gImageStore.keySet())
-        {
-            gImageStore.get(s).release();
-        }
-    }
+	public static void releaseTextures()
+	{
+		for (String s : gImageStore.keySet())
+		{
+			GL11.glDeleteTextures(gImageStore.get(s));
+		}
+	}
 }

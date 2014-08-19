@@ -1,9 +1,10 @@
 package streetmap.car;
 
 import org.lwjgl.util.Color;
+import org.lwjgl.util.ReadableColor;
 import streetmap.events.IEvent;
 import streetmap.events.IEventHandler;
-import streetmap.events.StreetPlacementEvent;
+import streetmap.events.PlacementEvent;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.map.street.Lane;
@@ -225,7 +226,7 @@ public class
 	}
 
 	@Override
-	public org.lwjgl.util.Color getColor()
+	public ReadableColor getColor()
 	{
 		return fColor;
 	}
@@ -258,8 +259,8 @@ public class
 		switch (event.getType())
 		{
 			case IEvent.EVENT_STREET_PLACEMENT:
-				StreetPlacementEvent spEvent = (StreetPlacementEvent) event;
-				Street street = spEvent.getStreet();
+				PlacementEvent spEvent = (PlacementEvent) event;
+				Street street = (Street) spEvent.getPlaceable();
 				boolean canRecalc = street != null && fPathFinder != null;
 				if (canRecalc && fPathFinder.getDestination() != null && fPathFinder.getDestination().getStreet() != null && fPathFinder.getDestination().getStreet().equals(street))
 				{

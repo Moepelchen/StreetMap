@@ -114,7 +114,7 @@ public class Lane implements IPrintable, ISimulateable
 	}
 
 	@Override
-	public org.lwjgl.util.Color getColor()
+	public org.lwjgl.util.ReadableColor getColor()
 	{
 		return null;
 	}

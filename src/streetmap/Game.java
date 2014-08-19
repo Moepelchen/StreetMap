@@ -21,7 +21,7 @@ import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.vector.Vector2f;
 import org.xml.sax.SAXException;
-import streetmap.car.CarRenderBuffer;
+import streetmap.car.PrintableRenderBuffer;
 import streetmap.gui.GLStreetPanel;
 import streetmap.gui.IScreenNames;
 import streetmap.gui.controller.DebugScreenController;
@@ -208,13 +208,15 @@ public class Game
         {
             e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
 		while (!Display.isCloseRequested())
 		{
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 			updateFPS();
 			fGlobals.getTimeHandler().tickTime();
 			// Clear the screen and depth buffer
-			Vector2f scalePoint = getScalePoint();
 
 			if (!this.isPaused())
 			{
@@ -229,7 +231,7 @@ public class Game
 			fNifty.update();
 			fNifty.render(false);
 			Display.update();
-			Display.sync(60); // cap fps to 60fps
+			//Display.sync(30); // cap fps to 60fps
 
 			String screenId = fNifty.getCurrentScreen().getScreenId();
 			if (fNifty.getCurrentScreen() != null && screenId != null && screenId.equals(IScreenNames.SCREEN_GAME))
@@ -263,9 +265,9 @@ public class Game
 
 
 	    fPID = GL20.glCreateProgram();
-	    fVSID = CarRenderBuffer.loadShader("./config/shaders/vertex.glsl", GL20.GL_VERTEX_SHADER);
+	    fVSID = PrintableRenderBuffer.loadShader("./config/shaders/vertex.glsl", GL20.GL_VERTEX_SHADER);
 	    // Load the fragment shader
-	    fFSID = CarRenderBuffer.loadShader("./config/shaders/fragment.glsl", GL20.GL_FRAGMENT_SHADER);
+	    fFSID = PrintableRenderBuffer.loadShader("./config/shaders/fragment.glsl", GL20.GL_FRAGMENT_SHADER);
 // Create a new shader program that links both shaders
 	    GL20.glAttachShader(fPID, fVSID);
 	    GL20.glAttachShader(fPID, fFSID);
@@ -274,6 +276,7 @@ public class Game
         GL20.glBindAttribLocation(fPID, 0, "in_Position");
 // Color information will be attribute 1
         GL20.glBindAttribLocation(fPID, 1, "in_Color");
+	    GL20.glBindAttribLocation(fPID, 2, "in_TextureCoord");
 
         GL20.glLinkProgram(fPID);
 	    int status = GL20.glGetProgrami(fPID,GL20.GL_LINK_STATUS);

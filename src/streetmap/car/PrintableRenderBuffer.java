@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.util.ReadableColor;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
@@ -38,68 +39,45 @@ import java.util.List;
  * @since Release
  */
 
-public class CarRenderBuffer
+public class PrintableRenderBuffer
 {
 	private static List<RenderStuff> fFreeStuff = new ArrayList<>();
 
-	public static RenderStuff initBuffers(SSGlobals globals, List<IPrintable> cars)
+	public static RenderStuff initBuffers(SSGlobals globals, List<IPrintable> printables)
 	{
 		RenderStuff stuff = null;
-		if (cars.size() > 0)
+		if (printables.size() > 0)
 		{
 			stuff = new RenderStuff();
 
-			float[] vertices = new float[cars.size() * 16];
+			FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(4*printables.size()*TexturedVertex.elementCount);
 
 			// OpenGL expects to draw vertices in counter clockwise order by default
-			int[] indices = new int[cars.size() * 6];
-			float[] colors = new float[cars.size() * 16];
+			int[] indices = new int[printables.size() * 6];
 
 			float length;
-			for (int i = 0; i < cars.size(); i++)
+			for (int i = 0; i < printables.size(); i++)
 			{
-				IPrintable car = cars.get(i);
-				Point2D position = car.getPosition();
-				int height = globals.getGame().getHeight();
-				int width = globals.getGame().getWidth();
+				IPrintable printable = printables.get(i);
+				Point2D position = printable.getPosition();
+				float height = globals.getGame().getHeight()/4;
+				float width = globals.getGame().getWidth()/4;
 				float x = (float) (position.getX());
 				float y = (float) (position.getY());
-				length = car.getLength();
+				length = printable.getLength();
 
-				int offset = 16 * i;
-				double rotation = car.getAngle();
+				double rotation = printable.getAngle();
 
-				org.lwjgl.util.Color color = car.getColor();
-
-				colors[offset] = (float)(color.getRed()) /255;
-				colors[1 + offset] =(float)(color.getGreen())/255;
-				colors[2 + offset] = (float)(color.getBlue())/255;
-				colors[3 + offset] = (float)(color.getAlpha())/255;
-
-				colors[4 + offset] = (float) (color.getRed()) / 255;
-				colors[5 + offset] = (float) (color.getGreen()) / 255;
-				colors[6 + offset] = (float) (color.getBlue()) / 255;
-				colors[7 + offset] = (float)(color.getAlpha())/255;
-
-				colors[8 + offset] = (float) (color.getRed()) / 255;
-				colors[9 + offset] = (float) (color.getGreen()) / 255;
-				colors[10 + offset] = (float) (color.getBlue()) / 255;
-				colors[11 + offset] = (float)(color.getAlpha())/255;
-
-				colors[12 + offset] = (float) (color.getRed()) / 255;
-				colors[13+ offset] = (float) (color.getGreen()) / 255;
-				colors[14 + offset] = (float) (color.getBlue()) / 255;
-				colors[15 + offset] = (float)(color.getAlpha())/255;
-
+				ReadableColor color = printable.getColor();
 
 				Matrix4f transMat = new Matrix4f();
 
 				transMat.rotate((float) rotation, new Vector3f(0, 0, 1));
 
-				Vector4f pos1 = new Vector4f(0, 0, 0, 0);
-				Vector4f pos2 = new Vector4f(0 + length, 0, 0, 0);
-				Vector4f pos3 = new Vector4f(0 + length, 0 + length, 0, 0);
-				Vector4f pos4 = new Vector4f(0, 0 + length, 0, 0);
+				Vector4f pos1 = new Vector4f(0, 0, 0, 1f);
+				Vector4f pos2 = new Vector4f(0 + length, 0, 0, 1f);
+				Vector4f pos3 = new Vector4f(0 + length, 0 + length, 0, 1f);
+				Vector4f pos4 = new Vector4f(0, 0 + length, 0, 1f);
 
 				Matrix4f.transform(transMat, pos1, pos1);
 				Matrix4f.transform(transMat, pos2, pos2);
@@ -111,25 +89,25 @@ public class CarRenderBuffer
 				pos3 = scale(x, y, pos3, height, width);
 				pos4 = scale(x, y, pos4, height, width);
 
-				vertices[offset] = pos1.getX();
-				vertices[1 + offset] = pos1.getY();
-				vertices[2 + offset] = 0;
-				vertices[3 + offset] = 1f;
+				TexturedVertex vert1 = new TexturedVertex(pos1,color);
 
-				vertices[4 + offset] = pos2.getX();
-				vertices[5 + offset] = pos2.getY();
-				vertices[6 + offset] = 0;
-				vertices[7 + offset] = 1f;
+				TexturedVertex vert2 = new TexturedVertex(pos2,color);
 
-				vertices[8 + offset] = pos3.getX();
-				vertices[9 + offset] = pos3.getY();
-				vertices[10 + offset] = 0;
-				vertices[11 + offset] = 1f;
+				TexturedVertex vert3 = new TexturedVertex(pos3,color);
 
-				vertices[12 + offset] = pos4.getX();
-				vertices[13 + offset] = pos4.getY();
-				vertices[14 + offset] = 0;
-				vertices[15 + offset] = 1f;
+				TexturedVertex vert4 = new TexturedVertex(pos4, color);
+				vert1.setST(0, 0);
+
+				vert2.setST(0, 1);
+
+				vert3.setST(1, 1);
+
+				vert4.setST(1, 0);
+
+				verticesBuffer.put(vert1.getElements());
+				verticesBuffer.put(vert2.getElements());
+				verticesBuffer.put(vert3.getElements());
+				verticesBuffer.put(vert4.getElements());
 
 				int verticesOffset = 4 * i;
 				int indiciesOffset = 6 * i;
@@ -141,13 +119,6 @@ public class CarRenderBuffer
 				indices[5 + indiciesOffset] = (verticesOffset);
 
 			}
-
-			FloatBuffer colorsBuffer = BufferUtils.createFloatBuffer(colors.length);
-			colorsBuffer.put(colors);
-			colorsBuffer.flip();
-
-			FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(vertices.length);
-			verticesBuffer.put(vertices);
 			verticesBuffer.flip();
 
 			int fIndicesCount = indices.length;
@@ -155,38 +126,38 @@ public class CarRenderBuffer
 			indicesBuffer.put(indices);
 			indicesBuffer.flip();
 
-			// Create a new Vertex Array Object in memory and select it (bind)
-			// A VAO can have up to 16 attributes (VBO's) assigned to it by default
-			int fVAOId = GL30.glGenVertexArrays();
-			GL30.glBindVertexArray(fVAOId);
+				// Create a new Vertex Array Object in memory and select it (bind)
+			int vaoId = GL30.glGenVertexArrays();
+			GL30.glBindVertexArray(vaoId);
 
 			// Create a new Vertex Buffer Object in memory and select it (bind)
-			// A VBO is a collection of Vectors which in this case resemble the location of each vertex.
-			int fVBOId = GL15.glGenBuffers();
-			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, fVBOId);
+			int vboId = GL15.glGenBuffers();
+			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboId);
 			GL15.glBufferData(GL15.GL_ARRAY_BUFFER, verticesBuffer, GL15.GL_STATIC_DRAW);
-			// Put the VBO in the attributes list at index 0
-			GL20.glVertexAttribPointer(0, 4, GL11.GL_FLOAT, false, 0, 0);
-			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 
-			// Create a new VBO for the indices and select it (bind) - COLORS
-			int vbocId = GL15.glGenBuffers();
-			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbocId);
-			GL15.glBufferData(GL15.GL_ARRAY_BUFFER, colorsBuffer, GL15.GL_STATIC_DRAW);
-			GL20.glVertexAttribPointer(1, 4, GL11.GL_FLOAT, false, 0, 0);
+			// Put the position coordinates in attribute list 0
+			GL20.glVertexAttribPointer(0, TexturedVertex.positionElementCount, GL11.GL_FLOAT,
+					false, TexturedVertex.stride, TexturedVertex.positionByteOffset);
+			// Put the color components in attribute list 1
+			GL20.glVertexAttribPointer(1, TexturedVertex.colorElementCount, GL11.GL_FLOAT,
+					false, TexturedVertex.stride, TexturedVertex.colorByteOffset);
+			// Put the texture coordinates in attribute list 2
+			GL20.glVertexAttribPointer(2, TexturedVertex.textureElementCount, GL11.GL_FLOAT,
+					false, TexturedVertex.stride, TexturedVertex.textureByteOffset);
+
 			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 
 			// Deselect (bind to 0) the VAO
 			GL30.glBindVertexArray(0);
 
-			int fVBOId2 = GL15.glGenBuffers();
-			GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, fVBOId2);
+			// Create a new VBO for the indices and select it (bind) - INDICES
+			int vboiId = GL15.glGenBuffers();
+			GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vboiId);
 			GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL15.GL_STATIC_DRAW);
-			// Deselect (bind to 0) the VBO
 			GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
 
 			stuff.setPID(globals.getGame().getPID());
-			stuff.init(fVAOId, fVBOId, fVBOId2, fIndicesCount, vbocId);
+			stuff.init(vaoId, vboId, vboiId, fIndicesCount, 0);
 		}
 		return stuff;
 	}
@@ -194,7 +165,7 @@ public class CarRenderBuffer
 	private static Vector4f scale(float x, float y, Vector4f pos1, float height, float width)
 	{
 		Vector4f translate = pos1.translate(x, y, 0, 0);
-		pos1.set(pos1.getX() / width, pos1.getY() / height);
+		pos1.set(pos1.getX() / width-1.5f, pos1.getY() / height-1.5f);
 		return translate;
 	}
 

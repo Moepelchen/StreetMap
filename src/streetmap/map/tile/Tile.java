@@ -6,6 +6,7 @@ import streetmap.map.Map;
 import streetmap.map.side.HorizontalSide;
 import streetmap.map.side.Side;
 import streetmap.map.side.VerticalSide;
+import streetmap.map.street.IPlaceable;
 import streetmap.map.street.Lane;
 import streetmap.map.street.Street;
 
@@ -43,7 +44,7 @@ public class Tile implements ISimulateable
 	private Point2D fArrayPosition;
 
 	private boolean fSidesGenerated;
-	public Street fStreet;
+	private IPlaceable fPlaceable;
 	private Point2D fPosition;
     private int fNumberOfCars = 0;
     private Rectangle2D fRect;
@@ -98,14 +99,14 @@ public class Tile implements ISimulateable
 		this.fArrayPosition = fArrayPosition;
 	}
 
-	public Street getStreet()
+	public IPlaceable getPlaceable()
 	{
-		return fStreet;
+		return fPlaceable;
 	}
 
-	public synchronized void setStreet(Street fStreet)
+	public synchronized void setPlaceable(Street fStreet)
 	{
-		this.fStreet = fStreet;
+		this.fPlaceable = fStreet;
 	}
 
 	public SSGlobals getGlobals()
@@ -231,19 +232,19 @@ public class Tile implements ISimulateable
 
 	public void print()
 	{
-		if (fStreet != null)
+		if (fPlaceable != null)
 		{
-			fStreet.print();
+			fPlaceable.print();
 		}
 	}
 
 
 	public void simulate()
 	{
-		if (fStreet != null)
+		if (fPlaceable != null)
 		{
-			fStreet.simulate();
-            fNumberOfCars = fStreet.getNumberOfCars();
+			fPlaceable.simulate();
+            fNumberOfCars = fPlaceable.getNumberOfCars();
 
         }
 	}
@@ -256,9 +257,9 @@ public class Tile implements ISimulateable
 
 	public Vector<Lane> getLanes()
 	{
-		if (fStreet != null)
+		if (fPlaceable != null)
 		{
-			return fStreet.getLanes();
+			return fPlaceable.getLanes();
 		}
 		return new Vector<Lane>();
 	}

@@ -56,7 +56,7 @@ public class RenderStuff
 	private int fFVBOId2;
 	private int fFIndicesCount;
 
-	public void init(int fVAOId, int fVBOId, int fVBOId2, int fIndicesCount, int vbocId)
+	public RenderStuff init(int fVAOId, int fVBOId, int fVBOId2, int fIndicesCount, int vbocId)
 	{
 
 		fFVAOId = fVAOId;
@@ -64,6 +64,8 @@ public class RenderStuff
 		fFVBOId2 = fVBOId2;
 		fFIndicesCount = fIndicesCount;
 		fVBOCId = vbocId;
+
+		return this;
 	}
 
 	public void release()
@@ -94,9 +96,10 @@ public class RenderStuff
 		return fPID;
 	}
 
-	public void setPID(int PID)
+	public RenderStuff setPID(int PID)
 	{
 		fPID = PID;
+		return this;
 	}
 // -----------------------------------------------------
 // constants

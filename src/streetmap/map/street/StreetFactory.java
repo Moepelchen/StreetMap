@@ -76,9 +76,9 @@ public class StreetFactory
     public Street createStreet(Tile tile, String streetName, boolean chooseIntelligent, boolean propagate)
     {
 
-        if (tile.getStreet() != null)
+        if (tile.getPlaceable() != null)
         {
-            for (Lane lane : tile.getStreet().getLanes())
+            for (Lane lane : tile.getPlaceable().getLanes())
             {
                 tile.getMap().removeEnd(lane);
                 lane.getStart().removeOutputLane(lane);
@@ -98,7 +98,7 @@ public class StreetFactory
         {
             street = new Street(fGlobals, tile, template.getName(), template.isIsSpecial());
             generateLanes(street, template.getLaneTemplates(), tile);
-            tile.setStreet(street);
+            tile.setPlaceable(street);
 
         }
 	    if (propagate && street != null)
@@ -119,9 +119,9 @@ public class StreetFactory
 	{
 
 			Tile tile = fGlobals.getMap().getTile(xCoord, yCoord);
-			if(tile != null && tile.getStreet() != null && tile.getStreet().getLanes().size()>0 && !tile.getStreet().isSpecial())
+			if(tile != null && tile.getPlaceable() != null && tile.getPlaceable().getLanes().size()>0 && !tile.getPlaceable().isSpecial())
 			{
-				fGlobals.getMap().handleAddition(tile.getStreet());
+				fGlobals.getMap().handleAddition(tile.getPlaceable());
 				createStreet(tile, streetName, true);
 			}
 	}
@@ -187,7 +187,7 @@ public class StreetFactory
 	private boolean hasNeighbor(double xCoord, double v)
 	{
 		Tile tile = fGlobals.getMap().getTile(xCoord, v);
-		return tile != null && tile.getStreet() != null && tile.getLanes().size()>0;
+		return tile != null && tile.getPlaceable() != null && tile.getLanes().size()>0;
 	}
 
 	private boolean hasTemplateConnection(StreetTemplate streetTemplate, String compassPointS)

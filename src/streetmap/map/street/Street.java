@@ -1,8 +1,9 @@
 package streetmap.map.street;
 
+import org.lwjgl.util.Color;
+import org.lwjgl.util.ReadableColor;
 import streetmap.SSGlobals;
-import streetmap.interfaces.IPrintable;
-import streetmap.interfaces.ISimulateable;
+import streetmap.heatmap.Gradient;
 import streetmap.map.tile.Tile;
 import streetmap.utils.DrawHelper;
 import streetmap.xml.jaxb.StreetTemplate;
@@ -15,7 +16,7 @@ import java.util.Vector;
  * This is the implementation of a Street in the simulation. A Street sonsists of a Number of lanes
  * and is located on a tile
  */
-public class Street implements IPrintable, ISimulateable
+public class Street implements IPlaceable
 {
 
 	/**
@@ -132,9 +133,16 @@ public class Street implements IPrintable, ISimulateable
 	}
 
 	@Override
-	public org.lwjgl.util.Color getColor()
+	public ReadableColor getColor()
 	{
-		return null;
+		double heatMapReading = this.getGlobals().getMap().getHeatMapReading(this.getTile().getArrayPosition());
+		java.awt.Color color = Gradient.GRADIENT_RAINBOW[(int) Math.floor(heatMapReading * (Gradient.GRADIENT_HOT.length - 1))];
+		int alpha = 255;
+		if(!fGlobals.getConfig().isShowHeatMap())
+		{
+			color = java.awt.Color.WHITE;
+		}
+		return new Color(color.getRed(),color.getGreen(),color.getBlue(), alpha);
 	}
 
 	public void simulate()
@@ -160,6 +168,12 @@ public class Street implements IPrintable, ISimulateable
 	public String getName()
 	{
 		return fName;
+	}
+
+	@Override
+	public int getType()
+	{
+		return IPlaceable.TYPE_STREET;
 	}
 
 	public boolean isStartEnd()

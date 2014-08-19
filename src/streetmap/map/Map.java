@@ -1,19 +1,21 @@
 package streetmap.map;
 
+import org.lwjgl.opengl.GL11;
 import streetmap.SSGlobals;
-import streetmap.car.CarRenderBuffer;
+import streetmap.car.PrintableRenderBuffer;
 import streetmap.car.RenderStuff;
 import streetmap.events.EventQueue;
 import streetmap.events.IEvent;
-import streetmap.events.StreetPlacementEvent;
+import streetmap.events.PlacementEvent;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
+import streetmap.map.street.IPlaceable;
 import streetmap.map.street.Lane;
-import streetmap.map.street.Street;
 import streetmap.map.tile.Tile;
 import streetmap.pathfinding.AbstractPathFinder;
 import streetmap.pathfinding.PathFactory;
 import streetmap.utils.DrawHelper;
+import streetmap.utils.TextureCache;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -143,7 +145,7 @@ public class Map implements ISimulateable, ActionListener
             {
                 for (Tile tile : fTile)
                 {
-                    if (tile.getStreet() != null)
+                    if (tile.getPlaceable() != null)
                     {
                         fOccupiedTiles.add(tile);
                     }
@@ -232,27 +234,38 @@ public class Map implements ISimulateable, ActionListener
     {
         if (fOccupiedTiles != null)
         {
-            for (Tile tile : fOccupiedTiles)
-            {
-                tile.print();
-
-            }
 	        List<IPrintable> cars = new ArrayList<>();
-	        for (Tile fOccupiedTile : fOccupiedTiles)
-            {
-	            for (Lane lane : fOccupiedTile.getLanes())
-                {
-	                lane.print();
-	                cars.addAll(lane.getCars());
+	        List<IPrintable> placeables = new ArrayList<>();
+	        for (Tile tile : fOccupiedTiles)
+	        {
+		        placeables.add(tile.getPlaceable());
+		        for (Lane lane : tile.getLanes())
+		        {
+			        cars.addAll(lane.getCars());
+		        }
 
-                }
-            }
-	        RenderStuff stuff = CarRenderBuffer.initBuffers(fGlobals,cars);
-            if(stuff != null)
-            {
-                DrawHelper.drawCar(stuff);
-                stuff.release();
-            }
+	        }
+
+	        //placeables.addAll(cars);
+	        RenderStuff stuff = PrintableRenderBuffer.initBuffers(fGlobals, placeables);
+	        RenderStuff stuff2 = PrintableRenderBuffer.initBuffers(fGlobals, cars);
+
+	        if (stuff != null )
+	        {
+		        GL11.glEnable(GL11.GL_BLEND);
+		        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+		        DrawHelper.drawCars(stuff, TextureCache.getTextureId("F:\\WorkspaceGIT2\\WorkspaceGIT\\StreetMap\\images\\streets\\intersection.png"));
+		        if(fGlobals.getConfig().isShowCars())
+		        {
+			        DrawHelper.drawCars(stuff2, TextureCache.getTextureId("F:\\WorkspaceGIT2\\WorkspaceGIT\\StreetMap\\images\\cars\\Car.png"));
+		        }
+
+		        stuff.release();
+		        stuff2.release();
+	        }
+
+	        //DrawHelper.drawCars(DrawHelper.setupQuad(),TextureCache.getTextureId("F:\\WorkspaceGIT2\\WorkspaceGIT\\StreetMap\\images\\streets\\BendSE.png"));
          }
     }
 
@@ -342,10 +355,10 @@ public class Map implements ISimulateable, ActionListener
 
     }
 
-    public void handleAddition(Street street)
+    public void handleAddition(IPlaceable placeable)
     {
         fOccupiedTiles = null;
-        fEvents.addEvent(new StreetPlacementEvent(street));
+        fEvents.addEvent(new PlacementEvent(placeable));
         AbstractPathFinder.clearNoGo();
     }
 

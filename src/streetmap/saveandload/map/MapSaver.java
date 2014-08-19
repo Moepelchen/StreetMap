@@ -28,7 +28,7 @@ public class MapSaver extends AbstractSaver
 		{
 			for (Tile tile : tiles)
 			{
-				if (tile.getStreet() != null)
+				if (tile.getPlaceable() != null)
 				{
 					beginTileTag(output);
 					beginXPosTag(output);
@@ -38,7 +38,7 @@ public class MapSaver extends AbstractSaver
 					output.write(String.valueOf(tile.getArrayPosition().getY()));
 					endYPosTag(output);
 					beginStreetTag(output);
-					output.write(tile.getStreet().getName());
+					output.write(tile.getPlaceable().getName());
 					endStreetTag(output);
 					writeEndTileTag(output);
 				}
