@@ -20,8 +20,7 @@ import java.util.Vector;
 /**
  * This class represents one car moving on the map
  */
-public class
-		Car implements IPrintable, ISimulateable, IEventHandler
+public class Car implements IPrintable, ISimulateable, IEventHandler
 {
 
 	public static final int COLOR_HAPPINESS = 255;
@@ -183,9 +182,15 @@ public class
 		fLane.getGlobals().getMap().getPathFactory().createPath(this, destination);
 	}
 
-	public String getImagePath()
+	public Integer getImagePath()
 	{
-		return fImagePath;
+		return 0;
+	}
+
+	@Override
+	public float getStepWidth()
+	{
+		return 0.5f;
 	}
 
 	private Vector<Car> getFrontCars()

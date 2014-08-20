@@ -3,7 +3,6 @@ package streetmap.map.street;
 import streetmap.SSGlobals;
 import streetmap.car.Car;
 import streetmap.car.CarFactory;
-import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.map.side.Anchor;
 import streetmap.map.street.trajectory.ITrajectory;
@@ -11,11 +10,10 @@ import streetmap.map.street.trajectory.QuickBendTrajectory;
 import streetmap.map.street.trajectory.StraightTrajectory;
 import streetmap.pathfinding.IPathFindingAlgorithm;
 
-import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Vector;
 
-public class Lane implements IPrintable, ISimulateable
+public class Lane implements ISimulateable
 {
 
     private final Street fStreet;
@@ -93,30 +91,6 @@ public class Lane implements IPrintable, ISimulateable
 		{
 			fTrajectory.print();
 		}
-	}
-
-	@Override
-	public Point2D getPosition()
-	{
-		return null;
-	}
-
-	@Override
-	public float getLength()
-	{
-		return 0;
-	}
-
-	@Override
-	public double getAngle()
-	{
-		return 0;
-	}
-
-	@Override
-	public org.lwjgl.util.ReadableColor getColor()
-	{
-		return null;
 	}
 
 	public void simulate()

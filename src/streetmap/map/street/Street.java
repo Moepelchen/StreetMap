@@ -52,16 +52,6 @@ public class Street implements IPlaceable
     private Image fImage;
 	private boolean fSpecial;
 
-	public Image getImage()
-	{
-		return fImage;
-	}
-
-	public void setImage(Image image)
-	{
-		fImage = image;
-	}
-
 	public SSGlobals getGlobals()
 	{
 		return fGlobals;
@@ -186,20 +176,28 @@ public class Street implements IPlaceable
         return fNumberOfCars;
     }
 
-    public String getImagePath()
+    public Integer getImagePath()
     {
 
-        return fGlobals.getStreetConfig().getTemplate(getName()).getImagePath();
+	    String imagePath = fGlobals.getStreetConfig().getTemplate(getName()).getImagePath();
+	    if(imagePath == null)
+		    return getMenuImagePath();
+	    return Integer.parseInt(imagePath);
     }
 
-    public String getMenuImagePath()
+    public Integer getMenuImagePath()
     {
         StreetTemplate template = getGlobals().getStreetConfig().getTemplate(getName());
-        String imagePath = template.getMenuImage();
+        Integer imagePath = Integer.valueOf(template.getMenuImage());
         if (imagePath == null)
         {
             imagePath = getImagePath();
         }
         return imagePath;
     }
+
+	public float getStepWidth()
+	{
+		return 0.015625f;
+	}
 }

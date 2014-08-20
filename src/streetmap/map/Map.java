@@ -255,7 +255,7 @@ public class Map implements ISimulateable, ActionListener
 		        GL11.glEnable(GL11.GL_BLEND);
 		        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-		        DrawHelper.drawCars(stuff, TextureCache.getTextureId("F:\\WorkspaceGIT2\\WorkspaceGIT\\StreetMap\\images\\streets\\intersection.png"));
+		        DrawHelper.drawCars(stuff, TextureCache.getTextureId("F:\\WorkspaceGIT2\\WorkspaceGIT\\StreetMap\\images\\streets\\streets.png"));
 		        if(fGlobals.getConfig().isShowCars())
 		        {
 			        DrawHelper.drawCars(stuff2, TextureCache.getTextureId("F:\\WorkspaceGIT2\\WorkspaceGIT\\StreetMap\\images\\cars\\Car.png"));

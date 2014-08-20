@@ -43,7 +43,7 @@ public class TexturedVertex {
 		this.setRGBA(r, g, b, 1f);
 	}
 	
-	public void setST(float s, float t) {
+	public void setUV(float s, float t) {
 		this.st = new float[] {s, t};
 	}
 	

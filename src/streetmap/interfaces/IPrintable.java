@@ -20,4 +20,8 @@ public interface IPrintable
 	double getAngle();
 
 	org.lwjgl.util.ReadableColor getColor();
+
+	public Integer getImagePath();
+
+	float getStepWidth();
 }
