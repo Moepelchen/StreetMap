@@ -2,7 +2,7 @@ package streetmap.config;
 
 import org.xml.sax.SAXException;
 import streetmap.SSGlobals;
-import streetmap.xml.jaxb.JAXBConfig;
+import streetmap.xml.jaxb.config.JAXBConfig;
 
 import javax.swing.*;
 import javax.xml.bind.JAXBContext;
@@ -92,7 +92,7 @@ public class Config implements IConfig
 	 */
 	private void parseConfig(SSGlobals glob) throws ParserConfigurationException, IOException, SAXException, JAXBException
 	{
-		JAXBContext jc = JAXBContext.newInstance("streetmap.xml.jaxb");
+		JAXBContext jc = JAXBContext.newInstance("streetmap.xml.jaxb.config");
 
 		// create an Unmarshaller
 		Unmarshaller u = jc.createUnmarshaller();

@@ -250,22 +250,23 @@ public class Map implements ISimulateable, ActionListener
 
 	        RenderStuff stuff = PrintableRenderBuffer.initBuffers(fGlobals, placeables);
 	        if (stuff != null)
-	    	        {
+	        {
 
+		        DrawHelper.drawCars(stuff, TextureCache.getTextureId("./images/streets/streets.png"));
 
-	    		        DrawHelper.drawCars(stuff, TextureCache.getTextureId("./images/streets/streets.png"));
+		        stuff.release();
 
-
-	    		        stuff.release();
-
-	    	        }
-            if(fGlobals.getConfig().isShowCars())
+	        }
+	        if(fGlobals.getConfig().isShowCars())
             {
                 RenderStuff stuff2 = PrintableRenderBuffer.initBuffers(fGlobals, cars);
 
-                DrawHelper.drawCars(stuff2, TextureCache.getTextureId("./images/cars/Car.png"));
+	            if(stuff != null)
+	            {
+		            DrawHelper.drawCars(stuff2, TextureCache.getTextureId("./images/cars/Car.png"));
+		            stuff2.release();
+	            }
 
-                stuff2.release();
             }
 
 

@@ -6,9 +6,8 @@ import streetmap.SSGlobals;
 import streetmap.heatmap.Gradient;
 import streetmap.map.tile.Tile;
 import streetmap.utils.DrawHelper;
-import streetmap.xml.jaxb.StreetTemplate;
+import streetmap.xml.jaxb.streets.StreetTemplate;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Vector;
 
@@ -49,7 +48,6 @@ public class Street implements IPlaceable
      * Image of this Street
      */
 
-    private Image fImage;
 	private boolean fSpecial;
 
 	public SSGlobals getGlobals()
@@ -176,25 +174,41 @@ public class Street implements IPlaceable
         return fNumberOfCars;
     }
 
-    public Integer getImagePath()
+    public Integer getImageId()
     {
-
-	    String imagePath = fGlobals.getStreetConfig().getTemplate(getName()).getImagePath();
-	    if(imagePath == null)
-		    return getMenuImagePath();
-	    return Integer.parseInt(imagePath);
+	    Integer imageId = fGlobals.getStreetConfig().getTemplate(getName()).getImageId();
+	    if(imageId < 0)
+		    return getMenuImageId();
+	    return imageId;
     }
 
-    public Integer getMenuImagePath()
-    {
-        StreetTemplate template = getGlobals().getStreetConfig().getTemplate(getName());
-        Integer imagePath = Integer.valueOf(template.getMenuImage());
-        if (imagePath == null)
-        {
-            imagePath = getImagePath();
-        }
-        return imagePath;
-    }
+	@Override
+	public String getImagePath()
+	{
+		return fGlobals.getStreetConfig().getTemplate(getName()).getImagePath();
+	}
+
+	public Integer getMenuImageId()
+	{
+		StreetTemplate template = getGlobals().getStreetConfig().getTemplate(getName());
+		Integer imagePath = Integer.valueOf(template.getMenuImageId());
+		if (imagePath == null)
+		{
+			imagePath = getImageId();
+		}
+		return imagePath;
+	}
+
+	public String getMenuImagePath()
+	{
+		StreetTemplate template = getGlobals().getStreetConfig().getTemplate(getName());
+		String imagePath = template.getMenuImage();
+		if (imagePath == null)
+		{
+			imagePath = getImagePath();
+		}
+		return imagePath;
+	}
 
 	public float getStepWidth()
 	{

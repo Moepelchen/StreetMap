@@ -5,7 +5,7 @@
 // Generated on: 2011.11.24 at 02:43:58 PM CET 
 //
 
-package streetmap.xml.jaxb;
+package streetmap.xml.jaxb.config;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

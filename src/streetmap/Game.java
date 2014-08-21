@@ -177,10 +177,11 @@ public class Game
         setupShaders();
 		Keyboard.enableRepeatEvents(true);
 
+		initNifty();
+
 		fStreetPanel = new GLStreetPanel(fGlobals);
 		fKeyboardHandler = new KeyHandler(fGlobals);
 
-		initNifty();
 		getDelta(); // call once before loop to initialise lastFrame
 		lastFPS = getTime(); // call before loop to initialise fps timer
 
@@ -218,7 +219,6 @@ public class Game
 			}
 			fGlobals.getMap().paint();
 
-			drawInterface();
 			fNifty.update();
 			fNifty.render(false);
 			Display.update();
@@ -363,11 +363,7 @@ public class Game
 
 		fNifty.getScreen(IScreenNames.SCREEN_GAME).addKeyboardInputHandler(new MenuInputMapping(), gameScreenController);
 		fNifty.getScreen(IScreenNames.SCREEN_MENU).addKeyboardInputHandler(new MenuInputMapping(), menuScreenController);
-	}
-
-	private void drawInterface()
-	{
-		fStreetPanel.draw();
+		fGlobals.setNifty(fNifty);
 	}
 
 	private void processInput()

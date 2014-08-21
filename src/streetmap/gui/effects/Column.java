@@ -55,7 +55,13 @@ public class Column implements IPrintable
 	}
 
 	@Override
-	public Integer getImagePath()
+	public Integer getImageId()
+	{
+		return null;
+	}
+
+	@Override
+	public String getImagePath()
 	{
 		return null;
 	}

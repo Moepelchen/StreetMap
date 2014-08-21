@@ -40,12 +40,14 @@
                 </effect>
             </panel>
         </layer>
-        <layer id="game_layer" childLayout="vertical" align="right">
+        <layer id="game_layer" childLayout="horizontal" align="right">
             <panel align="right" width="200" height="50" childLayout="center" backgroundColor="#3973FF"
                    style="border: 1px solid #fff">
                 <text font="aurulent-sans-16.fnt" color="#ffff"
                       text="Menu"/>
                 <interact onClick="activateScreenAndPause(menu)"/>
+            </panel>
+            <panel id="Placeables" align="left" width="100px" height="100%" childLayout="vertical" backgroundColor="#3973FF">
             </panel>
         </layer>
     </screen>

@@ -1,5 +1,6 @@
 package streetmap;
 
+import de.lessvoid.nifty.Nifty;
 import streetmap.config.ChangeableConfig;
 import streetmap.config.IChangeableConfig;
 import streetmap.config.StreetConfig;
@@ -46,10 +47,21 @@ public class SSGlobals
     private Game fGame;
 
     private TimeHandler fTimeHandler;
+	private Nifty fNifty;
 
 	public void resetPlayer()
 	{
 		fGame.getPlayer().reset();
+	}
+
+	public void setNifty(Nifty nifty)
+	{
+		fNifty = nifty;
+	}
+
+	public Nifty getNifty()
+	{
+		return fNifty;
 	}
 
 	/**

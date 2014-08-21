@@ -5,9 +5,9 @@ import streetmap.config.StreetConfig;
 import streetmap.map.side.Side;
 import streetmap.map.tile.ICompassPoints;
 import streetmap.map.tile.Tile;
-import streetmap.xml.jaxb.LaneTemplate;
-import streetmap.xml.jaxb.LaneTemplates;
-import streetmap.xml.jaxb.StreetTemplate;
+import streetmap.xml.jaxb.streets.LaneTemplate;
+import streetmap.xml.jaxb.streets.LaneTemplates;
+import streetmap.xml.jaxb.streets.StreetTemplate;
 
 import java.util.ArrayList;
 import java.util.Collection;

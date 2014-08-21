@@ -182,9 +182,15 @@ public class Car implements IPrintable, ISimulateable, IEventHandler
 		fLane.getGlobals().getMap().getPathFactory().createPath(this, destination);
 	}
 
-	public Integer getImagePath()
+	public Integer getImageId()
 	{
 		return 0;
+	}
+
+	@Override
+	public String getImagePath()
+	{
+		return null;
 	}
 
 	@Override

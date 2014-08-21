@@ -87,7 +87,7 @@ public class DrawHelper
             imagePath = street.getMenuImagePath();
         } else
         {
-            imagePath = street.getImagePath();
+            imagePath = street.getImageId();
         }
         if(imagePath != null)
         {

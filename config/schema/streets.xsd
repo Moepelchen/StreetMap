@@ -14,7 +14,9 @@
             <xsd:element name="name" type="xsd:string"/>
             <xsd:element name="isSpecial" type="xsd:boolean"/>
             <xsd:element name="imagePath" type="xsd:string"/>
+            <xsd:element name="imageId" type="xsd:int"/>
             <xsd:element name="menuImage" type="xsd:string"/>
+            <xsd:element name="menuImageId" type="xsd:string"/>
             <xsd:element name="LaneTemplates" type="LaneTemplates" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>

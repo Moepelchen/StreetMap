@@ -99,13 +99,13 @@ public class PrintableRenderBuffer
 
 				TexturedVertex vert4 = new TexturedVertex(pos4, color);
 				float v = printable.getStepWidth();
-				vert4.setUV(0 , v * 2 * printable.getImagePath() );
+				vert4.setUV(0 , v * 2 * printable.getImageId() );
 
-				vert3.setUV(1, v * 2 * printable.getImagePath());
+				vert3.setUV(1, v * 2 * printable.getImageId());
 
-				vert2.setUV(1 , v * 2 + 2*v* printable.getImagePath());
+				vert2.setUV(1 , v * 2 + 2*v* printable.getImageId());
 
-				vert1.setUV(0 , v * 2+ 2*v* printable.getImagePath());
+				vert1.setUV(0 , v * 2+ 2*v* printable.getImageId());
 
 
 

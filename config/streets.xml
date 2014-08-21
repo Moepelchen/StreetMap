@@ -1,7 +1,8 @@
 <StreetTemplates>
     <StreetTemplate>
         <name>SouthNorth</name>
-        <imagePath>11</imagePath>
+        <imageId>11</imageId>
+        <imagePath>./images/streets/NS.png</imagePath>
         <LaneTemplates>
             <LaneTemplate>
                 <from>N</from>
@@ -16,7 +17,8 @@
     </StreetTemplate>
     <StreetTemplate>
         <name>WestEast</name>
-        <imagePath>1</imagePath>
+        <imageId>1</imageId>
+        <imagePath>./images/streets/WE.png</imagePath>
         <LaneTemplates>
             <LaneTemplate>
                 <from>W</from>
@@ -31,7 +33,8 @@
 
     <StreetTemplate>
         <name>Bridge</name>
-        <imagePath>15</imagePath>
+        <imageId>15</imageId>
+        <imagePath>./images/streets/Bridge.png</imagePath>
         <isSpecial>true</isSpecial>
         <LaneTemplates>
             <LaneTemplate>
@@ -55,7 +58,8 @@
 
     <StreetTemplate>
         <name>Intersection</name>
-        <imagePath>12</imagePath>
+        <imageId>12</imageId>
+        <imagePath>./images/streets/intersection.png</imagePath>
         <LaneTemplates>
             <LaneTemplate>
                 <from>E</from>
@@ -110,7 +114,8 @@
 
     <StreetTemplate>
         <name>BendSW</name>
-        <imagePath>16</imagePath>
+        <imageId>16</imageId>
+        <imagePath>./images/streets/BendWS.png</imagePath>
         <LaneTemplates>
             <LaneTemplate>
                 <from>W</from>
@@ -126,7 +131,8 @@
 
     <StreetTemplate>
         <name>BendWN</name>
-        <imagePath>17</imagePath>
+        <imageId>17</imageId>
+        <imagePath>./images/streets/BendWN.png</imagePath>
         <LaneTemplates>
             <LaneTemplate>
                 <from>W</from>
@@ -142,7 +148,8 @@
 
     <StreetTemplate>
         <name>BendES</name>
-        <imagePath>18</imagePath>
+        <imageId>18</imageId>
+        <imagePath>./images/streets/BendSE.png</imagePath>
         <LaneTemplates>
             <LaneTemplate>
                 <from>E</from>
@@ -158,7 +165,8 @@
 
     <StreetTemplate>
         <name>BendEN</name>
-        <imagePath>19</imagePath>
+        <imageId>19</imageId>
+        <imagePath>./images/streets/BendNE.png</imagePath>
         <LaneTemplates>
             <LaneTemplate>
                 <from>E</from>
@@ -175,7 +183,8 @@
 
     <StreetTemplate>
         <name>TIntersectionNoEast</name>
-        <imagePath>6</imagePath>
+        <imageId>6</imageId>
+        <imagePath>./images/streets/TIntersectionNoEast.png</imagePath>
         <LaneTemplates>
             <LaneTemplate>
                 <from>S</from>
@@ -206,7 +215,8 @@
 
     <StreetTemplate>
         <name>TIntersectionNoNorth</name>
-        <imagePath>5</imagePath>
+        <imageId>5</imageId>
+        <imagePath>./images/streets/TIntersectionNoNorth.png</imagePath>
         <LaneTemplates>
             <LaneTemplate>
                 <from>E</from>
@@ -237,7 +247,8 @@
 
     <StreetTemplate>
         <name>TIntersectionNoSouth</name>
-        <imagePath>3</imagePath>
+        <imageId>3</imageId>
+        <imagePath>./images/streets/TIntersectionNoSouth.png</imagePath>
         <LaneTemplates>
             <LaneTemplate>
                 <from>E</from>
@@ -268,7 +279,8 @@
 
     <StreetTemplate>
         <name>TIntersectionNoWest</name>
-        <imagePath>2</imagePath>
+        <imageId>2</imageId>
+        <imagePath>./images/streets/TIntersectionNoWest.png</imagePath>
         <LaneTemplates>
             <LaneTemplate>
                 <from>E</from>
@@ -299,7 +311,9 @@
 
     <StreetTemplate>
         <name>DeleteStreet</name>
-        <menuImage>14</menuImage>
+        <imageId>-1</imageId>
+        <menuImageId>14</menuImageId>
+        <menuImage>./images/streets/bulldozer.png</menuImage>
         <isSpecial>true</isSpecial>
         <LaneTemplates>
         </LaneTemplates>
@@ -308,7 +322,8 @@
     <StreetTemplate>
         <name>SNSingle</name>
         <isSpecial>true</isSpecial>
-        <imagePath>9</imagePath>
+        <imageId>9</imageId>
+        <imagePath>./images/streets/NSsingle.png</imagePath>
         <LaneTemplates>
             <LaneTemplate>
                 <from>S</from>
@@ -320,7 +335,8 @@
     <StreetTemplate>
         <name>NSSingle</name>
         <isSpecial>true</isSpecial>
-        <imagePath>7</imagePath>
+        <imageId>7</imageId>
+        <imagePath>./images/streets/SNsingle.png</imagePath>
         <LaneTemplates>
             <LaneTemplate>
                 <from>N</from>
@@ -332,7 +348,8 @@
     <StreetTemplate>
         <name>SouthNorthEntry</name>
         <isSpecial>true</isSpecial>
-        <imagePath>10</imagePath>
+        <imageId>10</imageId>
+        <imagePath>./images/streets/NSEntry.png</imagePath>
         <isStartEndPoint>true</isStartEndPoint>
         <LaneTemplates>
             <LaneTemplate>
@@ -353,7 +370,8 @@
     <StreetTemplate>
         <name>NorthSouthEntry</name>
         <isSpecial>true</isSpecial>
-        <imagePath>8</imagePath>
+        <imageId>8</imageId>
+        <imagePath>./images/streets/SNEntry.png</imagePath>
         <isStartEndPoint>true</isStartEndPoint>
         <LaneTemplates>
             <LaneTemplate>
@@ -376,13 +394,13 @@
     <StreetTemplate>
         <name>WestEastEntry</name>
         <isSpecial>true</isSpecial>
-        <imagePath>0</imagePath>
+        <imageId>0</imageId>
+        <imagePath>./images/streets/WEEntry.png</imagePath>
         <isStartEndPoint>true</isStartEndPoint>
         <LaneTemplates>
             <LaneTemplate>
                 <isEndPoint>true</isEndPoint>
                 <isStartPoint>true</isStartPoint>
-
                 <from>W</from>
                 <to>E</to>
             </LaneTemplate>
@@ -398,7 +416,8 @@
     <StreetTemplate>
         <name>EastWestEntry</name>
         <isSpecial>true</isSpecial>
-        <imagePath>13</imagePath>
+        <imageId>13</imageId>
+        <imagePath>./images/streets/EWEntry.png</imagePath>
         <isStartEndPoint>true</isStartEndPoint>
         <LaneTemplates>
             <LaneTemplate>
@@ -417,10 +436,10 @@
     </StreetTemplate>
     <StreetTemplate>
         <name>TIntersectionNoNorth2</name>
-        <imagePath>4</imagePath>
+        <imageId>4</imageId>
+        <imagePath>./images/streets/TIntersectionNoNorth2.png</imagePath>
         <isSpecial>true</isSpecial>
         <LaneTemplates>
-
             <LaneTemplate>
                 <from>E</from>
                 <to>W</to>

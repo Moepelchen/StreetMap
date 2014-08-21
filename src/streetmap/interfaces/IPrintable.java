@@ -21,7 +21,9 @@ public interface IPrintable
 
 	org.lwjgl.util.ReadableColor getColor();
 
-	public Integer getImagePath();
+	public Integer getImageId();
+
+	public String getImagePath();
 
 	float getStepWidth();
 

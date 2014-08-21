@@ -35,6 +35,8 @@ public interface IPlaceable extends IPrintable, ISimulateable
 	String getName();
 
 	int getType();
+
+	String getMenuImagePath();
 // -----------------------------------------------------
 // constants
 // -----------------------------------------------------

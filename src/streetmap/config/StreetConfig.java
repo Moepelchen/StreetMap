@@ -2,8 +2,8 @@ package streetmap.config;
 
 import org.xml.sax.SAXException;
 import streetmap.SSGlobals;
-import streetmap.xml.jaxb.StreetTemplate;
-import streetmap.xml.jaxb.StreetTemplates;
+import streetmap.xml.jaxb.streets.StreetTemplate;
+import streetmap.xml.jaxb.streets.StreetTemplates;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -79,7 +79,7 @@ public class StreetConfig
 	 */
 	private void parse() throws IOException, ParserConfigurationException, SAXException, JAXBException
 	{
-		JAXBContext jc = JAXBContext.newInstance("streetmap.xml.jaxb");
+		JAXBContext jc = JAXBContext.newInstance("streetmap.xml.jaxb.streets");
 
 		// create an Unmarshaller
 		Unmarshaller u = jc.createUnmarshaller();
