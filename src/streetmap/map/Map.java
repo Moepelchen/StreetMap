@@ -245,24 +245,28 @@ public class Map implements ISimulateable, ActionListener
 		        }
 
 	        }
+            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-	        //placeables.addAll(cars);
 	        RenderStuff stuff = PrintableRenderBuffer.initBuffers(fGlobals, placeables);
-	        RenderStuff stuff2 = PrintableRenderBuffer.initBuffers(fGlobals, cars);
+            if(fGlobals.getConfig().isShowCars())
+            {
+                RenderStuff stuff2 = PrintableRenderBuffer.initBuffers(fGlobals, cars);
 
-	        if (stuff != null && stuff2 != null)
+                DrawHelper.drawCars(stuff2, TextureCache.getTextureId("./images/cars/Car.png"));
+
+                stuff2.release();
+            }
+
+	        if (stuff != null)
 	        {
-		        GL11.glEnable(GL11.GL_BLEND);
-		        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-		        DrawHelper.drawCars(stuff, TextureCache.getTextureId("F:\\WorkspaceGIT2\\WorkspaceGIT\\StreetMap\\images\\streets\\streets.png"));
-		        if(fGlobals.getConfig().isShowCars())
-		        {
-			        DrawHelper.drawCars(stuff2, TextureCache.getTextureId("F:\\WorkspaceGIT2\\WorkspaceGIT\\StreetMap\\images\\cars\\Car.png"));
-		        }
+
+		        DrawHelper.drawCars(stuff, TextureCache.getTextureId("./images/streets/streets.png"));
+
 
 		        stuff.release();
-		        stuff2.release();
+
 	        }
 
 	        //DrawHelper.drawCars(DrawHelper.setupQuad(),TextureCache.getTextureId("F:\\WorkspaceGIT2\\WorkspaceGIT\\StreetMap\\images\\streets\\BendSE.png"));

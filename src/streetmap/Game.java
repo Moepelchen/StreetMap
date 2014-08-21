@@ -12,23 +12,14 @@ import de.lessvoid.nifty.screen.ScreenController;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.ContextAttribs;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.PixelFormat;
+import org.lwjgl.opengl.*;
 import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.vector.Vector2f;
 import org.xml.sax.SAXException;
 import streetmap.car.PrintableRenderBuffer;
 import streetmap.gui.GLStreetPanel;
 import streetmap.gui.IScreenNames;
-import streetmap.gui.controller.DebugScreenController;
-import streetmap.gui.controller.GameScreenController;
-import streetmap.gui.controller.LoadScreenController;
-import streetmap.gui.controller.MenuScreenController;
-import streetmap.gui.controller.SaveScreenController;
+import streetmap.gui.controller.*;
 import streetmap.gui.inputmapping.MenuInputMapping;
 import streetmap.map.DataStorage2d;
 import streetmap.map.Map;
@@ -290,7 +281,7 @@ public class Game
 	    if (status == GL11.GL_FALSE)
 	    {
 		    System.out.println("PROGRAM NOT VALID!");
-		    System.exit(-1);
+
 	    }
 
         errorCheckValue = GL11.glGetError();
