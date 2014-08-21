@@ -249,6 +249,16 @@ public class Map implements ISimulateable, ActionListener
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
 	        RenderStuff stuff = PrintableRenderBuffer.initBuffers(fGlobals, placeables);
+	        if (stuff != null)
+	    	        {
+
+
+	    		        DrawHelper.drawCars(stuff, TextureCache.getTextureId("./images/streets/streets.png"));
+
+
+	    		        stuff.release();
+
+	    	        }
             if(fGlobals.getConfig().isShowCars())
             {
                 RenderStuff stuff2 = PrintableRenderBuffer.initBuffers(fGlobals, cars);
@@ -258,16 +268,7 @@ public class Map implements ISimulateable, ActionListener
                 stuff2.release();
             }
 
-	        if (stuff != null)
-	        {
 
-
-		        DrawHelper.drawCars(stuff, TextureCache.getTextureId("./images/streets/streets.png"));
-
-
-		        stuff.release();
-
-	        }
 
 	        //DrawHelper.drawCars(DrawHelper.setupQuad(),TextureCache.getTextureId("F:\\WorkspaceGIT2\\WorkspaceGIT\\StreetMap\\images\\streets\\BendSE.png"));
          }

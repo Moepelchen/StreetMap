@@ -200,4 +200,10 @@ public class Street implements IPlaceable
 	{
 		return 0.015625f;
 	}
+
+	@Override
+	public float geWidth()
+	{
+		return getLength();
+	}
 }

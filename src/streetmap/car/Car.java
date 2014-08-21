@@ -193,6 +193,12 @@ public class Car implements IPrintable, ISimulateable, IEventHandler
 		return 0.5f;
 	}
 
+	@Override
+	public float geWidth()
+	{
+		return getLength();
+	}
+
 	private Vector<Car> getFrontCars()
 	{
 

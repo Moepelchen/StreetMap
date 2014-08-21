@@ -24,4 +24,6 @@ public interface IPrintable
 	public Integer getImagePath();
 
 	float getStepWidth();
+
+	float geWidth();
 }

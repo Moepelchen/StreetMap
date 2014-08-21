@@ -56,15 +56,17 @@ public class PrintableRenderBuffer
 			int[] indices = new int[printables.size() * 6];
 
 			float length;
+			float height;
 			for (int i = 0; i < printables.size(); i++)
 			{
 				IPrintable printable = printables.get(i);
 				Point2D position = printable.getPosition();
-				float height = globals.getGame().getHeight()/2;
-				float width = globals.getGame().getWidth()/2;
+				float screenHeight = globals.getGame().getHeight()/2;
+				float screenWidth = globals.getGame().getWidth()/2;
 				float x = (float) (position.getX());
 				float y = (float) (position.getY());
 				length = printable.getLength();
+				height = printable.geWidth();
 
 				double rotation = printable.getAngle();
 
@@ -84,10 +86,10 @@ public class PrintableRenderBuffer
 				Matrix4f.transform(transMat, pos3, pos3);
 				Matrix4f.transform(transMat, pos4, pos4);
 
-				pos1 = scale(x, y, pos1, height, width);
-				pos2 = scale(x, y, pos2, height, width);
-				pos3 = scale(x, y, pos3, height, width);
-				pos4 = scale(x, y, pos4, height, width);
+				pos1 = scale(x, y, pos1, screenHeight, screenWidth);
+				pos2 = scale(x, y, pos2, screenHeight, screenWidth);
+				pos3 = scale(x, y, pos3, screenHeight, screenWidth);
+				pos4 = scale(x, y, pos4, screenHeight, screenWidth);
 
 				TexturedVertex vert1 = new TexturedVertex(pos1,color);
 
