@@ -218,7 +218,7 @@ public class Game
 				fPathData.add((double) pathsRequested);
 			}
 			fGlobals.getMap().paint();
-
+			fStreetPanel.draw();
 			fNifty.update();
 			fNifty.render(false);
 			Display.update();

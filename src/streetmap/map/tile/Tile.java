@@ -1,6 +1,9 @@
 package streetmap.map.tile;
 
+import org.lwjgl.util.Color;
+import org.lwjgl.util.ReadableColor;
 import streetmap.SSGlobals;
+import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.map.Map;
 import streetmap.map.side.HorizontalSide;
@@ -15,7 +18,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Vector;
 
-public class Tile implements ISimulateable
+public class Tile implements ISimulateable, IPrintable
 {
 
 	/**
@@ -129,12 +132,12 @@ public class Tile implements ISimulateable
 		this.fMap = fMap;
 	}
 
-	public double getWidth()
+	public float getWidth()
 	{
 		return fWidth;
 	}
 
-	public void setWidth(double fWidth)
+	public void setWidth(float fWidth)
 	{
 		this.fWidth = fWidth;
 	}
@@ -143,23 +146,59 @@ public class Tile implements ISimulateable
 
 	private Map fMap;
 
-	private double fWidth;
+	private float fWidth;
 
 	public Point2D getPosition()
 	{
 		return fPosition;
 	}
 
+	@Override
+	public float getLength()
+	{
+		return getWidth();
+	}
+
+	@Override
+	public double getAngle()
+	{
+		return 0;
+	}
+
+	@Override
+	public ReadableColor getColor()
+	{
+		return new Color(0,255,0,120);
+	}
+
+	@Override
+	public Integer getImageId()
+	{
+		return 0;
+	}
+
+	@Override
+	public String getImagePath()
+	{
+		return null;
+	}
+
+	@Override
+	public float getStepWidth()
+	{
+		return 0;
+	}
+
 	public Tile(SSGlobals globals, Map map, Point2D arrayPosition, double width)
 	{
-		fWidth = width;
+		fWidth = (float) width;
 		init(globals, map, arrayPosition);
 
 	}
 
 	public Tile(SSGlobals globals, Map map, Point2D arrayPosition)
 	{
-		fWidth = globals.getConfig().getTileSize();
+		fWidth = new Float(globals.getConfig().getTileSize());
 		init(globals, map, arrayPosition);
 	}
 
@@ -229,15 +268,6 @@ public class Tile implements ISimulateable
 		}
 
 	}
-
-	public void print()
-	{
-		if (fPlaceable != null)
-		{
-			fPlaceable.print();
-		}
-	}
-
 
 	public void simulate()
 	{

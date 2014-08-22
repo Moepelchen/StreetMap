@@ -8,8 +8,13 @@ import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import org.lwjgl.input.Mouse;
 import streetmap.SSGlobals;
+import streetmap.car.PrintableRenderBuffer;
+import streetmap.car.RenderStuff;
+import streetmap.interfaces.IPrintable;
 import streetmap.map.street.IStreetNames;
 import streetmap.map.tile.Tile;
+import streetmap.utils.DrawHelper;
+import streetmap.utils.TextureCache;
 import streetmap.xml.jaxb.streets.StreetTemplate;
 
 import java.awt.geom.Line2D;
@@ -86,10 +91,10 @@ public class GLStreetPanel
 										onClickEffect(new EffectBuilder("border")
 										{{
 												getAttributes().setAttribute("length","infinite");
-												effectParameter("timeType ","infinite");
-												effectParameter("length","infinite");
-												effectValue("width","50px");
-												effectParameter("color","#00EF13");
+												effectParameter("timeType ", "infinite");
+												effectParameter("length", "infinite");
+												effectValue("width", "50px");
+												effectParameter("color", "#00EF13");
 
 											}});
 										visibleToMouse(true);
@@ -181,7 +186,7 @@ public class GLStreetPanel
 			else
 			{
 
-				y = fGlobals.getGame().getHeight() - y;
+				//y = fGlobals.getGame().getHeight()-<;
 				//Vector2f pos = fGlobals.getGame().getTranslatedCoords(x, y);
 
 				float zoom = fGlobals.getGame().getPlayer().getZoom();
@@ -225,11 +230,18 @@ public class GLStreetPanel
            Tile[][] tiles = fGlobals.getMap().getTiles();
            ArrayList<Tile> intersectionTiles = getSelectedTiles(line, rect, tiles);
 
+	       List<IPrintable> list = new ArrayList<>();
+	       for (Tile intersectionTile : intersectionTiles)
+	       {
+				list.add(intersectionTile);
+	       }
+	       RenderStuff stuff = PrintableRenderBuffer.initBuffers(fGlobals,list);
 
-           for (Tile intersectionTile : intersectionTiles)
-           {
-
-           }
+	       if(stuff != null)
+	       {
+		       DrawHelper.drawCars(stuff, TextureCache.getTextureId("./images/streets/bulldozer.png"));
+		       stuff.release();
+	       }
        }
    }
 

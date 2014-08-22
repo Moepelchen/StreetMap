@@ -22,7 +22,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,8 +40,6 @@ import java.util.List;
 
 public class PrintableRenderBuffer
 {
-	private static List<RenderStuff> fFreeStuff = new ArrayList<>();
-
 	public static RenderStuff initBuffers(SSGlobals globals, List<IPrintable> printables)
 	{
 		RenderStuff stuff = null;
@@ -66,7 +63,7 @@ public class PrintableRenderBuffer
 				float x = (float) (position.getX());
 				float y = (float) (position.getY());
 				length = printable.getLength();
-				height = printable.geWidth();
+				height = printable.getWidth();
 
 				double rotation = printable.getAngle();
 
@@ -170,7 +167,7 @@ public class PrintableRenderBuffer
 	private static Vector4f scale(float x, float y, Vector4f pos1, float height, float width)
 	{
 		Vector4f translate = pos1.translate(x, y, 0, 0);
-		pos1.set(pos1.getX() / width-1f, pos1.getY() / height-1.25f);
+		pos1.set(pos1.getX() / width-1f, pos1.getY() / height-1f);
 		return translate;
 	}
 

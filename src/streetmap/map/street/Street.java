@@ -5,7 +5,6 @@ import org.lwjgl.util.ReadableColor;
 import streetmap.SSGlobals;
 import streetmap.heatmap.Gradient;
 import streetmap.map.tile.Tile;
-import streetmap.utils.DrawHelper;
 import streetmap.xml.jaxb.streets.StreetTemplate;
 
 import java.awt.geom.Point2D;
@@ -90,16 +89,6 @@ public class Street implements IPlaceable
 	public void setLanes(Vector<Lane> fLanes)
 	{
 		this.fLanes = fLanes;
-	}
-
-	public void print()
-	{
-		DrawHelper.drawStreet(this);
-      /*  for (Lane lane : this.getLanes())
-        {
-            lane.print();
-        }*/
-
 	}
 
 	@Override
@@ -216,7 +205,7 @@ public class Street implements IPlaceable
 	}
 
 	@Override
-	public float geWidth()
+	public float getWidth()
 	{
 		return getLength();
 	}

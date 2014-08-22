@@ -11,8 +11,6 @@ import java.awt.geom.Point2D;
  */
 public interface IPrintable
 {
-	public void print();
-
 	Point2D getPosition();
 
 	float getLength();
@@ -27,5 +25,5 @@ public interface IPrintable
 
 	float getStepWidth();
 
-	float geWidth();
+	float getWidth();
 }

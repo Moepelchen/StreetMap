@@ -85,11 +85,6 @@ public class Car implements IPrintable, ISimulateable, IEventHandler
 		fLane.getGlobals().getMap().getPathFactory().createPath(this);
 	}
 
-	public void print()
-	{
-
-	}
-
 	public void simulate()
 	{
 		for (IEvent event : fLane.getGlobals().getMap().getEvents())
@@ -200,7 +195,7 @@ public class Car implements IPrintable, ISimulateable, IEventHandler
 	}
 
 	@Override
-	public float geWidth()
+	public float getWidth()
 	{
 		return getLength();
 	}

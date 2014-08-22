@@ -24,11 +24,6 @@ import java.awt.geom.Point2D;
  */
 public class Column implements IPrintable
 {
-	@Override
-	public void print()
-	{
-
-	}
 
 	@Override
 	public Point2D getPosition()
@@ -73,7 +68,7 @@ public class Column implements IPrintable
 	}
 
 	@Override
-	public float geWidth()
+	public float getWidth()
 	{
 		return 0;
 	}
