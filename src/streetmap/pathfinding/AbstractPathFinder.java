@@ -29,10 +29,10 @@ import java.util.Vector;
  */
 public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runnable
 {
-	protected LinkedList<Lane> fPath;
-	protected Car fCar;
-	protected Lane fStart;
-	protected Lane fEnd;
+	LinkedList<Lane> fPath;
+	private Car fCar;
+	Lane fStart;
+	Lane fEnd;
 	protected SSGlobals fGlobals;
 	private static HashMap<Lane, Vector<Lane>> fNoGo = new HashMap<>();
 

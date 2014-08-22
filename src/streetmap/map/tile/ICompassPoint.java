@@ -17,7 +17,7 @@ package streetmap.map.tile;
  * @version 1.0
  * @since Release
  */
-public class ICompassPoints
+public class ICompassPoint
 {
 	public static final String COMPASS_POINT_N = "N";
 	public static final String COMPASS_POINT_S = "S";

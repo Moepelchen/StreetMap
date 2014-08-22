@@ -2,6 +2,7 @@ package streetmap.map.street.trajectory;
 
 import streetmap.car.Car;
 import streetmap.map.street.Lane;
+import streetmap.map.tile.ICompassPoint;
 
 import java.awt.geom.FlatteningPathIterator;
 import java.awt.geom.PathIterator;
@@ -20,40 +21,32 @@ public class BendTrajectory implements ITrajectory
 {
 
     private boolean fisSideWays;
-    private double fStartX;
-	private double fEndX;
-	private double fStartY;
-	private Lane fLane;
-	private double fEndY;
-	private boolean isBackWard;
 	private final QuadCurve2D fCurve;
 	private double fLength;
     private boolean fIsUpward;
 
 	public BendTrajectory(Lane lane)
 	{
-		fLane = lane;
-		fStartX = lane.getStart().getPosition().getX();
-		fEndX = lane.getEnd().getPosition().getX();
-		fStartY = lane.getStart().getPosition().getY();
-		fEndY = lane.getEnd().getPosition().getY();
+		double startX = lane.getStart().getPosition().getX();
+		double endX = lane.getEnd().getPosition().getX();
+		double startY = lane.getStart().getPosition().getY();
+		double endY = lane.getEnd().getPosition().getY();
 
-		double x = fStartX;
-		double y = fEndY;
-		if (fStartX > fEndX && fLane.getDirection(fLane.getStart()).equals("E") || (fStartX < fEndX && fLane.getDirection(fLane.getStart()).equals("W")))
+		double x = startX;
+		double y = endY;
+		if (startX > endX && lane.getDirection(lane.getStart()).equals(ICompassPoint.COMPASS_POINT_E) || (startX < endX && lane.getDirection(lane.getStart()).equals(ICompassPoint.COMPASS_POINT_W)))
 		{
-			isBackWard = true;
-			x = fEndX;
-			y = fStartY;
+			x = endX;
+			y = startY;
 		}
 
-        if(lane.getTo().equals("N") || lane.getFrom().equals("S"))
+        if(lane.getTo().equals(ICompassPoint.COMPASS_POINT_N) || lane.getFrom().equals(ICompassPoint.COMPASS_POINT_S))
             fIsUpward = true;
 
-        if(lane.getTo().equals("W")|| lane.getTo().equals("E"))
+        if(lane.getTo().equals(ICompassPoint.COMPASS_POINT_W)|| lane.getTo().equals(ICompassPoint.COMPASS_POINT_E))
             fisSideWays = true;
 
-		fCurve = new QuadCurve2D.Double(fStartX, fStartY, x, y, fEndX, fEndY);
+		fCurve = new QuadCurve2D.Double(startX, startY, x, y, endX, endY);
 
 	}
 

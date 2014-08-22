@@ -1,6 +1,7 @@
 package streetmap.rules;
 
 import org.junit.Test;
+import streetmap.map.tile.ICompassPoint;
 
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.TestCase.assertFalse;
@@ -11,60 +12,60 @@ public class RightBeforeLeftRuleTest
 	@Test
 	public void testIsLeftTurn()
 	{
-		assertTrue(RightBeforeLeftRule.isLeftTurn("N", "E"));
-		assertTrue(RightBeforeLeftRule.isLeftTurn("W", "N"));
-		assertTrue(RightBeforeLeftRule.isLeftTurn("S", "W"));
-		assertTrue(RightBeforeLeftRule.isLeftTurn("E", "S"));
+		assertTrue(RightBeforeLeftRule.isLeftTurn(ICompassPoint.COMPASS_POINT_N, ICompassPoint.COMPASS_POINT_E));
+		assertTrue(RightBeforeLeftRule.isLeftTurn(ICompassPoint.COMPASS_POINT_W, ICompassPoint.COMPASS_POINT_N));
+		assertTrue(RightBeforeLeftRule.isLeftTurn(ICompassPoint.COMPASS_POINT_S, ICompassPoint.COMPASS_POINT_W));
+		assertTrue(RightBeforeLeftRule.isLeftTurn(ICompassPoint.COMPASS_POINT_E, ICompassPoint.COMPASS_POINT_S));
 
-		assertFalse(RightBeforeLeftRule.isLeftTurn("E", "N"));
-		assertFalse(RightBeforeLeftRule.isLeftTurn("N", "W"));
-		assertFalse(RightBeforeLeftRule.isLeftTurn("W", "S"));
-		assertFalse(RightBeforeLeftRule.isLeftTurn("S", "E"));
+		assertFalse(RightBeforeLeftRule.isLeftTurn(ICompassPoint.COMPASS_POINT_E, ICompassPoint.COMPASS_POINT_N));
+		assertFalse(RightBeforeLeftRule.isLeftTurn(ICompassPoint.COMPASS_POINT_N, ICompassPoint.COMPASS_POINT_W));
+		assertFalse(RightBeforeLeftRule.isLeftTurn(ICompassPoint.COMPASS_POINT_W, ICompassPoint.COMPASS_POINT_S));
+		assertFalse(RightBeforeLeftRule.isLeftTurn(ICompassPoint.COMPASS_POINT_S, ICompassPoint.COMPASS_POINT_E));
 
-		assertFalse(RightBeforeLeftRule.isLeftTurn("S", "N"));
-		assertFalse(RightBeforeLeftRule.isLeftTurn("E", "W"));
-		assertFalse(RightBeforeLeftRule.isLeftTurn("N", "S"));
-		assertFalse(RightBeforeLeftRule.isLeftTurn("W", "E"));
+		assertFalse(RightBeforeLeftRule.isLeftTurn(ICompassPoint.COMPASS_POINT_S, ICompassPoint.COMPASS_POINT_N));
+		assertFalse(RightBeforeLeftRule.isLeftTurn(ICompassPoint.COMPASS_POINT_E, ICompassPoint.COMPASS_POINT_W));
+		assertFalse(RightBeforeLeftRule.isLeftTurn(ICompassPoint.COMPASS_POINT_N, ICompassPoint.COMPASS_POINT_S));
+		assertFalse(RightBeforeLeftRule.isLeftTurn(ICompassPoint.COMPASS_POINT_W, ICompassPoint.COMPASS_POINT_E));
 	}
 
 	@Test
 	public void testIsRightTurn()
 	{
-		assertFalse(RightBeforeLeftRule.isRightTurn("N", "E"));
-		assertFalse(RightBeforeLeftRule.isRightTurn("W", "N"));
-		assertFalse(RightBeforeLeftRule.isRightTurn("S", "W"));
-		assertFalse(RightBeforeLeftRule.isRightTurn("E", "S"));
+		assertFalse(RightBeforeLeftRule.isRightTurn(ICompassPoint.COMPASS_POINT_N, ICompassPoint.COMPASS_POINT_E));
+		assertFalse(RightBeforeLeftRule.isRightTurn(ICompassPoint.COMPASS_POINT_W, ICompassPoint.COMPASS_POINT_N));
+		assertFalse(RightBeforeLeftRule.isRightTurn(ICompassPoint.COMPASS_POINT_S, ICompassPoint.COMPASS_POINT_W));
+		assertFalse(RightBeforeLeftRule.isRightTurn(ICompassPoint.COMPASS_POINT_E, ICompassPoint.COMPASS_POINT_S));
 
-		assertTrue(RightBeforeLeftRule.isRightTurn("E", "N"));
-		assertTrue(RightBeforeLeftRule.isRightTurn("N", "W"));
-		assertTrue(RightBeforeLeftRule.isRightTurn("W", "S"));
-		assertTrue(RightBeforeLeftRule.isRightTurn("S", "E"));
+		assertTrue(RightBeforeLeftRule.isRightTurn(ICompassPoint.COMPASS_POINT_E, ICompassPoint.COMPASS_POINT_N));
+		assertTrue(RightBeforeLeftRule.isRightTurn(ICompassPoint.COMPASS_POINT_N, ICompassPoint.COMPASS_POINT_W));
+		assertTrue(RightBeforeLeftRule.isRightTurn(ICompassPoint.COMPASS_POINT_W, ICompassPoint.COMPASS_POINT_S));
+		assertTrue(RightBeforeLeftRule.isRightTurn(ICompassPoint.COMPASS_POINT_S, ICompassPoint.COMPASS_POINT_E));
 
-		assertFalse(RightBeforeLeftRule.isRightTurn("S", "N"));
-		assertFalse(RightBeforeLeftRule.isRightTurn("E", "W"));
-		assertFalse(RightBeforeLeftRule.isRightTurn("N", "S"));
-		assertFalse(RightBeforeLeftRule.isRightTurn("W", "E"));
+		assertFalse(RightBeforeLeftRule.isRightTurn(ICompassPoint.COMPASS_POINT_S, ICompassPoint.COMPASS_POINT_N));
+		assertFalse(RightBeforeLeftRule.isRightTurn(ICompassPoint.COMPASS_POINT_E, ICompassPoint.COMPASS_POINT_W));
+		assertFalse(RightBeforeLeftRule.isRightTurn(ICompassPoint.COMPASS_POINT_N, ICompassPoint.COMPASS_POINT_S));
+		assertFalse(RightBeforeLeftRule.isRightTurn(ICompassPoint.COMPASS_POINT_W, ICompassPoint.COMPASS_POINT_E));
 	}
 
 	@Test
 	public void testIsStraight()
 	{
-		assertTrue(RightBeforeLeftRule.isStraight("N", "S"));
-		assertTrue(RightBeforeLeftRule.isStraight("S", "N"));
-		assertTrue(RightBeforeLeftRule.isStraight("W", "E"));
-		assertTrue(RightBeforeLeftRule.isStraight("E", "W"));
+		assertTrue(RightBeforeLeftRule.isStraight(ICompassPoint.COMPASS_POINT_N, ICompassPoint.COMPASS_POINT_S));
+		assertTrue(RightBeforeLeftRule.isStraight(ICompassPoint.COMPASS_POINT_S, ICompassPoint.COMPASS_POINT_N));
+		assertTrue(RightBeforeLeftRule.isStraight(ICompassPoint.COMPASS_POINT_W, ICompassPoint.COMPASS_POINT_E));
+		assertTrue(RightBeforeLeftRule.isStraight(ICompassPoint.COMPASS_POINT_E, ICompassPoint.COMPASS_POINT_W));
 
-		assertFalse(RightBeforeLeftRule.isStraight("E", "S"));
-		assertFalse(RightBeforeLeftRule.isStraight("E", "N"));
+		assertFalse(RightBeforeLeftRule.isStraight(ICompassPoint.COMPASS_POINT_E, ICompassPoint.COMPASS_POINT_S));
+		assertFalse(RightBeforeLeftRule.isStraight(ICompassPoint.COMPASS_POINT_E, ICompassPoint.COMPASS_POINT_N));
 
-		assertFalse(RightBeforeLeftRule.isStraight("W", "S"));
-		assertFalse(RightBeforeLeftRule.isStraight("W", "N"));
+		assertFalse(RightBeforeLeftRule.isStraight(ICompassPoint.COMPASS_POINT_W, ICompassPoint.COMPASS_POINT_S));
+		assertFalse(RightBeforeLeftRule.isStraight(ICompassPoint.COMPASS_POINT_W, ICompassPoint.COMPASS_POINT_N));
 
-		assertFalse(RightBeforeLeftRule.isStraight("S", "W"));
-		assertFalse(RightBeforeLeftRule.isStraight("S", "E"));
+		assertFalse(RightBeforeLeftRule.isStraight(ICompassPoint.COMPASS_POINT_S, ICompassPoint.COMPASS_POINT_W));
+		assertFalse(RightBeforeLeftRule.isStraight(ICompassPoint.COMPASS_POINT_S, ICompassPoint.COMPASS_POINT_E));
 
-		assertFalse(RightBeforeLeftRule.isStraight("N", "W"));
-		assertFalse(RightBeforeLeftRule.isStraight("N", "E"));
+		assertFalse(RightBeforeLeftRule.isStraight(ICompassPoint.COMPASS_POINT_N, ICompassPoint.COMPASS_POINT_W));
+		assertFalse(RightBeforeLeftRule.isStraight(ICompassPoint.COMPASS_POINT_N, ICompassPoint.COMPASS_POINT_E));
 
 	}
 }

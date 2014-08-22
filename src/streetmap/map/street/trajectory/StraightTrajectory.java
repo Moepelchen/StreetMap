@@ -3,7 +3,7 @@ package streetmap.map.street.trajectory;
 import streetmap.car.Car;
 import streetmap.map.street.ILaneTypes;
 import streetmap.map.street.Lane;
-import streetmap.map.tile.ICompassPoints;
+import streetmap.map.tile.ICompassPoint;
 
 import java.awt.geom.Point2D;
 
@@ -51,9 +51,9 @@ public class StraightTrajectory implements ITrajectory
 			fA = INT;
 		}
 
-		boolean isSouth = fLane.getDirection(fLane.getEnd()).equals(ICompassPoints.COMPASS_POINT_S);
-		boolean isWest = fLane.getDirection(fLane.getEnd()).equals(ICompassPoints.COMPASS_POINT_W);
-		boolean isEast = fLane.getDirection(fLane.getEnd()).equals(ICompassPoints.COMPASS_POINT_E);
+		boolean isSouth = fLane.getDirection(fLane.getEnd()).equals(ICompassPoint.COMPASS_POINT_S);
+		boolean isWest = fLane.getDirection(fLane.getEnd()).equals(ICompassPoint.COMPASS_POINT_W);
+		boolean isEast = fLane.getDirection(fLane.getEnd()).equals(ICompassPoint.COMPASS_POINT_E);
 		fDirection = +1;
 		if (isWest)
 		{
@@ -119,11 +119,7 @@ public class StraightTrajectory implements ITrajectory
 
 		double x = fCar.getPosition().getX();
 		double y = fCar.getPosition().getY();
-		if (x >= lane.getMinX() && x <= lane.getMaxX() && y >= lane.getMinY() && y <= lane.getMaxY())
-		{
-			return true;
-		}
-		return false;
+		return x >= lane.getMinX() && x <= lane.getMaxX() && y >= lane.getMinY() && y <= lane.getMaxY();
 	}
 
 	@Override

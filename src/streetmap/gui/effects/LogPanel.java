@@ -6,14 +6,9 @@ import de.lessvoid.nifty.effects.EffectProperties;
 import de.lessvoid.nifty.effects.Falloff;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.render.NiftyRenderEngine;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.font.effects.ColorEffect;
 import streetmap.SSGlobals;
 import streetmap.gui.controller.GameScreenController;
 import streetmap.map.DataStorage2d;
-
-import java.awt.*;
 
 /**
  * Created by ulrichtewes on 12.01.14.
@@ -21,25 +16,12 @@ import java.awt.*;
 public abstract class LogPanel implements EffectImpl
 {
     protected SSGlobals fGlobals;
-	private UnicodeFont font;
 
 	@Override
     public void activate(Nifty nifty, Element element, EffectProperties effectProperties)
     {
         GameScreenController controller = (GameScreenController) nifty.getCurrentScreen().getScreenController();
         fGlobals = controller.getGlobals();
-	    Font awtFont = new Font("Arial", Font.BOLD, 18);
-	    font = new UnicodeFont(awtFont);
-	    font.getEffects().add(new ColorEffect(java.awt.Color.white));
-	    font.addAsciiGlyphs();
-	    try
-	    {
-		    font.loadGlyphs();
-	    }
-	    catch (SlickException | IllegalStateException ex)
-	    {
-		    // Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-	    }
     }
 
     @Override

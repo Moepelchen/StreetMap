@@ -41,12 +41,8 @@ public class Tile implements ISimulateable, IPrintable
 	 * HashMap of the four sides
 	 */
 	private HashMap<String, Side> fSides;
-
 	private HashMap<String, Tile> fNeighbors;
-
 	private Point2D fArrayPosition;
-
-	private boolean fSidesGenerated;
 	private IPlaceable fPlaceable;
 	private Point2D fPosition;
     private int fNumberOfCars = 0;
@@ -54,52 +50,47 @@ public class Tile implements ISimulateable, IPrintable
 
     public HorizontalSide getNorthSide()
 	{
-		return (HorizontalSide) getSide(ICompassPoints.COMPASS_POINT_N);
+		return (HorizontalSide) getSide(ICompassPoint.COMPASS_POINT_N);
 	}
 
 	public HorizontalSide getSouthSide()
 	{
-		return (HorizontalSide) getSide(ICompassPoints.COMPASS_POINT_S);
+		return (HorizontalSide) getSide(ICompassPoint.COMPASS_POINT_S);
 	}
 
 	public VerticalSide getWestSide()
 	{
-		return (VerticalSide) getSide(ICompassPoints.COMPASS_POINT_W);
+		return (VerticalSide) getSide(ICompassPoint.COMPASS_POINT_W);
 	}
 
 	public VerticalSide getEastSide()
 	{
-		return (VerticalSide) getSide(ICompassPoints.COMPASS_POINT_E);
+		return (VerticalSide) getSide(ICompassPoint.COMPASS_POINT_E);
 	}
 
 	public Tile getNorthNeighbor()
 	{
-		return fNeighbors.get(ICompassPoints.COMPASS_POINT_N);
+		return fNeighbors.get(ICompassPoint.COMPASS_POINT_N);
 	}
 
 	public Tile getEastNeighbor()
 	{
-		return fNeighbors.get(ICompassPoints.COMPASS_POINT_E);
+		return fNeighbors.get(ICompassPoint.COMPASS_POINT_E);
 	}
 
 	public Tile getSouthNeighbor()
 	{
-		return fNeighbors.get(ICompassPoints.COMPASS_POINT_S);
+		return fNeighbors.get(ICompassPoint.COMPASS_POINT_S);
 	}
 
 	public Tile getWestNeighbor()
 	{
-		return fNeighbors.get(ICompassPoints.COMPASS_POINT_W);
+		return fNeighbors.get(ICompassPoint.COMPASS_POINT_W);
 	}
 
 	public Point2D getArrayPosition()
 	{
 		return fArrayPosition;
-	}
-
-	public void setArrayPosition(Point2D fArrayPosition)
-	{
-		this.fArrayPosition = fArrayPosition;
 	}
 
 	public IPlaceable getPlaceable()
@@ -207,16 +198,15 @@ public class Tile implements ISimulateable, IPrintable
 		fArrayPosition = arrayPosition;
 		fSides = new HashMap<>(4);
 		fNeighbors = new HashMap<>(4);
-		fSidesGenerated = false;
 		fGlobals = globals;
 		fMap = map;
 
 		if (map != null)
 		{
-			fNeighbors.put(ICompassPoints.COMPASS_POINT_N, map.getTile(arrayPosition.getX(), arrayPosition.getY() - 1));
-			fNeighbors.put(ICompassPoints.COMPASS_POINT_S, map.getTile(arrayPosition.getX(), arrayPosition.getY() + 1));
-			fNeighbors.put(ICompassPoints.COMPASS_POINT_W, map.getTile(arrayPosition.getX() - 1, arrayPosition.getY()));
-			fNeighbors.put(ICompassPoints.COMPASS_POINT_E, map.getTile(arrayPosition.getX() + 1, arrayPosition.getY()));
+			fNeighbors.put(ICompassPoint.COMPASS_POINT_N, map.getTile(arrayPosition.getX(), arrayPosition.getY() - 1));
+			fNeighbors.put(ICompassPoint.COMPASS_POINT_S, map.getTile(arrayPosition.getX(), arrayPosition.getY() + 1));
+			fNeighbors.put(ICompassPoint.COMPASS_POINT_W, map.getTile(arrayPosition.getX() - 1, arrayPosition.getY()));
+			fNeighbors.put(ICompassPoint.COMPASS_POINT_E, map.getTile(arrayPosition.getX() + 1, arrayPosition.getY()));
 		}
 		fPosition = new Point2D.Double(fArrayPosition.getX() * fWidth, fArrayPosition.getY() * fWidth);
         if(fMap != null)
@@ -230,41 +220,41 @@ public class Tile implements ISimulateable, IPrintable
 		//North
 		if (getNorthNeighbor() != null && getNorthNeighbor().getSouthSide() != null)
 		{
-			fSides.put(ICompassPoints.COMPASS_POINT_N, getNorthNeighbor().getSouthSide());
+			fSides.put(ICompassPoint.COMPASS_POINT_N, getNorthNeighbor().getSouthSide());
 		}
 		else
 		{
-			fSides.put(ICompassPoints.COMPASS_POINT_N, new HorizontalSide(fGlobals, this, new Point2D.Double(fPosition.getX() + fWidth / 2, fPosition.getY()), ICompassPoints.COMPASS_POINT_N));
+			fSides.put(ICompassPoint.COMPASS_POINT_N, new HorizontalSide(fGlobals, this, new Point2D.Double(fPosition.getX() + fWidth / 2, fPosition.getY()), ICompassPoint.COMPASS_POINT_N));
 		}
 
 		// South
 		if (getSouthNeighbor() != null && getSouthNeighbor().getNorthSide() != null)
 		{
-			fSides.put(ICompassPoints.COMPASS_POINT_S, getSouthNeighbor().getNorthSide());
+			fSides.put(ICompassPoint.COMPASS_POINT_S, getSouthNeighbor().getNorthSide());
 		}
 		else
 		{
-			fSides.put(ICompassPoints.COMPASS_POINT_S, new HorizontalSide(fGlobals, this, new Point2D.Double(fPosition.getX() + fWidth / 2, fPosition.getY() + fWidth), ICompassPoints.COMPASS_POINT_S));
+			fSides.put(ICompassPoint.COMPASS_POINT_S, new HorizontalSide(fGlobals, this, new Point2D.Double(fPosition.getX() + fWidth / 2, fPosition.getY() + fWidth), ICompassPoint.COMPASS_POINT_S));
 		}
 
 		// West
 		if (getWestNeighbor() != null && getWestNeighbor().getEastSide() != null)
 		{
-			fSides.put(ICompassPoints.COMPASS_POINT_W, getWestNeighbor().getEastSide());
+			fSides.put(ICompassPoint.COMPASS_POINT_W, getWestNeighbor().getEastSide());
 		}
 		else
 		{
-			fSides.put(ICompassPoints.COMPASS_POINT_W, new VerticalSide(fGlobals, this, new Point2D.Double(fPosition.getX(), fPosition.getY() + fWidth / 2), ICompassPoints.COMPASS_POINT_W));
+			fSides.put(ICompassPoint.COMPASS_POINT_W, new VerticalSide(fGlobals, this, new Point2D.Double(fPosition.getX(), fPosition.getY() + fWidth / 2), ICompassPoint.COMPASS_POINT_W));
 		}
 
 		// East
 		if (getEastNeighbor() != null && getEastNeighbor().getWestSide() != null)
 		{
-			fSides.put(ICompassPoints.COMPASS_POINT_E, getEastNeighbor().getWestSide());
+			fSides.put(ICompassPoint.COMPASS_POINT_E, getEastNeighbor().getWestSide());
 		}
 		else
 		{
-			fSides.put(ICompassPoints.COMPASS_POINT_E, new VerticalSide(fGlobals, this, new Point2D.Double(fPosition.getX() + fWidth, fPosition.getY() + fWidth / 2), ICompassPoints.COMPASS_POINT_E));
+			fSides.put(ICompassPoint.COMPASS_POINT_E, new VerticalSide(fGlobals, this, new Point2D.Double(fPosition.getX() + fWidth, fPosition.getY() + fWidth / 2), ICompassPoint.COMPASS_POINT_E));
 		}
 
 	}
@@ -291,7 +281,7 @@ public class Tile implements ISimulateable, IPrintable
 		{
 			return fPlaceable.getLanes();
 		}
-		return new Vector<Lane>();
+		return new Vector<>();
 	}
 
     public int getNumberOfCars() {

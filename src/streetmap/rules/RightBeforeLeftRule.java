@@ -5,6 +5,7 @@
 package streetmap.rules;
 
 import streetmap.map.street.Lane;
+import streetmap.map.tile.ICompassPoint;
 import streetmap.utils.RingList;
 
 /**
@@ -25,10 +26,10 @@ public class RightBeforeLeftRule
 
 	public static final RingList<String> gCompassPoints = new RingList<String>()
 	{{
-			add("N");
-			add("W");
-			add("S");
-			add("E");
+			add(ICompassPoint.COMPASS_POINT_N);
+			add(ICompassPoint.COMPASS_POINT_W);
+			add(ICompassPoint.COMPASS_POINT_S);
+			add(ICompassPoint.COMPASS_POINT_E);
 		}};
 // -----------------------------------------------------
 // constants

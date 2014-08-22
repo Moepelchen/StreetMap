@@ -3,7 +3,7 @@ package streetmap.map.street;
 import streetmap.SSGlobals;
 import streetmap.config.StreetConfig;
 import streetmap.map.side.Side;
-import streetmap.map.tile.ICompassPoints;
+import streetmap.map.tile.ICompassPoint;
 import streetmap.map.tile.Tile;
 import streetmap.xml.jaxb.streets.LaneTemplate;
 import streetmap.xml.jaxb.streets.LaneTemplates;
@@ -145,10 +145,10 @@ public class StreetFactory
 		        if (!streetTemplate.isIsSpecial())
 		        {
 
-			        boolean tempHasEastConnection = hasTemplateConnection(streetTemplate, ICompassPoints.COMPASS_POINT_E);
-			        boolean tempHasSouthConnection = hasTemplateConnection(streetTemplate, ICompassPoints.COMPASS_POINT_S);
-			        boolean tempHasWestConnection = hasTemplateConnection(streetTemplate, ICompassPoints.COMPASS_POINT_W);
-			        boolean tempHasNorthConnection = hasTemplateConnection(streetTemplate, ICompassPoints.COMPASS_POINT_N);
+			        boolean tempHasEastConnection = hasTemplateConnection(streetTemplate, ICompassPoint.COMPASS_POINT_E);
+			        boolean tempHasSouthConnection = hasTemplateConnection(streetTemplate, ICompassPoint.COMPASS_POINT_S);
+			        boolean tempHasWestConnection = hasTemplateConnection(streetTemplate, ICompassPoint.COMPASS_POINT_W);
+			        boolean tempHasNorthConnection = hasTemplateConnection(streetTemplate, ICompassPoint.COMPASS_POINT_N);
 
 			        boolean doesEastFit = doesFit(hasEastConnection, tempHasEastConnection);
 			        boolean doesSouthFit = doesFit(hasSouthConnection, tempHasSouthConnection);
@@ -298,19 +298,19 @@ public class StreetFactory
      */
     private void createBend(Lane lane, Side start, Side dest, String from, String to)
     {
-        if ((from.equals("E") && to.equals("N")) || (from.equals("S") && to.equals("W")))
+        if ((from.equals(ICompassPoint.COMPASS_POINT_E) && to.equals(ICompassPoint.COMPASS_POINT_N)) || (from.equals(ICompassPoint.COMPASS_POINT_S) && to.equals(ICompassPoint.COMPASS_POINT_W)))
         {
             lane.setStart(start.getAnchorTwo(), from);
             lane.setEnd(dest.getAnchorTwo(), to);
-        } else if ((from.equals("N") && to.equals("E")) || (from.equals("W") && to.equals("S")))
+        } else if ((from.equals(ICompassPoint.COMPASS_POINT_N) && to.equals(ICompassPoint.COMPASS_POINT_E)) || (from.equals(ICompassPoint.COMPASS_POINT_W) && to.equals(ICompassPoint.COMPASS_POINT_S)))
         {
             lane.setStart(start.getAnchorOne(), from);
             lane.setEnd(dest.getAnchorOne(), to);
-        } else if ((from.equals("S") && to.equals("E")) || (from.equals("E") && to.equals("S")))
+        } else if ((from.equals(ICompassPoint.COMPASS_POINT_S) && to.equals(ICompassPoint.COMPASS_POINT_E)) || (from.equals(ICompassPoint.COMPASS_POINT_E) && to.equals(ICompassPoint.COMPASS_POINT_S)))
         {
             lane.setStart(start.getAnchorTwo(), from);
             lane.setEnd(dest.getAnchorOne(), to);
-        } else if ((from.equals("W") && to.equals("N")) || (from.equals("N") && to.equals("W")))
+        } else if ((from.equals(ICompassPoint.COMPASS_POINT_W) && to.equals(ICompassPoint.COMPASS_POINT_N)) || (from.equals(ICompassPoint.COMPASS_POINT_N) && to.equals(ICompassPoint.COMPASS_POINT_W)))
         {
             lane.setStart(start.getAnchorOne(), from);
             lane.setEnd(dest.getAnchorTwo(), to);
@@ -328,7 +328,7 @@ public class StreetFactory
      */
     private void createStraight(Lane lane, Side start, Side dest, String from, String to)
     {
-        if (from.equals("S") || from.equals("E"))
+        if (from.equals(ICompassPoint.COMPASS_POINT_S) || from.equals(ICompassPoint.COMPASS_POINT_E))
         {
             lane.setStart(start.getAnchorTwo(), from);
             lane.setEnd(dest.getAnchorTwo(), to);
@@ -380,7 +380,7 @@ public class StreetFactory
      */
     private boolean sameAxis(String from, String to)
     {
-        return ((from.equals("E") || from.equals("W")) && (to.equals("W") || to.equals("E"))) || ((from.equals("S") || from.equals("N")) && (to.equals("S") || to.equals("N")));
+        return ((from.equals(ICompassPoint.COMPASS_POINT_E) || from.equals(ICompassPoint.COMPASS_POINT_W)) && (to.equals(ICompassPoint.COMPASS_POINT_W) || to.equals(ICompassPoint.COMPASS_POINT_E))) || ((from.equals(ICompassPoint.COMPASS_POINT_S) || from.equals(ICompassPoint.COMPASS_POINT_N)) && (to.equals(ICompassPoint.COMPASS_POINT_S) || to.equals(ICompassPoint.COMPASS_POINT_N)));
 
     }
 

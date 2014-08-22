@@ -40,7 +40,6 @@ public class Car implements IPrintable, ISimulateable, IEventHandler
 	 * Color of this car
 	 */
 	private Color fColor;
-	private String fImagePath;
 	private double fSpeed;
 	private final double fOriginalSpeed;
 	private float fLength;
@@ -78,7 +77,6 @@ public class Car implements IPrintable, ISimulateable, IEventHandler
 		fLane = lane;
 		fPosition = pos;
 		fColor = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()),255);
-		fImagePath = carImagePath;
 		double v = Math.max(Math.random(), 0.25) * lane.getGlobals().getConfig().getMaximumCarSpeed();
 		fSpeed = v;
 		fOriginalSpeed = v;

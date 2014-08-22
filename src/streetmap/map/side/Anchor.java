@@ -1,7 +1,6 @@
 package streetmap.map.side;
 
 import streetmap.map.street.Lane;
-import streetmap.utils.DrawHelper;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -64,12 +63,7 @@ public class Anchor
         this.fPosition = position;
     }
 
-    public void print()
-    {
-	    DrawHelper.drawAnchor(this);
-    }
-
-    public void addOutputLane(Lane lane)
+	public void addOutputLane(Lane lane)
     {
 
         fOutputLanes.add(lane);

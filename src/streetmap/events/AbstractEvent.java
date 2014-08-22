@@ -20,7 +20,7 @@ package streetmap.events;
 public class AbstractEvent implements IEvent
 {
 
-	protected int fType = NO_TYPE;
+	int fType = NO_TYPE;
 // -----------------------------------------------------
 // constants
 // -----------------------------------------------------

@@ -5,6 +5,7 @@
 package streetmap.utils;
 
 import org.junit.Test;
+import streetmap.map.tile.ICompassPoint;
 
 import static org.junit.Assert.assertEquals;
 
@@ -28,21 +29,21 @@ public class RingListTest
 	{
 		RingList<String> buf = new RingList<String>();
 
-		buf.add("W");
-		buf.add("S");
-		buf.add("E");
-		buf.add("N");
+		buf.add(ICompassPoint.COMPASS_POINT_W);
+		buf.add(ICompassPoint.COMPASS_POINT_S);
+		buf.add(ICompassPoint.COMPASS_POINT_E);
+		buf.add(ICompassPoint.COMPASS_POINT_N);
 
-		assertEquals(buf.get(4), "W");
-		assertEquals(buf.get(8), "W");
-		assertEquals(buf.get(481), "S");
-		assertEquals(buf.get(482), "E");
-		assertEquals(buf.get(-5), "N");
-		assertEquals(buf.get(-4), "W");
-		assertEquals(buf.get(-400), "W");
-		assertEquals(buf.get(-421), "N");
-		assertEquals(buf.get(-422), "E");
-		assertEquals(buf.get(-423), "S");
+		assertEquals(buf.get(4), ICompassPoint.COMPASS_POINT_W);
+		assertEquals(buf.get(8), ICompassPoint.COMPASS_POINT_W);
+		assertEquals(buf.get(481), ICompassPoint.COMPASS_POINT_S);
+		assertEquals(buf.get(482), ICompassPoint.COMPASS_POINT_E);
+		assertEquals(buf.get(-5), ICompassPoint.COMPASS_POINT_N);
+		assertEquals(buf.get(-4), ICompassPoint.COMPASS_POINT_W);
+		assertEquals(buf.get(-400), ICompassPoint.COMPASS_POINT_W);
+		assertEquals(buf.get(-421), ICompassPoint.COMPASS_POINT_N);
+		assertEquals(buf.get(-422), ICompassPoint.COMPASS_POINT_E);
+		assertEquals(buf.get(-423), ICompassPoint.COMPASS_POINT_S);
 
 	}
 
