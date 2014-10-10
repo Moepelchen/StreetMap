@@ -42,6 +42,11 @@ public class PrintableRenderBuffer
 {
 	public static RenderStuff initBuffers(SSGlobals globals, List<IPrintable> printables)
 	{
+		return initBuffers(globals, printables, false);
+	}
+
+	public static RenderStuff initBuffers(SSGlobals globals, List<IPrintable> printables, boolean center)
+	{
 		RenderStuff stuff = null;
 		if (printables.size() > 0)
 		{
@@ -58,8 +63,8 @@ public class PrintableRenderBuffer
 			{
 				IPrintable printable = printables.get(i);
 				Point2D position = printable.getPosition();
-				float screenHeight = globals.getGame().getHeight()/2;
-				float screenWidth = globals.getGame().getWidth()/2;
+				float screenHeight = globals.getGame().getHeight();
+				float screenWidth = globals.getGame().getWidth();
 				float x = (float) (position.getX());
 				float y = (float) (position.getY());
 				length = printable.getLength();
@@ -72,11 +77,13 @@ public class PrintableRenderBuffer
 				Matrix4f transMat = new Matrix4f();
 
 				transMat.rotate((float) rotation, new Vector3f(0, 0, 1));
+				if(center)
+					transMat.translate(new Vector3f(-length/2,-height/2,0));
 
 				Vector4f pos1 = new Vector4f(0, 0, 0, 1f);
 				Vector4f pos2 = new Vector4f(0 + length, 0, 0, 1f);
-				Vector4f pos3 = new Vector4f(0 + length, 0 + length, 0, 1f);
-				Vector4f pos4 = new Vector4f(0, 0 + length, 0, 1f);
+				Vector4f pos3 = new Vector4f(0 + length, 0 + height, 0, 1f);
+				Vector4f pos4 = new Vector4f(0, 0 + height, 0, 1f);
 
 				Matrix4f.transform(transMat, pos1, pos1);
 				Matrix4f.transform(transMat, pos2, pos2);
@@ -167,7 +174,7 @@ public class PrintableRenderBuffer
 	private static Vector4f scale(float x, float y, Vector4f pos1, float height, float width)
 	{
 		Vector4f translate = pos1.translate(x, y, 0, 0);
-		pos1.set(pos1.getX() / width-1f, pos1.getY() / height-1f);
+		pos1.set(pos1.getX() / width, pos1.getY() / height);
 		return translate;
 	}
 

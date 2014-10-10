@@ -5,6 +5,7 @@
 package streetmap;
 
 import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
 
 /**
  * Short description in a complete sentence.
@@ -22,8 +23,9 @@ import org.lwjgl.util.vector.Vector2f;
 public class Player
 {
 	private Vector2f fPosition;
-
-    private double fZoom = 1;
+    float scaleDelta = 0.1f;
+    private Vector3f fZoom = new Vector3f(1, 1, 1);
+    private float z;
 
     public float getX()
 	{
@@ -37,29 +39,40 @@ public class Player
 
 	private void setX(float x)
 	{
-		fPosition.setX(x * getZoom());
+		fPosition.setX(x);
 	}
 
 	private void setY(float y)
 	{
-		fPosition.setY(y * getZoom());
+		fPosition.setY(y);
 	}
 
     public void increaseZoom()
     {
-        fZoom = fZoom * 1.1;
+        fZoom = new Vector3f(fZoom.getX() *1.1f,fZoom.getY()*1.1f,fZoom.getZ() *1.1f);
+        if (fZoom.getX() > 100)
+        {
+            fZoom = new Vector3f(99, 99, 99);
+        }
     }
 
     public void decreaseZoom()
     {
-            fZoom = fZoom /1.1;
+        fZoom = new Vector3f(fZoom.getX() /1.1f,fZoom.getY() /1.1f,fZoom.getZ()  /1.1f);
+        if (fZoom.getX() <= 0.4)
+        {
+            fZoom = new Vector3f(0.4f, 0.4f, 0.4f);
+        }
     }
 
-	public void reset()
-	{
-		setY(0);
-		setX(0);
-	}
+    public void reset()
+    {
+        setY(0);
+        setX(0);
+        setZ(-1);
+
+        fZoom = new Vector3f(1, 1, 1);
+    }
 
 	// -----------------------------------------------------
 // constants
@@ -83,17 +96,32 @@ public class Player
 
 	public void updateX(float x)
 	{
-		fPosition.set(fPosition.getX()+x/getZoom(), fPosition.getY());
+		fPosition.set(fPosition.getX()+x, fPosition.getY());
 	}
 
 	public void updateY(float y)
 	{
-		fPosition.set(fPosition.getX(), fPosition.getY() + y / getZoom());
+		fPosition.set(fPosition.getX(), fPosition.getY() + y);
 	}
 
-    public float getZoom()
+    public Vector3f getZoom()
     {
-        return (float) fZoom;
+        return fZoom;
+    }
+
+    public Vector3f getPos()
+    {
+        return new Vector3f(getX(), getY(), getZ());
+    }
+
+    public void setZ(float z)
+    {
+        this.z = z;
+    }
+
+    public float getZ()
+    {
+        return z;
     }
 // -----------------------------------------------------
 // overwritten methods from superclasses

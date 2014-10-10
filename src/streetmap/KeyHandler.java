@@ -83,25 +83,25 @@ public class KeyHandler
 			}
 		}
 
-		double tileWidth = fGlobals.getMap().getTileWidth() / 4;
+		double tileWidth = fGlobals.getMap().getTileWidth();
 		if (aPressed)
 		{
-			player.updateX((float) tileWidth);
+			player.updateX((float) tileWidth/fGlobals.getGame().getWidth());
 
 		}
 		if (wPressed)
 		{
-			player.updateY((float) tileWidth);
+			player.updateY(-(float) tileWidth/fGlobals.getGame().getHeight());
 
 		}
 		if (dPressed)
 		{
-			player.updateX(-(float) tileWidth);
+			player.updateX(-(float) tileWidth/fGlobals.getGame().getWidth());
 
 		}
 		if (sPressed)
 		{
-			player.updateY(-(float) tileWidth);
+			player.updateY((float) tileWidth/fGlobals.getGame().getHeight());
 
 		}
         if(ePressed)

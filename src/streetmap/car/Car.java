@@ -54,6 +54,7 @@ public class Car implements IPrintable, ISimulateable, IEventHandler
 	public void setPosition(Point2D fPosition)
 	{
 		this.fPosition = fPosition;
+
 	}
 
 	public Lane getLane()
@@ -111,16 +112,6 @@ public class Car implements IPrintable, ISimulateable, IEventHandler
 
 			}
 		}
-		/*for (Car car : getCrossingCars())
-		{
-			double distance = car.getPosition().distance(this.getPosition());
-			if (distance < 2.5 * car.getLength())
-			{
-				setSpeed(0);
-				caped = true;
-				break;
-			}
-		}*/
 		if (!caped)
 		{
 			if (fSpeed < fOriginalSpeed)

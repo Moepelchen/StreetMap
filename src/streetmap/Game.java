@@ -9,13 +9,15 @@ import de.lessvoid.nifty.renderer.lwjgl.input.LwjglInputSystem;
 import de.lessvoid.nifty.renderer.lwjgl.render.LwjglBatchRenderBackendCoreProfileFactory;
 import de.lessvoid.nifty.renderer.lwjgl.time.LWJGLTimeProvider;
 import de.lessvoid.nifty.screen.ScreenController;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.*;
 import org.lwjgl.util.glu.GLU;
+import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
-import org.xml.sax.SAXException;
+import org.lwjgl.util.vector.Vector3f;
 import streetmap.car.PrintableRenderBuffer;
 import streetmap.gui.GLStreetPanel;
 import streetmap.gui.IScreenNames;
@@ -23,15 +25,11 @@ import streetmap.gui.controller.*;
 import streetmap.gui.inputmapping.MenuInputMapping;
 import streetmap.map.DataStorage2d;
 import streetmap.map.Map;
-import streetmap.saveandload.config.ConfigLoader;
-import streetmap.saveandload.map.MapLoader;
 import streetmap.utils.TextureCache;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
+import java.nio.FloatBuffer;
 
 /**
  * Copyright Ulrich Tewes
@@ -65,23 +63,15 @@ public class Game
 	private DataStorage2d fFPSData = new DataStorage2d(300);
 	private DataStorage2d fPathData = new DataStorage2d(300);
 	private int fFSID;
-	private int indicesCount;
-	private int vaoId;
-	private int vboId;
-	private int vbocId;
-	private int vboiId;
+    private Matrix4f projectionMatrix;
+    private Matrix4f viewMatrix;
+    private Matrix4f modelMatrix;
+    private FloatBuffer matrix44Buffer;
+    private int projectionMatrixLocation;
+    private int viewMatrixLocation;
+    private int modelMatrixLocation;
 
-	public int getFSID()
-	{
-		return fFSID;
-	}
-
-	public int getVSID()
-	{
-		return fVSID;
-	}
-
-	public int getPID()
+    public int getPID()
 	{
 		return fPID;
 	}
@@ -104,12 +94,6 @@ public class Game
 	public boolean isPaused()
 	{
 		return fPaused;
-	}
-
-	public Vector2f getScalePoint()
-	{
-
-		return fScalePoint;
 	}
 
 	public DataStorage2d getPathData()
@@ -175,6 +159,7 @@ public class Game
 		// Map the internal OpenGL coordinate system to the entire screen
 		GL11.glViewport(0, 0, WIDTH, HEIGHT);
         setupShaders();
+        setupMatrices();
 		Keyboard.enableRepeatEvents(true);
 
 		initNifty();
@@ -185,21 +170,6 @@ public class Game
 		getDelta(); // call once before loop to initialise lastFrame
 		lastFPS = getTime(); // call before loop to initialise fps timer
 
-		// glEnable(GL11.GL_DEPTH_TEST);
-        MapLoader mapLoader = new MapLoader();
-        ConfigLoader configLoader = new ConfigLoader();
-        try
-        {
-            File file = new File("./save/lane.xml");
-            configLoader.load(file, fGlobals);
-            mapLoader.load(file, fGlobals);
-
-            fGlobals.handleLoading();
-        }
-        catch (ParserConfigurationException | InvocationTargetException | IllegalAccessException | NoSuchMethodException | SAXException | IOException e1)
-        {
-            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
@@ -221,8 +191,9 @@ public class Game
 			fStreetPanel.draw();
 			fNifty.update();
 			fNifty.render(false);
+            updateMatrises();
 			Display.update();
-			//Display.sync(30); // cap fps to 60fps
+			Display.sync(60); // cap fps to 60fps
 
 			String screenId = fNifty.getCurrentScreen().getScreenId();
 			if (fNifty.getCurrentScreen() != null && screenId != null && screenId.equals(IScreenNames.SCREEN_GAME))
@@ -238,7 +209,36 @@ public class Game
 
 	}
 
-	private void release()
+    private void updateMatrises()
+    {
+        //-- Update matrices
+        // Reset view and model matrices
+        viewMatrix = new Matrix4f();
+        modelMatrix = new Matrix4f();
+
+        // Translate camera
+		Vector3f pos = fPlayer.getPos();
+
+		pos.set(fPlayer.getX(), fPlayer.getY());
+		Matrix4f.translate(new Vector3f(0,0,-1), viewMatrix, viewMatrix);
+		// Scale, translate and rotate model
+		Matrix4f.scale(fPlayer.getZoom(), modelMatrix, modelMatrix);
+		Matrix4f.translate(pos,modelMatrix,modelMatrix);
+
+        // Upload matrices to the uniform variables
+        GL20.glUseProgram(fPID);
+
+        projectionMatrix.store(matrix44Buffer); matrix44Buffer.flip();
+        GL20.glUniformMatrix4(projectionMatrixLocation, false, matrix44Buffer);
+        viewMatrix.store(matrix44Buffer); matrix44Buffer.flip();
+        GL20.glUniformMatrix4(viewMatrixLocation, false, matrix44Buffer);
+        modelMatrix.store(matrix44Buffer); matrix44Buffer.flip();
+        GL20.glUniformMatrix4(modelMatrixLocation, false, matrix44Buffer);
+        GL20.glUseProgram(0);
+
+    }
+
+    private void release()
 	{
 		// Delete the shaders
 		GL20.glUseProgram(0);
@@ -259,13 +259,13 @@ public class Game
 	    fVSID = PrintableRenderBuffer.loadShader("./config/shaders/vertex.glsl", GL20.GL_VERTEX_SHADER);
 	    // Load the fragment shader
 	    fFSID = PrintableRenderBuffer.loadShader("./config/shaders/fragment.glsl", GL20.GL_FRAGMENT_SHADER);
-// Create a new shader program that links both shaders
+        // Create a new shader program that links both shaders
 	    GL20.glAttachShader(fPID, fVSID);
 	    GL20.glAttachShader(fPID, fFSID);
 
-// Position information will be attribute 0
+        // Position information will be attribute 0
         GL20.glBindAttribLocation(fPID, 0, "in_Position");
-// Color information will be attribute 1
+        // Color information will be attribute 1
         GL20.glBindAttribLocation(fPID, 1, "in_Color");
 	    GL20.glBindAttribLocation(fPID, 2, "in_TextureCoord");
 
@@ -290,6 +290,14 @@ public class Game
             System.out.println("ERROR - Could not create the shaders:" + GLU.gluErrorString(errorCheckValue));
             System.exit(-1);
         }
+
+        // Get matrices uniform locations
+
+        projectionMatrixLocation = GL20.glGetUniformLocation(fPID,"projectionMatrix");
+
+        viewMatrixLocation = GL20.glGetUniformLocation(fPID, "viewMatrix");
+
+        modelMatrixLocation = GL20.glGetUniformLocation(fPID, "modelMatrix");
     }
 
 	/**
@@ -388,12 +396,9 @@ public class Game
 	public Vector2f getTranslatedCoords(int x, int y)
 	{
 		Vector2f toReturn = new Vector2f(x, y);
-		Vector2f translationVec = new Vector2f(-fPlayer.getX(), -fPlayer.getY());
-		translationVec.translate(getWidth() / 2, getHeight() / 2);
-		translationVec.scale(fPlayer.getZoom());
-		translationVec.translate(-getWidth() / 2, -getHeight() / 2);
-
-		toReturn.translate(translationVec.getX(), translationVec.getY());
+		float playerX = fPlayer.getX();
+		float playerY = fPlayer.getY();
+		toReturn.set(x - playerX * WIDTH, y - playerY * HEIGHT);
 		return toReturn;
 	}
 
@@ -411,4 +416,41 @@ public class Game
 	{
 		return fFPSData;
 	}
+
+    private void setupMatrices() {
+        // Setup projection matrix
+        projectionMatrix = new Matrix4f();
+        float fieldOfView = 60f;
+        float aspectRatio = (float)HEIGHT / (float)HEIGHT;
+        float near_plane = 0.1f;
+        float far_plane = 100f;
+
+        float y_scale = this.coTangent(this.degreesToRadians(fieldOfView / 2f));
+        float x_scale = y_scale / aspectRatio;
+        float frustum_length = far_plane - near_plane;
+
+        projectionMatrix.m00 = y_scale;
+        projectionMatrix.m11 = x_scale;
+        projectionMatrix.m22 = -((far_plane + near_plane) / frustum_length);
+        projectionMatrix.m23 = -1;
+        projectionMatrix.m32 = -((2 * near_plane * far_plane) / frustum_length);
+        projectionMatrix.m33 = 0;
+
+        // Setup view matrix
+        viewMatrix = new Matrix4f();
+
+        // Setup model matrix
+        modelMatrix = new Matrix4f();
+
+        // Create a FloatBuffer with the proper size to store our matrices later
+        matrix44Buffer = BufferUtils.createFloatBuffer(16);
+    }
+
+    private float coTangent(float angle) {
+        return (float)(1f / Math.tan(angle));
+    }
+
+    private float degreesToRadians(float degrees) {
+        return degrees * (float)(Math.PI / 180d);
+    }
 }

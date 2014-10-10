@@ -259,9 +259,9 @@ public class Map implements ISimulateable, ActionListener
 	        }
 	        if(fGlobals.getConfig().isShowCars())
             {
-                RenderStuff stuff2 = PrintableRenderBuffer.initBuffers(fGlobals, cars);
+                RenderStuff stuff2 = PrintableRenderBuffer.initBuffers(fGlobals, cars,true);
 
-	            if(stuff != null)
+	            if(stuff2 != null)
 	            {
 		            DrawHelper.drawCars(stuff2, TextureCache.getTextureId("./images/cars/Car.png"));
 		            stuff2.release();

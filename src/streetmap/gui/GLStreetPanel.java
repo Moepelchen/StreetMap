@@ -7,6 +7,7 @@ import de.lessvoid.nifty.builder.PanelBuilder;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.util.vector.Vector2f;
 import streetmap.SSGlobals;
 import streetmap.car.PrintableRenderBuffer;
 import streetmap.car.RenderStuff;
@@ -73,6 +74,7 @@ public class GLStreetPanel
 			if (currentScreen != null)
 			{
 				placeables = currentScreen.findElementById("Placeables");
+                placeables.setWidth(fTileWidth);
 				if (placeables != null)
 				{
 					for (Tile tile : fTiles)
@@ -86,14 +88,13 @@ public class GLStreetPanel
 								image(new ImageBuilder()
 								{{
 										filename(image.getAbsolutePath());
-										width(String.valueOf(fTileWidth));
-										height(String.valueOf(fTileWidth));
+										width(String.valueOf(fTileWidth)+"px");
+										height(String.valueOf(fTileWidth)+"px");
 										onClickEffect(new EffectBuilder("border")
 										{{
-												getAttributes().setAttribute("length","infinite");
 												effectParameter("timeType ", "infinite");
 												effectParameter("length", "infinite");
-												effectValue("width", "50px");
+												effectParameter("width", "50px");
 												effectParameter("color", "#00EF13");
 
 											}});
@@ -186,15 +187,15 @@ public class GLStreetPanel
 			else
 			{
 
-				//y = fGlobals.getGame().getHeight()-<;
-				//Vector2f pos = fGlobals.getGame().getTranslatedCoords(x, y);
+				//y = fGlobals.getGame().getHeight()-y;
+				Vector2f pos = fGlobals.getGame().getTranslatedCoords(x, y);
 
-				float zoom = fGlobals.getGame().getPlayer().getZoom();
+				float zoom = fGlobals.getGame().getPlayer().getZoom().getX();
 				if (fFirstClicked == null)
 				{
-					fFirstClicked = new Point2D.Double(x / zoom, y / zoom);
+					fFirstClicked = new Point2D.Double(pos.getX(), pos.getY());
 				}
-				fCurrentClick = new Point2D.Double(x / zoom, y / zoom);
+				fCurrentClick = new Point2D.Double(pos.getX(), pos.getY());
 			}
 		}
 		else
