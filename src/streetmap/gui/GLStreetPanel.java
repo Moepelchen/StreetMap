@@ -9,12 +9,12 @@ import de.lessvoid.nifty.screen.Screen;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import streetmap.SSGlobals;
-import streetmap.car.PrintableRenderBuffer;
-import streetmap.car.RenderStuff;
 import streetmap.interfaces.IPrintable;
 import streetmap.map.street.IStreetNames;
 import streetmap.map.tile.Tile;
 import streetmap.utils.DrawHelper;
+import streetmap.utils.PrintableRenderBuffer;
+import streetmap.utils.RenderStuff;
 import streetmap.utils.TextureCache;
 import streetmap.xml.jaxb.streets.StreetTemplate;
 
@@ -190,7 +190,6 @@ public class GLStreetPanel
 				//y = fGlobals.getGame().getHeight()-y;
 				Vector2f pos = fGlobals.getGame().getTranslatedCoords(x, y);
 
-				float zoom = fGlobals.getGame().getPlayer().getZoom().getX();
 				if (fFirstClicked == null)
 				{
 					fFirstClicked = new Point2D.Double(pos.getX(), pos.getY());

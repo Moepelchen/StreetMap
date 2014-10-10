@@ -1,11 +1,6 @@
 package streetmap.utils;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
-import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
-import streetmap.car.RenderStuff;
+import org.lwjgl.opengl.*;
 
 /**
  * Created by IntelliJ IDEA.

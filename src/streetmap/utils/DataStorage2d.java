@@ -1,4 +1,4 @@
-package streetmap.map;
+package streetmap.utils;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

@@ -6,9 +6,15 @@ import de.lessvoid.nifty.effects.EffectProperties;
 import de.lessvoid.nifty.effects.Falloff;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.render.NiftyRenderEngine;
+import de.lessvoid.nifty.spi.render.RenderDevice;
+import de.lessvoid.nifty.spi.render.RenderFont;
+import de.lessvoid.nifty.tools.Color;
 import streetmap.SSGlobals;
 import streetmap.gui.controller.GameScreenController;
-import streetmap.map.DataStorage2d;
+import streetmap.utils.DataStorage2d;
+
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 /**
  * Created by ulrichtewes on 12.01.14.
@@ -27,15 +33,11 @@ public abstract class LogPanel implements EffectImpl
     @Override
     public void execute(Element element, float v, Falloff falloff, NiftyRenderEngine niftyRenderEngine)
     {
-      /*  Color color = Color.WHITE;
 
         DataStorage2d flowData = getData();
         ArrayList<Point2D> data = flowData.getData();
-        GL11.glPushMatrix();
-        GL11.glTranslated(element.getX(), element.getY(), 0);
-        GL11.glBegin(GL11.GL_LINE_LOOP);
-        glColor3d((double) color.getRed() / 255, (double) color.getGreen() / 255, (double) color.getBlue() / 255);
-        GL11.glVertex2d(0,element.getHeight())  ;
+        RenderDevice device = niftyRenderEngine.getRenderDevice();
+
         if(!data.isEmpty())
         {
             double max = Math.max(flowData.getMax(), getMax());
@@ -43,22 +45,23 @@ public abstract class LogPanel implements EffectImpl
             for (Point2D point2D : data)
             {
                 double y = (point2D.getY()/max)*element.getHeight();
-                GL11.glVertex2d(point2D.getX(),element.getHeight() - y);
+                device.renderQuad((int)point2D.getX()+element.getX(),(int)(element.getHeight() - y)+element.getY(),1,1, Color.WHITE);
 
             }
-            GL11.glVertex2d(Math.min(element.getWidth(), (int) data.get(data.size() - 1).getX()), element.getHeight());
         }
 
-        GL11.glEnd();
-        GL11.glPopMatrix();
+        RenderFont font;
+        font = niftyRenderEngine.createFont("aurulent-sans-16.fnt");
+        if (font != null)
+        {
+            device.renderFont(font,String.valueOf(getData().getCurrent()),element.getX(),element.getY(),Color.WHITE,1,1);
+            device.renderFont(font,String.valueOf(getData().getMax()),element.getX(),element.getY()+30,Color.WHITE,1,1);
+        }
 
-	    font.drawString(element.getX(), element.getY(), String.valueOf(getData().getCurrent()));
-	    font.drawString(element.getX(), element.getY()+30, String.valueOf(getData().getMax()));*/
 
     }
 
     protected abstract DataStorage2d getData();
-
 
 
     @Override

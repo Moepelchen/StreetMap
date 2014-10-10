@@ -86,22 +86,22 @@ public class KeyHandler
 		double tileWidth = fGlobals.getMap().getTileWidth();
 		if (aPressed)
 		{
-			player.updateX((float) tileWidth/fGlobals.getGame().getWidth());
+			player.updateX((float) tileWidth);
 
 		}
 		if (wPressed)
 		{
-			player.updateY(-(float) tileWidth/fGlobals.getGame().getHeight());
+			player.updateY(-(float) tileWidth);
 
 		}
 		if (dPressed)
 		{
-			player.updateX(-(float) tileWidth/fGlobals.getGame().getWidth());
+			player.updateX(-(float) tileWidth);
 
 		}
 		if (sPressed)
 		{
-			player.updateY((float) tileWidth/fGlobals.getGame().getHeight());
+			player.updateY((float) tileWidth);
 
 		}
         if(ePressed)

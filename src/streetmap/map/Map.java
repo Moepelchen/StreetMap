@@ -2,8 +2,6 @@ package streetmap.map;
 
 import org.lwjgl.opengl.GL11;
 import streetmap.SSGlobals;
-import streetmap.car.PrintableRenderBuffer;
-import streetmap.car.RenderStuff;
 import streetmap.events.EventQueue;
 import streetmap.events.IEvent;
 import streetmap.events.PlacementEvent;
@@ -14,8 +12,7 @@ import streetmap.map.street.Lane;
 import streetmap.map.tile.Tile;
 import streetmap.pathfinding.AbstractPathFinder;
 import streetmap.pathfinding.PathFactory;
-import streetmap.utils.DrawHelper;
-import streetmap.utils.TextureCache;
+import streetmap.utils.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

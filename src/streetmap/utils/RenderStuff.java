@@ -2,7 +2,7 @@
  * Copyright (C) veenion GmbH 1999-2012.
  */
 
-package streetmap.car;
+package streetmap.utils;
 
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL30;

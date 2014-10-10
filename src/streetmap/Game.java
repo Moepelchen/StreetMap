@@ -18,13 +18,13 @@ import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-import streetmap.car.PrintableRenderBuffer;
 import streetmap.gui.GLStreetPanel;
 import streetmap.gui.IScreenNames;
 import streetmap.gui.controller.*;
 import streetmap.gui.inputmapping.MenuInputMapping;
-import streetmap.map.DataStorage2d;
 import streetmap.map.Map;
+import streetmap.utils.DataStorage2d;
+import streetmap.utils.PrintableRenderBuffer;
 import streetmap.utils.TextureCache;
 
 import java.io.File;
@@ -37,8 +37,8 @@ import java.nio.FloatBuffer;
  */
 public class Game
 {
-	public static final int WIDTH = 1280;
-	public static final int HEIGHT = 680;
+	public static final int WIDTH = 1920;
+	public static final int HEIGHT = 1080;
 	private final Player fPlayer;
 	SSGlobals fGlobals;
 	private GLStreetPanel fStreetPanel;
@@ -193,7 +193,7 @@ public class Game
 			fNifty.render(false);
             updateMatrises();
 			Display.update();
-			Display.sync(60); // cap fps to 60fps
+			//Display.sync(60); // cap fps to 60fps
 
 			String screenId = fNifty.getCurrentScreen().getScreenId();
 			if (fNifty.getCurrentScreen() != null && screenId != null && screenId.equals(IScreenNames.SCREEN_GAME))
@@ -219,7 +219,7 @@ public class Game
         // Translate camera
 		Vector3f pos = fPlayer.getPos();
 
-		pos.set(fPlayer.getX(), fPlayer.getY());
+		pos.set(fPlayer.getX()/getWidth(), fPlayer.getY()/getHeight());
 		Matrix4f.translate(new Vector3f(0,0,-1), viewMatrix, viewMatrix);
 		// Scale, translate and rotate model
 		Matrix4f.scale(fPlayer.getZoom(), modelMatrix, modelMatrix);
@@ -398,7 +398,18 @@ public class Game
 		Vector2f toReturn = new Vector2f(x, y);
 		float playerX = fPlayer.getX();
 		float playerY = fPlayer.getY();
-		toReturn.set(x - playerX * WIDTH, y - playerY * HEIGHT);
+		Vector2f playerVec = new Vector2f(playerX,playerY);
+		Vector2f windowVec = new Vector2f(WIDTH/2,HEIGHT/2);
+		//windowVec.scale(fPlayer.getZoom().getX());
+		float scale = 1.3f + 1 / fPlayer.getZoom().getX();
+		playerVec.scale(1/ scale);
+		toReturn.set(x - playerVec.getX(), y - playerVec.getY());
+		toReturn.set(toReturn.getX()-windowVec.getX(),toReturn.getY()-windowVec.getY());
+		toReturn.scale(scale);
+
+		System.out.println("----");
+		System.out.println("playerVec = " + playerVec);
+		System.out.println("toReturn = " + toReturn);
 		return toReturn;
 	}
 

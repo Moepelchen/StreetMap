@@ -1,6 +1,6 @@
 package streetmap.gui.effects;
 
-import streetmap.map.DataStorage2d;
+import streetmap.utils.DataStorage2d;
 
 /**
  * Created by ulrichtewes on 12.01.14.

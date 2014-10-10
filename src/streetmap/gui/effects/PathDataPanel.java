@@ -4,7 +4,7 @@
 
 package streetmap.gui.effects;
 
-import streetmap.map.DataStorage2d;
+import streetmap.utils.DataStorage2d;
 
 /**
  * Short description in a complete sentence.

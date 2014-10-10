@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<nifty xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://nifty-gui.sourceforge.net/nifty-1.3.xsd"
+<nifty xmlns="http://nifty-gui.sourceforge.net/nifty-1.3.xsd"
         >
     <useStyles filename="nifty-default-styles.xml"/>
     <useControls filename="nifty-default-controls.xml"/>
     <!-- Nifty XML content goes in here -->
     <screen id="game" controller="streetmap.gui.controller.GameScreenController"
             inputMappingPre="streetmap.gui.inputmapping.MenuInputMapping">
-        <layer id="debug_layer" childLayout="horizontal" valign="bottom">
+        <layer id="debug_layer" childLayout="horizontal" valign="bottom"
+                padding="0px,0px,0px,150px">
             <panel valign="bottom" align="right" childLayout="center" id="fps" height="100" width="300"
                    backgroundColor="#ff0027">
                 <text font="aurulent-sans-16.fnt" color="#ffff"
