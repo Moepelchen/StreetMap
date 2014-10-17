@@ -27,19 +27,19 @@ public class Anchor
     /**
      * Lanes connected to this anchor
      */
-    private ArrayList<Lane> fOutputLanes;
-    private ArrayList<Lane> fInputLanes;
+    private final ArrayList<Lane> fOutputLanes;
+    private final ArrayList<Lane> fInputLanes;
     /**
      * indicates that the anchor is currently blocked, meaning that the cars can not move any further
      */
     private boolean fBlocked;
 
-    public Anchor(Side horizontalSide, Point2D position, String compassPoint)
+    public Anchor(Side horizontalSide, Point2D position)
     {
         fSide = horizontalSide;
         fPosition = position;
-        fOutputLanes = new ArrayList<Lane>();
-        fInputLanes = new ArrayList<Lane>();
+        fOutputLanes = new ArrayList<>();
+        fInputLanes = new ArrayList<>();
 
     }
 

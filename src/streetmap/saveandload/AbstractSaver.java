@@ -25,17 +25,17 @@ public abstract class AbstractSaver
 
 	public abstract void save(BufferedWriter out, Object object) throws IOException;
 
-	protected static void writeStart(BufferedWriter output) throws IOException
+	private static void writeStart(BufferedWriter output) throws IOException
 	{
 		output.write("<");
 	}
 
-	protected static void writeStartEnd(BufferedWriter output) throws IOException
+	private static void writeStartEnd(BufferedWriter output) throws IOException
 	{
 		output.write(">");
 	}
 
-	protected static void writeEnd(BufferedWriter output) throws IOException
+	private static void writeEnd(BufferedWriter output) throws IOException
 	{
 		output.write("</");
 	}

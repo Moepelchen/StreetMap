@@ -6,6 +6,6 @@ package streetmap.gui;
 public class IScreenNames
 {
 	public static final String SCREEN_MENU = "menu";
-	public static String SCREEN_GAME="game";
+	public static final String SCREEN_GAME="game";
 
 }

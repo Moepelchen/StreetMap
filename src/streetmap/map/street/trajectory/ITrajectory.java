@@ -18,8 +18,6 @@ public interface ITrajectory
 
 	double getAngle(Car car);
 
-	void print();
-
 	/**
 	 * determines whether the car is still on this lane
 	 *

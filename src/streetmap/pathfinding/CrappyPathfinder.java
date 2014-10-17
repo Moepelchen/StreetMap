@@ -16,7 +16,7 @@ import java.util.*;
 public class CrappyPathfinder extends AbstractPathFinder
 {
 
-	private HashSet<Integer> fNoGo = new HashSet<>();
+	private final HashSet<Integer> fNoGo = new HashSet<>();
 
 	public CrappyPathfinder(Car car)
 	{

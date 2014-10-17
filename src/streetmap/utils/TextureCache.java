@@ -27,11 +27,7 @@ public class TextureCache
 			texId = gImageStore.get(path);
 			if (texId == null)
 			{
-				ByteBuffer buf = null;
-				int tWidth = 0;
-				int tHeight = 0;
-
-				try
+                try
 				{
 					// Open the PNG file as an InputStream
 					InputStream in = new FileInputStream(path);
@@ -50,7 +46,7 @@ public class TextureCache
 				gImageStore.put(path, texId);
 			}
 		}
-		if (texId == null || texId == 0)
+		if (texId == 0)
 		{
 			throw new MissingResourceException("Texture with the path '" + path + "' could not be found", TextureCache.class.toString(), path);
 		}

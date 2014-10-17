@@ -8,6 +8,7 @@ import de.lessvoid.nifty.render.batch.spi.BatchRenderBackend;
 import de.lessvoid.nifty.renderer.lwjgl.input.LwjglInputSystem;
 import de.lessvoid.nifty.renderer.lwjgl.render.LwjglBatchRenderBackendCoreProfileFactory;
 import de.lessvoid.nifty.renderer.lwjgl.time.LWJGLTimeProvider;
+import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
@@ -37,31 +38,30 @@ import java.nio.FloatBuffer;
  */
 public class Game
 {
-	public static final int WIDTH = 1920;
-	public static final int HEIGHT = 1080;
+	private static final int WIDTH = 640;
+	private static final int HEIGHT = 480;
 	private final Player fPlayer;
-	SSGlobals fGlobals;
+	private final SSGlobals fGlobals;
 	private GLStreetPanel fStreetPanel;
 	private KeyHandler fKeyboardHandler;
 	private boolean fPaused;
-	private Vector2f fScalePoint;
 
 	/**
 	 * time at last frame
 	 */
-	long lastFrame;
+    private long lastFrame;
 
 	/**
 	 * frames per second
 	 */
-	int fps;
+    private int fps;
 	/**
 	 * last fps time
 	 */
-	long lastFPS;
+    private long lastFPS;
 
-	private DataStorage2d fFPSData = new DataStorage2d(300);
-	private DataStorage2d fPathData = new DataStorage2d(300);
+	private final DataStorage2d fFPSData = new DataStorage2d(300);
+	private final DataStorage2d fPathData = new DataStorage2d(300);
 	private int fFSID;
     private Matrix4f projectionMatrix;
     private Matrix4f viewMatrix;
@@ -91,7 +91,7 @@ public class Game
 		return fPlayer;
 	}
 
-	public boolean isPaused()
+	boolean isPaused()
 	{
 		return fPaused;
 	}
@@ -101,13 +101,12 @@ public class Game
 		return fPathData;
 	}
 
-	public Game(SSGlobals globals)
+	private Game(SSGlobals globals)
 	{
 		fGlobals = globals;
 		fPlayer = new Player(0, 0);
 		fGlobals.setGame(this);
 		new Map(globals);
-		fScalePoint = new Vector2f(getWidth() / 2, getHeight() / 2);
 	}
 
 	public static void main(String[] args) throws Exception
@@ -129,7 +128,7 @@ public class Game
 
 	}
 
-	public void start() throws Exception
+	void start() throws Exception
 	{
 
 		// Setup an OpenGL context with API version 3.2
@@ -195,11 +194,13 @@ public class Game
 			Display.update();
 			//Display.sync(60); // cap fps to 60fps
 
-			String screenId = fNifty.getCurrentScreen().getScreenId();
-			if (fNifty.getCurrentScreen() != null && screenId != null && screenId.equals(IScreenNames.SCREEN_GAME))
-			{
-				processInput();
-			}
+            Screen currentScreen = fNifty.getCurrentScreen();
+            if (currentScreen != null) {
+                String screenId = currentScreen.getScreenId();
+                if (screenId.equals(IScreenNames.SCREEN_GAME)) {
+                    processInput();
+                }
+            }
 
 		}
 		TextureCache.releaseTextures();
@@ -252,7 +253,7 @@ public class Game
 
 	private void setupShaders()
     {
-        int errorCheckValue = GL11.glGetError();
+        int errorCheckValue;
 
 
 	    fPID = GL20.glCreateProgram();
@@ -306,7 +307,7 @@ public class Game
 	 *
 	 * @return milliseconds passed since last frame
 	 */
-	public int getDelta()
+    int getDelta()
 	{
 		long time = getTime();
 		int delta = (int) (time - lastFrame);
@@ -320,7 +321,7 @@ public class Game
 	 *
 	 * @return The system time in milliseconds
 	 */
-	public long getTime()
+    long getTime()
 	{
 		return (Sys.getTime() * 1000) / Sys.getTimerResolution();
 	}
@@ -328,7 +329,7 @@ public class Game
 	/**
 	 * Calculate the FPS and set it in the title bar
 	 */
-	public void updateFPS()
+    void updateFPS()
 	{
 		if (getTime() - lastFPS > 1000)
 		{
@@ -369,9 +370,15 @@ public class Game
 
 		fNifty.fromXml(menuDefinitions.getPath(), "game");
 
-		fNifty.getScreen(IScreenNames.SCREEN_GAME).addKeyboardInputHandler(new MenuInputMapping(), gameScreenController);
-		fNifty.getScreen(IScreenNames.SCREEN_MENU).addKeyboardInputHandler(new MenuInputMapping(), menuScreenController);
-		fGlobals.setNifty(fNifty);
+        Screen gameScreen = fNifty.getScreen(IScreenNames.SCREEN_GAME);
+        Screen menuScreen = fNifty.getScreen(IScreenNames.SCREEN_MENU);
+        if (gameScreen != null) {
+            gameScreen.addKeyboardInputHandler(new MenuInputMapping(), gameScreenController);
+        }
+        if (menuScreen != null) {
+            menuScreen.addKeyboardInputHandler(new MenuInputMapping(), menuScreenController);
+        }
+        fGlobals.setNifty(fNifty);
 	}
 
 	private void processInput()

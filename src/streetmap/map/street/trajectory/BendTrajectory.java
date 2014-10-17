@@ -137,17 +137,12 @@ public class BendTrajectory implements ITrajectory
         return defaultAngle;
 	}
 
-	@Override
-	public void print()
-	{
-	}
-
 	/**
 	 * determines whether the car is still on this lane
 	 *
 	 * @param fCar car to test with
-	 * @param lane
-	 * @return
+	 * @param lane lane to test
+	 * @return true if the car is considered to be on the given lane
 	 */
 	public boolean carOnLane(Car fCar, Lane lane)
 	{

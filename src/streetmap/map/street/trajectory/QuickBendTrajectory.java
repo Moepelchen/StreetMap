@@ -22,11 +22,10 @@ import java.util.HashMap;
 public class QuickBendTrajectory implements ITrajectory
 {
 
-	public static final double HALF_PI = Math.PI / 2;
-	public static final Point2D.Double CONST_POINT = new Point2D.Double(-1, -1);
+	private static final double HALF_PI = Math.PI / 2;
+	private static final Point2D.Double CONST_POINT = new Point2D.Double(-1, -1);
 	private boolean fisSideWays;
 	private Lane fLane;
-	private boolean isBackWard;
 	private final QuadCurve2D fCurve;
 	private double fLength;
 	private boolean fIsUpward;
@@ -45,7 +44,6 @@ public class QuickBendTrajectory implements ITrajectory
 		double y = endY;
 		if (startX > endX && fLane.getDirection(fLane.getStart()).equals(ICompassPoint.COMPASS_POINT_E) || (startX < endX && fLane.getDirection(fLane.getStart()).equals(ICompassPoint.COMPASS_POINT_W)))
 		{
-			isBackWard = true;
 			x = endX;
 			y = startY;
 		}
@@ -167,11 +165,6 @@ public class QuickBendTrajectory implements ITrajectory
 			}
 			return angle;
 		}
-	}
-
-	@Override
-	public void print()
-	{
 	}
 
 	/**

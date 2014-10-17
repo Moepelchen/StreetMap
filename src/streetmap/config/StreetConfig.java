@@ -31,7 +31,7 @@ import java.util.List;
 public class StreetConfig
 {
 
-	private HashMap<String, StreetTemplate> fStreets;
+	private final HashMap<String, StreetTemplate> fStreets;
 
 	/**
 	 * Constructor
@@ -46,7 +46,7 @@ public class StreetConfig
 		{
 			parse();
 		}
-		catch (ParserConfigurationException | IOException | SAXException | JAXBException e)
+		catch ( IOException | JAXBException e)
 		{
 			throw new FileNotFoundException("Die Strassen-Konfigurationsdatei konnte nicht gefunden werden");
 		}
@@ -56,11 +56,9 @@ public class StreetConfig
 	 * Parses the streets.xml into an jaxb object
 	 *
 	 * @throws IOException
-	 * @throws ParserConfigurationException
-	 * @throws SAXException
 	 * @throws JAXBException
 	 */
-	private void parse() throws IOException, ParserConfigurationException, SAXException, JAXBException
+	private void parse() throws IOException, JAXBException
 	{
 		JAXBContext jc = JAXBContext.newInstance("streetmap.xml.jaxb.streets");
 

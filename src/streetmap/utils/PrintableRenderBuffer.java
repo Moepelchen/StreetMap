@@ -166,7 +166,7 @@ public class PrintableRenderBuffer
 			GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
 
 			stuff.setPID(globals.getGame().getPID());
-			stuff.init(vaoId, vboId, vboiId, fIndicesCount, 0);
+			stuff.init(vaoId, vboId, vboiId, fIndicesCount);
 		}
 		return stuff;
 	}
@@ -181,7 +181,7 @@ public class PrintableRenderBuffer
 	public static int loadShader(String filename, int type)
 	{
 		StringBuilder shaderSource = new StringBuilder();
-		int shaderID = 0;
+		int shaderID;
 
 		try
 		{

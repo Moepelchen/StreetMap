@@ -33,8 +33,8 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
 	private Car fCar;
 	Lane fStart;
 	Lane fEnd;
-	protected SSGlobals fGlobals;
-	private static HashMap<Lane, Vector<Lane>> fNoGo = new HashMap<>();
+	SSGlobals fGlobals;
+	private static final HashMap<Lane, Vector<Lane>> fNoGo = new HashMap<>();
 
 	// -----------------------------------------------------
 // constants
@@ -48,12 +48,12 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
 // -----------------------------------------------------
 // constructors
 // -----------------------------------------------------
-	public AbstractPathFinder(Car car)
+    AbstractPathFinder(Car car)
 	{
 		init(car);
 	}
 
-	protected void init(Car car)
+	void init(Car car)
 	{
 		fGlobals = car.getLane().getGlobals();
 		fPath = new LinkedList<>();
@@ -93,7 +93,7 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
 		return nextLane;
 	}
 
-	protected double getHeatMapReading(double startEndDistance, Lane lane, Lane cand, Lane randomLane)
+	double getHeatMapReading(double startEndDistance, Lane lane, Lane cand, Lane randomLane)
 	{
 		double heatMapReading;
 		Point2D arrayPosition = randomLane.getEnd().getSide().getTile().getArrayPosition();
@@ -165,7 +165,7 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
 		return existsPath(fStart);
 	}
 
-	protected boolean existsPath(Lane lane)
+	boolean existsPath(Lane lane)
 	{
 		Vector<Lane> end = fNoGo.get(lane);
 		return !(end != null && end.contains(fEnd)) && !fEnd.getStart().getInputLanes().isEmpty();

@@ -7,9 +7,8 @@ package streetmap.car;
 import streetmap.SSGlobals;
 import streetmap.map.street.Lane;
 
-import javax.swing.*;
 import java.awt.geom.Point2D;
-import java.util.Vector;
+
 
 /**
  * Short description in a complete sentence.
@@ -52,16 +51,7 @@ public class CarFactory
 
 	public static Car createCar(SSGlobals globals, Lane lane, Point2D pos)
 	{
-		ImageIcon carImage = getCarImage(globals);
-
-
 		return new Car(lane, pos, "./images/cars/car.png", globals.getConfig().getCarLength());
 	}
 
-	public static ImageIcon getCarImage(SSGlobals globals)
-	{
-		Vector<ImageIcon> images = globals.getConfig().getCarImages();
-		int rand = (int) (Math.random() * images.size());
-		return images.get(rand);
-	}
 } //CarFactory

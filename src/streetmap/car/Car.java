@@ -23,7 +23,7 @@ import java.util.Vector;
 public class Car implements IPrintable, ISimulateable, IEventHandler
 {
 
-	public static final int COLOR_HAPPINESS = 255;
+	private static final int COLOR_HAPPINESS = 255;
 	private boolean fHasRequestedPath;
 
 	/**
@@ -39,10 +39,10 @@ public class Car implements IPrintable, ISimulateable, IEventHandler
 	/**
 	 * Color of this car
 	 */
-	private Color fColor;
+	private final Color fColor;
 	private double fSpeed;
 	private final double fOriginalSpeed;
-	private float fLength;
+	private final float fLength;
 	private double fHappiness;
 	private IPathFindingAlgorithm fPathFinder;
 
@@ -144,13 +144,14 @@ public class Car implements IPrintable, ISimulateable, IEventHandler
 		return (getLane().getGlobals().getConfig().getTileSize() / 20) * fSpeed;
 	}
 
-	public double getSpeedModifier()
+	double getSpeedModifier()
 	{
 		return fSpeed;
 	}
 
 	/**
-	 * @param lane
+     * Reset the car on the given lane
+	 * @param lane Given lane
 	 */
 	public void reset(Lane lane)
 	{
@@ -161,7 +162,7 @@ public class Car implements IPrintable, ISimulateable, IEventHandler
 		}
 	}
 
-	protected void recalcPath(Lane destination)
+	void recalcPath(Lane destination)
 	{
 		fLane.getGlobals().getMap().getPathFactory().createPath(this, destination);
 	}
@@ -230,15 +231,17 @@ public class Car implements IPrintable, ISimulateable, IEventHandler
 	public ReadableColor getColor()
 	{
         int red = Math.min((int) (COLOR_HAPPINESS * (1 - fHappiness)), COLOR_HAPPINESS);
-        int green = 0;
+        int green;
 
         green = Math.min((int) (COLOR_HAPPINESS * (fHappiness)), COLOR_HAPPINESS);
 
         Color color = new Color(red, green, 0);
+        if(getLane().getGlobals().getConfig().isShowHappiness())
+            return color;
 		return fColor;
 	}
 
-	public void setSpeed(double speed)
+	void setSpeed(double speed)
 	{
 		if (speed < 0)
 		{

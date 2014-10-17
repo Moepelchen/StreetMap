@@ -72,7 +72,7 @@ public class TexturedVertex {
 		out[i++] = this.rgba[3];
 		// Insert ST elements
 		out[i++] = this.st[0];
-		out[i++] = this.st[1];
+		out[i] = this.st[1];
 		
 		return out;
 	}

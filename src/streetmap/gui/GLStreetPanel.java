@@ -74,10 +74,10 @@ public class GLStreetPanel
 			if (currentScreen != null)
 			{
 				placeables = currentScreen.findElementById("Placeables");
-                placeables.setWidth(fTileWidth);
 				if (placeables != null)
 				{
-					for (Tile tile : fTiles)
+                    placeables.setWidth(fTileWidth);
+                    for (Tile tile : fTiles)
 					{
 						String imagePath = tile.getPlaceable().getMenuImagePath();
 						final File image = new File(imagePath);

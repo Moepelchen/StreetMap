@@ -1,6 +1,7 @@
 package streetmap;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.input.keyboard.KeyboardInputEvent;
 import de.lessvoid.nifty.screen.Screen;
 import org.lwjgl.input.Keyboard;
@@ -30,30 +31,36 @@ public class KeyHandler
 			if (Keyboard.getEventKeyState())
 			{
 				handleMovementKeyPressed();
-
-				if (Keyboard.getEventKey() == Keyboard.KEY_F3)
-				{
-					Nifty nifty = fGlobals.getGame().getNifty();
-					if (!fDebugShown)
-					{
-						fDebugShown = true;
-						setLayerVisibility(nifty, true);
-					}
-					else
-					{
-						fDebugShown = false;
-						setLayerVisibility(nifty, false);
-					}
-				}
-
                 if (Keyboard.getEventKey() == Keyboard.KEY_F1)
                 {
                     fGlobals.getConfig().setShowHeatMap(!fGlobals.getConfig().isShowHeatMap());
                 }
+
                 if (Keyboard.getEventKey() == Keyboard.KEY_F2)
                 {
                     fGlobals.getConfig().setShowCars(!fGlobals.getConfig().isShowCars());
                 }
+
+                if (Keyboard.getEventKey() == Keyboard.KEY_F3)
+                {
+                    Nifty nifty = fGlobals.getGame().getNifty();
+                    if (!fDebugShown)
+                    {
+                        fDebugShown = true;
+                        setLayerVisibility(nifty, true);
+                    }
+                    else
+                    {
+                        fDebugShown = false;
+                        setLayerVisibility(nifty, false);
+                    }
+                }
+
+                if (Keyboard.getEventKey() == Keyboard.KEY_F4)
+                {
+                   fGlobals.getConfig().setShowHappiness(!fGlobals.getConfig().isShowHappiness());
+                }
+
 				if(Keyboard.getEventKey() == Keyboard.KEY_E)
                 {
                     ePressed = true;
@@ -65,8 +72,11 @@ public class KeyHandler
 
 				if(Keyboard.getEventKey() == Keyboard.KEY_ESCAPE)
 				{
-					fGlobals.getGame().getNifty().getCurrentScreen().keyEvent(new KeyboardInputEvent(Keyboard.getEventKey(), Keyboard.getEventCharacter(), Keyboard.getEventKeyState(), false, false));
-				}
+                    Screen currentScreen = fGlobals.getGame().getNifty().getCurrentScreen();
+                    if (currentScreen != null) {
+                        currentScreen.keyEvent(new KeyboardInputEvent(Keyboard.getEventKey(), Keyboard.getEventCharacter(), Keyboard.getEventKeyState(), false, false));
+                    }
+                }
 
 			}
 			else
@@ -118,16 +128,21 @@ public class KeyHandler
     private void setLayerVisibility(Nifty nifty, boolean debugShown)
     {
         Screen current = nifty.getCurrentScreen();
-        if(current.getScreenId().equals(IScreenNames.SCREEN_GAME))
-        {
-            current.findElementByName(ILayerNames.LAYER_DEBUG).setVisible(debugShown);
-            nifty.update();
-            nifty.render(false);
+        if (current != null) {
+            if(current.getScreenId().equals(IScreenNames.SCREEN_GAME))
+            {
+                Element elementByName = current.findElementByName(ILayerNames.LAYER_DEBUG);
+                if (elementByName != null) {
+                    elementByName.setVisible(debugShown);
+                }
+                nifty.update();
+                nifty.render(false);
 
+            }
         }
     }
 
-    protected void handleMovementKeyReleased()
+    void handleMovementKeyReleased()
 	{
 		if (Keyboard.getEventKey() == Keyboard.KEY_A)
 		{
@@ -147,7 +162,7 @@ public class KeyHandler
 		}
 	}
 
-	protected void handleMovementKeyPressed()
+	void handleMovementKeyPressed()
 	{
 		if (Keyboard.getEventKey() == Keyboard.KEY_A)
 		{

@@ -23,8 +23,8 @@ public class IStreetNames
 // constants
 // -----------------------------------------------------
     public static final String DELETE_STREET = "DeleteStreet";
-	public static String SOUTH_NORTH = "SouthNorth";
-	public  static String WEST_EAST = "WestEast";
+	public static final String SOUTH_NORTH = "SouthNorth";
+	public  static final String WEST_EAST = "WestEast";
 // -----------------------------------------------------
 // variables
 // -----------------------------------------------------

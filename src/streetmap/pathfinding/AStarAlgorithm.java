@@ -27,7 +27,7 @@ import java.util.*;
 public class AStarAlgorithm extends AbstractPathFinder
 {
 
-	private static HashMap<String, LinkedList<Lane>> fPathList = new HashMap<>();
+	//private static HashMap<String, LinkedList<Lane>> fPathList = new HashMap<>();
 
 	@Override
 	protected boolean createPath(Lane start)
@@ -132,8 +132,8 @@ public class AStarAlgorithm extends AbstractPathFinder
 	private class SortedNodeList
 	{
 
-		private TreeSet<Candidate> list = new TreeSet<>();
-		private HashMap<Integer, Candidate> hash = new HashMap<>();
+		private final TreeSet<Candidate> list = new TreeSet<>();
+		private final HashMap<Integer, Candidate> hash = new HashMap<>();
 
 		public Candidate getFirst()
 		{

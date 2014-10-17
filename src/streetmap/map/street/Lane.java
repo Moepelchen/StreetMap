@@ -19,11 +19,11 @@ public class Lane implements ISimulateable
     private final Street fStreet;
     private Anchor fStartAnchor;
 	private Anchor fEndAnchor;
-	private Vector<Car> fCars;
+	private final Vector<Car> fCars;
 	private int fType;
-	private SSGlobals fGlobals;
+	private final SSGlobals fGlobals;
 	private ITrajectory fTrajectory;
-	private HashMap<Anchor, String> fDirections;
+	private final HashMap<Anchor, String> fDirections;
 	private boolean isEnd;
 	private String fTo;
 	private String fFrom;
@@ -64,7 +64,7 @@ public class Lane implements ISimulateable
 		isEnd = end;
 	}
 
-	public boolean isStartLane()
+	boolean isStartLane()
 	{
 		return isStart;
 	}
@@ -83,14 +83,6 @@ public class Lane implements ISimulateable
 		fCars = new Vector<>();
 		fDirections = new HashMap<>();
 
-	}
-
-	public void print()
-	{
-		if (fGlobals.getConfig().isDrawLanes())
-		{
-			fTrajectory.print();
-		}
 	}
 
 	public void simulate()
@@ -118,7 +110,7 @@ public class Lane implements ISimulateable
             }
             if(reachedGoal){
                 toRemoveCars.add(fCar);
-                getGlobals().getMap().addCarFlowData(1);
+                getGlobals().getMap().addCarFlowData();
             }
             if (!fTrajectory.carOnLane(fCar, this) && !reachedGoal)
 			{
@@ -152,7 +144,7 @@ public class Lane implements ISimulateable
 					}
 					else
 					{
-						getGlobals().getMap().addCarFlowData(1);
+						getGlobals().getMap().addCarFlowData();
 					}
 				}
 			}

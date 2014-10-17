@@ -21,10 +21,10 @@ import streetmap.utils.RingList;
  * @version 1.0
  * @since Release
  */
-public class RightBeforeLeftRule
+class RightBeforeLeftRule
 {
 
-	public static final RingList<String> gCompassPoints = new RingList<String>()
+	private static final RingList<String> gCompassPoints = new RingList<String>()
 	{{
 			add(ICompassPoint.COMPASS_POINT_N);
 			add(ICompassPoint.COMPASS_POINT_W);

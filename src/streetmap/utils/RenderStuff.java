@@ -26,11 +26,6 @@ public class RenderStuff
 	private int fFVBOId;
 	private int fPID;
 
-	public int getVBOCId()
-	{
-		return fVBOCId;
-	}
-
 	private int fVBOCId;
 
 	public int getFVAOId()
@@ -56,14 +51,13 @@ public class RenderStuff
 	private int fFVBOId2;
 	private int fFIndicesCount;
 
-	public RenderStuff init(int fVAOId, int fVBOId, int fVBOId2, int fIndicesCount, int vbocId)
+	public RenderStuff init(int fVAOId, int fVBOId, int fVBOId2, int fIndicesCount)
 	{
 
 		fFVAOId = fVAOId;
 		fFVBOId = fVBOId;
 		fFVBOId2 = fVBOId2;
 		fFIndicesCount = fIndicesCount;
-		fVBOCId = vbocId;
 
 		return this;
 	}

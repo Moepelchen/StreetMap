@@ -21,8 +21,8 @@ public class VerticalSide extends Side
 
 	public void setAnchors()
 	{
-		fAnchorOne = new Anchor(this, new Point2D.Double(getPosition().getX(), getPosition().getY() + getGlobals().getMap().getTileWidth() / 8), fCompassPoint);
-		fAnchorTwo = new Anchor(this, new Point2D.Double(getPosition().getX(), getPosition().getY() - getGlobals().getMap().getTileWidth() / 8), fCompassPoint);
+		fAnchorOne = new Anchor(this, new Point2D.Double(getPosition().getX(), getPosition().getY() + getGlobals().getMap().getTileWidth() / 8));
+		fAnchorTwo = new Anchor(this, new Point2D.Double(getPosition().getX(), getPosition().getY() - getGlobals().getMap().getTileWidth() / 8));
 	}
 
 }

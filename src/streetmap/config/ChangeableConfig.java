@@ -17,7 +17,7 @@ import java.io.FileNotFoundException;
  */
 public class ChangeableConfig extends Config implements IChangeableConfig
 {
-	/**
+    /**
 	 * Constructor  for setting up a ChangeableConfig
 	 *
 	 * @param glob current globals
@@ -98,5 +98,10 @@ public class ChangeableConfig extends Config implements IChangeableConfig
     public void setShowCars(boolean b)
     {
         fShowCars = b;
+    }
+
+    @Override
+    public void setShowHappiness(boolean b) {
+        fShowHappiness = b;
     }
 }

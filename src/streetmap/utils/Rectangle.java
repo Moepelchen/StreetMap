@@ -15,9 +15,9 @@ public class Rectangle implements IPrintable
     private Point2D.Double fPos;
     private float aFloat = 100f;
 
-    public Rectangle(double y, double y1, int i)
+    public Rectangle(double x, double y, int i)
     {
-        fPos = new Point2D.Double(y,y1);
+        fPos = new Point2D.Double(x,y);
         aFloat = i;
     }
 

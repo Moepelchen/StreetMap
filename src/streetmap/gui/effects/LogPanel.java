@@ -6,6 +6,7 @@ import de.lessvoid.nifty.effects.EffectProperties;
 import de.lessvoid.nifty.effects.Falloff;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.render.NiftyRenderEngine;
+import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.spi.render.RenderDevice;
 import de.lessvoid.nifty.spi.render.RenderFont;
 import de.lessvoid.nifty.tools.Color;
@@ -19,15 +20,21 @@ import java.util.ArrayList;
 /**
  * Created by ulrichtewes on 12.01.14.
  */
-public abstract class LogPanel implements EffectImpl
+abstract class LogPanel implements EffectImpl
 {
-    protected SSGlobals fGlobals;
+    SSGlobals fGlobals;
 
 	@Override
     public void activate(Nifty nifty, Element element, EffectProperties effectProperties)
     {
-        GameScreenController controller = (GameScreenController) nifty.getCurrentScreen().getScreenController();
-        fGlobals = controller.getGlobals();
+        Screen currentScreen = nifty.getCurrentScreen();
+        GameScreenController controller = null;
+        if (currentScreen != null) {
+            controller = (GameScreenController) currentScreen.getScreenController();
+        }
+        if (controller != null) {
+            fGlobals = controller.getGlobals();
+        }
     }
 
     @Override
@@ -69,5 +76,5 @@ public abstract class LogPanel implements EffectImpl
     {
     }
 
-    public abstract double getMax();
+    protected abstract double getMax();
 }

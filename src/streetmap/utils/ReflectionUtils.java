@@ -17,15 +17,15 @@ public class ReflectionUtils
 		}
 		else if (clazz.equals(boolean.class))
 		{
-			return Boolean.parseBoolean(obj.toString());
+			return Boolean.parseBoolean(obj);
 		}
 		else if (clazz.equals(Boolean.class))
 		{
-			return (Boolean) Boolean.parseBoolean(obj.toString());
+			return Boolean.parseBoolean(obj);
 		}
 		else if (clazz.equals(Double.class))
 		{
-			return (Double) Double.parseDouble(obj.toString());
+			return Double.parseDouble(obj);
 		}
         else if(clazz.equals(Integer.class))
         {

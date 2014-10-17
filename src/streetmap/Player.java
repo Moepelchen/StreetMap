@@ -22,8 +22,7 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public class Player
 {
-	private Vector2f fPosition;
-    float scaleDelta = 0.1f;
+	private final Vector2f fPosition;
     private Vector3f fZoom = new Vector3f(1, 1, 1);
     private float z;
 
@@ -114,12 +113,12 @@ public class Player
         return new Vector3f(getX(), getY(), getZ());
     }
 
-    public void setZ(float z)
+    void setZ(float z)
     {
         this.z = z;
     }
 
-    public float getZ()
+    float getZ()
     {
         return z;
     }

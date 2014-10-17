@@ -34,12 +34,12 @@ public class ConfigLoader implements ILoader
 	public boolean load(File file, SSGlobals glob) throws ParserConfigurationException, IOException, SAXException, NoSuchMethodException, InvocationTargetException, IllegalAccessException
 	{
 
-		if (!(glob.getConfig() instanceof IChangeableConfig))
+		if (glob.getConfig() == null)
 		{
 			return false;
 		}
 
-		IChangeableConfig config = (IChangeableConfig) glob.getConfig();
+		IChangeableConfig config = glob.getConfig();
 
 		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();

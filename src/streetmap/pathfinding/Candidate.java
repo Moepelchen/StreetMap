@@ -1,5 +1,6 @@
 package streetmap.pathfinding;
 
+import com.sun.istack.NotNull;
 import streetmap.map.street.Lane;
 
 /**
@@ -17,7 +18,7 @@ public class Candidate implements Comparable
 	public double fDistanceToStart = 0;
 
 	@Override
-	public int compareTo(Object o)
+	public int compareTo(@NotNull Object o)
 	{
 		Candidate candidate = (Candidate) o;
 		if ((this.fDistanceToGoal + fDistanceToStart) < (candidate.fDistanceToGoal + candidate.fDistanceToStart))

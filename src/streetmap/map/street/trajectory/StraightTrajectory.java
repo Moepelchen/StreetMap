@@ -23,14 +23,14 @@ public class StraightTrajectory implements ITrajectory
 {
 	private static final int INT = 10000000;
 
-	private double fA;
+	private final double fA;
 
 	private double fB;
 
 	private double fDirection;
 
-	private Lane fLane;
-	private double fAngle;
+	private final Lane fLane;
+	private final double fAngle;
 
 	public StraightTrajectory(Lane lane)
 	{
@@ -89,8 +89,7 @@ public class StraightTrajectory implements ITrajectory
 		{
 			newPos.setLocation(x, fA * x + fB);
 		}
-		else if (fA == INT)
-		{
+		else {
 			newPos.setLocation(pos.getX(), pos.getY() - fDirection * speed*2.5);
 		}
 
@@ -100,11 +99,6 @@ public class StraightTrajectory implements ITrajectory
 	public double getAngle(Car car)
 	{
 		return fAngle;
-	}
-
-	@Override
-	public void print()
-	{
 	}
 
 	/**

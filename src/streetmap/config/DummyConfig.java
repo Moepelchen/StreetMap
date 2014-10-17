@@ -102,6 +102,11 @@ public class DummyConfig implements IConfig
         return false;
     }
 
+    @Override
+    public boolean isShowHappiness() {
+        return false;
+    }
+
     public String getStreetPath()
 	{
 		return "/home/shifter/workspace/StreetMap/config/Streets/";

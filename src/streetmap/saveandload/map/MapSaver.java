@@ -23,7 +23,6 @@ public class MapSaver extends AbstractSaver
 
 		beginTilesTag(output);
 		Tile[][] mapTiles = map.getTiles();
-		int x = mapTiles.length;
 		for (Tile[] tiles : mapTiles)
 		{
 			for (Tile tile : tiles)

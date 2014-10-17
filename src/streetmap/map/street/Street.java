@@ -24,15 +24,15 @@ public class Street implements IPlaceable
 	/**
 	 * the tile on which this street is located on
 	 */
-	private Tile fTile;
+	private final Tile fTile;
 	/**
 	 * Name of the StreetTemplate used
 	 */
-	private String fName;
+	private final String fName;
 	/**
 	 * Current globals
 	 */
-	private SSGlobals fGlobals;
+	private final SSGlobals fGlobals;
 	/**
 	 * indicates that this street can spawn new cars
 	 */
@@ -47,14 +47,14 @@ public class Street implements IPlaceable
      * Image of this Street
      */
 
-	private boolean fSpecial;
+	private final boolean fSpecial;
 
-	public SSGlobals getGlobals()
+	SSGlobals getGlobals()
 	{
 		return fGlobals;
 	}
 
-	public Tile getTile()
+	Tile getTile()
 	{
 		return fTile;
 	}
@@ -100,7 +100,7 @@ public class Street implements IPlaceable
 	@Override
 	public float getLength()
 	{
-		return (float) getTile().getWidth();
+		return getTile().getWidth();
 	}
 
 	@Override
@@ -177,7 +177,7 @@ public class Street implements IPlaceable
 		return fGlobals.getStreetConfig().getTemplate(getName()).getImagePath();
 	}
 
-	public Integer getMenuImageId()
+	Integer getMenuImageId()
 	{
 		StreetTemplate template = getGlobals().getStreetConfig().getTemplate(getName());
 		Integer imagePath = Integer.valueOf(template.getMenuImageId());

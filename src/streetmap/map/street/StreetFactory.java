@@ -18,12 +18,12 @@ public class StreetFactory
     /**
      * the Globals
      */
-    private SSGlobals fGlobals;
+    private final SSGlobals fGlobals;
 
     /**
      * the StreetConfiguration
      */
-    private StreetConfig fStreetConfig;
+    private final StreetConfig fStreetConfig;
 
     /**
      * Creates a StreetFactory
@@ -58,7 +58,7 @@ public class StreetFactory
 	 * @param chooseIntelligent
 	 * @return
 	 */
-	public Street createStreet(Tile tile, String streetName, boolean chooseIntelligent)
+    Street createStreet(Tile tile, String streetName, boolean chooseIntelligent)
 	{
 		return createStreet(tile, streetName, chooseIntelligent, false);
 	}
@@ -115,7 +115,7 @@ public class StreetFactory
 
     }
 
-	protected void propagate(String streetName, double xCoord, double yCoord)
+	void propagate(String streetName, double xCoord, double yCoord)
 	{
 
 			Tile tile = fGlobals.getMap().getTile(xCoord, yCoord);
@@ -244,7 +244,7 @@ public class StreetFactory
      */
     private void generateLanes(Street street, LaneTemplates laneTemplates, Tile tile)
     {
-        Lane lane = null;
+        Lane lane;
         for (LaneTemplate laneTemplate : laneTemplates.getLaneTemplate())
         {
             lane = new Lane(fGlobals, street);

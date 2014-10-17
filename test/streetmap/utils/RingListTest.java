@@ -27,7 +27,7 @@ public class RingListTest
 	@Test
 	public void testCircularAcces()
 	{
-		RingList<String> buf = new RingList<String>();
+		RingList<String> buf = new RingList<>();
 
 		buf.add(ICompassPoint.COMPASS_POINT_W);
 		buf.add(ICompassPoint.COMPASS_POINT_S);

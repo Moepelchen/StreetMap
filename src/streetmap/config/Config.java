@@ -34,34 +34,26 @@ public class Config implements IConfig
 	/**
 	 * Collection of images for Cars
 	 */
-	private Vector<ImageIcon> fCarImages;
-    protected double fHeatMapModifier;
-    protected int fNumberOfCars;
-    protected boolean fShowHeatMap;
-	protected boolean fSimulateNightCycle;
-    protected boolean fShowCars;
+	private final Vector<ImageIcon> fCarImages;
+    double fHeatMapModifier;
+    int fNumberOfCars;
+    boolean fShowHeatMap;
+	boolean fSimulateNightCycle;
+    boolean fShowCars;
+    boolean fShowHappiness;
 
     public Config(SSGlobals glob) throws FileNotFoundException
 	{
-		fCarImages = new Vector<ImageIcon>();
+		fCarImages = new Vector<>();
 		try
 		{
 			parseConfig(glob);
 			setCarImages();
 		}
-		catch (ParserConfigurationException e)
+		catch (ParserConfigurationException | IOException | SAXException e)
 		{
 			throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
-		}
-		catch (IOException e)
-		{
-			throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
-		}
-		catch (SAXException e)
-		{
-			throw new FileNotFoundException("Die Konfigurationsdatei konnte nicht gefunden werden");
-		}
-		catch (JAXBException e)
+		} catch (JAXBException e)
 		{
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 		}
@@ -84,7 +76,7 @@ public class Config implements IConfig
 	/**
 	 * This method does the actual parsing of the config.xml
 	 *
-	 * @param glob
+	 * @param glob Globals
 	 * @throws ParserConfigurationException
 	 * @throws IOException
 	 * @throws SAXException
@@ -148,7 +140,7 @@ public class Config implements IConfig
 	@Override
 	public float getMaximumCarSpeed()
 	{
-		return (float) (getCarLength()/4);
+		return getCarLength()/4;
 	}
 
 	@Override
@@ -162,6 +154,11 @@ public class Config implements IConfig
     public boolean isShowCars()
     {
         return fShowCars;
+    }
+
+    @Override
+    public boolean isShowHappiness() {
+        return fShowHappiness;
     }
 
     public boolean isDrawTiles()

@@ -8,10 +8,10 @@ import java.awt.geom.Point2D;
 public abstract class Side
 {
 
-	protected Anchor fAnchorOne;
-	protected Anchor fAnchorTwo;
-	protected Point2D fPosition;
-	protected String fCompassPoint;
+	Anchor fAnchorOne;
+	Anchor fAnchorTwo;
+	private final Point2D fPosition;
+	final String fCompassPoint;
 	private SSGlobals fGlobals;
 	private Tile fTile;
 
@@ -25,7 +25,7 @@ public abstract class Side
 		return fAnchorTwo;
 	}
 
-	public Point2D getPosition()
+	Point2D getPosition()
 	{
 		return fPosition;
 	}
@@ -40,7 +40,7 @@ public abstract class Side
 		return fCompassPoint;
 	}
 
-	public Side(SSGlobals globals, Tile tile, Point2D position, String compassPoint)
+	Side(SSGlobals globals, Tile tile, Point2D position, String compassPoint)
 	{
 		fPosition = position;
 		fGlobals = globals;
@@ -49,7 +49,7 @@ public abstract class Side
 		setAnchors();
 	}
 
-	public void setAnchors()
+	void setAnchors()
 	{
 		// empty on purpose
 	}

@@ -45,16 +45,16 @@ public class Saver extends AbstractSaver
 // -----------------------------------------------------
 	public boolean save(SSGlobals globals, String fileName)
 	{
-		boolean couldBeCreated = false;
+		boolean couldBeCreated;
 		try
 		{
 			File file = new File("./save/" + fileName + ".xml");
 			if (!file.exists())
 			{
 
-				file.createNewFile();
+                file.createNewFile();
 
-			}
+            }
 			BufferedWriter output;
 
 			output = new BufferedWriter(new FileWriter(file));

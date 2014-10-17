@@ -19,32 +19,28 @@ import java.util.Vector;
  * @version 1.0
  * @since Release
  */
-public class EventQueue
-{
-// -----------------------------------------------------
+public class EventQueue {
+    // -----------------------------------------------------
 // constants
 // -----------------------------------------------------
 // -----------------------------------------------------
 // variables
 // -----------------------------------------------------
-	Vector<IEvent> fStreetEvents;
+    private final Vector<IEvent> fStreetEvents;
 
-	public void addEvent(IEvent event)
-	{
-		switch (event.getType())
-		{
-			case IEvent.EVENT_STREET_PLACEMENT:
-				fStreetEvents.add(event);
-				break;
-			default:
-				break;
-		}
-	}
+    public void addEvent(IEvent event) {
+        switch (event.getType()) {
+            case IEvent.EVENT_STREET_PLACEMENT:
+                fStreetEvents.add(event);
+                break;
+            default:
+                break;
+        }
+    }
 
-	public Vector<IEvent> getEvents()
-	{
-		return fStreetEvents;
-	}
+    public Vector<IEvent> getEvents() {
+        return fStreetEvents;
+    }
 // -----------------------------------------------------
 // inner classes
 // -----------------------------------------------------
@@ -52,18 +48,16 @@ public class EventQueue
 // constructors
 // -----------------------------------------------------
 
-	public EventQueue()
-	{
-		fStreetEvents = new Vector<IEvent>();
-	}
+    public EventQueue() {
+        fStreetEvents = new Vector<>();
+    }
 // -----------------------------------------------------
 // methods
 // -----------------------------------------------------
 
-	public void clearEventQueues()
-	{
-		fStreetEvents.clear();
-	}
+    public void clearEventQueues() {
+        fStreetEvents.clear();
+    }
 // -----------------------------------------------------
 // overwritten methods from superclasses
 // -----------------------------------------------------

@@ -62,8 +62,8 @@ public class Map implements ISimulateable, ActionListener
     private LinkedList<Integer> fCarFlowData;
     private double fCarFlowIndex;
     private ArrayList<Tile> fOccupiedTiles;
-    private DataStorage2d fCarData = new DataStorage2d(300);
-    private DataStorage2d fFlowData = new DataStorage2d(300);
+    private final DataStorage2d fCarData = new DataStorage2d(300);
+    private final DataStorage2d fFlowData = new DataStorage2d(300);
     private PathFactory fPathFactory;
     private streetmap.events.EventQueue fEvents;
     public Vector<Lane> getEndLanes()
@@ -219,7 +219,7 @@ public class Map implements ISimulateable, ActionListener
      * print each tile
      *
      */
-    public void print()
+    void print()
     {
 
         drawTiles();
@@ -336,9 +336,9 @@ public class Map implements ISimulateable, ActionListener
         return fHeatMapData[((int) point.getX())][((int) point.getY())];
     }
 
-    public void addCarFlowData(int removedCars)
+    public void addCarFlowData()
     {
-        int newLast = fCarFlowData.getLast() + removedCars;
+        int newLast = fCarFlowData.getLast() + 1;
         fCarFlowData.set(fCarFlowData.size() - 1, newLast);
     }
 

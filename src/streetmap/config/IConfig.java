@@ -41,4 +41,6 @@ public interface IConfig
 	float getCarLength();
 
     boolean isShowCars();
+
+    boolean isShowHappiness();
 }
