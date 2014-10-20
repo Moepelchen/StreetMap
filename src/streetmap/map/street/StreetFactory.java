@@ -222,13 +222,13 @@ public class StreetFactory
         return true;
     }
 
-    private boolean doesFit(boolean hasEastConnection, boolean tempHasEastConnection)
+    private boolean doesFit(boolean hasConnection, boolean tempHasConnection)
     {
         boolean toReturn = false;
-        if (hasEastConnection && tempHasEastConnection)
+        if (hasConnection && tempHasConnection)
         {
             toReturn = true;
-        } else if (!hasEastConnection && !tempHasEastConnection)
+        } else if (!hasConnection && !tempHasConnection)
         {
             return true;
         }

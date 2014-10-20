@@ -47,8 +47,9 @@ public class Tile implements ISimulateable, IPrintable
 	private Point2D fPosition;
     private int fNumberOfCars = 0;
     private Rectangle2D fRect;
+	private int fImageId;
 
-    public HorizontalSide getNorthSide()
+	public HorizontalSide getNorthSide()
 	{
 		return (HorizontalSide) getSide(ICompassPoint.COMPASS_POINT_N);
 	}
@@ -165,7 +166,7 @@ public class Tile implements ISimulateable, IPrintable
 	@Override
 	public Integer getImageId()
 	{
-		return 0;
+		return 14;
 	}
 
 	@Override
@@ -177,7 +178,7 @@ public class Tile implements ISimulateable, IPrintable
 	@Override
 	public float getStepWidth()
 	{
-		return 0;
+		return 0.5f;
 	}
 
 	public Tile(SSGlobals globals, Map map, Point2D arrayPosition, double width)
@@ -293,4 +294,8 @@ public class Tile implements ISimulateable, IPrintable
     {
         return fRect;
     }
+
+	public void setImageId(int imageId) {
+		this.fImageId = imageId;
+	}
 }

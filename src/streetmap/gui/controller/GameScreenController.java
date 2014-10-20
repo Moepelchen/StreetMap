@@ -5,6 +5,8 @@
 package streetmap.gui.controller;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.NiftyEventSubscriber;
+import de.lessvoid.nifty.elements.events.NiftyMousePrimaryClickedEvent;
 import de.lessvoid.nifty.input.NiftyInputEvent;
 import de.lessvoid.nifty.screen.Screen;
 import streetmap.KeyHandler;
@@ -67,6 +69,15 @@ public class GameScreenController extends AbstractScreenController
 	{
 		super(globals);
 		fKeyHandler = new KeyHandler(globals);
+	}
+	@NiftyEventSubscriber(pattern="street.*")
+	public void selectPlaceable(String id, NiftyMousePrimaryClickedEvent event)
+	{
+		String idToSet = id.substring(id.indexOf(".")+1);
+		if(id.contains(".") && idToSet.length() > 0)
+		{
+			getGlobals().getGame().getPlaceablePanel().setSelected(idToSet);
+		}
 	}
 
 

@@ -24,6 +24,7 @@ import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * Created by ulrichtewes on 07.12.13.
@@ -69,7 +70,7 @@ public class GLStreetPanel
 		Nifty nifty = fGlobals.getNifty();
 		if (nifty != null)
 		{
-			Element placeables;
+			final Element placeables;
 			Screen currentScreen = nifty.getCurrentScreen();
 			if (currentScreen != null)
 			{
@@ -77,7 +78,7 @@ public class GLStreetPanel
 				if (placeables != null)
 				{
                     placeables.setWidth(fTileWidth);
-                    for (Tile tile : fTiles)
+                    for (final Tile tile : fTiles)
 					{
 						String imagePath = tile.getPlaceable().getMenuImagePath();
 						final File image = new File(imagePath);
@@ -87,6 +88,8 @@ public class GLStreetPanel
 								childLayout(ChildLayoutType.Center);
 								image(new ImageBuilder()
 								{{
+										visibleToMouse(true);
+										id("street."+tile.getPlaceable().getName());
 										filename(image.getAbsolutePath());
 										width(String.valueOf(fTileWidth)+"px");
 										height(String.valueOf(fTileWidth)+"px");
@@ -152,7 +155,7 @@ public class GLStreetPanel
 		{
 			for (Tile tile1 : tile)
 			{
-				if (fSelectedStreet != null && fSelectedStreet.equals(IStreetNames.DELETE_STREET))
+				if (fSelectedStreet != null /*&& fSelectedStreet.equals(IStreetNames.DELETE_STREET)*/)
 				{
 					if (rect.intersects(tile1.getRect()))
 					{
@@ -178,14 +181,9 @@ public class GLStreetPanel
 		{
 			int x = Mouse.getX();
 			int y = Mouse.getY();
-			fSelectedStreet = getSelected(x, y);
+			fSelectedStreet = getSelected();
 
-			if (x < fTileWidth)
-			{
-				handlePanelClick(y);
-			}
-			else
-			{
+			if (x >= fTileWidth) {
 
 				//y = fGlobals.getGame().getHeight()-y;
 				Vector2f pos = fGlobals.getGame().getTranslatedCoords(x, y);
@@ -221,7 +219,21 @@ public class GLStreetPanel
 
 	public void draw()
    {
+	   int x = Mouse.getX();
+	   int y = Mouse.getY();
+	   Vector2f pos = fGlobals.getGame().getTranslatedCoords(x, y);
 
+	   List<IPrintable> current = new Vector<>();
+	   Tile currentTile = fGlobals.getMap().getTile(pos.getX()/fGlobals.getConfig().getTileSize(), pos.getY()/fGlobals.getConfig().getTileSize());
+	   if (currentTile != null) {
+		   current.add(currentTile);
+		   RenderStuff renderStuff = PrintableRenderBuffer.initBuffers(fGlobals, current);
+
+		   if (renderStuff != null) {
+			   DrawHelper.drawBuffers(renderStuff, TextureCache.getTextureId("./images/selectedTile.png"));
+			   renderStuff.release();
+		   }
+	   }
        if (fFirstClicked != null && fCurrentClick != null && fSelectedStreet != null)
        {
            Line2D line = new Line2D.Double(fFirstClicked, fCurrentClick);
@@ -233,20 +245,21 @@ public class GLStreetPanel
 	       List<IPrintable> list = new ArrayList<>();
 	       for (Tile intersectionTile : intersectionTiles)
 	       {
-				list.add(intersectionTile);
+			   intersectionTile.setImageId(0);
+			   list.add(intersectionTile);
 	       }
 	       RenderStuff stuff = PrintableRenderBuffer.initBuffers(fGlobals,list);
 
 	       if(stuff != null)
 	       {
-		       DrawHelper.drawCars(stuff, TextureCache.getTextureId("./images/streets/bulldozer.png"));
+		       DrawHelper.drawBuffers(stuff, TextureCache.getTextureId("./images/streets/bulldozer.png"));
 		       stuff.release();
 	       }
        }
    }
 
 
-	private String getSelected(int x, int y)
+	private String getSelected()
 	{
 
 		if (fSelectedStreet != null && !fGlobals.getStreetConfig().getTemplate(fSelectedStreet).isIsSpecial() && fCurrentClick != null)
@@ -269,11 +282,7 @@ public class GLStreetPanel
 		return fSelectedStreet;
 	}
 
-	private void handlePanelClick(int y)
-	{
-		int index = fTiles.size() - 1 - (y / fTileWidth);
-		fSelectedStreet = fTiles.get(index).getPlaceable().getName();
-		System.out.println("fSelectedStreet = " + fSelectedStreet);
-
+	public void setSelected(String selected) {
+		this.fSelectedStreet = selected;
 	}
 }

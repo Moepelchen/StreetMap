@@ -234,7 +234,7 @@ public class Map implements ISimulateable, ActionListener
 
         drawTiles();
 
-        //drawCars(g);
+        //drawBuffers(g);
     }
 
     private void drawTiles()
@@ -249,7 +249,7 @@ public class Map implements ISimulateable, ActionListener
 	        if (stuff != null)
 	        {
 
-		        DrawHelper.drawCars(stuff, TextureCache.getTextureId("./images/streets/streets.png"));
+		        DrawHelper.drawBuffers(stuff, TextureCache.getTextureId("./images/streets/streets.png"));
 
 		        stuff.release();
 
@@ -260,7 +260,7 @@ public class Map implements ISimulateable, ActionListener
 
 	            if(stuff2 != null)
 	            {
-		            DrawHelper.drawCars(stuff2, TextureCache.getTextureId("./images/cars/Car.png"));
+		            DrawHelper.drawBuffers(stuff2, TextureCache.getTextureId("./images/cars/Car.png"));
 		            stuff2.release();
 	            }
 
@@ -268,7 +268,7 @@ public class Map implements ISimulateable, ActionListener
 
 
 
-	        //DrawHelper.drawCars(DrawHelper.setupQuad(),TextureCache.getTextureId("F:\\WorkspaceGIT2\\WorkspaceGIT\\StreetMap\\images\\streets\\BendSE.png"));
+	        //DrawHelper.drawBuffers(DrawHelper.setupQuad(),TextureCache.getTextureId("F:\\WorkspaceGIT2\\WorkspaceGIT\\StreetMap\\images\\streets\\BendSE.png"));
          }
     }
 

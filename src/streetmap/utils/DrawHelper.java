@@ -16,7 +16,7 @@ public class DrawHelper
      * Image Storage
      */
 
-    public static void drawCars(RenderStuff car, int textureId)
+    public static void drawBuffers(RenderStuff car, int textureId)
     {
 
 	// Render

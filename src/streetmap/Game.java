@@ -28,6 +28,7 @@ import streetmap.utils.DataStorage2d;
 import streetmap.utils.PrintableRenderBuffer;
 import streetmap.utils.TextureCache;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.FloatBuffer;
@@ -192,7 +193,7 @@ public class Game
 			fNifty.render(false);
             updateMatrises();
 			Display.update();
-			//Display.sync(60); // cap fps to 60fps
+			Display.sync(60); // cap fps to 60fps
 
             Screen currentScreen = fNifty.getCurrentScreen();
             if (currentScreen != null) {
@@ -407,7 +408,7 @@ public class Game
 		float playerY = fPlayer.getY();
 		Vector2f playerVec = new Vector2f(playerX,playerY);
 		Vector2f windowVec = new Vector2f(WIDTH/2,HEIGHT/2);
-		//windowVec.scale(fPlayer.getZoom().getX());
+
 		float scale = 1.3f + 1 / fPlayer.getZoom().getX();
 		playerVec.scale(1/ scale);
 		toReturn.set(x - playerVec.getX(), y - playerVec.getY());
@@ -468,4 +469,8 @@ public class Game
     private float degreesToRadians(float degrees) {
         return degrees * (float)(Math.PI / 180d);
     }
+
+	public GLStreetPanel getPlaceablePanel() {
+		return fStreetPanel;
+	}
 }
