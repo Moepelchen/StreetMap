@@ -98,7 +98,13 @@ public class StreetFactory
         {
             street = new Street(fGlobals, tile, template.getName(), template.isIsSpecial());
             generateLanes(street, template.getLaneTemplates(), tile);
-            tile.setPlaceable(street);
+            if(!template.getName().equals(IStreetNames.DELETE_STREET)) {
+                tile.setPlaceable(street);
+            }
+            else
+            {
+                tile.setPlaceable(null);
+            }
 
         }
 	    if (propagate && street != null)

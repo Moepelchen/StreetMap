@@ -21,6 +21,7 @@ public class KeyHandler
 	private boolean fDebugShown;
     private boolean ePressed;
     private boolean qPressed;
+    private boolean cpressed;
 
     public void handleInput()
 	{
@@ -60,6 +61,10 @@ public class KeyHandler
                 {
                    fGlobals.getConfig().setShowHappiness(!fGlobals.getConfig().isShowHappiness());
                 }
+                if(Keyboard.getEventKey() == Keyboard.KEY_C)
+                {
+                    cpressed= true;
+                }
 
 				if(Keyboard.getEventKey() == Keyboard.KEY_E)
                 {
@@ -89,6 +94,10 @@ public class KeyHandler
                 if(Keyboard.getEventKey() == Keyboard.KEY_Q)
                 {
                     qPressed = false;
+                }
+                if(Keyboard.getEventKey() == Keyboard.KEY_C)
+                {
+                    cpressed = false;
                 }
 			}
 		}
@@ -121,6 +130,10 @@ public class KeyHandler
         if(qPressed)
         {
             player.decreaseZoom();
+        }
+        if(cpressed)
+        {
+           player.reset();
         }
 
 	}

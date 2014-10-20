@@ -63,14 +63,6 @@ public class GameScreenController extends AbstractScreenController
 
 	}
 
-	@Override
-	public boolean keyEvent(NiftyInputEvent niftyInputEvent)
-	{
-		fKeyHandler.handleInput();
-
-		return super.keyEvent(niftyInputEvent);
-	}
-
 	public GameScreenController(SSGlobals globals)
 	{
 		super(globals);

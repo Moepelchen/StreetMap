@@ -53,7 +53,7 @@ public class Map implements ISimulateable, ActionListener
     /**
      * graphics to draw
      */
-    private Vector<Lane> fEndLanes;
+    private List<Lane> fEndLanes;
     private int fMaxNumberOfCarsOnOneTile = 0;
     private int fCurrentNumberOfCars = 0;
     private double[][] fHeatMapData;
@@ -61,12 +61,14 @@ public class Map implements ISimulateable, ActionListener
     private int fNumberOfTilesY;
     private LinkedList<Integer> fCarFlowData;
     private double fCarFlowIndex;
-    private ArrayList<Tile> fOccupiedTiles;
+    private List<Tile> fOccupiedTiles;
     private final DataStorage2d fCarData = new DataStorage2d(300);
     private final DataStorage2d fFlowData = new DataStorage2d(300);
     private PathFactory fPathFactory;
     private streetmap.events.EventQueue fEvents;
-    public Vector<Lane> getEndLanes()
+    private List<IPrintable> fDrawAblesBackground;
+    private List<IPrintable> fDrawAblesForeground;
+    public List<Lane> getEndLanes()
     {
         return fEndLanes;
     }
@@ -99,6 +101,8 @@ public class Map implements ISimulateable, ActionListener
         fCarFlowIndex = 0;
         fPathFactory = new PathFactory();
         fEvents = new EventQueue();
+        fDrawAblesBackground = new Vector<>();
+        fDrawAblesForeground = new Vector<>();
 
     }
 
@@ -152,6 +156,8 @@ public class Map implements ISimulateable, ActionListener
         fMaxNumberOfCarsOnOneTile = 1;
         fCurrentNumberOfCars = 0;
         fCarFlowIndex = 0;
+        fDrawAblesBackground.clear();
+        fDrawAblesForeground.clear();
         fCarFlowData.add(0);
 
         for (Tile tile : fOccupiedTiles)
@@ -162,6 +168,11 @@ public class Map implements ISimulateable, ActionListener
             {
                 fMaxNumberOfCarsOnOneTile = numberOfCars;
             }
+            fDrawAblesBackground.add(tile.getPlaceable());
+            for (Lane lane : tile.getLanes()) {
+                fDrawAblesForeground.addAll(lane.getCars());
+            }
+
         }
 
 
@@ -169,7 +180,6 @@ public class Map implements ISimulateable, ActionListener
         {
             tile.simulate();
         }
-
 
         updateHeatMap();
         if (fCarFlowData.size() > 300)
@@ -231,21 +241,11 @@ public class Map implements ISimulateable, ActionListener
     {
         if (fOccupiedTiles != null)
         {
-	        List<IPrintable> cars = new ArrayList<>();
-	        List<IPrintable> placeables = new ArrayList<>();
-	        for (Tile tile : fOccupiedTiles)
-	        {
-		        placeables.add(tile.getPlaceable());
-		        for (Lane lane : tile.getLanes())
-		        {
-			        cars.addAll(lane.getCars());
-		        }
 
-	        }
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-	        RenderStuff stuff = PrintableRenderBuffer.initBuffers(fGlobals, placeables);
+	        RenderStuff stuff = PrintableRenderBuffer.initBuffers(fGlobals, fDrawAblesBackground);
 	        if (stuff != null)
 	        {
 
@@ -256,7 +256,7 @@ public class Map implements ISimulateable, ActionListener
 	        }
 	        if(fGlobals.getConfig().isShowCars())
             {
-                RenderStuff stuff2 = PrintableRenderBuffer.initBuffers(fGlobals, cars,true);
+                RenderStuff stuff2 = PrintableRenderBuffer.initBuffers(fGlobals, fDrawAblesForeground,true);
 
 	            if(stuff2 != null)
 	            {

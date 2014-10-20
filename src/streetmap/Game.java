@@ -414,9 +414,6 @@ public class Game
 		toReturn.set(toReturn.getX()-windowVec.getX(),toReturn.getY()-windowVec.getY());
 		toReturn.scale(scale);
 
-		System.out.println("----");
-		System.out.println("playerVec = " + playerVec);
-		System.out.println("toReturn = " + toReturn);
 		return toReturn;
 	}
 

@@ -98,9 +98,9 @@ public class Tile implements ISimulateable, IPrintable
 		return fPlaceable;
 	}
 
-	public synchronized void setPlaceable(Street fStreet)
+	public synchronized void setPlaceable(IPlaceable placeable)
 	{
-		this.fPlaceable = fStreet;
+		this.fPlaceable = placeable;
 	}
 
 	public SSGlobals getGlobals()
