@@ -89,7 +89,7 @@ public class Lane implements ISimulateable
 	{
 		Vector<Car> toRemoveCars = new Vector<>();
 
-		if (this.getEnd().getRandomLane() != null && Math.random() < getCarGenerationModifier() && this.isStartLane() && fCars.size() < 2 && fGlobals.getMap().getCurrentNumberOfCars() < fGlobals.getConfig().getMaximumNumOfCars())
+		if (this.getEnd().getRandomLane() != null && Math.random() < 0.9 && this.isStartLane() && fCars.size() < 10 && fGlobals.getMap().getCurrentNumberOfCars() < fGlobals.getConfig().getMaximumNumOfCars())
 		{
 			Car car = CarFactory.createCar(getGlobals(), this, fStartAnchor.getPosition());
 			fCars.add(car);

@@ -39,7 +39,7 @@ import java.nio.FloatBuffer;
 public class Game
 {
 	private static final int WIDTH = 640;
-	private static final int HEIGHT = 480;
+	private static final int HEIGHT = 1024;
 	private final Player fPlayer;
 	private final SSGlobals fGlobals;
 	private GLStreetPanel fStreetPanel;
@@ -192,7 +192,7 @@ public class Game
 			fNifty.render(false);
             updateMatrises();
 			Display.update();
-			Display.sync(60); // cap fps to 60fps
+			//Display.sync(60); // cap fps to 60fps
 
             Screen currentScreen = fNifty.getCurrentScreen();
             if (currentScreen != null) {
@@ -408,7 +408,7 @@ public class Game
 		Vector2f playerVec = new Vector2f(playerX,playerY);
 		Vector2f windowVec = new Vector2f(WIDTH/2,HEIGHT/2);
 
-		float scale = 1.3f + 1 / fPlayer.getZoom().getX();
+		float scale = 1.15f/ fPlayer.getZoom().getX();
 		playerVec.scale(1/ scale);
 		toReturn.set(x - playerVec.getX(), y - playerVec.getY());
 		toReturn.set(toReturn.getX()-windowVec.getX(),toReturn.getY()-windowVec.getY());

@@ -50,11 +50,13 @@ abstract class LogPanel implements EffectImpl
             double max = Math.max(flowData.getMax(), getMax());
 
             Color color = null;
+            double scale = (double)element.getWidth() / (double)data.size();
             for (Point2D point2D : data)
             {
-                color = new Color(1f,1f,1f, (float) Math.min(0.7f,point2D.getX()/255));
+                double x = point2D.getX() * scale;
+                color = new Color(1f,1f,1f, (float) Math.max(0.5f, x / 255));
                 double y = (point2D.getY()/max)*element.getHeight();
-                device.renderQuad((int)point2D.getX()+element.getX(),(int)(element.getHeight() - y)+element.getY(),1,(int)(element.getHeight() - y)+element.getY(), color);
+                device.renderQuad((int) x +element.getX(),(int)(element.getHeight() - y)+element.getY(), (int) Math.max(1, scale),(int)(element.getHeight() - y)+element.getY(), color);
 
             }
         }
@@ -63,7 +65,9 @@ abstract class LogPanel implements EffectImpl
         font = niftyRenderEngine.createFont("aurulent-sans-16.fnt");
         if (font != null)
         {
-            device.renderFont(font,String.valueOf(getData().getCurrent()),element.getX(),element.getY(),Color.WHITE,1,1);
+            device.renderFont(font,String.valueOf(getData().getCurrent()),element.getX(),element.getY(),Color.BLACK,1,1);
+
+
             device.renderFont(font,String.valueOf(getData().getMax()),element.getX(),element.getY()+30,Color.WHITE,1,1);
         }
 

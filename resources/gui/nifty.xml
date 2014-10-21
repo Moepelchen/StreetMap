@@ -7,8 +7,8 @@
     <screen id="game" controller="streetmap.gui.controller.GameScreenController"
             inputMappingPre="streetmap.gui.inputmapping.MenuInputMapping">
         <layer id="debug_layer" childLayout="horizontal" valign="bottom"
-                padding="0px,0px,0px,150px">
-            <panel valign="bottom" align="right" childLayout="center" id="fps" height="100" width="300"
+                padding="0px,0px,0px,100px">
+            <panel valign="bottom" align="right" childLayout="center" id="fps" height="100" width="25%"
                    backgroundColor="#ff0027">
                 <text font="aurulent-sans-16.fnt" color="#ffff"
                       text="FPS"/>
@@ -16,7 +16,7 @@
                     <onActive name="framepanel" post="true"/>
                 </effect>
             </panel>
-            <panel valign="bottom" align="right" childLayout="center" id="carflow" height="100" width="300"
+            <panel valign="bottom" align="right" childLayout="center" id="carflow" height="100" width="25%"
                    backgroundColor="#06840d">
                 <text font="aurulent-sans-16.fnt" color="#ffff"
                       text="#Cars"/>
@@ -24,7 +24,7 @@
                     <onActive name="carpanel" post="true"/>
                 </effect>
             </panel>
-            <panel valign="bottom" align="right" childLayout="center" id="cars" height="100" width="300"
+            <panel valign="bottom" align="right" childLayout="center" id="cars" height="100" width="25%"
                    backgroundColor="#0010ff">
                 <text font="aurulent-sans-16.fnt" color="#ffff"
                       text="Flow"/>
@@ -32,7 +32,7 @@
                     <onActive name="flowpanel" post="true"/>
                 </effect>
             </panel>
-            <panel valign="bottom" align="right" childLayout="center" id="paths" height="100" width="300"
+            <panel valign="bottom" align="right" childLayout="center" id="paths" height="100" width="25%"
                    backgroundColor="#ff691017">
                 <text font="aurulent-sans-16.fnt" color="#ffff"
                       text="Paths requested"/>
