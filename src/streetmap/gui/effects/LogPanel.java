@@ -49,10 +49,12 @@ abstract class LogPanel implements EffectImpl
         {
             double max = Math.max(flowData.getMax(), getMax());
 
+            Color color = null;
             for (Point2D point2D : data)
             {
+                color = new Color(1f,1f,1f, (float) Math.min(0.7f,point2D.getX()/255));
                 double y = (point2D.getY()/max)*element.getHeight();
-                device.renderQuad((int)point2D.getX()+element.getX(),(int)(element.getHeight() - y)+element.getY(),1,1, Color.WHITE);
+                device.renderQuad((int)point2D.getX()+element.getX(),(int)(element.getHeight() - y)+element.getY(),1,(int)(element.getHeight() - y)+element.getY(), color);
 
             }
         }

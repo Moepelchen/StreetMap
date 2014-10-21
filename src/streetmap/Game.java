@@ -28,7 +28,6 @@ import streetmap.utils.DataStorage2d;
 import streetmap.utils.PrintableRenderBuffer;
 import streetmap.utils.TextureCache;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.FloatBuffer;

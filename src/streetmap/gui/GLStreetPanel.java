@@ -230,7 +230,7 @@ public class GLStreetPanel
 		   RenderStuff renderStuff = PrintableRenderBuffer.initBuffers(fGlobals, current);
 
 		   if (renderStuff != null) {
-			   DrawHelper.drawBuffers(renderStuff, TextureCache.getTextureId("./images/selectedTile.png"));
+			   DrawHelper.drawBuffers(renderStuff, TextureCache.getTextureId("./images/streets/BendNE.png"));
 			   renderStuff.release();
 		   }
 	   }
