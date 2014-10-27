@@ -19,6 +19,7 @@ import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.util.vector.Vector4f;
 import streetmap.gui.GLStreetPanel;
 import streetmap.gui.IScreenNames;
 import streetmap.gui.controller.*;
@@ -400,19 +401,21 @@ public class Game
 		return HEIGHT;
 	}
 
-	public Vector2f getTranslatedCoords(int x, int y)
+	public Vector3f getTranslatedCoords(int x, int y)
 	{
-		Vector2f toReturn = new Vector2f(x, y);
+		Vector3f toReturn = new Vector3f(x, y, 0);
 		float playerX = fPlayer.getX();
 		float playerY = fPlayer.getY();
 		Vector2f playerVec = new Vector2f(playerX,playerY);
 		Vector2f windowVec = new Vector2f(WIDTH/2,HEIGHT/2);
 
-		float scale = 1.15f/ fPlayer.getZoom().getX();
-		playerVec.scale(1/ scale);
+		// 1.13 when zoomed in
+		float scale2 =  1.3f+1/fPlayer.getZoom().getX();
+		playerVec.scale(1/ scale2);
 		toReturn.set(x - playerVec.getX(), y - playerVec.getY());
-		toReturn.set(toReturn.getX()-windowVec.getX(),toReturn.getY()-windowVec.getY());
-		toReturn.scale(scale);
+		toReturn.set(toReturn.getX() - windowVec.getX(), toReturn.getY() - windowVec.getY());
+		toReturn.scale(scale2);
+		toReturn.set(toReturn.getX(), toReturn.getY());
 
 		return toReturn;
 	}

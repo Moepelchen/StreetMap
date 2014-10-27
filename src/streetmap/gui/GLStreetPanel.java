@@ -8,6 +8,7 @@ import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
 import streetmap.SSGlobals;
 import streetmap.interfaces.IPrintable;
 import streetmap.map.street.IStreetNames;
@@ -186,7 +187,7 @@ public class GLStreetPanel
 			if (x >= fTileWidth) {
 
 				//y = fGlobals.getGame().getHeight()-y;
-				Vector2f pos = fGlobals.getGame().getTranslatedCoords(x, y);
+				Vector3f pos = fGlobals.getGame().getTranslatedCoords(x, y);
 
 				if (fFirstClicked == null)
 				{
@@ -221,10 +222,10 @@ public class GLStreetPanel
    {
 	   int x = Mouse.getX();
 	   int y = Mouse.getY();
-	   Vector2f pos = fGlobals.getGame().getTranslatedCoords(x, y);
+	   Vector3f pos = fGlobals.getGame().getTranslatedCoords(x, y);
 
 	   List<IPrintable> current = new Vector<>();
-	   Tile currentTile = fGlobals.getMap().getTile(pos.getX()/fGlobals.getConfig().getTileSize(), pos.getY()/fGlobals.getConfig().getTileSize());
+	   Tile currentTile = fGlobals.getMap().getTile(pos.getX()/fGlobals.getConfig().getTileSize(),pos.getY()/fGlobals.getConfig().getTileSize());
 	   if (currentTile != null) {
 		   current.add(currentTile);
 		   RenderStuff renderStuff = PrintableRenderBuffer.initBuffers(fGlobals, current);
