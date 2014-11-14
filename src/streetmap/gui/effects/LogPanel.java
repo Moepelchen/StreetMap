@@ -44,6 +44,8 @@ abstract class LogPanel implements EffectImpl
         DataStorage2d flowData = getData();
         ArrayList<Point2D> data = flowData.getData();
         RenderDevice device = niftyRenderEngine.getRenderDevice();
+        RenderFont font;
+        font = niftyRenderEngine.createFont("aurulent-sans-16.fnt");
 
         if(!data.isEmpty())
         {
@@ -51,23 +53,38 @@ abstract class LogPanel implements EffectImpl
 
             Color color = null;
             double scale = (double)element.getWidth() / (double)data.size();
+            double sum = 0;
             for (Point2D point2D : data)
             {
                 double x = point2D.getX() * scale;
                 color = new Color(1f,1f,1f, (float) Math.max(0.5f, x / 255));
                 double y = (point2D.getY()/max)*element.getHeight();
-                device.renderQuad((int) x +element.getX(),(int)(element.getHeight() - y)+element.getY(), (int) Math.max(1, scale),(int)(element.getHeight() - y)+element.getY(), color);
+                int height = (int) (element.getHeight() - y) + element.getY();
+                sum+=point2D.getY();
+                device.renderQuad((int) x +element.getX(), height, (int) Math.max(1, scale), height, color);
+            }
+            double median = sum/(double)data.size();
+            Color color1 = new Color(0, 0, 0, 1);
+            double medianDrawHeight = (median/max)*element.getHeight();
 
+            medianDrawHeight = (int) (element.getHeight() - medianDrawHeight) + element.getY();
+            device.renderQuad(element.getX(),(int)medianDrawHeight,element.getWidth(),1, color1);
+            if(font != null)
+            {
+                int offset = 0;
+                if(medianDrawHeight > (element.getY()+element.getHeight()-20))
+                {
+                    offset = 15;
+                }
+                median = Math.round(median * 100.0)/100.0;
+                device.renderFont(font,String.valueOf(median),element.getX()+element.getWidth()/2,(int)medianDrawHeight - offset, color1,1,1);
             }
         }
 
-        RenderFont font;
-        font = niftyRenderEngine.createFont("aurulent-sans-16.fnt");
+
         if (font != null)
         {
-            device.renderFont(font,String.valueOf(getData().getCurrent()),element.getX(),element.getY(),Color.BLACK,1,1);
-
-
+            device.renderFont(font,String.valueOf(getData().getCurrent()),element.getX(),element.getY(),Color.WHITE,1,1);
             device.renderFont(font,String.valueOf(getData().getMax()),element.getX(),element.getY()+30,Color.WHITE,1,1);
         }
 

@@ -81,7 +81,7 @@ public class Car implements IPrintable, ISimulateable, IEventHandler
 		double v = Math.max(Math.random(), 0.25) * lane.getGlobals().getConfig().getMaximumCarSpeed();
 		fSpeed = v;
 		fOriginalSpeed = v;
-		fLane.getGlobals().getMap().getPathFactory().createPath(this);
+		recalcPath(null);
 	}
 
 	public void simulate()
