@@ -7,7 +7,6 @@ import de.lessvoid.nifty.builder.PanelBuilder;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import streetmap.SSGlobals;
 import streetmap.car.Car;
@@ -16,6 +15,7 @@ import streetmap.map.street.IPlaceable;
 import streetmap.map.street.IStreetNames;
 import streetmap.map.street.Lane;
 import streetmap.map.tile.Tile;
+import streetmap.pathfinding.IPathFindingAlgorithm;
 import streetmap.utils.DrawHelper;
 import streetmap.utils.PrintableRenderBuffer;
 import streetmap.utils.RenderStuff;
@@ -42,7 +42,7 @@ public class GLStreetPanel
 	private String fSelectedStreet;
 	private Point2D fFirstClicked;
 	private Point2D fCurrentClick;
-	private Car fSelectedCar;
+	private Tile fSelectedTile;
 
 	public GLStreetPanel(SSGlobals globals)
 	{
@@ -223,19 +223,7 @@ public class GLStreetPanel
 				ArrayList<Car> cars = new ArrayList<Car>();
 				if (tile != null)
 				{
-					IPlaceable placeable = tile.getPlaceable();
-					if (placeable != null)
-					{
-						for (Lane lane : placeable.getLanes())
-						{
-							cars.addAll(lane.getCars());
-						}
-						for (Car car : cars)
-						{
-							fSelectedCar = car;
-							break;
-						}
-					}
+					fSelectedTile = tile;
 				}
 			}
 			fFirstClicked = null;
@@ -283,28 +271,50 @@ public class GLStreetPanel
 		       stuff.release();
 	       }
        }
-	   if(fSelectedCar != null)
+	   if(fSelectedTile != null)
 	   {
-		   LinkedList<Lane> path = fSelectedCar.getPathFinder().getPath();
-		   List<Tile> tiles = new ArrayList<>();
-		   for (Lane lane : path)
+		   IPlaceable placeable = fSelectedTile.getPlaceable();
+		   if (placeable != null)
 		   {
-			   tiles.add(lane.getStreet().getTile());
-		   }
-		   List<IPrintable> list = new ArrayList<>();
-		   for (Tile intersectionTile : tiles)
-		   {
-			   intersectionTile.setImageId(5);
-			   list.add(intersectionTile);
-		   }
-		   RenderStuff stuff = PrintableRenderBuffer.initBuffers(fGlobals,list);
-		   if(stuff != null)
-		   {
-			   DrawHelper.drawBuffers(stuff, TextureCache.getTextureId("./images/streets/empty.png"));
-			   stuff.release();
+			   for (Lane lane : placeable.getLanes())
+			   {
+				   for (Car car : lane.getCars())
+				   {
+					   drawPaths(car);
+
+				   }
+			   }
+
 		   }
 	   }
    }
+
+	private void drawPaths(Car car)
+	{
+		IPathFindingAlgorithm pathFinder = car.getPathFinder();
+		if (pathFinder != null)
+		{
+			LinkedList<Lane> path = pathFinder.getPath();
+			List<Tile> tiles = new ArrayList<>();
+			for (Lane lane : path)
+			{
+				tiles.add(lane.getStreet().getTile());
+			}
+			List<IPrintable> list = new ArrayList<>();
+			for (Tile intersectionTile : tiles)
+			{
+				intersectionTile.setImageId(5);
+				list.add(intersectionTile);
+			}
+			RenderStuff stuff = PrintableRenderBuffer.initBuffers(fGlobals, list);
+			if(stuff != null)
+			{
+				DrawHelper.drawBuffers(stuff, TextureCache.getTextureId("./images/streets/empty.png"));
+				stuff.release();
+			}
+		}
+
+	}
 
 
 	private String getSelected()

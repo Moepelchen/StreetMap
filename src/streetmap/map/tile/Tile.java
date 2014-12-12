@@ -160,7 +160,7 @@ public class Tile implements ISimulateable, IPrintable
 	@Override
 	public ReadableColor getColor()
 	{
-		return new Color(0,255,0,120);
+		return new Color(0,178,255,120);
 	}
 
 	@Override

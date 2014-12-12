@@ -39,7 +39,7 @@ import java.nio.FloatBuffer;
  */
 public class Game
 {
-	private static final int WIDTH = 1024;
+	private static final int WIDTH = 1440;
 	private static final int HEIGHT = 1024;
 	private final Player fPlayer;
 	private final SSGlobals fGlobals;
@@ -154,7 +154,7 @@ public class Game
 
 
 		// Setup an XNA like background color
-		GL11.glClearColor(0.4f, 0.6f, 0.9f, 0f);
+		GL11.glClearColor(0.0f, 0.0f, 0.0f, 0f);
 
 		// Map the internal OpenGL coordinate system to the entire screen
 		GL11.glViewport(0, 0, WIDTH, HEIGHT);
