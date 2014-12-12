@@ -10,8 +10,11 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import streetmap.SSGlobals;
+import streetmap.car.Car;
 import streetmap.interfaces.IPrintable;
+import streetmap.map.street.IPlaceable;
 import streetmap.map.street.IStreetNames;
+import streetmap.map.street.Lane;
 import streetmap.map.tile.Tile;
 import streetmap.utils.DrawHelper;
 import streetmap.utils.PrintableRenderBuffer;
@@ -24,6 +27,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
@@ -38,6 +42,7 @@ public class GLStreetPanel
 	private String fSelectedStreet;
 	private Point2D fFirstClicked;
 	private Point2D fCurrentClick;
+	private Car fSelectedCar;
 
 	public GLStreetPanel(SSGlobals globals)
 	{
@@ -212,6 +217,27 @@ public class GLStreetPanel
 				}
 
 			}
+			else if (fSelectedStreet == null && fFirstClicked != null)
+			{
+				Tile tile = fGlobals.getMap().getTile(fFirstClicked.getX()/fGlobals.getConfig().getTileSize(), fFirstClicked.getY()/fGlobals.getConfig().getTileSize());
+				ArrayList<Car> cars = new ArrayList<Car>();
+				if (tile != null)
+				{
+					IPlaceable placeable = tile.getPlaceable();
+					if (placeable != null)
+					{
+						for (Lane lane : placeable.getLanes())
+						{
+							cars.addAll(lane.getCars());
+						}
+						for (Car car : cars)
+						{
+							fSelectedCar = car;
+							break;
+						}
+					}
+				}
+			}
 			fFirstClicked = null;
 			fCurrentClick = null;
 		}
@@ -257,6 +283,27 @@ public class GLStreetPanel
 		       stuff.release();
 	       }
        }
+	   if(fSelectedCar != null)
+	   {
+		   LinkedList<Lane> path = fSelectedCar.getPathFinder().getPath();
+		   List<Tile> tiles = new ArrayList<>();
+		   for (Lane lane : path)
+		   {
+			   tiles.add(lane.getStreet().getTile());
+		   }
+		   List<IPrintable> list = new ArrayList<>();
+		   for (Tile intersectionTile : tiles)
+		   {
+			   intersectionTile.setImageId(5);
+			   list.add(intersectionTile);
+		   }
+		   RenderStuff stuff = PrintableRenderBuffer.initBuffers(fGlobals,list);
+		   if(stuff != null)
+		   {
+			   DrawHelper.drawBuffers(stuff, TextureCache.getTextureId("./images/streets/empty.png"));
+			   stuff.release();
+		   }
+	   }
    }
 
 
@@ -284,6 +331,13 @@ public class GLStreetPanel
 	}
 
 	public void setSelected(String selected) {
-		this.fSelectedStreet = selected;
+		if(fSelectedStreet != null && fSelectedStreet.equals(selected))
+		{
+			fSelectedStreet = null;
+		}
+		else
+		{
+			this.fSelectedStreet = selected;
+		}
 	}
 }

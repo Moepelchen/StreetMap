@@ -3,6 +3,8 @@ package streetmap.pathfinding;
 import streetmap.map.street.Lane;
 import streetmap.map.street.Street;
 
+import java.util.LinkedList;
+
 /**
  * Created by IntelliJ IDEA.
  * User: ulrichtewes
@@ -19,4 +21,7 @@ public interface IPathFindingAlgorithm extends Runnable
 	boolean containsStreet(Street street);
 
 	void setEnd(Lane destination);
+
+	LinkedList<Lane> getPath();
+
 }

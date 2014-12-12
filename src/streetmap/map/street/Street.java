@@ -54,7 +54,7 @@ public class Street implements IPlaceable
 		return fGlobals;
 	}
 
-	Tile getTile()
+	public Tile getTile()
 	{
 		return fTile;
 	}

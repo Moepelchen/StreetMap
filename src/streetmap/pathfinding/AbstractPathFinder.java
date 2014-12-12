@@ -182,6 +182,12 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
 		this.fEnd = end;
 	}
 
+	@Override
+	public LinkedList<Lane> getPath()
+	{
+		return fPath;
+	}
+
 	public static void clearNoGo()
 	{
 		fNoGo.clear();

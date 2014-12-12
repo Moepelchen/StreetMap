@@ -39,7 +39,7 @@ import java.nio.FloatBuffer;
  */
 public class Game
 {
-	private static final int WIDTH = 640;
+	private static final int WIDTH = 1024;
 	private static final int HEIGHT = 1024;
 	private final Player fPlayer;
 	private final SSGlobals fGlobals;
