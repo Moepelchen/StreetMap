@@ -35,4 +35,6 @@ public interface IChangeableConfig extends IConfig
     void setShowCars(boolean b);
 
     void setShowHappiness(boolean b);
+
+	void setShowPathHeatMap(boolean b);
 }

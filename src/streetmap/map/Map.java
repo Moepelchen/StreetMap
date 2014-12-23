@@ -1,26 +1,28 @@
 package streetmap.map;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.Color;
 import streetmap.SSGlobals;
+import streetmap.car.Car;
 import streetmap.events.EventQueue;
 import streetmap.events.IEvent;
 import streetmap.events.PlacementEvent;
+import streetmap.heatmap.Gradient;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.map.street.IPlaceable;
 import streetmap.map.street.Lane;
 import streetmap.map.tile.Tile;
 import streetmap.pathfinding.AbstractPathFinder;
+import streetmap.pathfinding.IPathFindingAlgorithm;
 import streetmap.pathfinding.PathFactory;
 import streetmap.utils.*;
+import sun.java2d.pipe.RenderBuffer;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * This represents the the whole Street-Map. The map consist of an Array of Tiles.
@@ -57,6 +59,7 @@ public class Map implements ISimulateable, ActionListener
     private int fMaxNumberOfCarsOnOneTile = 0;
     private int fCurrentNumberOfCars = 0;
     private double[][] fHeatMapData;
+    private double[][] fHeatMapDataPaths;
     private int fNumberOfTilesX;
     private int fNumberOfTilesY;
     private LinkedList<Integer> fCarFlowData;
@@ -93,6 +96,14 @@ public class Map implements ISimulateable, ActionListener
             for (int y = 0; y < fNumberOfTilesY; y++)
             {
                 fHeatMapData[i][y] = 0;
+            }
+        }
+        fHeatMapDataPaths = new double[numberOfTilesX][numberOfTilesY];
+        for (int i = 0; i < fNumberOfTilesX; i++)
+        {
+            for (int y = 0; y < fNumberOfTilesY; y++)
+            {
+                fHeatMapDataPaths[i][y] = 0;
             }
         }
         fMaxNumberOfCarsOnOneTile = 1;
@@ -182,6 +193,7 @@ public class Map implements ISimulateable, ActionListener
         }
 
         updateHeatMap();
+        updatePathHeatMap(fDrawAblesForeground);
         if (fCarFlowData.size() > 300)
         {
             fCarFlowData.removeFirst();
@@ -225,6 +237,57 @@ public class Map implements ISimulateable, ActionListener
        // fHeatMap.updateData(fHeatMapData, true);
     }
 
+    private void updatePathHeatMap(List<IPrintable> printables)
+    {
+        double max = Double.MIN_VALUE;
+        double min = Double.MAX_VALUE;
+        java.util.Map<Tile, Double> map = new HashMap<>();
+        for (IPrintable printable : printables)
+        {
+            Car car = (Car) printable;
+            IPathFindingAlgorithm pathFinder = car.getPathFinder();
+            if (pathFinder != null)
+            {
+                LinkedList<Lane> path = pathFinder.getPath();
+                for (Lane lane : path)
+                {
+                    Tile tile = lane.getStreet().getTile();
+                    if (map.containsKey(tile))
+                    {
+                        map.put(tile, map.get(tile) + 1);
+                    } else
+                    {
+                        map.put(tile, 1d);
+                    }
+                }
+
+            }
+        }
+        for (Tile printable : map.keySet())
+        {
+            Point2D arrayPos = printable.getArrayPosition();
+            int x = (int) arrayPos.getX();
+            int y = (int) arrayPos.getY();
+            fHeatMapDataPaths[x][y] = Math.max(fHeatMapDataPaths[x][y] - fHeatMapDataPaths[x][y]/100d,0);
+            fHeatMapDataPaths[x][y] = fHeatMapDataPaths[x][y]+(map.get(printable))/100d;
+            if(fHeatMapDataPaths[x][y] > max)
+                max = fHeatMapDataPaths[x][y];
+            else if(fHeatMapDataPaths[x][y] <= min)
+                min = fHeatMapDataPaths[x][y];
+        }
+        if(max >0)
+        {
+            for (int i = 0; i < fHeatMapDataPaths.length; i++)
+            {
+                for (int j = 0; j < fHeatMapDataPaths[i].length; j++)
+                {
+                    fHeatMapDataPaths[i][j] = Math.max((fHeatMapDataPaths[i][j]-min)/max,0);
+                }
+            }
+
+        }
+    }
+
     /**
      * print each tile
      *
@@ -258,7 +321,10 @@ public class Map implements ISimulateable, ActionListener
             {
                 RenderStuff stuff2 = PrintableRenderBuffer.initBuffers(fGlobals, fDrawAblesForeground,true);
 
-	            if(stuff2 != null)
+
+                PrintableRenderBuffer.drawPaths(fGlobals,fDrawAblesForeground);
+
+                if(stuff2 != null)
 	            {
 		            DrawHelper.drawBuffers(stuff2, TextureCache.getTextureId("./images/cars/Car.png"));
 		            stuff2.release();
@@ -336,6 +402,12 @@ public class Map implements ISimulateable, ActionListener
         return fHeatMapData[((int) point.getX())][((int) point.getY())];
     }
 
+    public double getHeatPathMapReading(Point2D point)
+    {
+        return fHeatMapDataPaths[((int) point.getX())][((int) point.getY())];
+
+    }
+
     public void addCarFlowData()
     {
         int newLast = fCarFlowData.getLast() + 1;
@@ -384,4 +456,6 @@ public class Map implements ISimulateable, ActionListener
     {
         fPathFactory.release();
     }
+
+
 }

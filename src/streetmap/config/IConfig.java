@@ -43,4 +43,6 @@ public interface IConfig
     boolean isShowCars();
 
     boolean isShowHappiness();
+
+	boolean isShowPathHeatMap();
 }

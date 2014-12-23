@@ -107,7 +107,13 @@ public class DummyConfig implements IConfig
         return false;
     }
 
-    public String getStreetPath()
+	@Override
+	public boolean isShowPathHeatMap()
+	{
+		return false;
+	}
+
+	public String getStreetPath()
 	{
 		return "/home/shifter/workspace/StreetMap/config/Streets/";
 	}

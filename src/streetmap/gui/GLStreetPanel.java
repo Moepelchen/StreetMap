@@ -161,7 +161,7 @@ public class GLStreetPanel
 		{
 			for (Tile tile1 : tile)
 			{
-				if (fSelectedStreet != null /*&& fSelectedStreet.equals(IStreetNames.DELETE_STREET)*/)
+				if (fSelectedStreet != null && fSelectedStreet.equals(IStreetNames.DELETE_STREET))
 				{
 					if (rect.intersects(tile1.getRect()))
 					{
@@ -271,51 +271,7 @@ public class GLStreetPanel
 		       stuff.release();
 	       }
        }
-	   if(fSelectedTile != null)
-	   {
-		   IPlaceable placeable = fSelectedTile.getPlaceable();
-		   if (placeable != null)
-		   {
-			   for (Lane lane : placeable.getLanes())
-			   {
-				   for (Car car : lane.getCars())
-				   {
-					   drawPaths(car);
-
-				   }
-			   }
-
-		   }
-	   }
    }
-
-	private void drawPaths(Car car)
-	{
-		IPathFindingAlgorithm pathFinder = car.getPathFinder();
-		if (pathFinder != null)
-		{
-			LinkedList<Lane> path = pathFinder.getPath();
-			List<Tile> tiles = new ArrayList<>();
-			for (Lane lane : path)
-			{
-				tiles.add(lane.getStreet().getTile());
-			}
-			List<IPrintable> list = new ArrayList<>();
-			for (Tile intersectionTile : tiles)
-			{
-				intersectionTile.setImageId(5);
-				list.add(intersectionTile);
-			}
-			RenderStuff stuff = PrintableRenderBuffer.initBuffers(fGlobals, list);
-			if(stuff != null)
-			{
-				DrawHelper.drawBuffers(stuff, TextureCache.getTextureId("./images/streets/empty.png"));
-				stuff.release();
-			}
-		}
-
-	}
-
 
 	private String getSelected()
 	{

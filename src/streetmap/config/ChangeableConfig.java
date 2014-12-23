@@ -104,4 +104,10 @@ public class ChangeableConfig extends Config implements IChangeableConfig
     public void setShowHappiness(boolean b) {
         fShowHappiness = b;
     }
+
+	@Override
+	public void setShowPathHeatMap(boolean fShowPathHeatMap)
+	{
+		this.fShowPathHeatMap = fShowPathHeatMap;
+	}
 }

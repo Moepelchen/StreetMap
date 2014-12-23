@@ -38,11 +38,13 @@ public class Config implements IConfig
     double fHeatMapModifier;
     int fNumberOfCars;
     boolean fShowHeatMap;
+	boolean fShowPathHeatMap;
 	boolean fSimulateNightCycle;
     boolean fShowCars;
     boolean fShowHappiness;
 
-    public Config(SSGlobals glob) throws FileNotFoundException
+
+	public Config(SSGlobals glob) throws FileNotFoundException
 	{
 		fCarImages = new Vector<>();
 		try
@@ -60,6 +62,7 @@ public class Config implements IConfig
         fHeatMapModifier = 1;
         fNumberOfCars = 100;
         fShowHeatMap = true;
+		fShowPathHeatMap = false;
 
 	}
 
@@ -185,4 +188,10 @@ public class Config implements IConfig
 	{
 		return fConfig.getWidth();
 	}
+
+	public boolean isShowPathHeatMap()
+	{
+		return fShowPathHeatMap;
+	}
+
 }

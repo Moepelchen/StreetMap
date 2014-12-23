@@ -97,7 +97,7 @@ public class AStarAlgorithm extends AbstractPathFinder
 			Point2D arrayPosition = random.getEnd().getSide().getTile().getArrayPosition();
 			heatMapReading = fGlobals.getMap().getHeatMapReading(arrayPosition);
 		}
-		return heatMapReading * Math.min(1, lane.getCars().size());
+		return heatMapReading /** Math.min(1, lane.getCars().size())*/;
 
 	}
 

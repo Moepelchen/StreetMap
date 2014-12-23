@@ -48,6 +48,7 @@ public class Tile implements ISimulateable, IPrintable
     private int fNumberOfCars = 0;
     private Rectangle2D fRect;
 	private int fImageId;
+	private ReadableColor fColor;
 
 	public HorizontalSide getNorthSide()
 	{
@@ -160,7 +161,7 @@ public class Tile implements ISimulateable, IPrintable
 	@Override
 	public ReadableColor getColor()
 	{
-		return new Color(0,178,255,120);
+		return fColor;
 	}
 
 	@Override
@@ -200,6 +201,7 @@ public class Tile implements ISimulateable, IPrintable
 		fSides = new HashMap<>(4);
 		fNeighbors = new HashMap<>(4);
 		fGlobals = globals;
+		fColor = ReadableColor.WHITE;
 		fMap = map;
 
 		if (map != null)
@@ -297,5 +299,10 @@ public class Tile implements ISimulateable, IPrintable
 
 	public void setImageId(int imageId) {
 		this.fImageId = imageId;
+	}
+
+	public void setColor(ReadableColor color)
+	{
+		this.fColor = color;
 	}
 }

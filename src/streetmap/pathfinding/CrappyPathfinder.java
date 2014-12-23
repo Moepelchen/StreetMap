@@ -16,7 +16,7 @@ import java.util.*;
 public class CrappyPathfinder extends AbstractPathFinder
 {
 
-	private final HashSet<Integer> fNoGo = new HashSet<>();
+	private final HashSet<Lane> fNoGo = new HashSet<>();
 
 	public CrappyPathfinder(Car car)
 	{
@@ -60,7 +60,7 @@ public class CrappyPathfinder extends AbstractPathFinder
 		Collections.sort(candidateCollection);
 		for (Candidate candidate : candidateCollection)
 		{
-			if (!fNoGo.contains(candidate.hashCode()) && !fPath.contains(candidate.candidate) && createPath(candidate.candidate))
+			if (!fNoGo.contains(candidate.candidate) && !fPath.contains(candidate.candidate) && createPath(candidate.candidate))
 			{
 				return true;
 			}
@@ -68,7 +68,7 @@ public class CrappyPathfinder extends AbstractPathFinder
 		int wrongIndex = fPath.indexOf(next);
 		for (int i = wrongIndex; i < fPath.size(); i++)
 		{
-			fNoGo.add(fPath.get(i).hashCode());
+			fNoGo.add(fPath.get(i));
 			fPath.remove(i);
 		}
 

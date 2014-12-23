@@ -9,12 +9,18 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.util.Color;
 import org.lwjgl.util.ReadableColor;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 import streetmap.SSGlobals;
+import streetmap.car.Car;
+import streetmap.heatmap.Gradient;
 import streetmap.interfaces.IPrintable;
+import streetmap.map.street.Lane;
+import streetmap.map.tile.Tile;
+import streetmap.pathfinding.IPathFindingAlgorithm;
 
 import java.awt.geom.Point2D;
 import java.io.BufferedReader;
@@ -22,7 +28,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.List;
+import java.util.*;
 
 /**
  * Short description in a complete sentence.
@@ -212,6 +218,11 @@ public class PrintableRenderBuffer
 		}
 
 		return shaderID;
+	}
+
+    public static void drawPaths(SSGlobals globals, List<IPrintable> cars)
+    {
+
 	}
 // -----------------------------------------------------
 // constants

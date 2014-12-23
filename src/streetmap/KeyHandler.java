@@ -32,9 +32,13 @@ public class KeyHandler
 			if (Keyboard.getEventKeyState())
 			{
 				handleMovementKeyPressed();
-                if (Keyboard.getEventKey() == Keyboard.KEY_F1)
+                if (Keyboard.getEventKey() == Keyboard.KEY_F5)
                 {
                     fGlobals.getConfig().setShowHeatMap(!fGlobals.getConfig().isShowHeatMap());
+                }
+                if (Keyboard.getEventKey() == Keyboard.KEY_F6)
+                {
+                    fGlobals.getConfig().setShowPathHeatMap(!fGlobals.getConfig().isShowPathHeatMap());
                 }
 
                 if (Keyboard.getEventKey() == Keyboard.KEY_F2)
