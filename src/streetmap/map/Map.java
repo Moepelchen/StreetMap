@@ -7,7 +7,7 @@ import streetmap.car.Car;
 import streetmap.events.EventQueue;
 import streetmap.events.IEvent;
 import streetmap.events.PlacementEvent;
-import streetmap.heatmap.Gradient;
+import streetmap.heatmap.*;
 import streetmap.interfaces.IPrintable;
 import streetmap.interfaces.ISimulateable;
 import streetmap.map.street.IPlaceable;
@@ -58,8 +58,8 @@ public class Map implements ISimulateable, ActionListener
     private List<Lane> fEndLanes;
     private int fMaxNumberOfCarsOnOneTile = 0;
     private int fCurrentNumberOfCars = 0;
-    private double[][] fHeatMapData;
-    private double[][] fHeatMapDataPaths;
+    private OccupanceHeatMap fHeatMap;
+    private IHeatMap fHeatMapPaths;
     private int fNumberOfTilesX;
     private int fNumberOfTilesY;
     private LinkedList<Integer> fCarFlowData;
@@ -90,22 +90,8 @@ public class Map implements ISimulateable, ActionListener
         fTiles = new Tile[numberOfTilesX][numberOfTilesY];
         fEndLanes = new Vector<>();
         generateTiles();
-        fHeatMapData = new double[numberOfTilesX][numberOfTilesY];
-        for (int i = 0; i < fNumberOfTilesX; i++)
-        {
-            for (int y = 0; y < fNumberOfTilesY; y++)
-            {
-                fHeatMapData[i][y] = 0;
-            }
-        }
-        fHeatMapDataPaths = new double[numberOfTilesX][numberOfTilesY];
-        for (int i = 0; i < fNumberOfTilesX; i++)
-        {
-            for (int y = 0; y < fNumberOfTilesY; y++)
-            {
-                fHeatMapDataPaths[i][y] = 0;
-            }
-        }
+        fHeatMap = new OccupanceHeatMap(fGlobals,fNumberOfTilesX,fNumberOfTilesY);
+        fHeatMapPaths = new PathHeatMap(fGlobals,fNumberOfTilesX,fNumberOfTilesY);
         fMaxNumberOfCarsOnOneTile = 1;
         fCarFlowData = new LinkedList<>();
         fCarFlowData.add(0);
@@ -208,84 +194,15 @@ public class Map implements ISimulateable, ActionListener
 
     private void updateHeatMap()
     {
-
-	    double max = Double.MIN_VALUE;
-	    double min = Double.MAX_VALUE;
-        for (Tile fOccupiedTile : fOccupiedTiles)
-        {
-            Point2D arrayPos = fOccupiedTile.getArrayPosition();
-            int x = (int) arrayPos.getX();
-            int y = (int) arrayPos.getY();
-            fHeatMapData[x][y] = Math.max(fHeatMapData[x][y] - fHeatMapData[x][y]/100d,0);
-            fHeatMapData[x][y] = fHeatMapData[x][y]+((double) fOccupiedTile.getNumberOfCars() / (double) fMaxNumberOfCarsOnOneTile)/100d;
-			if(fHeatMapData[x][y] > max)
-				max = fHeatMapData[x][y];
-	        else if(fHeatMapData[x][y] <= min)
-	        min = fHeatMapData[x][y];
-        }
-	    if(max >0)
-	    {
-		    for (int i = 0; i < fHeatMapData.length; i++)
-		    {
-			    for (int j = 0; j < fHeatMapData[i].length; j++)
-			    {
-				    fHeatMapData[i][j] = Math.max((fHeatMapData[i][j]-min)/max,0);
-			    }
-		    }
-
-	    }
-       // fHeatMap.updateData(fHeatMapData, true);
+        fHeatMap.setMaxNumberOfCarsOnOneTile(fMaxNumberOfCarsOnOneTile);
+        fHeatMap.setData(fOccupiedTiles);
+        fHeatMap.update();
     }
 
     private void updatePathHeatMap(List<IPrintable> printables)
     {
-        double max = Double.MIN_VALUE;
-        double min = Double.MAX_VALUE;
-        java.util.Map<Tile, Double> map = new HashMap<>();
-        for (IPrintable printable : printables)
-        {
-            Car car = (Car) printable;
-            IPathFindingAlgorithm pathFinder = car.getPathFinder();
-            if (pathFinder != null)
-            {
-                LinkedList<Lane> path = pathFinder.getPath();
-                for (Lane lane : path)
-                {
-                    Tile tile = lane.getStreet().getTile();
-                    if (map.containsKey(tile))
-                    {
-                        map.put(tile, map.get(tile) + 1);
-                    } else
-                    {
-                        map.put(tile, 1d);
-                    }
-                }
-
-            }
-        }
-        for (Tile printable : map.keySet())
-        {
-            Point2D arrayPos = printable.getArrayPosition();
-            int x = (int) arrayPos.getX();
-            int y = (int) arrayPos.getY();
-            fHeatMapDataPaths[x][y] = Math.max(fHeatMapDataPaths[x][y] - fHeatMapDataPaths[x][y]/100d,0);
-            fHeatMapDataPaths[x][y] = fHeatMapDataPaths[x][y]+(map.get(printable))/100d;
-            if(fHeatMapDataPaths[x][y] > max)
-                max = fHeatMapDataPaths[x][y];
-            else if(fHeatMapDataPaths[x][y] <= min)
-                min = fHeatMapDataPaths[x][y];
-        }
-        if(max >0)
-        {
-            for (int i = 0; i < fHeatMapDataPaths.length; i++)
-            {
-                for (int j = 0; j < fHeatMapDataPaths[i].length; j++)
-                {
-                    fHeatMapDataPaths[i][j] = Math.max((fHeatMapDataPaths[i][j]-min)/max,0);
-                }
-            }
-
-        }
+        fHeatMapPaths.setData(printables);
+        fHeatMapPaths.update();
     }
 
     /**
@@ -397,17 +314,6 @@ public class Map implements ISimulateable, ActionListener
         return fTileSize;
     }
 
-    public double getHeatMapReading(Point2D point)
-    {
-        return fHeatMapData[((int) point.getX())][((int) point.getY())];
-    }
-
-    public double getHeatPathMapReading(Point2D point)
-    {
-        return fHeatMapDataPaths[((int) point.getX())][((int) point.getY())];
-
-    }
-
     public void addCarFlowData()
     {
         int newLast = fCarFlowData.getLast() + 1;
@@ -457,5 +363,14 @@ public class Map implements ISimulateable, ActionListener
         fPathFactory.release();
     }
 
+    public IHeatMap getHeatMap()
+    {
+        return fHeatMap;
+    }
+
+    public IHeatMap getHeatMapPaths()
+    {
+        return fHeatMapPaths;
+    }
 
 }

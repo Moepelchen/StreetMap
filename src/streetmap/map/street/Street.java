@@ -118,20 +118,20 @@ public class Street implements IPlaceable
 
 		if(fGlobals.getConfig().isShowPathHeatMap() && fGlobals.getConfig().isShowHeatMap())
 		{
-			heatMapReading = this.getGlobals().getMap().getHeatMapReading(this.getTile().getArrayPosition());
+			heatMapReading = this.getGlobals().getMap().getHeatMap().getReading(this.getTile().getArrayPosition());
 			java.awt.Color color1 = Gradient.GRADIENT_RAINBOW[(int) Math.floor(heatMapReading * (Gradient.GRADIENT_HOT.length - 1))];
-			heatMapReading = this.getGlobals().getMap().getHeatPathMapReading(this.getTile().getArrayPosition());
+			heatMapReading = this.getGlobals().getMap().getHeatMapPaths().getReading(this.getTile().getArrayPosition());
 			java.awt.Color color2 = Gradient.GRADIENT_RAINBOW[(int) Math.floor(heatMapReading * (Gradient.GRADIENT_HOT.length - 1))];
 			color = new java.awt.Color(color1.getRed()/2+color2.getRed()/2, color1.getGreen()/2+color2.getGreen()/2,color1.getBlue()/2+color2.getBlue()/2);
 		}
 		else if(fGlobals.getConfig().isShowPathHeatMap())
 		{
-			heatMapReading = this.getGlobals().getMap().getHeatPathMapReading(this.getTile().getArrayPosition());
+			heatMapReading = this.getGlobals().getMap().getHeatMapPaths().getReading(this.getTile().getArrayPosition());
 			color = Gradient.GRADIENT_RAINBOW[(int) Math.floor(heatMapReading * (Gradient.GRADIENT_HOT.length - 1))];
 		}
 		else if(fGlobals.getConfig().isShowHeatMap())
 		{
-			heatMapReading = this.getGlobals().getMap().getHeatMapReading(this.getTile().getArrayPosition());
+			heatMapReading = this.getGlobals().getMap().getHeatMap().getReading(this.getTile().getArrayPosition());
 			color = Gradient.GRADIENT_RAINBOW[(int) Math.floor(heatMapReading * (Gradient.GRADIENT_HOT.length - 1))];
 		}
 		else

@@ -97,7 +97,7 @@ public abstract class AbstractPathFinder implements IPathFindingAlgorithm, Runna
 	{
 		double heatMapReading;
 		Point2D arrayPosition = randomLane.getEnd().getSide().getTile().getArrayPosition();
-		heatMapReading = cand.getCars().size() * cand.getEnd().getSide().getGlobals().getMap().getHeatMapReading(arrayPosition);
+		heatMapReading = cand.getCars().size() * cand.getEnd().getSide().getGlobals().getMap().getHeatMap().getReading(arrayPosition);
 		heatMapReading = (lane.getEnd().getPosition().distance(fEnd.getStart().getPosition()) / startEndDistance) * heatMapReading;
 		return heatMapReading;
 	}
