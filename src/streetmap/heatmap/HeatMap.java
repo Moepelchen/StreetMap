@@ -22,7 +22,6 @@ public abstract class HeatMap implements IHeatMap, Runnable
     private double[][] fHeatMapData;
     private List fObjects;
     private boolean isUpdating;
-    final static Semaphore semaphore = new Semaphore(10);
     private final ArrayBlockingQueue<Runnable> fWorkQueue = new ArrayBlockingQueue<>(11);
     private final Executor fExecutor = new ThreadPoolExecutor(1, 1, 13, TimeUnit.MILLISECONDS, fWorkQueue);
 
@@ -47,6 +46,7 @@ public abstract class HeatMap implements IHeatMap, Runnable
     @Override
     public void update()
     {
+
         if(!isUpdating)
         {
             fExecutor.execute(this);
@@ -61,7 +61,7 @@ public abstract class HeatMap implements IHeatMap, Runnable
         isUpdating = false;
     }
 
-    private synchronized void updateData(Map<Tile,Double> map)
+    private void updateData(Map<Tile,Double> map)
     {
         double max = Double.MIN_VALUE;
         double min = Double.MAX_VALUE;
@@ -97,7 +97,7 @@ public abstract class HeatMap implements IHeatMap, Runnable
 
     protected abstract Map<Tile,Double> collectData();
 
-    public void setData(List objects)
+    public synchronized void setData(List objects)
     {
         fObjects= objects;
     }

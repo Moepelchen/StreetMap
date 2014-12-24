@@ -156,7 +156,7 @@ public class Car implements IPrintable, ISimulateable, IEventHandler
 	public void reset(Lane lane)
 	{
 		fLane = lane;
-		if (fHappiness < 0.10 && fPathFinder != null && Math.random() > 0.10)
+		if (fHappiness < 0.05 && fPathFinder != null && Math.random() > 0.10)
 		{
 			recalcPath(fPathFinder.getDestination());
 		}

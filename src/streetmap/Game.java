@@ -193,7 +193,7 @@ public class Game
 			fNifty.render(false);
             updateMatrises();
 			Display.update();
-			//Display.sync(60); // cap fps to 60fps
+			Display.sync(60); // cap fps to 60fps
 
             Screen currentScreen = fNifty.getCurrentScreen();
             if (currentScreen != null) {

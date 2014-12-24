@@ -23,7 +23,7 @@ public class PathHeatMap extends HeatMap
     }
 
 
-    protected Map<Tile, Double> collectData()
+    protected synchronized Map<Tile, Double> collectData()
     {
         java.util.Map<Tile, Double> map = new HashMap<>();
         for (Object carObj : getData())

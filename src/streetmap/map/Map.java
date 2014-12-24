@@ -179,7 +179,7 @@ public class Map implements ISimulateable, ActionListener
         }
 
         updateHeatMap();
-        updatePathHeatMap(fDrawAblesForeground);
+        updatePathHeatMap(new ArrayList<>(fDrawAblesForeground));
         if (fCarFlowData.size() > 300)
         {
             fCarFlowData.removeFirst();
