@@ -54,7 +54,7 @@ public abstract class HeatMap implements IHeatMap, Runnable
     }
 
     @Override
-    public void run()
+    public synchronized void run()
     {
         this.isUpdating = true;
         updateData(collectData());

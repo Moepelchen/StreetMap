@@ -6,6 +6,7 @@ import streetmap.map.street.Lane;
 import streetmap.map.tile.Tile;
 import streetmap.pathfinding.IPathFindingAlgorithm;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class PathHeatMap extends HeatMap
             IPathFindingAlgorithm pathFinder = car.getPathFinder();
             if (pathFinder != null)
             {
-                LinkedList<Lane> path = pathFinder.getPath();
+                LinkedList<Lane> path = new LinkedList<>(pathFinder.getPath());
                 for (Lane lane : path)
                 {
                     Tile tile = lane.getStreet().getTile();
