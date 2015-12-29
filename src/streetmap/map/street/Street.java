@@ -4,6 +4,7 @@ import org.lwjgl.util.Color;
 import org.lwjgl.util.ReadableColor;
 import streetmap.SSGlobals;
 import streetmap.heatmap.Gradient;
+import streetmap.heatmap.IHeatMap;
 import streetmap.map.tile.Tile;
 import streetmap.xml.jaxb.streets.StreetTemplate;
 
@@ -113,25 +114,27 @@ public class Street implements IPlaceable
 	public ReadableColor getColor()
 	{
 		double heatMapReading;
+		double pathMapReading;
 		int alpha = 255;
 		java.awt.Color color;
 
+		IHeatMap heatMap = this.getGlobals().getMap().getHeatMap();
+		IHeatMap heatMapPaths = this.getGlobals().getMap().getHeatMapPaths();
 		if(fGlobals.getConfig().isShowPathHeatMap() && fGlobals.getConfig().isShowHeatMap())
 		{
-			heatMapReading = this.getGlobals().getMap().getHeatMap().getReading(this.getTile().getArrayPosition());
+			heatMapReading = this.getGlobals().getMap().getFusionHeatMap().getReading(this.getTile().getArrayPosition());
+
 			java.awt.Color color1 = Gradient.GRADIENT_RAINBOW[(int) Math.floor(heatMapReading * (Gradient.GRADIENT_HOT.length - 1))];
-			heatMapReading = this.getGlobals().getMap().getHeatMapPaths().getReading(this.getTile().getArrayPosition());
-			java.awt.Color color2 = Gradient.GRADIENT_RAINBOW[(int) Math.floor(heatMapReading * (Gradient.GRADIENT_HOT.length - 1))];
-			color = new java.awt.Color(color1.getRed()/2+color2.getRed()/2, color1.getGreen()/2+color2.getGreen()/2,color1.getBlue()/2+color2.getBlue()/2);
+			color = new java.awt.Color(color1.getRed(), color1.getGreen(),color1.getBlue());
 		}
 		else if(fGlobals.getConfig().isShowPathHeatMap())
 		{
-			heatMapReading = this.getGlobals().getMap().getHeatMapPaths().getReading(this.getTile().getArrayPosition());
-			color = Gradient.GRADIENT_RAINBOW[(int) Math.floor(heatMapReading * (Gradient.GRADIENT_HOT.length - 1))];
+			pathMapReading = heatMapPaths.getReading(this.getTile().getArrayPosition());
+			color = Gradient.GRADIENT_RAINBOW[(int) Math.floor(pathMapReading * (Gradient.GRADIENT_HOT.length - 1))];
 		}
 		else if(fGlobals.getConfig().isShowHeatMap())
 		{
-			heatMapReading = this.getGlobals().getMap().getHeatMap().getReading(this.getTile().getArrayPosition());
+			heatMapReading = heatMap.getReading(this.getTile().getArrayPosition());
 			color = Gradient.GRADIENT_RAINBOW[(int) Math.floor(heatMapReading * (Gradient.GRADIENT_HOT.length - 1))];
 		}
 		else

@@ -24,11 +24,11 @@ public abstract class HeatMap implements IHeatMap, Runnable
     private boolean isUpdating;
     private final ArrayBlockingQueue<Runnable> fWorkQueue = new ArrayBlockingQueue<>(11);
     private final Executor fExecutor = new ThreadPoolExecutor(1, 1, 13, TimeUnit.MILLISECONDS, fWorkQueue);
+	private double fMin;
+	private double fMax;
 
 
-
-
-    public HeatMap(SSGlobals globals, int tilesX, int tilesY)
+	public HeatMap(SSGlobals globals, int tilesX, int tilesY)
     {
         fGlobals = globals;
         fTilesX = tilesX;
@@ -88,6 +88,8 @@ public abstract class HeatMap implements IHeatMap, Runnable
             }
 
         }
+		fMax = max;
+		fMin = min;
     }
 
     public synchronized double getReading(Point2D point)
@@ -106,4 +108,10 @@ public abstract class HeatMap implements IHeatMap, Runnable
     {
         return fObjects;
     }
+
+	@Override
+	public double getMax()
+	{
+		return fMax;
+	}
 }

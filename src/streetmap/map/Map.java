@@ -60,6 +60,7 @@ public class Map implements ISimulateable, ActionListener
     private int fCurrentNumberOfCars = 0;
     private OccupanceHeatMap fHeatMap;
     private IHeatMap fHeatMapPaths;
+	private FusionHeatMap fFusionHeatMap;
     private int fNumberOfTilesX;
     private int fNumberOfTilesY;
     private LinkedList<Integer> fCarFlowData;
@@ -92,6 +93,9 @@ public class Map implements ISimulateable, ActionListener
         generateTiles();
         fHeatMap = new OccupanceHeatMap(fGlobals,fNumberOfTilesX,fNumberOfTilesY);
         fHeatMapPaths = new PathHeatMap(fGlobals,fNumberOfTilesX,fNumberOfTilesY);
+		fFusionHeatMap = new FusionHeatMap(fGlobals,fNumberOfTilesX,fNumberOfTilesY);
+		fFusionHeatMap.setOcuHeatMap(fHeatMap);
+		fFusionHeatMap.setPathHeatMap(fHeatMapPaths);
         fMaxNumberOfCarsOnOneTile = 1;
         fCarFlowData = new LinkedList<>();
         fCarFlowData.add(0);
@@ -203,6 +207,9 @@ public class Map implements ISimulateable, ActionListener
     {
         fHeatMapPaths.setData(printables);
         fHeatMapPaths.update();
+		fFusionHeatMap.setData(fOccupiedTiles);
+		fFusionHeatMap.update();
+
     }
 
     /**
@@ -372,5 +379,10 @@ public class Map implements ISimulateable, ActionListener
     {
         return fHeatMapPaths;
     }
+
+	public IHeatMap getFusionHeatMap()
+	{
+		return fFusionHeatMap;
+	}
 
 }

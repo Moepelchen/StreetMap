@@ -24,7 +24,7 @@ public class PathFactory extends Thread
 
 		final Semaphore semaphore = new Semaphore(100);//or however you want max queued at any given moment
 		fWorkQueue = new ArrayBlockingQueue<>(110);
-		fExecutor = new ThreadPoolExecutor(4, 4, 1000, TimeUnit.MILLISECONDS, fWorkQueue)
+		fExecutor = new ThreadPoolExecutor(1, 4, 1000, TimeUnit.MILLISECONDS, fWorkQueue)
 		{
 			public void execute(Runnable r)
 			{

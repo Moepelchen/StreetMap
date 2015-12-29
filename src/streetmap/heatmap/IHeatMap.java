@@ -18,4 +18,6 @@ public interface IHeatMap
     public double getReading(Point2D point);
 
     void setData(List tiles);
+
+	double getMax();
 }
